@@ -1,4 +1,4 @@
-# networkplanningoptimization
+# Network Planning and Optimization
 Network Planning, Optimization and Billing application for cellular network operators using Agentic AI and RAG.
 
 Functional & Non-Functional Requirement Specification (SRS)Project: Intelligent 5G Network Planning & Optimization Platform1. Executive Summary & Core ObjectiveThe objective is to build an enterprise-grade Network Planning and Optimization application. The system leverages AI agents to analyze live telemetry, simulate coverage, query dense 3GPP technical specifications via Retrieval-Augmented Generation (RAG), and allow telecom engineers to optimize 5G Next-Generation NodeBs (gNBs) through a unified cross-platform user interface.2. High-Level System Architecture & Component Mapping[ Ionic Cross-Platform App ] (Mobile/Web)
