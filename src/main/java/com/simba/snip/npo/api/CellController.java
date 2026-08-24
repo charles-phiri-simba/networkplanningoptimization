@@ -1,5 +1,6 @@
 package com.simba.snip.npo.api;
 
+import com.simba.snip.npo.domain.DomainNotFoundException;
 import com.simba.snip.npo.network.CellContext;
 import com.simba.snip.npo.network.NetworkContextService;
 import com.simba.snip.npo.network.NetworkDomainService;
@@ -39,6 +40,20 @@ public class CellController {
         return domainService.kpisForCell(cell).stream().map(CellController::toKpi).toList();
     }
 
+    @GetMapping("/api/v1/cells/{cellId}/telemetry")
+    public List<KpiSeriesDto> telemetry(@PathVariable String cellId) {
+        return contextService.resolve(cellId).telemetry().stream().map(CellController::toSeries).toList();
+    }
+
+    @GetMapping("/api/v1/cells/{cellId}/telemetry/{metric}")
+    public KpiSeriesDto telemetryMetric(@PathVariable String cellId, @PathVariable String metric) {
+        return contextService.resolve(cellId).telemetry().stream()
+                .filter(series -> series.metric().equals(metric))
+                .map(CellController::toSeries)
+                .findFirst()
+                .orElseThrow(() -> new DomainNotFoundException("telemetry", cellId + "/" + metric));
+    }
+
     @GetMapping("/api/v1/cells/{cellId}/neighbours")
     public List<NeighbourDto> neighbours(@PathVariable String cellId) {
         CellEntity cell = domainService.requireCell(cellId);
@@ -72,8 +87,34 @@ public class CellController {
                 kpi.getValue(),
                 kpi.getUnit(),
                 kpi.getObservedAt(),
+                kpi.getEventTime(),
+                kpi.getIngestedAt(),
+                kpi.getEventId(),
                 kpi.getSource(),
                 kpi.isSynthetic()
+        );
+    }
+
+    static KpiObservationDto toKpi(CellContext.KpiObservationView kpi) {
+        return new KpiObservationDto(
+                kpi.metric(),
+                kpi.value(),
+                kpi.unit(),
+                kpi.observedAt(),
+                kpi.observedAt(),
+                kpi.ingestedAt(),
+                kpi.eventId(),
+                kpi.source(),
+                kpi.synthetic()
+        );
+    }
+
+    static KpiSeriesDto toSeries(CellContext.KpiSeriesView series) {
+        return new KpiSeriesDto(
+                series.metric(),
+                toKpi(series.current()),
+                series.history().stream().map(CellController::toKpi).toList(),
+                series.trend().name()
         );
     }
 
@@ -115,13 +156,11 @@ public class CellController {
                         .map(r -> new CellContextDto.RadioParameterDto(
                                 r.parameterName(), r.parameterValue(), r.unit(), r.effectiveFrom()))
                         .toList(),
-                ctx.kpis().stream()
-                        .map(k -> new KpiObservationDto(
-                                k.metric(), k.value(), k.unit(), k.observedAt(), k.source(), k.synthetic()))
-                        .toList(),
+                ctx.kpis().stream().map(CellController::toKpi).toList(),
                 ctx.neighbours().stream()
                         .map(n -> new NeighbourDto(n.targetCellId(), n.relationType(), n.status()))
                         .toList(),
+                ctx.telemetry().stream().map(CellController::toSeries).toList(),
                 new CellContextDto.ContextProvenanceDto(ctx.provenance().source(), ctx.provenance().synthetic())
         );
     }

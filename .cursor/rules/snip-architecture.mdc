@@ -1,5 +1,5 @@
 ---
-description: SNIP architecture and Phase 1B execution bounds for this repository
+description: SNIP architecture and Phase 2 execution bounds for this repository
 alwaysApply: true
 ---
 
@@ -11,28 +11,32 @@ Read before changing code:
 
 - `docs/implementation/SNIP-IMPLEMENTATION-CONTEXT.md` (§0 is authoritative for scope)
 - `docs/implementation/SNIP-IMPLEMENTATION-STATUS.md`
-- `SNIP-PHASE-1B-CORE-NETWORK-CONTEXT-SPECIFICATION.md`
+- `docs/architecture/SNIP-PHASE-2-EVENT-TELEMETRY-INTELLIGENCE-ARCHITECTURE.md`
+- `docs/implementation/SNIP-PHASE-2-EVENT-TELEMETRY-INTELLIGENCE-SPECIFICATION.md`
 
 ## Authorised now
 
-Phase **1B** only: persistent cellular-network domain context + existing Knowledge Intelligence.
+Phase **2** only: synthetic event/telemetry intelligence on the accepted Phase 1B baseline.
 
 ```text
-CELL-001 → PostgreSQL domain state → context resolution
-        → structured context + semantic retrieval → LLM → cited recommendation + context evidence
+Go simulator → Kafka JSON events → Java consumer → PostgreSQL projection
+            → temporal context + deterministic trends
+            → existing RAG → local LLM → cited recommendation
 ```
 
-Preserve Phase 1A/1A.1: lexical + stub CI path; `local-ai` uses Ollama (`nomic-embed-text`, `qwen2.5:7b`) and `SimpleVectorStore`. Do not move the corpus into pgvector in this phase.
+Preserve Phase 1A/1A.1/1B: lexical + stub CI path; `local-ai` uses Ollama (`nomic-embed-text`, `SimpleVectorStore`, `qwen2.5:7b`). Do not vectorize operational telemetry. Do not put Kafka inside `NetworkContextService`.
+
+Default profile remains lexical + stub with Kafka consumption **off**. Enable Kafka only when `snip.kafka-enabled=true`.
 
 ## Do not implement
 
-MCP, Agent Factory, autonomous agents, Kafka/MSK, EKS, Kong, ALB, ALICE, live gNB/network writes, RL, billing, Ionic, AWS lock-in, Phase 2.
+MCP, Agent Factory, autonomous agents, live OSS/NMS/EMS integrations, live gNB/network writes, Schema Registry, Avro, Protobuf, Flink, Spark, Kafka Streams, dedicated time-series DB, EKS/Kubernetes, Kong, ALB, ALICE, RL, billing, Ionic, AWS lock-in, Phase 3.
 
 ## Rules
 
-- Extend Phase 1A abstractions (`ingest`, `retrieve`, `assemble`, `generate`). Do not rewrite the slice.
+- Extend Phase 1A/1B abstractions. Do not rewrite the slice.
 - Keep recommendations and domain APIs read-only. No apply/execute/write-to-network APIs.
 - If retrieval is empty, do not fabricate citations.
-- Ordinary CI must not download large models. PostgreSQL via Testcontainers is required for 1B tests.
+- Ordinary CI must not download large models. PostgreSQL via Testcontainers remains required. Kafka Testcontainers is allowed for Phase 2 integration tests.
 - Implementation markdown lives under `docs/implementation/`. ADRs under `docs/architecture/adr/`.
-- The authorised 1B spec is also copied at the repository root at the user's request.
+- Architecture document has architectural authority. Implementation specification is the authorised execution scope.

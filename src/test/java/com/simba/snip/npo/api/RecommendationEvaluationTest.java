@@ -98,7 +98,25 @@ class RecommendationEvaluationTest extends AbstractPostgresIT {
                 .andExpect(jsonPath("$.citations[0].sourceId").exists())
                 .andExpect(jsonPath("$.kpiObservationCount").value(greaterThanOrEqualTo(1)))
                 .andExpect(jsonPath("$.neighbourCount").value(greaterThanOrEqualTo(1)))
+                .andExpect(jsonPath("$.historyObservationCount").value(greaterThanOrEqualTo(1)))
+                .andExpect(jsonPath("$.lastEventTime").exists())
                 .andExpect(jsonPath("$.recommendation", containsString("CELL-001")));
+    }
+
+    @Test
+    void case5TemporalEvidenceIsAssembledForCell001() throws Exception {
+        mockMvc.perform(post("/api/v1/recommendations")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "question": "What is happening on CELL-001 with high BLER, and what should I investigate?",
+                                  "cellId": "CELL-001"
+                                }
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.contextFound").value(true))
+                .andExpect(jsonPath("$.historyObservationCount").value(greaterThanOrEqualTo(1)))
+                .andExpect(jsonPath("$.recommendation", containsString("TEMPORAL")));
     }
 
     @Test

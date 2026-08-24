@@ -2,7 +2,7 @@
 
 **Repository:** networkplanningoptimization  
 **Platform role:** SNIP domain application / first vertical slice  
-**Updated:** 2026-08-24 (Phase 1B completion)
+**Updated:** 2026-08-24 (Phase 2 architecturally accepted)
 
 ---
 
@@ -10,11 +10,11 @@
 
 | Field | Value |
 |-------|--------|
-| Active phase | **1B — Core Network Domain & Context Intelligence** (verification complete) |
-| Authorised | Phase 1B only. Phase 2 **not** authorised |
-| Previous phase | 1A.1 — Semantic RAG Validation (complete) |
-| Baseline | `8a2e83889ca726b43c53cf738475d7adeed57afb` on `main`, CI PASS |
-| Next phase | 2 — Context + Event Intelligence (not authorised) |
+| Active phase | **2 — Event & Telemetry Intelligence** (architecturally accepted) |
+| Authorised | Phase 2 only. Phase 3 **not** authorised |
+| Previous phase | 1B — Core Network Domain & Context Intelligence (complete) |
+| Baseline | `d5d5f65f6aec01b77fde2d4ec1321f670c43dee6` on `main`, CI PASS, 31 tests |
+| Next phase | 3 — Governed Action + MCP (not authorised) |
 
 ---
 
@@ -26,7 +26,7 @@
 | 1A | Read-Only Knowledge Intelligence Slice | Complete — see `SNIP-PHASE-1A-COMPLETION-REPORT.md` |
 | 1A.1 | Semantic RAG Validation | Complete — see `SNIP-PHASE-1A.1-COMPLETION-REPORT.md` |
 | 1B | Core Network Domain & Context Intelligence | Complete — see `SNIP-PHASE-1B-COMPLETION-REPORT.md` |
-| 2 | Context + Event Intelligence | Not started |
+| 2 | Context + Event Intelligence | Architecturally accepted — see `SNIP-PHASE-2-COMPLETION-REPORT.md` |
 | 3 | Governed Action + MCP | Not started |
 | 4 | Learning + Agent Factory | Not started |
 
@@ -57,10 +57,10 @@ Spring Boot 3 + Spring AI; PostgreSQL for structured network state; Flyway migra
 
 ## Explicitly out of scope (do not start)
 
-MCP, Agent Factory, autonomous agents, Kafka/MSK, EKS, Kong, ALB, ALICE, live network writes, RL, billing, full digital twin, Phase 2.
+MCP, Agent Factory, autonomous agents, live OSS/NMS/EMS, EKS, Kong, ALB, ALICE, live network writes, RL, billing, full digital twin, Schema Registry, Avro, Flink/Spark/Kafka Streams, dedicated time-series DB, Phase 3.
 
 ---
 
 ## Notes for Cursor
 
-Phase 1B is complete. Follow `SNIP-IMPLEMENTATION-CONTEXT.md` §0. Do not start Phase 2 unless explicitly authorised.
+Phase 2 is architecturally accepted. Follow `SNIP-IMPLEMENTATION-CONTEXT.md` §0, the Phase 2 architecture document, and the Phase 2 specification. Do not start Phase 3. Do not push or establish a new Git baseline until asked.

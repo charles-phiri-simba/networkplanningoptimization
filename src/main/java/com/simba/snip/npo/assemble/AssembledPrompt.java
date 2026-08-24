@@ -17,7 +17,8 @@ public record AssembledPrompt(
         StringBuilder sb = new StringBuilder();
         sb.append("SAFETY / BEHAVIOURAL INSTRUCTIONS:\n");
         sb.append("- You are a read-only radio planning assistant.\n");
-        sb.append("- Answer from STRUCTURED NETWORK CONTEXT and RETRIEVED ENGINEERING KNOWLEDGE below.\n");
+        sb.append("- Answer from STRUCTURED NETWORK CONTEXT, TEMPORAL KPI HISTORY / TRENDS, and RETRIEVED ENGINEERING KNOWLEDGE below.\n");
+        sb.append("- TREND values are precomputed deterministic facts. Do not recalculate them.\n");
         sb.append("- Distinguish observations (from context/knowledge) from inference.\n");
         sb.append("- Do not invent network facts, 3GPP clauses, or citations.\n");
         sb.append("- If evidence is insufficient, say so explicitly.\n");
@@ -71,6 +72,36 @@ public record AssembledPrompt(
                         .append(" type=").append(neighbour.relationType())
                         .append(" status=").append(neighbour.status())
                         .append('\n');
+            }
+        } else {
+            sb.append("None supplied.\n");
+        }
+        sb.append('\n');
+
+        sb.append("TEMPORAL KPI HISTORY / TRENDS:\n");
+        if (cellContext.isPresent() && !cellContext.get().telemetry().isEmpty()) {
+            sb.append("Trends are precomputed. Use them as given.\n");
+            for (CellContext.KpiSeriesView series : cellContext.get().telemetry()) {
+                sb.append(series.metric()).append(":\n");
+                sb.append("  current: ").append(series.current().formatted())
+                        .append(" eventTime=").append(series.current().observedAt())
+                        .append(" ingestedAt=").append(series.current().ingestedAt())
+                        .append(" source=").append(series.current().source())
+                        .append('\n');
+                if (series.history().size() >= 2) {
+                    CellContext.KpiObservationView previous = series.history().get(series.history().size() - 2);
+                    sb.append("  previous: ").append(previous.formatted())
+                            .append(" eventTime=").append(previous.observedAt())
+                            .append('\n');
+                }
+                sb.append("  trend: ").append(series.trend()).append('\n');
+                sb.append("  history (eventTime order, last N):\n");
+                for (CellContext.KpiObservationView point : series.history()) {
+                    sb.append("    - ").append(point.formatted())
+                            .append(" eventTime=").append(point.observedAt())
+                            .append(" eventId=").append(point.eventId())
+                            .append('\n');
+                }
             }
         } else {
             sb.append("None supplied.\n");

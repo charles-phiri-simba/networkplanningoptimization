@@ -31,3 +31,8 @@ Desktop.ini
 # Local models (never commit)
 .ollama/
 *.gguf
+
+# Go simulator build output
+simulator/simulator
+simulator/simulator.exe
+simulator/vendor/

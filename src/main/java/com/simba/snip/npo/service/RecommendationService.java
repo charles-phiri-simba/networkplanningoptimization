@@ -16,10 +16,12 @@ import com.simba.snip.npo.network.NetworkContextService;
 import com.simba.snip.npo.retrieve.Chunk;
 import com.simba.snip.npo.retrieve.ChunkRetriever;
 import com.simba.snip.npo.retrieve.RetrievedChunk;
+import com.simba.snip.npo.telemetry.Trend;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -66,7 +68,8 @@ public class RecommendationService {
         }
 
         long retrievalStarted = System.nanoTime();
-        List<RetrievedChunk> retrieved = retriever.retrieve(request.question(), properties.getRetrieveTopK());
+        String retrievalQuery = retrievalQuery(request.question(), cellContext);
+        List<RetrievedChunk> retrieved = retriever.retrieve(retrievalQuery, properties.getRetrieveTopK());
         long retrievalMs = elapsedMs(retrievalStarted);
 
         Optional<KpiRecord> kpi = kpiRepository.find(request.contextId());
@@ -77,18 +80,22 @@ public class RecommendationService {
         String contextCellId = cellContext.map(ctx -> ctx.cell().cellId()).orElse(null);
         Integer kpiCount = cellContext.map(ctx -> ctx.kpis().size()).orElse(null);
         Integer neighbourCount = cellContext.map(ctx -> ctx.neighbours().size()).orElse(null);
+        Integer historyCount = cellContext.map(CellContext::historyObservationCount).orElse(null);
+        Instant lastEventTime = cellContext.map(CellContext::lastEventTime).orElse(null);
 
         if (retrieved.isEmpty()) {
             long totalMs = elapsedMs(started);
             log.info(
                     "recommendation retrievalEmpty=true hits=0 retrievalMode={} contextFound={} contextCellId={} "
-                            + "kpiObservationCount={} neighbourCount={} contextResolutionLatencyMs={} "
-                            + "retrievalLatencyMs={} generationLatencyMs=0 totalLatencyMs={}",
-                    mode, contextFound, contextCellId, kpiCount, neighbourCount, contextMs, retrievalMs, totalMs
+                            + "kpiObservationCount={} neighbourCount={} historyObservationCount={} lastEventTime={} "
+                            + "contextResolutionLatencyMs={} retrievalLatencyMs={} generationLatencyMs=0 totalLatencyMs={}",
+                    mode, contextFound, contextCellId, kpiCount, neighbourCount, historyCount, lastEventTime,
+                    contextMs, retrievalMs, totalMs
             );
             return new RecommendationResponse(
                     EMPTY_MESSAGE, List.of(), contextUsed, true, mode, retrievalMs, 0L, totalMs, 0,
-                    evidence, contextMs, contextCellId, contextFound, kpiCount, neighbourCount
+                    evidence, contextMs, contextCellId, contextFound, kpiCount, neighbourCount,
+                    historyCount, lastEventTime
             );
         }
 
@@ -111,15 +118,31 @@ public class RecommendationService {
         long totalMs = elapsedMs(started);
         log.info(
                 "recommendation retrievalEmpty=false hits={} retrievalMode={} contextFound={} contextCellId={} "
-                        + "kpiObservationCount={} neighbourCount={} contextResolutionLatencyMs={} "
-                        + "retrievalLatencyMs={} generationLatencyMs={} totalLatencyMs={}",
-                citations.size(), mode, contextFound, contextCellId, kpiCount, neighbourCount,
-                contextMs, retrievalMs, generationMs, totalMs
+                        + "kpiObservationCount={} neighbourCount={} historyObservationCount={} lastEventTime={} "
+                        + "contextResolutionLatencyMs={} retrievalLatencyMs={} generationLatencyMs={} totalLatencyMs={}",
+                citations.size(), mode, contextFound, contextCellId, kpiCount, neighbourCount, historyCount,
+                lastEventTime, contextMs, retrievalMs, generationMs, totalMs
         );
         return new RecommendationResponse(
                 recommendation, citations, contextUsed, false, mode, retrievalMs, generationMs, totalMs, citations.size(),
-                evidence, contextMs, contextCellId, contextFound, kpiCount, neighbourCount
+                evidence, contextMs, contextCellId, contextFound, kpiCount, neighbourCount,
+                historyCount, lastEventTime
         );
+    }
+
+    private static String retrievalQuery(String question, Optional<CellContext> cellContext) {
+        if (cellContext.isEmpty()) {
+            return question;
+        }
+        CellContext ctx = cellContext.get();
+        StringBuilder sb = new StringBuilder(question);
+        sb.append(' ').append(ctx.cell().technology()).append(' ').append(ctx.cell().band());
+        for (CellContext.KpiSeriesView series : ctx.telemetry()) {
+            if (series.trend() == Trend.INCREASING || series.trend() == Trend.DECREASING) {
+                sb.append(' ').append(series.metric());
+            }
+        }
+        return sb.toString();
     }
 
     private static long elapsedMs(long startedNanos) {

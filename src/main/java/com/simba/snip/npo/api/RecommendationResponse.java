@@ -1,5 +1,6 @@
 package com.simba.snip.npo.api;
 
+import java.time.Instant;
 import java.util.List;
 
 public record RecommendationResponse(
@@ -17,6 +18,8 @@ public record RecommendationResponse(
         String contextCellId,
         Boolean contextFound,
         Integer kpiObservationCount,
-        Integer neighbourCount
+        Integer neighbourCount,
+        Integer historyObservationCount,
+        Instant lastEventTime
 ) {
 }

@@ -7,8 +7,10 @@ This file is the architecture library. The binding below is **authoritative for 
 **Platform:** SNIP — Simba Network Intelligence Platform  
 **This repository:** first SNIP **domain application** (Network Planning & Optimisation), not the entire enterprise platform.  
 **Phase 0:** complete — see `SNIP-PHASE-0-DISCOVERY-REPORT.md`  
-**Current authorised phase:** **Phase 1B — Core Network Domain & Context Intelligence** (complete — see `SNIP-PHASE-1B-COMPLETION-REPORT.md`)  
-**Coding contract:** `SNIP-PHASE-1B-CORE-NETWORK-CONTEXT-SPECIFICATION.md`  
+**Current authorised phase:** **Phase 2 — Event & Telemetry Intelligence** (architecturally accepted; architecture has authority; specification is the execution contract)  
+**Architecture:** `docs/architecture/SNIP-PHASE-2-EVENT-TELEMETRY-INTELLIGENCE-ARCHITECTURE.md`  
+**Coding contract:** `docs/implementation/SNIP-PHASE-2-EVENT-TELEMETRY-INTELLIGENCE-SPECIFICATION.md`  
+**Phase 1B baseline:** `d5d5f65f6aec01b77fde2d4ec1321f670c43dee6` (complete — see `SNIP-PHASE-1B-COMPLETION-REPORT.md`)  
 **Status:** `SNIP-IMPLEMENTATION-STATUS.md`
 
 ```text
@@ -33,9 +35,9 @@ Phase 3     Governed Action + MCP
 Phase 4     Learning + Agent Factory
 ```
 
-§22–§24 below describe the **long-term** SNIP programme (Foundation, Kafka, Kubernetes, Agent → RAG → MCP). **Do not implement that generic Phase 1 foundation in this repository.** Phase 1A is the approved first increment: local, cited, read-only planning copilot. MCP, Agent Factory, Kafka, EKS, Kong, ALICE, and live network writes remain closed.
+§22–§24 below describe the **long-term** SNIP programme (Foundation, Kafka, Kubernetes, Agent → RAG → MCP). **Do not implement that generic platform foundation in this repository.** Phase 2 authorises only a **minimal** Kafka JSON backbone plus a Go synthetic simulator. MCP, Agent Factory, EKS, Kong, ALICE, Schema Registry, Avro, Flink/Spark/Kafka Streams, a dedicated time-series DB, and live network writes remain closed.
 
-Cursor must implement only Phase 1B unless a later phase is explicitly authorised. Do not start Phase 2. Do not redesign Phase 1A/1A.1 semantic RAG.
+Cursor must implement only Phase 2 unless a later phase is explicitly authorised. Do not start Phase 3. Do not redesign Phase 1A/1A.1 semantic RAG or the Phase 1B domain model.
 
 ---
 

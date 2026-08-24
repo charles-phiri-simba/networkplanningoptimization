@@ -19,6 +19,14 @@ public class SnipProperties {
     /** KPI observations older than this window are omitted from reasoning context. */
     private int recentKpiHours = 168;
     private int recentKpiLimit = 20;
+    /** Last-N observations per metric in temporal context. */
+    private int telemetryHistoryN = 5;
+    /** When false, no Kafka listener is registered (CI / default). */
+    private boolean kafkaEnabled = false;
+    private String telemetryTopic = "snip.telemetry.cell-kpi.v1";
+    private String telemetryDlqTopic = "snip.telemetry.cell-kpi.dlq.v1";
+    private int kafkaRetryAttempts = 2;
+    private long kafkaRetryIntervalMs = 200L;
 
     public String getCorpusDir() {
         return corpusDir;
@@ -98,5 +106,53 @@ public class SnipProperties {
 
     public void setRecentKpiLimit(int recentKpiLimit) {
         this.recentKpiLimit = recentKpiLimit;
+    }
+
+    public int getTelemetryHistoryN() {
+        return telemetryHistoryN;
+    }
+
+    public void setTelemetryHistoryN(int telemetryHistoryN) {
+        this.telemetryHistoryN = telemetryHistoryN;
+    }
+
+    public boolean isKafkaEnabled() {
+        return kafkaEnabled;
+    }
+
+    public void setKafkaEnabled(boolean kafkaEnabled) {
+        this.kafkaEnabled = kafkaEnabled;
+    }
+
+    public String getTelemetryTopic() {
+        return telemetryTopic;
+    }
+
+    public void setTelemetryTopic(String telemetryTopic) {
+        this.telemetryTopic = telemetryTopic;
+    }
+
+    public String getTelemetryDlqTopic() {
+        return telemetryDlqTopic;
+    }
+
+    public void setTelemetryDlqTopic(String telemetryDlqTopic) {
+        this.telemetryDlqTopic = telemetryDlqTopic;
+    }
+
+    public int getKafkaRetryAttempts() {
+        return kafkaRetryAttempts;
+    }
+
+    public void setKafkaRetryAttempts(int kafkaRetryAttempts) {
+        this.kafkaRetryAttempts = kafkaRetryAttempts;
+    }
+
+    public long getKafkaRetryIntervalMs() {
+        return kafkaRetryIntervalMs;
+    }
+
+    public void setKafkaRetryIntervalMs(long kafkaRetryIntervalMs) {
+        this.kafkaRetryIntervalMs = kafkaRetryIntervalMs;
     }
 }

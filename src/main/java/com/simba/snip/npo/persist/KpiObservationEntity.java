@@ -22,6 +22,9 @@ public class KpiObservationEntity {
     @JoinColumn(name = "cell_id", nullable = false)
     private CellEntity cell;
 
+    @Column(name = "event_id", nullable = false, unique = true, length = 128)
+    private String eventId;
+
     @Column(nullable = false, length = 64)
     private String metric;
 
@@ -33,11 +36,40 @@ public class KpiObservationEntity {
     @Column(name = "observed_at", nullable = false)
     private Instant observedAt;
 
+    @Column(name = "ingested_at", nullable = false)
+    private Instant ingestedAt;
+
     @Column(nullable = false, length = 64)
     private String source;
 
     @Column(nullable = false)
     private boolean synthetic;
+
+    public static KpiObservationEntity create(
+            UUID id,
+            CellEntity cell,
+            String eventId,
+            String metric,
+            Double value,
+            String unit,
+            Instant eventTime,
+            Instant ingestedAt,
+            String source,
+            boolean synthetic
+    ) {
+        KpiObservationEntity entity = new KpiObservationEntity();
+        entity.id = id;
+        entity.cell = cell;
+        entity.eventId = eventId;
+        entity.metric = metric;
+        entity.value = value;
+        entity.unit = unit;
+        entity.observedAt = eventTime;
+        entity.ingestedAt = ingestedAt;
+        entity.source = source;
+        entity.synthetic = synthetic;
+        return entity;
+    }
 
     public UUID getId() {
         return id;
@@ -45,6 +77,10 @@ public class KpiObservationEntity {
 
     public CellEntity getCell() {
         return cell;
+    }
+
+    public String getEventId() {
+        return eventId;
     }
 
     public String getMetric() {
@@ -61,6 +97,14 @@ public class KpiObservationEntity {
 
     public Instant getObservedAt() {
         return observedAt;
+    }
+
+    public Instant getEventTime() {
+        return observedAt;
+    }
+
+    public Instant getIngestedAt() {
+        return ingestedAt;
     }
 
     public String getSource() {

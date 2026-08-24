@@ -28,7 +28,7 @@ class KpiObservationFormatTest {
     @Test
     void formattedContextKeepsRawRatioAndAddsPercent() {
         CellContext.KpiObservationView view = new CellContext.KpiObservationView(
-                "BLER_DL", 0.12, "ratio", null, "DEMO_SEED", true);
+                "BLER_DL", 0.12, "ratio", null, null, "seed-demo", "DEMO_SEED", true);
         assertEquals(0.12, view.value());
         assertEquals("ratio", view.unit());
         assertEquals("BLER_DL: 0.12 ratio (12%)", view.formatted());

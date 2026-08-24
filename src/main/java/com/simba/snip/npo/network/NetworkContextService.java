@@ -10,12 +10,20 @@ import com.simba.snip.npo.persist.NeighbourRelationshipRepository;
 import com.simba.snip.npo.persist.RadioConfigurationEntity;
 import com.simba.snip.npo.persist.RadioConfigurationRepository;
 import com.simba.snip.npo.persist.SiteEntity;
+import com.simba.snip.npo.telemetry.TelemetryEvent;
+import com.simba.snip.npo.telemetry.Trend;
+import com.simba.snip.npo.telemetry.TrendClassifier;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
 import java.time.temporal.ChronoUnit;
+import java.util.ArrayList;
+import java.util.Comparator;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
 
 @Service
 @Transactional(readOnly = true)
@@ -47,12 +55,10 @@ public class NetworkContextService {
         SiteEntity site = gnb.getSite();
 
         Instant since = Instant.now().minus(properties.getRecentKpiHours(), ChronoUnit.HOURS);
-        List<KpiObservationEntity> kpis = kpiObservationRepository
+        List<KpiObservationEntity> recent = kpiObservationRepository
                 .findByCell_IdAndObservedAtGreaterThanEqualOrderByObservedAtDesc(cell.getId(), since);
         int limit = properties.getRecentKpiLimit();
-        if (kpis.size() > limit) {
-            kpis = kpis.subList(0, limit);
-        }
+        List<KpiObservationEntity> kpis = recent.size() > limit ? recent.subList(0, limit) : recent;
 
         List<RadioConfigurationEntity> radios = radioConfigurationRepository.findByCell_IdOrderByParameterNameAsc(cell.getId());
         List<NeighbourRelationshipEntity> neighbours =
@@ -95,16 +101,7 @@ public class NetworkContextService {
                                 r.getEffectiveFrom()
                         ))
                         .toList(),
-                kpis.stream()
-                        .map(k -> new CellContext.KpiObservationView(
-                                k.getMetric(),
-                                k.getValue(),
-                                k.getUnit(),
-                                k.getObservedAt(),
-                                k.getSource(),
-                                k.isSynthetic()
-                        ))
-                        .toList(),
+                kpis.stream().map(NetworkContextService::toKpiView).toList(),
                 neighbours.stream()
                         .map(n -> new CellContext.NeighbourView(
                                 n.getTargetCell().getCellId(),
@@ -112,7 +109,49 @@ public class NetworkContextService {
                                 n.getStatus()
                         ))
                         .toList(),
+                buildTelemetry(recent),
                 new CellContext.ContextProvenance(source, synthetic || "DEMO_SEED".equals(source))
+        );
+    }
+
+    private List<CellContext.KpiSeriesView> buildTelemetry(List<KpiObservationEntity> recentDesc) {
+        int window = properties.getTelemetryHistoryN();
+        Map<String, List<KpiObservationEntity>> byMetric = recentDesc.stream()
+                .collect(Collectors.groupingBy(KpiObservationEntity::getMetric, LinkedHashMap::new, Collectors.toList()));
+        List<CellContext.KpiSeriesView> series = new ArrayList<>();
+        for (Map.Entry<String, List<KpiObservationEntity>> entry : byMetric.entrySet()) {
+            List<KpiObservationEntity> rows = entry.getValue();
+            boolean hasSimulator = rows.stream().anyMatch(k -> TelemetryEvent.SOURCE_SIMULATOR.equals(k.getSource()));
+            if (hasSimulator) {
+                rows = rows.stream().filter(k -> TelemetryEvent.SOURCE_SIMULATOR.equals(k.getSource())).toList();
+            }
+            List<KpiObservationEntity> lastNDesc = rows.size() > window ? rows.subList(0, window) : rows;
+            List<KpiObservationEntity> chronological = new ArrayList<>(lastNDesc);
+            chronological.sort(Comparator.comparing(KpiObservationEntity::getObservedAt));
+            List<Double> values = chronological.stream().map(KpiObservationEntity::getValue).toList();
+            Trend trend = TrendClassifier.classify(values);
+            KpiObservationEntity current = chronological.get(chronological.size() - 1);
+            series.add(new CellContext.KpiSeriesView(
+                    entry.getKey(),
+                    toKpiView(current),
+                    chronological.stream().map(NetworkContextService::toKpiView).toList(),
+                    trend
+            ));
+        }
+        series.sort(Comparator.comparing(CellContext.KpiSeriesView::metric));
+        return series;
+    }
+
+    private static CellContext.KpiObservationView toKpiView(KpiObservationEntity k) {
+        return new CellContext.KpiObservationView(
+                k.getMetric(),
+                k.getValue(),
+                k.getUnit(),
+                k.getObservedAt(),
+                k.getIngestedAt(),
+                k.getEventId(),
+                k.getSource(),
+                k.isSynthetic()
         );
     }
 }

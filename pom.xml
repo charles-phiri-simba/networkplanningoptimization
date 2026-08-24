@@ -15,7 +15,7 @@
     <artifactId>network-planning-optimisation</artifactId>
     <version>0.1.0-SNAPSHOT</version>
     <name>Network Planning &amp; Optimisation</name>
-    <description>SNIP Phase 1B core network domain and context intelligence</description>
+    <description>SNIP Phase 2 event and telemetry intelligence</description>
 
     <properties>
         <java.version>17</java.version>
@@ -61,6 +61,10 @@
             <scope>runtime</scope>
         </dependency>
         <dependency>
+            <groupId>org.springframework.kafka</groupId>
+            <artifactId>spring-kafka</artifactId>
+        </dependency>
+        <dependency>
             <groupId>org.springframework.ai</groupId>
             <artifactId>spring-ai-starter-model-ollama</artifactId>
         </dependency>
@@ -86,6 +90,11 @@
         <dependency>
             <groupId>org.testcontainers</groupId>
             <artifactId>postgresql</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.testcontainers</groupId>
+            <artifactId>kafka</artifactId>
             <scope>test</scope>
         </dependency>
     </dependencies>

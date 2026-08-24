@@ -10,6 +10,7 @@ public record CellContextDto(
         List<RadioParameterDto> radioConfiguration,
         List<KpiObservationDto> kpis,
         List<NeighbourDto> neighbours,
+        List<KpiSeriesDto> telemetry,
         ContextProvenanceDto provenance
 ) {
     public record RadioParameterDto(

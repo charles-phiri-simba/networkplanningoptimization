@@ -13,6 +13,12 @@ snip:
   embedding-model: nomic-embed-text
   recent-kpi-hours: 168
   recent-kpi-limit: 20
+  telemetry-history-n: 5
+  kafka-enabled: ${SNIP_KAFKA_ENABLED:false}
+  telemetry-topic: snip.telemetry.cell-kpi.v1
+  telemetry-dlq-topic: snip.telemetry.cell-kpi.dlq.v1
+  kafka-retry-attempts: 2
+  kafka-retry-interval-ms: 200
 
 spring:
   datasource:
@@ -29,6 +35,21 @@ spring:
           time_zone: UTC
   flyway:
     enabled: true
+  autoconfigure:
+    exclude: org.springframework.boot.autoconfigure.kafka.KafkaAutoConfiguration
+  kafka:
+    bootstrap-servers: ${SPRING_KAFKA_BOOTSTRAP_SERVERS:127.0.0.1:9092}
+    listener:
+      auto-startup: ${SNIP_KAFKA_ENABLED:false}
+    consumer:
+      group-id: snip-npo-telemetry
+      enable-auto-commit: false
+      auto-offset-reset: earliest
+      key-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+      value-deserializer: org.apache.kafka.common.serialization.StringDeserializer
+    producer:
+      key-serializer: org.apache.kafka.common.serialization.StringSerializer
+      value-serializer: org.apache.kafka.common.serialization.StringSerializer
   ai:
     model:
       chat: none

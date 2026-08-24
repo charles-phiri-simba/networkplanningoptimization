@@ -7,6 +7,9 @@ public record KpiObservationDto(
         Double value,
         String unit,
         Instant observedAt,
+        Instant eventTime,
+        Instant ingestedAt,
+        String eventId,
         String source,
         boolean synthetic
 ) {

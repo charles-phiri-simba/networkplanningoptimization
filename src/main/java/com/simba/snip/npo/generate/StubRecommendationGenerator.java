@@ -27,13 +27,22 @@ public class StubRecommendationGenerator implements RecommendationGenerator {
         StringBuilder sb = new StringBuilder();
         sb.append("Cited engineering recommendation (read-only). ");
         sb.append("Do not change the live network from this answer. ");
-        prompt.cellContext().ifPresent(ctx -> sb.append("Structured synthetic context ")
-                .append(ctx.cell().cellId())
-                .append(" on ")
-                .append(ctx.gnb().gnbId())
-                .append(" / ")
-                .append(ctx.site().siteId())
-                .append(" is demo data. "));
+        prompt.cellContext().ifPresent(ctx -> {
+            sb.append("Structured synthetic context ")
+                    .append(ctx.cell().cellId())
+                    .append(" on ")
+                    .append(ctx.gnb().gnbId())
+                    .append(" / ")
+                    .append(ctx.site().siteId())
+                    .append(" is demo data. ");
+            if (!ctx.telemetry().isEmpty()) {
+                sb.append("Precomputed TEMPORAL KPI HISTORY / TRENDS: ");
+                ctx.telemetry().forEach(series -> sb.append(series.metric())
+                        .append('=')
+                        .append(series.trend())
+                        .append(' '));
+            }
+        });
         prompt.kpi().ifPresent(kpi -> sb.append("Synthetic context ")
                 .append(kpi.id())
                 .append(" shows BLER ")

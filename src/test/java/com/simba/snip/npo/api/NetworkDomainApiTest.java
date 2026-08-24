@@ -68,6 +68,22 @@ class NetworkDomainApiTest extends AbstractPostgresIT {
                 .andExpect(jsonPath("$.radioConfiguration", hasSize(greaterThanOrEqualTo(1))))
                 .andExpect(jsonPath("$.neighbours", hasSize(greaterThanOrEqualTo(1))))
                 .andExpect(jsonPath("$.provenance.source").value("DEMO_SEED"))
-                .andExpect(jsonPath("$.provenance.synthetic").value(true));
+                .andExpect(jsonPath("$.provenance.synthetic").value(true))
+                .andExpect(jsonPath("$.telemetry", hasSize(greaterThanOrEqualTo(1))))
+                .andExpect(jsonPath("$.telemetry[0].trend").exists());
+    }
+
+    @Test
+    void cellTelemetryIsReadOnlyAndIncludesLastN() throws Exception {
+        mockMvc.perform(get("/api/v1/cells/CELL-001/telemetry"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$", hasSize(greaterThanOrEqualTo(1))))
+                .andExpect(jsonPath("$[?(@.metric=='BLER_DL')].current.value").exists());
+        mockMvc.perform(get("/api/v1/cells/CELL-001/telemetry/BLER_DL"))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.metric").value("BLER_DL"))
+                .andExpect(jsonPath("$.current.value").value(0.12))
+                .andExpect(jsonPath("$.history", hasSize(greaterThanOrEqualTo(1))))
+                .andExpect(jsonPath("$.trend").value("INSUFFICIENT_DATA"));
     }
 }
