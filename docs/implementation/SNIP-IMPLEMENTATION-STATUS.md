@@ -2,7 +2,7 @@
 
 **Repository:** networkplanningoptimization  
 **Platform role:** SNIP domain application / first vertical slice  
-**Updated:** 2026-08-24 (Phase 2 architecturally accepted)
+**Updated:** 2026-08-24 (Phase 3 architecturally accepted — frozen)
 
 ---
 
@@ -10,11 +10,11 @@
 
 | Field | Value |
 |-------|--------|
-| Active phase | **2 — Event & Telemetry Intelligence** (architecturally accepted) |
-| Authorised | Phase 2 only. Phase 3 **not** authorised |
-| Previous phase | 1B — Core Network Domain & Context Intelligence (complete) |
-| Baseline | `d5d5f65f6aec01b77fde2d4ec1321f670c43dee6` on `main`, CI PASS, 31 tests |
-| Next phase | 3 — Governed Action + MCP (not authorised) |
+| Active phase | **3 — Assurance & Decision Intelligence** (architecturally accepted — frozen) |
+| Authorised | Phase 3 frozen. Phase 4 **not** authorised |
+| Previous phase | 2 — Event & Telemetry Intelligence (architecturally accepted) |
+| Baseline | `8c70537bec048f2bf7e55c0ca626c8deec7b8670` on `main`, CI PASS, 46 tests. Phase 3 is uncommitted working-tree work (60 tests), awaiting Git baseline when asked. |
+| Next phase | 4 — Learning + Agent Factory (not authorised). MCP remains deferred. |
 
 ---
 
@@ -27,40 +27,17 @@
 | 1A.1 | Semantic RAG Validation | Complete — see `SNIP-PHASE-1A.1-COMPLETION-REPORT.md` |
 | 1B | Core Network Domain & Context Intelligence | Complete — see `SNIP-PHASE-1B-COMPLETION-REPORT.md` |
 | 2 | Context + Event Intelligence | Architecturally accepted — see `SNIP-PHASE-2-COMPLETION-REPORT.md` |
-| 3 | Governed Action + MCP | Not started |
+| 3 | Assurance & Decision Intelligence | Architecturally accepted — frozen — see `SNIP-PHASE-3-COMPLETION-REPORT.md` |
 | 4 | Learning + Agent Factory | Not started |
-
----
-
-## Phase 0 outcomes
-
-- Repository was a requirements stub (`README.md` SRS only).
-- No runtime, data, AI, security, integration, ops, or tests existed.
-- First increment: local, cited, read-only 3GPP-backed planning copilot.
-- Report: `SNIP-PHASE-0-DISCOVERY-REPORT.md`.
-
----
-
-## Phase 1A / 1A.1 baseline
-
-Accepted and committed. Semantic RAG remains: lexical+stub for CI; `local-ai` for Ollama embeddings + `SimpleVectorStore` + local LLM.
-
----
-
-## Settled decisions
-
-See `SNIP-PHASE-1A-IMPLEMENTATION-SPEC.md` §3 and Phase 1B ADRs.
-
-Spring Boot 3 + Spring AI; PostgreSQL for structured network state; Flyway migrations; SimpleVectorStore remains for the small corpus; local-first; no ALICE; no Ionic; bundled sample excerpts only; Apache-2.0; this repo is a domain product.
 
 ---
 
 ## Explicitly out of scope (do not start)
 
-MCP, Agent Factory, autonomous agents, live OSS/NMS/EMS, EKS, Kong, ALB, ALICE, live network writes, RL, billing, full digital twin, Schema Registry, Avro, Flink/Spark/Kafka Streams, dedicated time-series DB, Phase 3.
+MCP, Agent Factory, autonomous agents, live OSS/NMS/EMS, EKS, Kong, ALB, ALICE, live network writes, incident-management / ITSM, RL, ML anomaly detection, adaptive thresholds, forecasting, billing, full digital twin, Schema Registry, Avro, Flink/Spark/Kafka Streams, dedicated time-series DB, Phase 4.
 
 ---
 
 ## Notes for Cursor
 
-Phase 2 is architecturally accepted. Follow `SNIP-IMPLEMENTATION-CONTEXT.md` §0, the Phase 2 architecture document, and the Phase 2 specification. Do not start Phase 3. Do not push or establish a new Git baseline until asked.
+Phase 3 is architecturally accepted and frozen. Do not add functionality, resolve deferred technical debt, perform unrelated refactoring, or start Phase 4. Do not push or establish a new Git baseline until asked.

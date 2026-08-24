@@ -27,6 +27,10 @@ public class SnipProperties {
     private String telemetryDlqTopic = "snip.telemetry.cell-kpi.dlq.v1";
     private int kafkaRetryAttempts = 2;
     private long kafkaRetryIntervalMs = 200L;
+    /** BLER_DL warning threshold (ratio). Detection also requires INCREASING trend. */
+    private double assuranceBlerDlThreshold = 0.08;
+    private double assuranceBlerDlMajorThreshold = 0.10;
+    private double assuranceBlerDlCriticalThreshold = 0.12;
 
     public String getCorpusDir() {
         return corpusDir;
@@ -154,5 +158,29 @@ public class SnipProperties {
 
     public void setKafkaRetryIntervalMs(long kafkaRetryIntervalMs) {
         this.kafkaRetryIntervalMs = kafkaRetryIntervalMs;
+    }
+
+    public double getAssuranceBlerDlThreshold() {
+        return assuranceBlerDlThreshold;
+    }
+
+    public void setAssuranceBlerDlThreshold(double assuranceBlerDlThreshold) {
+        this.assuranceBlerDlThreshold = assuranceBlerDlThreshold;
+    }
+
+    public double getAssuranceBlerDlMajorThreshold() {
+        return assuranceBlerDlMajorThreshold;
+    }
+
+    public void setAssuranceBlerDlMajorThreshold(double assuranceBlerDlMajorThreshold) {
+        this.assuranceBlerDlMajorThreshold = assuranceBlerDlMajorThreshold;
+    }
+
+    public double getAssuranceBlerDlCriticalThreshold() {
+        return assuranceBlerDlCriticalThreshold;
+    }
+
+    public void setAssuranceBlerDlCriticalThreshold(double assuranceBlerDlCriticalThreshold) {
+        this.assuranceBlerDlCriticalThreshold = assuranceBlerDlCriticalThreshold;
     }
 }

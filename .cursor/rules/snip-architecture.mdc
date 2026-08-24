@@ -1,5 +1,5 @@
 ---
-description: SNIP architecture and Phase 2 execution bounds for this repository
+description: SNIP architecture and Phase 3 execution bounds for this repository
 alwaysApply: true
 ---
 
@@ -9,34 +9,31 @@ This repo is the first **SNIP domain application** (Network Planning & Optimisat
 
 Read before changing code:
 
-- `docs/implementation/SNIP-IMPLEMENTATION-CONTEXT.md` (§0 is authoritative for scope)
+- `docs/implementation/SNIP-IMPLEMENTATION-CONTEXT.md` (section 0 is authoritative for scope)
 - `docs/implementation/SNIP-IMPLEMENTATION-STATUS.md`
-- `docs/architecture/SNIP-PHASE-2-EVENT-TELEMETRY-INTELLIGENCE-ARCHITECTURE.md`
-- `docs/implementation/SNIP-PHASE-2-EVENT-TELEMETRY-INTELLIGENCE-SPECIFICATION.md`
+- `docs/architecture/SNIP-PHASE-3-ASSURANCE-DECISION-INTELLIGENCE-ARCHITECTURE.md`
+- `docs/implementation/SNIP-PHASE-3-ASSURANCE-DECISION-INTELLIGENCE-SPECIFICATION.md`
+
+Root copies of the Phase 3 documents also exist:
+
+- `SNIP-PHASE-3-ASSURANCE-DECISION-INTELLIGENCE-ARCHITECTURE.md`
+- `SNIP-PHASE-3-ASSURANCE-DECISION-INTELLIGENCE-SPECIFICATION.md`
 
 ## Authorised now
 
-Phase **2** only: synthetic event/telemetry intelligence on the accepted Phase 1B baseline.
+Phase **3** is architecturally accepted and **frozen** on the Phase 2 baseline (`8c70537bec048f2bf7e55c0ca626c8deec7b8670`). Do not add Phase 3 functionality, resolve deferred technical debt, or refactor for its own sake.
 
-```text
-Go simulator → Kafka JSON events → Java consumer → PostgreSQL projection
-            → temporal context + deterministic trends
-            → existing RAG → local LLM → cited recommendation
-```
-
-Preserve Phase 1A/1A.1/1B: lexical + stub CI path; `local-ai` uses Ollama (`nomic-embed-text`, `SimpleVectorStore`, `qwen2.5:7b`). Do not vectorize operational telemetry. Do not put Kafka inside `NetworkContextService`.
-
-Default profile remains lexical + stub with Kafka consumption **off**. Enable Kafka only when `snip.kafka-enabled=true`.
+Preserve Phase 1A/1A.1/1B/2/3. Kafka remains off by default. Do not vectorize operational telemetry or Assurance Case state. Phase 3 is read-only for the network. Detection is deterministic. The LLM explains and prioritises investigation; it does not decide thresholds, severity, or confidence. Automatic resolution remains deferred; evidence on the active case remains a replaced snapshot; duplicate telemetry event IDs skip detection; retrieval may expand with deterministically established `caseType` and semantic descriptors only.
 
 ## Do not implement
 
-MCP, Agent Factory, autonomous agents, live OSS/NMS/EMS integrations, live gNB/network writes, Schema Registry, Avro, Protobuf, Flink, Spark, Kafka Streams, dedicated time-series DB, EKS/Kubernetes, Kong, ALB, ALICE, RL, billing, Ionic, AWS lock-in, Phase 3.
+MCP, Agent Factory, autonomous agents, live OSS/NMS/EMS integrations, live gNB/network writes, incident-management / ITSM, Schema Registry, Avro, Protobuf, Flink, Spark, Kafka Streams, dedicated time-series DB, EKS/Kubernetes, Kong, ALB, ALICE, RL, ML anomaly detection, adaptive thresholds, forecasting, billing, Ionic, AWS lock-in, Phase 4.
 
 ## Rules
 
-- Extend Phase 1A/1B abstractions. Do not rewrite the slice.
-- Keep recommendations and domain APIs read-only. No apply/execute/write-to-network APIs.
+- Extend Phase 1A/1B/2 abstractions. Do not rewrite the slice.
+- Keep recommendations, domain, and assurance APIs read-only. No apply/execute/write-to-network APIs.
 - If retrieval is empty, do not fabricate citations.
-- Ordinary CI must not download large models. PostgreSQL via Testcontainers remains required. Kafka Testcontainers is allowed for Phase 2 integration tests.
+- Ordinary CI must not download large models. PostgreSQL via Testcontainers remains required. Kafka Testcontainers remains allowed.
 - Implementation markdown lives under `docs/implementation/`. ADRs under `docs/architecture/adr/`.
 - Architecture document has architectural authority. Implementation specification is the authorised execution scope.

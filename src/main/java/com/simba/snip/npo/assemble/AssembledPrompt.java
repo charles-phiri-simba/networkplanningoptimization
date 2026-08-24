@@ -1,5 +1,6 @@
 package com.simba.snip.npo.assemble;
 
+import com.simba.snip.npo.assurance.AssuranceCaseView;
 import com.simba.snip.npo.context.KpiRecord;
 import com.simba.snip.npo.network.CellContext;
 import com.simba.snip.npo.retrieve.Chunk;
@@ -11,23 +12,73 @@ public record AssembledPrompt(
         String question,
         Optional<KpiRecord> kpi,
         Optional<CellContext> cellContext,
-        List<Chunk> chunks
+        List<Chunk> chunks,
+        Optional<AssuranceCaseView> assuranceCase
 ) {
+    public AssembledPrompt(
+            String question,
+            Optional<KpiRecord> kpi,
+            Optional<CellContext> cellContext,
+            List<Chunk> chunks
+    ) {
+        this(question, kpi, cellContext, chunks, Optional.empty());
+    }
+
     public String render() {
         StringBuilder sb = new StringBuilder();
         sb.append("SAFETY / BEHAVIOURAL INSTRUCTIONS:\n");
         sb.append("- You are a read-only radio planning assistant.\n");
-        sb.append("- Answer from STRUCTURED NETWORK CONTEXT, TEMPORAL KPI HISTORY / TRENDS, and RETRIEVED ENGINEERING KNOWLEDGE below.\n");
-        sb.append("- TREND values are precomputed deterministic facts. Do not recalculate them.\n");
-        sb.append("- Distinguish observations (from context/knowledge) from inference.\n");
+        sb.append("- Answer from ASSURANCE CASE, OPERATIONAL EVIDENCE, STRUCTURED NETWORK CONTEXT, TEMPORAL KPI HISTORY / TRENDS, and RETRIEVED ENGINEERING KNOWLEDGE below.\n");
+        sb.append("- TREND values are precomputed deterministic facts. Do not recalculate them. Case type, severity and confidence are also deterministic; do not override them.\n");
+        sb.append("- Distinguish evidence from inference. Do not promote inference to confirmed root cause.\n");
         sb.append("- Do not invent network facts, 3GPP clauses, or citations.\n");
         sb.append("- If evidence is insufficient, say so explicitly.\n");
         sb.append("- Never claim you changed, applied, or executed a network action.\n");
         sb.append("- Do not present a definitive autonomous root-cause determination.\n");
-        sb.append("- Produce an engineering recommendation for a human reviewer.\n");
+        sb.append("- Human review is required. Produce an engineering recommendation for a human reviewer.\n");
         sb.append("- Bundled operational context is SYNTHETIC demo data, not live OSS/NMS/EMS telemetry.\n\n");
 
-        sb.append("USER QUESTION:\n").append(question).append("\n\n");
+        sb.append("ASSURANCE CASE:\n");
+        if (assuranceCase.isPresent()) {
+            AssuranceCaseView ac = assuranceCase.get();
+            sb.append("id=").append(ac.id())
+                    .append(" caseType=").append(ac.caseType())
+                    .append(" affectedEntityType=").append(ac.affectedEntityType())
+                    .append(" affectedEntityId=").append(ac.affectedEntityId())
+                    .append(" severity=").append(ac.severity())
+                    .append(" confidence=").append(ac.confidence())
+                    .append(" status=").append(ac.status())
+                    .append(" ruleId=").append(ac.ruleId())
+                    .append(" synthetic=").append(ac.synthetic())
+                    .append('\n');
+            sb.append("detectedAt=").append(ac.detectedAt())
+                    .append(" firstObservedAt=").append(ac.firstObservedAt())
+                    .append(" lastObservedAt=").append(ac.lastObservedAt())
+                    .append('\n');
+        } else {
+            sb.append("None supplied.\n");
+        }
+        sb.append('\n');
+
+        sb.append("OPERATIONAL EVIDENCE:\n");
+        if (assuranceCase.isPresent() && !assuranceCase.get().evidence().isEmpty()) {
+            sb.append("These are deterministic facts. Confirmed root cause is not established.\n");
+            for (AssuranceCaseView.EvidenceView item : assuranceCase.get().evidence()) {
+                sb.append("- type=").append(item.evidenceType())
+                        .append(" metric=").append(item.metric())
+                        .append(" value=").append(item.value())
+                        .append(" unit=").append(item.unit())
+                        .append(" trend=").append(item.trend())
+                        .append(" observedAt=").append(item.observedAt())
+                        .append(" source=").append(item.source())
+                        .append(" synthetic=").append(item.synthetic())
+                        .append(" description=").append(item.description())
+                        .append('\n');
+            }
+        } else {
+            sb.append("None supplied.\n");
+        }
+        sb.append('\n');
 
         sb.append("STRUCTURED NETWORK CONTEXT:\n");
         if (cellContext.isPresent()) {
@@ -134,7 +185,10 @@ public record AssembledPrompt(
                     .append(chunk.text())
                     .append("\n\n");
         }
-        sb.append("Write a grounded recommendation. Do not invent source ids.");
+
+        sb.append("USER QUESTION:\n").append(question).append("\n\n");
+        sb.append("Write a grounded recommendation. Do not invent source ids. ");
+        sb.append("Confirmed root cause is not established unless the evidence section proves it.");
         return sb.toString();
     }
 }

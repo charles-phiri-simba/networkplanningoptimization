@@ -1,5 +1,6 @@
 package com.simba.snip.npo.assemble;
 
+import com.simba.snip.npo.assurance.AssuranceCaseView;
 import com.simba.snip.npo.network.CellContext;
 import com.simba.snip.npo.retrieve.Chunk;
 import com.simba.snip.npo.telemetry.Trend;
@@ -43,6 +44,32 @@ class AssembledPromptTest {
         assertTrue(prompt.contains("trend: INCREASING"));
         assertTrue(prompt.contains("TREND values are precomputed"));
         assertTrue(prompt.contains("eventId=high-bler-load-bler-dl-04"));
+    }
+
+    @Test
+    void renderIncludesAssuranceCaseAndOperationalEvidence() {
+        Instant t = Instant.parse("2026-08-24T10:15:00Z");
+        AssuranceCaseView.EvidenceView evidence = new AssuranceCaseView.EvidenceView(
+                java.util.UUID.fromString("11111111-1111-1111-1111-111111111111"),
+                "THRESHOLD", "BLER_DL", 0.12, "ratio", "INCREASING", t, "SNIP_SIMULATOR", true,
+                "BLER_DL crossed warning threshold");
+        AssuranceCaseView assurance = new AssuranceCaseView(
+                java.util.UUID.fromString("22222222-2222-2222-2222-222222222222"),
+                "DEGRADING_RADIO_QUALITY", "CELL", "CELL-001", "CRITICAL", "HIGH", "OPEN",
+                t, t, t, "RULE_DEGRADING_RADIO_QUALITY_BLER_DL_V1", true, List.of(evidence));
+        String prompt = new AssembledPrompt(
+                "Why has SNIP raised a DEGRADING_RADIO_QUALITY assurance case for CELL-001, and what should I investigate first?",
+                Optional.empty(),
+                Optional.of(sampleContext()),
+                List.of(new Chunk("sample-bler-midband::section-1#0", "sample-bler-midband", "section-1#0", "check BLER", "check BLER")),
+                Optional.of(assurance)
+        ).render();
+        assertTrue(prompt.contains("ASSURANCE CASE"));
+        assertTrue(prompt.contains("OPERATIONAL EVIDENCE"));
+        assertTrue(prompt.contains("DEGRADING_RADIO_QUALITY"));
+        assertTrue(prompt.contains("severity=CRITICAL"));
+        assertTrue(prompt.contains("do not override them"));
+        assertTrue(prompt.contains("Human review is required"));
     }
 
     private static CellContext sampleContext() {

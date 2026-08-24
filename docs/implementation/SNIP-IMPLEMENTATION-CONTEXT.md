@@ -7,10 +7,10 @@ This file is the architecture library. The binding below is **authoritative for 
 **Platform:** SNIP — Simba Network Intelligence Platform  
 **This repository:** first SNIP **domain application** (Network Planning & Optimisation), not the entire enterprise platform.  
 **Phase 0:** complete — see `SNIP-PHASE-0-DISCOVERY-REPORT.md`  
-**Current authorised phase:** **Phase 2 — Event & Telemetry Intelligence** (architecturally accepted; architecture has authority; specification is the execution contract)  
-**Architecture:** `docs/architecture/SNIP-PHASE-2-EVENT-TELEMETRY-INTELLIGENCE-ARCHITECTURE.md`  
-**Coding contract:** `docs/implementation/SNIP-PHASE-2-EVENT-TELEMETRY-INTELLIGENCE-SPECIFICATION.md`  
-**Phase 1B baseline:** `d5d5f65f6aec01b77fde2d4ec1321f670c43dee6` (complete — see `SNIP-PHASE-1B-COMPLETION-REPORT.md`)  
+**Current authorised phase:** **Phase 3 — Assurance & Decision Intelligence** (architecturally accepted — frozen; architecture has authority; specification is the execution contract)  
+**Architecture:** `docs/architecture/SNIP-PHASE-3-ASSURANCE-DECISION-INTELLIGENCE-ARCHITECTURE.md`  
+**Coding contract:** `docs/implementation/SNIP-PHASE-3-ASSURANCE-DECISION-INTELLIGENCE-SPECIFICATION.md`  
+**Phase 2 baseline:** `8c70537bec048f2bf7e55c0ca626c8deec7b8670` (complete — see `SNIP-PHASE-2-COMPLETION-REPORT.md`)  
 **Status:** `SNIP-IMPLEMENTATION-STATUS.md`
 
 ```text
@@ -26,18 +26,18 @@ Phase 1A.1  Semantic RAG Validation                      (done)
 Phase 1B    Core Network Domain & Context Intelligence   (done)
     │
     ▼
-Phase 2     Context + Event Intelligence
+Phase 2     Context + Event Intelligence                 (done)
     │
     ▼
-Phase 3     Governed Action + MCP
+Phase 3     Assurance & Decision Intelligence            (done — frozen)
     │
     ▼
-Phase 4     Learning + Agent Factory
+Phase 4     Learning + Agent Factory                     (closed)
 ```
 
-§22–§24 below describe the **long-term** SNIP programme (Foundation, Kafka, Kubernetes, Agent → RAG → MCP). **Do not implement that generic platform foundation in this repository.** Phase 2 authorises only a **minimal** Kafka JSON backbone plus a Go synthetic simulator. MCP, Agent Factory, EKS, Kong, ALICE, Schema Registry, Avro, Flink/Spark/Kafka Streams, a dedicated time-series DB, and live network writes remain closed.
+The long-term programme still includes Governed Action and MCP **after** this Phase 3. **Do not implement MCP, Agent Factory, or network writes in this repository.** Phase 3 authorises only deterministic assurance detection, persisted Assurance Cases, and advisory Decision Intelligence on the Phase 2 telemetry path.
 
-Cursor must implement only Phase 2 unless a later phase is explicitly authorised. Do not start Phase 3. Do not redesign Phase 1A/1A.1 semantic RAG or the Phase 1B domain model.
+Cursor must not add Phase 3 functionality and must not start Phase 4 unless a later phase is explicitly authorised. Do not redesign Phase 1A/1A.1 semantic RAG, the Phase 1B domain model, the Phase 2 Kafka/telemetry slice, or the frozen Phase 3 assurance slice.
 
 ---
 

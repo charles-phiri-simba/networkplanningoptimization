@@ -19,6 +19,9 @@ snip:
   telemetry-dlq-topic: snip.telemetry.cell-kpi.dlq.v1
   kafka-retry-attempts: 2
   kafka-retry-interval-ms: 200
+  assurance-bler-dl-threshold: 0.08
+  assurance-bler-dl-major-threshold: 0.10
+  assurance-bler-dl-critical-threshold: 0.12
 
 spring:
   datasource:

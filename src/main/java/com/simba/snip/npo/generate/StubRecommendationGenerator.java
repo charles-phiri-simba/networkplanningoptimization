@@ -43,6 +43,14 @@ public class StubRecommendationGenerator implements RecommendationGenerator {
                         .append(' '));
             }
         });
+        prompt.assuranceCase().ifPresent(ac -> {
+            sb.append("ASSURANCE CASE ").append(ac.caseType())
+                    .append(" severity=").append(ac.severity())
+                    .append(" confidence=").append(ac.confidence())
+                    .append(" is a deterministic fact. Do not override it. ");
+            sb.append("Evidence is listed separately from inference. Confirmed root cause is not established. ");
+            sb.append("humanReviewRequired=true. ");
+        });
         prompt.kpi().ifPresent(kpi -> sb.append("Synthetic context ")
                 .append(kpi.id())
                 .append(" shows BLER ")

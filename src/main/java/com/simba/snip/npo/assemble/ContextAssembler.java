@@ -1,5 +1,6 @@
 package com.simba.snip.npo.assemble;
 
+import com.simba.snip.npo.assurance.AssuranceCaseView;
 import com.simba.snip.npo.context.KpiRecord;
 import com.simba.snip.npo.network.CellContext;
 import com.simba.snip.npo.retrieve.Chunk;
@@ -17,6 +18,16 @@ public class ContextAssembler {
             Optional<CellContext> cellContext,
             List<Chunk> chunks
     ) {
-        return new AssembledPrompt(question, kpi, cellContext, List.copyOf(chunks));
+        return assemble(question, kpi, cellContext, chunks, Optional.empty());
+    }
+
+    public AssembledPrompt assemble(
+            String question,
+            Optional<KpiRecord> kpi,
+            Optional<CellContext> cellContext,
+            List<Chunk> chunks,
+            Optional<AssuranceCaseView> assuranceCase
+    ) {
+        return new AssembledPrompt(question, kpi, cellContext, List.copyOf(chunks), assuranceCase);
     }
 }

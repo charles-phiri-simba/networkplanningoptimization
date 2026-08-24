@@ -2,9 +2,9 @@
 
 First **SNIP** domain application: a local, **read-only** 5G planning copilot.
 
-It ingests synthetic cell telemetry, projects current and historical KPI state in PostgreSQL, resolves structured cell context (including deterministic trends), retrieves cited sample planning notes, and returns a grounded recommendation. It does **not** change the live network.
+It ingests synthetic cell telemetry, projects KPI state, detects deterministic assurance conditions, persists an Assurance Case with operational evidence, and returns a cited, advisory decision assessment. It does **not** change the live network.
 
-This repository is not the full Simba Network Intelligence Platform. Target-state product requirements are in [`docs/requirements/product-requirements.md`](docs/requirements/product-requirements.md). Phase 2 bounds are in [`docs/architecture/SNIP-PHASE-2-EVENT-TELEMETRY-INTELLIGENCE-ARCHITECTURE.md`](docs/architecture/SNIP-PHASE-2-EVENT-TELEMETRY-INTELLIGENCE-ARCHITECTURE.md) and [`docs/implementation/SNIP-PHASE-2-EVENT-TELEMETRY-INTELLIGENCE-SPECIFICATION.md`](docs/implementation/SNIP-PHASE-2-EVENT-TELEMETRY-INTELLIGENCE-SPECIFICATION.md).
+This repository is not the full Simba Network Intelligence Platform. Target-state product requirements are in [`docs/requirements/product-requirements.md`](docs/requirements/product-requirements.md). Phase 3 bounds are in [`SNIP-PHASE-3-ASSURANCE-DECISION-INTELLIGENCE-ARCHITECTURE.md`](SNIP-PHASE-3-ASSURANCE-DECISION-INTELLIGENCE-ARCHITECTURE.md) and [`SNIP-PHASE-3-ASSURANCE-DECISION-INTELLIGENCE-SPECIFICATION.md`](SNIP-PHASE-3-ASSURANCE-DECISION-INTELLIGENCE-SPECIFICATION.md).
 
 ## Prerequisites
 
@@ -36,6 +36,7 @@ mvn spring-boot:run
 - UI: [http://127.0.0.1:8080/](http://127.0.0.1:8080/)
 - Cell context: `GET http://127.0.0.1:8080/api/v1/cells/CELL-001/context`
 - Telemetry: `GET http://127.0.0.1:8080/api/v1/cells/CELL-001/telemetry`
+- Assurance: `GET http://127.0.0.1:8080/api/v1/cells/CELL-001/assurance`
 - Recommend: `POST http://127.0.0.1:8080/api/v1/recommendations`
 
 Uses **lexical** retrieval and the **stub** generator. Kafka consumption is **off** unless `SNIP_KAFKA_ENABLED=true`.
@@ -55,6 +56,14 @@ docker compose --profile telemetry up postgres kafka -d
 set SNIP_KAFKA_ENABLED=true
 mvn spring-boot:run
 go run ./simulator/cmd/simulator -scenario high-bler-load -brokers 127.0.0.1:9092
+```
+
+Canonical Phase 3 question (after `high-bler-load` has been projected):
+
+```bash
+curl -s http://127.0.0.1:8080/api/v1/cells/CELL-001/assurance
+# then:
+curl -s http://127.0.0.1:8080/api/v1/assurance/cases/{caseId}/assessment
 ```
 
 Canonical Phase 2 question:
@@ -98,14 +107,20 @@ GET /api/v1/cells/{cellId}/telemetry
 GET /api/v1/cells/{cellId}/telemetry/{metric}
 GET /api/v1/cells/{cellId}/neighbours
 GET /api/v1/cells/{cellId}/context
+GET /api/v1/assurance/cases
+GET /api/v1/assurance/cases/{caseId}
+GET /api/v1/cells/{cellId}/assurance
+GET /api/v1/assurance/cases/{caseId}/assessment
 POST /api/v1/recommendations
 ```
+
+Canonical detector: `DEGRADING_RADIO_QUALITY` when `BLER_DL >= 0.08` (ratio) and BLER trend is `INCREASING`. Severity/confidence are deterministic (see ADR 016). Repeated detections update the active case.
 
 Demo dataset: `SITE-001` / `GNB-001` / `CELL-001` (elevated DL BLER) plus healthier `CELL-002` and comparison `CELL-003`. Seed rows are synthetic (`DEMO_SEED`). Schema is Flyway-managed (`src/main/resources/db/migration/`).
 
 ## What this phase does not include
 
-MCP, autonomous agents, live OSS/NMS/EMS, network writes, Schema Registry, Avro, Protobuf, Flink, Spark, Kafka Streams, a dedicated time-series DB, EKS/Kubernetes, RL, Phase 3.
+MCP, autonomous agents, live OSS/NMS/EMS, network writes, incident-management / ITSM, Schema Registry, Avro, Protobuf, Flink, Spark, Kafka Streams, a dedicated time-series DB, EKS/Kubernetes, RL, ML anomaly detection, Phase 4.
 
 ## License
 

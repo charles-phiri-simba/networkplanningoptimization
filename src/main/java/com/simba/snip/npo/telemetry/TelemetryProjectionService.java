@@ -1,5 +1,6 @@
 package com.simba.snip.npo.telemetry;
 
+import com.simba.snip.npo.assurance.AssuranceDetectionService;
 import com.simba.snip.npo.persist.CellEntity;
 import com.simba.snip.npo.persist.CellRepository;
 import com.simba.snip.npo.persist.KpiObservationEntity;
@@ -22,17 +23,20 @@ public class TelemetryProjectionService {
     private final CellRepository cellRepository;
     private final KpiObservationRepository kpiObservationRepository;
     private final TelemetryMetrics metrics;
+    private final AssuranceDetectionService assuranceDetectionService;
 
     public TelemetryProjectionService(
             TelemetryEventValidator validator,
             CellRepository cellRepository,
             KpiObservationRepository kpiObservationRepository,
-            TelemetryMetrics metrics
+            TelemetryMetrics metrics,
+            AssuranceDetectionService assuranceDetectionService
     ) {
         this.validator = validator;
         this.cellRepository = cellRepository;
         this.kpiObservationRepository = kpiObservationRepository;
         this.metrics = metrics;
+        this.assuranceDetectionService = assuranceDetectionService;
     }
 
     @Transactional
@@ -91,6 +95,7 @@ public class TelemetryProjectionService {
                 event.synthetic(),
                 latencyMs
         );
+        assuranceDetectionService.evaluateCell(cell.getCellId());
         return ProjectionOutcome.PROJECTED;
     }
 }
