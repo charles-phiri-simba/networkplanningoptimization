@@ -22,6 +22,8 @@ snip:
   assurance-bler-dl-threshold: 0.08
   assurance-bler-dl-major-threshold: 0.10
   assurance-bler-dl-critical-threshold: 0.12
+  mcp-base-url: ${SNIP_MCP_BASE_URL:}
+  mcp-timeout-ms: 3000
 
 spring:
   datasource:

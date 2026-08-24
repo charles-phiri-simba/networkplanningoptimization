@@ -18,6 +18,13 @@ public class ApiExceptionHandler {
         ));
     }
 
+    @ExceptionHandler(com.simba.snip.npo.domain.DomainConflictException.class)
+    public ResponseEntity<Map<String, String>> conflict(com.simba.snip.npo.domain.DomainConflictException ex) {
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of(
+                "error", ex.getMessage()
+        ));
+    }
+
     @ExceptionHandler(com.simba.snip.npo.domain.DomainValidationException.class)
     public ResponseEntity<Map<String, String>> badRequest(com.simba.snip.npo.domain.DomainValidationException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(

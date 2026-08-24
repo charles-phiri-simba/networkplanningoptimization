@@ -7,10 +7,10 @@ This file is the architecture library. The binding below is **authoritative for 
 **Platform:** SNIP — Simba Network Intelligence Platform  
 **This repository:** first SNIP **domain application** (Network Planning & Optimisation), not the entire enterprise platform.  
 **Phase 0:** complete — see `SNIP-PHASE-0-DISCOVERY-REPORT.md`  
-**Current authorised phase:** **Phase 3 — Assurance & Decision Intelligence** (architecturally accepted — frozen; architecture has authority; specification is the execution contract)  
-**Architecture:** `docs/architecture/SNIP-PHASE-3-ASSURANCE-DECISION-INTELLIGENCE-ARCHITECTURE.md`  
-**Coding contract:** `docs/implementation/SNIP-PHASE-3-ASSURANCE-DECISION-INTELLIGENCE-SPECIFICATION.md`  
-**Phase 2 baseline:** `8c70537bec048f2bf7e55c0ca626c8deec7b8670` (complete — see `SNIP-PHASE-2-COMPLETION-REPORT.md`)  
+**Current authorised phase:** **Phase 4 — Governed Action Intelligence & MCP** (architecturally accepted — frozen; architecture has authority; specification is the execution contract)  
+**Architecture:** `docs/architecture/NIP-PHASE-4-GOVERNED-ACTION-MCP-ARCHITECTURE.md`  
+**Coding contract:** `docs/implementation/SNIP-PHASE-4-GOVERNED-ACTION-MCP-SPECIFICATION.md`  
+**Phase 3 baseline:** `c692eb8d42711ed523460d2de34ffb0a607e7f17` (architecturally accepted — see `SNIP-PHASE-3-COMPLETION-REPORT.md`)  
 **Status:** `SNIP-IMPLEMENTATION-STATUS.md`
 
 ```text
@@ -32,12 +32,15 @@ Phase 2     Context + Event Intelligence                 (done)
 Phase 3     Assurance & Decision Intelligence            (done — frozen)
     │
     ▼
-Phase 4     Learning + Agent Factory                     (closed)
+Phase 4     Governed Action Intelligence & MCP           (done — frozen)
+    │
+    ▼
+Phase 5     (closed)
 ```
 
-The long-term programme still includes Governed Action and MCP **after** this Phase 3. **Do not implement MCP, Agent Factory, or network writes in this repository.** Phase 3 authorises only deterministic assurance detection, persisted Assurance Cases, and advisory Decision Intelligence on the Phase 2 telemetry path.
+Phase 4 authorises governed ProposedAction workflow, deterministic policy, human approval, a local Java MCP server, and registered capabilities `remediation.generate.v1` and `simulation.cell-parameter.v1`. **Do not implement live network writes, Agent Factory, autonomous agents, remote MCP, or Phase 5.**
 
-Cursor must not add Phase 3 functionality and must not start Phase 4 unless a later phase is explicitly authorised. Do not redesign Phase 1A/1A.1 semantic RAG, the Phase 1B domain model, the Phase 2 Kafka/telemetry slice, or the frozen Phase 3 assurance slice.
+Cursor must not add Phase 4 functionality and must not start Phase 5 unless a later phase is explicitly authorised. Do not redesign Phase 1A/1A.1 semantic RAG, the Phase 1B domain model, the Phase 2 Kafka/telemetry slice, the frozen Phase 3 assurance slice, or the frozen Phase 4 governed-action slice.
 
 ---
 

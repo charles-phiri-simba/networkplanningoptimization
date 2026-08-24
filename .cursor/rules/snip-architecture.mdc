@@ -1,5 +1,5 @@
 ---
-description: SNIP architecture and Phase 3 execution bounds for this repository
+description: SNIP architecture and Phase 4 execution bounds for this repository
 alwaysApply: true
 ---
 
@@ -11,29 +11,34 @@ Read before changing code:
 
 - `docs/implementation/SNIP-IMPLEMENTATION-CONTEXT.md` (section 0 is authoritative for scope)
 - `docs/implementation/SNIP-IMPLEMENTATION-STATUS.md`
-- `docs/architecture/SNIP-PHASE-3-ASSURANCE-DECISION-INTELLIGENCE-ARCHITECTURE.md`
-- `docs/implementation/SNIP-PHASE-3-ASSURANCE-DECISION-INTELLIGENCE-SPECIFICATION.md`
+- `docs/architecture/NIP-PHASE-4-GOVERNED-ACTION-MCP-ARCHITECTURE.md`
+- `docs/implementation/SNIP-PHASE-4-GOVERNED-ACTION-MCP-SPECIFICATION.md`
 
-Root copies of the Phase 3 documents also exist:
+Root copies also exist:
 
-- `SNIP-PHASE-3-ASSURANCE-DECISION-INTELLIGENCE-ARCHITECTURE.md`
-- `SNIP-PHASE-3-ASSURANCE-DECISION-INTELLIGENCE-SPECIFICATION.md`
+- `NIP-PHASE-4-GOVERNED-ACTION-MCP-ARCHITECTURE.md`
+- `SNIP-PHASE-4-GOVERNED-ACTION-MCP-SPECIFICATION.md`
 
 ## Authorised now
 
-Phase **3** is architecturally accepted and **frozen** on the Phase 2 baseline (`8c70537bec048f2bf7e55c0ca626c8deec7b8670`). Do not add Phase 3 functionality, resolve deferred technical debt, or refactor for its own sake.
+Phase **4** is architecturally accepted and **frozen** on the Phase 3 baseline (`c692eb8d42711ed523460d2de34ffb0a607e7f17`). Do not add Phase 4 functionality, resolve deferred technical debt, or refactor for its own sake.
 
-Preserve Phase 1A/1A.1/1B/2/3. Kafka remains off by default. Do not vectorize operational telemetry or Assurance Case state. Phase 3 is read-only for the network. Detection is deterministic. The LLM explains and prioritises investigation; it does not decide thresholds, severity, or confidence. Automatic resolution remains deferred; evidence on the active case remains a replaced snapshot; duplicate telemetry event IDs skip detection; retrieval may expand with deterministically established `caseType` and semantic descriptors only.
+Preserve Phase 1A/1A.1/1B/2/3/4. Kafka remains off by default. Do not vectorize operational telemetry or Assurance Case state. Detection remains deterministic. The LLM explains and prioritises investigation; it does not decide thresholds, severity, confidence, risk, or policy. AI may propose. Deterministic policy decides. Humans approve where required. MCP invokes only registered capabilities.
+
+Same-JVM loopback JSON-RPC HTTP MCP is accepted. The in-code capability registry is accepted. Phase 4 POST APIs mutate SNIP governance state only and do not authorise live network mutation. Failed-result row replacement remains deferred technical debt.
+
+Governance POST APIs mutate SNIP workflow state only. They must never write to the live network. Direct LLM-to-MCP invocation is prohibited.
 
 ## Do not implement
 
-MCP, Agent Factory, autonomous agents, live OSS/NMS/EMS integrations, live gNB/network writes, incident-management / ITSM, Schema Registry, Avro, Protobuf, Flink, Spark, Kafka Streams, dedicated time-series DB, EKS/Kubernetes, Kong, ALB, ALICE, RL, ML anomaly detection, adaptive thresholds, forecasting, billing, Ionic, AWS lock-in, Phase 4.
+Autonomous agents, Agent Factory, live OSS/NMS/EMS integrations, live gNB/network writes, Ericsson ENM / Nokia NetAct writes, auto-remediation, incident-management / ITSM, Schema Registry, Avro, Protobuf, Flink, Spark, Kafka Streams, dedicated time-series DB, EKS/Kubernetes, Kong, ALB, ALICE, RL, ML anomaly detection, adaptive thresholds, forecasting, billing, Ionic, AWS lock-in, production IAM/OIDC, remote third-party MCP, vendor MCP adapters, production RF simulation, full Digital Twin execution, network rollback, Phase 5.
 
 ## Rules
 
-- Extend Phase 1A/1B/2 abstractions. Do not rewrite the slice.
-- Keep recommendations, domain, and assurance APIs read-only. No apply/execute/write-to-network APIs.
+- Extend Phase 1A/1B/2/3 abstractions. Do not rewrite the slice.
+- Keep recommendation and domain APIs read-only for the network. Action execute/approve mutate SNIP governance state only.
 - If retrieval is empty, do not fabricate citations.
 - Ordinary CI must not download large models. PostgreSQL via Testcontainers remains required. Kafka Testcontainers remains allowed.
 - Implementation markdown lives under `docs/implementation/`. ADRs under `docs/architecture/adr/`.
 - Architecture document has architectural authority. Implementation specification is the authorised execution scope.
+- Do not push or establish a new Git baseline until the Phase 4 completion report has been reviewed and explicit architectural acceptance has been granted.

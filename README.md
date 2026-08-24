@@ -2,9 +2,9 @@
 
 First **SNIP** domain application: a local, **read-only** 5G planning copilot.
 
-It ingests synthetic cell telemetry, projects KPI state, detects deterministic assurance conditions, persists an Assurance Case with operational evidence, and returns a cited, advisory decision assessment. It does **not** change the live network.
+It ingests synthetic cell telemetry, projects KPI state, detects deterministic assurance conditions, persists an Assurance Case with operational evidence, returns a cited advisory assessment, and can propose **governed** actions through a local Java MCP server. It does **not** change the live network.
 
-This repository is not the full Simba Network Intelligence Platform. Target-state product requirements are in [`docs/requirements/product-requirements.md`](docs/requirements/product-requirements.md). Phase 3 bounds are in [`SNIP-PHASE-3-ASSURANCE-DECISION-INTELLIGENCE-ARCHITECTURE.md`](SNIP-PHASE-3-ASSURANCE-DECISION-INTELLIGENCE-ARCHITECTURE.md) and [`SNIP-PHASE-3-ASSURANCE-DECISION-INTELLIGENCE-SPECIFICATION.md`](SNIP-PHASE-3-ASSURANCE-DECISION-INTELLIGENCE-SPECIFICATION.md).
+This repository is not the full Simba Network Intelligence Platform. Target-state product requirements are in [`docs/requirements/product-requirements.md`](docs/requirements/product-requirements.md). Phase 4 bounds are in [`NIP-PHASE-4-GOVERNED-ACTION-MCP-ARCHITECTURE.md`](NIP-PHASE-4-GOVERNED-ACTION-MCP-ARCHITECTURE.md) and [`SNIP-PHASE-4-GOVERNED-ACTION-MCP-SPECIFICATION.md`](SNIP-PHASE-4-GOVERNED-ACTION-MCP-SPECIFICATION.md).
 
 ## Prerequisites
 
@@ -37,6 +37,7 @@ mvn spring-boot:run
 - Cell context: `GET http://127.0.0.1:8080/api/v1/cells/CELL-001/context`
 - Telemetry: `GET http://127.0.0.1:8080/api/v1/cells/CELL-001/telemetry`
 - Assurance: `GET http://127.0.0.1:8080/api/v1/cells/CELL-001/assurance`
+- Actions: `GET http://127.0.0.1:8080/api/v1/actions`
 - Recommend: `POST http://127.0.0.1:8080/api/v1/recommendations`
 
 Uses **lexical** retrieval and the **stub** generator. Kafka consumption is **off** unless `SNIP_KAFKA_ENABLED=true`.
@@ -64,7 +65,11 @@ Canonical Phase 3 question (after `high-bler-load` has been projected):
 curl -s http://127.0.0.1:8080/api/v1/cells/CELL-001/assurance
 # then:
 curl -s http://127.0.0.1:8080/api/v1/assurance/cases/{caseId}/assessment
+# then propose/execute a LOW remediation plan:
+curl -s http://127.0.0.1:8080/api/v1/assurance/cases/{caseId}/actions -H "Content-Type: application/json" -d "{\"actionType\":\"GENERATE_REMEDIATION_PLAN\",\"capabilityId\":\"remediation.generate.v1\",\"targetType\":\"CELL\",\"targetId\":\"CELL-001\",\"rationale\":\"plan\",\"proposedBy\":\"demo-user\"}"
 ```
+
+Simulation (`SIMULATE_CELL_PARAMETER_CHANGE`) is `MEDIUM` / `REQUIRE_APPROVAL` and is blocked until `POST /api/v1/actions/{id}/approve`. Apply (`APPLY_CELL_PARAMETER_CHANGE`) is `HIGH` / `DENY` and never reaches MCP.
 
 Canonical Phase 2 question:
 
@@ -111,8 +116,17 @@ GET /api/v1/assurance/cases
 GET /api/v1/assurance/cases/{caseId}
 GET /api/v1/cells/{cellId}/assurance
 GET /api/v1/assurance/cases/{caseId}/assessment
+POST /api/v1/assurance/cases/{caseId}/actions
+GET /api/v1/actions
+GET /api/v1/actions/{actionId}
+POST /api/v1/actions/{actionId}/approve
+POST /api/v1/actions/{actionId}/reject
+POST /api/v1/actions/{actionId}/execute
 POST /api/v1/recommendations
+POST /mcp
 ```
+
+Action APIs mutate SNIP governance state only. Registered MCP capabilities: `remediation.generate.v1` (ALLOW) and `simulation.cell-parameter.v1` (approval + `dryRun=true`). There is no live apply capability.
 
 Canonical detector: `DEGRADING_RADIO_QUALITY` when `BLER_DL >= 0.08` (ratio) and BLER trend is `INCREASING`. Severity/confidence are deterministic (see ADR 016). Repeated detections update the active case.
 
@@ -120,7 +134,7 @@ Demo dataset: `SITE-001` / `GNB-001` / `CELL-001` (elevated DL BLER) plus health
 
 ## What this phase does not include
 
-MCP, autonomous agents, live OSS/NMS/EMS, network writes, incident-management / ITSM, Schema Registry, Avro, Protobuf, Flink, Spark, Kafka Streams, a dedicated time-series DB, EKS/Kubernetes, RL, ML anomaly detection, Phase 4.
+Live network writes, Ericsson ENM / Nokia NetAct, OSS/NMS/EMS write integration, auto-remediation, autonomous agents, Agent Factory, remote third-party MCP, production RF simulation, Schema Registry, Avro, Protobuf, Flink, Spark, Kafka Streams, a dedicated time-series DB, EKS/Kubernetes, RL, Phase 5.
 
 ## License
 

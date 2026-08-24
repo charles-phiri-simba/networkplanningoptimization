@@ -31,6 +31,8 @@ public class SnipProperties {
     private double assuranceBlerDlThreshold = 0.08;
     private double assuranceBlerDlMajorThreshold = 0.10;
     private double assuranceBlerDlCriticalThreshold = 0.12;
+    private String mcpBaseUrl = "";
+    private long mcpTimeoutMs = 3000L;
 
     public String getCorpusDir() {
         return corpusDir;
@@ -182,5 +184,21 @@ public class SnipProperties {
 
     public void setAssuranceBlerDlCriticalThreshold(double assuranceBlerDlCriticalThreshold) {
         this.assuranceBlerDlCriticalThreshold = assuranceBlerDlCriticalThreshold;
+    }
+
+    public String getMcpBaseUrl() {
+        return mcpBaseUrl;
+    }
+
+    public void setMcpBaseUrl(String mcpBaseUrl) {
+        this.mcpBaseUrl = mcpBaseUrl;
+    }
+
+    public long getMcpTimeoutMs() {
+        return mcpTimeoutMs;
+    }
+
+    public void setMcpTimeoutMs(long mcpTimeoutMs) {
+        this.mcpTimeoutMs = mcpTimeoutMs;
     }
 }
