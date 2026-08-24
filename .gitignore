@@ -1,0 +1,33 @@
+# Build
+target/
+*.class
+*.jar
+*.war
+hs_err_pid*
+replay_pid*
+
+# IDE / editor
+.idea/
+*.iml
+.classpath
+.project
+.settings/
+.vscode/
+.cursor/*
+!.cursor/rules/
+!.cursor/rules/**
+
+# OS
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+# Logs and local env
+*.log
+.env
+.env.*
+!.env.example
+
+# Local models (never commit)
+.ollama/
+*.gguf

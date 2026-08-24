@@ -1,0 +1,47 @@
+[
+  {
+    "id": "cell-midband-001",
+    "site": "SYNTH-01",
+    "cell": "n78-1",
+    "band": "mid",
+    "bler": 0.12,
+    "dropRate": 0.018,
+    "latencyMs": 28
+  },
+  {
+    "id": "cell-lowband-002",
+    "site": "SYNTH-02",
+    "cell": "n28-1",
+    "band": "low",
+    "bler": 0.02,
+    "dropRate": 0.004,
+    "latencyMs": 35
+  },
+  {
+    "id": "cell-midband-003",
+    "site": "SYNTH-03",
+    "cell": "n78-2",
+    "band": "mid",
+    "bler": 0.08,
+    "dropRate": 0.011,
+    "latencyMs": 22
+  },
+  {
+    "id": "cell-highband-004",
+    "site": "SYNTH-04",
+    "cell": "n258-1",
+    "band": "high",
+    "bler": 0.05,
+    "dropRate": 0.009,
+    "latencyMs": 14
+  },
+  {
+    "id": "cell-midband-005",
+    "site": "SYNTH-05",
+    "cell": "n41-1",
+    "band": "mid",
+    "bler": 0.03,
+    "dropRate": 0.006,
+    "latencyMs": 19
+  }
+]

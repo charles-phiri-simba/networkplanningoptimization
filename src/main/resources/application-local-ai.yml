@@ -1,0 +1,20 @@
+# Local semantic RAG: real Ollama embeddings + chat. Does not use cloud APIs.
+snip:
+  generator: spring-ai
+  retrieval-mode: vector
+  retrieve-top-k: 3
+  retrieve-min-score: 0.60
+
+spring:
+  ai:
+    model:
+      chat: ollama
+      embedding: ollama
+    ollama:
+      base-url: ${OLLAMA_BASE_URL:http://localhost:11434}
+      chat:
+        options:
+          model: ${SNIP_CHAT_MODEL:qwen2.5:7b}
+      embedding:
+        options:
+          model: ${SNIP_EMBEDDING_MODEL:nomic-embed-text}

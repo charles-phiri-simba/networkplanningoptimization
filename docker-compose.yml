@@ -1,0 +1,34 @@
+services:
+  api:
+    build: .
+    ports:
+      - "127.0.0.1:${SNIP_HOST_PORT:-8080}:8080"
+    environment:
+      SERVER_ADDRESS: 0.0.0.0
+      SNIP_GENERATOR: stub
+      SNIP_RETRIEVAL_MODE: lexical
+
+  ollama:
+    image: ollama/ollama:latest
+    ports:
+      - "127.0.0.1:11434:11434"
+    volumes:
+      - ollama-data:/root/.ollama
+    profiles: ["local-ai"]
+
+  api-local:
+    build: .
+    ports:
+      - "127.0.0.1:${SNIP_HOST_PORT:-8080}:8080"
+    environment:
+      SERVER_ADDRESS: 0.0.0.0
+      SPRING_PROFILES_ACTIVE: local-ai
+      OLLAMA_BASE_URL: http://ollama:11434
+      SNIP_CHAT_MODEL: qwen2.5:7b
+      SNIP_EMBEDDING_MODEL: nomic-embed-text
+    depends_on:
+      - ollama
+    profiles: ["local-ai"]
+
+volumes:
+  ollama-data:

@@ -1,0 +1,36 @@
+---
+description: SNIP architecture and Phase 1A.1 execution bounds for this repository
+alwaysApply: true
+---
+
+# SNIP architecture (this repository)
+
+This repo is the first **SNIP domain application** (Network Planning & Optimisation), not the entire Simba Network Intelligence Platform.
+
+Read before changing code:
+
+- `docs/implementation/SNIP-IMPLEMENTATION-CONTEXT.md` (§0 is authoritative for scope)
+- `docs/implementation/SNIP-IMPLEMENTATION-STATUS.md`
+- `docs/implementation/SNIP-PHASE-1A.1-SEMANTIC-RAG-VALIDATION.md`
+
+## Authorised now
+
+Phase **1A.1** only: prove semantic RAG (real embeddings + vector retrieval + local LLM) while keeping the Phase 1A stub/lexical CI path.
+
+```text
+Documents + synthetic KPI → embed → vector retrieve → assemble → local LLM → cited recommendation → human
+```
+
+Default profile remains lexical + stub. `local-ai` uses Ollama (`nomic-embed-text`, `qwen2.5:7b`) and `SimpleVectorStore`.
+
+## Do not implement
+
+MCP, Agent Factory, autonomous agents, Kafka/MSK, EKS, Kong, ALB, ALICE, live gNB/network writes, RL, billing, Ionic, AWS lock-in, Phase 1B.
+
+## Rules
+
+- Extend Phase 1A abstractions (`ingest`, `retrieve`, `assemble`, `generate`). Do not rewrite the slice.
+- Keep recommendations read-only. No apply/execute/write-to-network APIs.
+- If retrieval is empty, do not fabricate citations.
+- Ordinary CI must not download large models.
+- Implementation markdown lives under `docs/implementation/`. ADRs under `docs/architecture/adr/`.

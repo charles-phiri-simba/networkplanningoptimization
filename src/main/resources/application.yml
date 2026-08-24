@@ -1,0 +1,23 @@
+server:
+  address: 127.0.0.1
+  port: 8080
+
+snip:
+  corpus-dir: testdata/corpus
+  kpi-file: testdata/kpis.json
+  generator: stub
+  retrieval-mode: lexical
+  retrieve-top-k: 3
+  retrieve-min-score: 0.45
+  chat-model: qwen2.5:7b
+  embedding-model: nomic-embed-text
+
+spring:
+  ai:
+    model:
+      chat: none
+      embedding: none
+
+logging:
+  pattern:
+    console: "%d{ISO8601} %-5level [%X{correlationId}] %logger{36} - %msg%n"

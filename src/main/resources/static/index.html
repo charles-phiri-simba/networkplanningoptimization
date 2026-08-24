@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>SNIP Phase 1A — Planning copilot</title>
+    <style>
+        body { font-family: sans-serif; max-width: 48rem; margin: 2rem auto; padding: 0 1rem; }
+        textarea, input, button { width: 100%; box-sizing: border-box; margin: 0.4rem 0; padding: 0.5rem; }
+        pre { background: #f4f4f4; padding: 1rem; overflow: auto; white-space: pre-wrap; }
+        .muted { color: #555; }
+    </style>
+</head>
+<body>
+<h1>SNIP Phase 1A — read-only planning copilot</h1>
+<p class="muted">Recommendations only. Nothing is written to the live network.</p>
+<label for="question">Question</label>
+<textarea id="question" rows="4">What should I check if BLER is high on a mid-band cell?</textarea>
+<label for="contextId">Synthetic KPI context id (optional)</label>
+<input id="contextId" value="cell-midband-001">
+<button id="ask" type="button">Ask</button>
+<pre id="out">Submit a question to see a cited recommendation.</pre>
+<script>
+    document.getElementById("ask").addEventListener("click", async () => {
+        const out = document.getElementById("out");
+        out.textContent = "Working…";
+        try {
+            const body = {
+                question: document.getElementById("question").value,
+                contextId: document.getElementById("contextId").value || null
+            };
+            const res = await fetch("/api/v1/recommendations", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            });
+            const json = await res.json();
+            out.textContent = JSON.stringify(json, null, 2);
+        } catch (err) {
+            out.textContent = String(err);
+        }
+    });
+</script>
+</body>
+</html>
