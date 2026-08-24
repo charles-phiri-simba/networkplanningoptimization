@@ -27,6 +27,13 @@ public class StubRecommendationGenerator implements RecommendationGenerator {
         StringBuilder sb = new StringBuilder();
         sb.append("Cited engineering recommendation (read-only). ");
         sb.append("Do not change the live network from this answer. ");
+        prompt.cellContext().ifPresent(ctx -> sb.append("Structured synthetic context ")
+                .append(ctx.cell().cellId())
+                .append(" on ")
+                .append(ctx.gnb().gnbId())
+                .append(" / ")
+                .append(ctx.site().siteId())
+                .append(" is demo data. "));
         prompt.kpi().ifPresent(kpi -> sb.append("Synthetic context ")
                 .append(kpi.id())
                 .append(" shows BLER ")

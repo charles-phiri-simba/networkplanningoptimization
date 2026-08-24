@@ -1,5 +1,5 @@
 ---
-description: SNIP architecture and Phase 1A.1 execution bounds for this repository
+description: SNIP architecture and Phase 1B execution bounds for this repository
 alwaysApply: true
 ---
 
@@ -11,26 +11,28 @@ Read before changing code:
 
 - `docs/implementation/SNIP-IMPLEMENTATION-CONTEXT.md` (§0 is authoritative for scope)
 - `docs/implementation/SNIP-IMPLEMENTATION-STATUS.md`
-- `docs/implementation/SNIP-PHASE-1A.1-SEMANTIC-RAG-VALIDATION.md`
+- `SNIP-PHASE-1B-CORE-NETWORK-CONTEXT-SPECIFICATION.md`
 
 ## Authorised now
 
-Phase **1A.1** only: prove semantic RAG (real embeddings + vector retrieval + local LLM) while keeping the Phase 1A stub/lexical CI path.
+Phase **1B** only: persistent cellular-network domain context + existing Knowledge Intelligence.
 
 ```text
-Documents + synthetic KPI → embed → vector retrieve → assemble → local LLM → cited recommendation → human
+CELL-001 → PostgreSQL domain state → context resolution
+        → structured context + semantic retrieval → LLM → cited recommendation + context evidence
 ```
 
-Default profile remains lexical + stub. `local-ai` uses Ollama (`nomic-embed-text`, `qwen2.5:7b`) and `SimpleVectorStore`.
+Preserve Phase 1A/1A.1: lexical + stub CI path; `local-ai` uses Ollama (`nomic-embed-text`, `qwen2.5:7b`) and `SimpleVectorStore`. Do not move the corpus into pgvector in this phase.
 
 ## Do not implement
 
-MCP, Agent Factory, autonomous agents, Kafka/MSK, EKS, Kong, ALB, ALICE, live gNB/network writes, RL, billing, Ionic, AWS lock-in, Phase 1B.
+MCP, Agent Factory, autonomous agents, Kafka/MSK, EKS, Kong, ALB, ALICE, live gNB/network writes, RL, billing, Ionic, AWS lock-in, Phase 2.
 
 ## Rules
 
 - Extend Phase 1A abstractions (`ingest`, `retrieve`, `assemble`, `generate`). Do not rewrite the slice.
-- Keep recommendations read-only. No apply/execute/write-to-network APIs.
+- Keep recommendations and domain APIs read-only. No apply/execute/write-to-network APIs.
 - If retrieval is empty, do not fabricate citations.
-- Ordinary CI must not download large models.
+- Ordinary CI must not download large models. PostgreSQL via Testcontainers is required for 1B tests.
 - Implementation markdown lives under `docs/implementation/`. ADRs under `docs/architecture/adr/`.
+- The authorised 1B spec is also copied at the repository root at the user's request.

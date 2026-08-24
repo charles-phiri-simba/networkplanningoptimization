@@ -11,6 +11,12 @@ public record RecommendationResponse(
         Long retrievalLatencyMs,
         Long generationLatencyMs,
         Long totalLatencyMs,
-        Integer retrievalHitCount
+        Integer retrievalHitCount,
+        ContextEvidenceDto contextEvidence,
+        Long contextResolutionLatencyMs,
+        String contextCellId,
+        Boolean contextFound,
+        Integer kpiObservationCount,
+        Integer neighbourCount
 ) {
 }

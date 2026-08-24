@@ -1,5 +1,6 @@
 package com.simba.snip.npo.api;
 
+import com.simba.snip.npo.AbstractPostgresIT;
 import com.simba.snip.npo.NpoApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -20,7 +21,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
  */
 @SpringBootTest(classes = NpoApplication.class)
 @AutoConfigureMockMvc
-class RecommendationEvaluationTest {
+class RecommendationEvaluationTest extends AbstractPostgresIT {
 
     @Autowired
     private MockMvc mockMvc;
@@ -72,5 +73,46 @@ class RecommendationEvaluationTest {
                 .andExpect(jsonPath("$.contextUsed.kpis.synthetic").value(true))
                 .andExpect(jsonPath("$.contextUsed.kpis.bler").value(0.12))
                 .andExpect(jsonPath("$.recommendation", containsString("cell-midband-001")));
+    }
+
+    @Test
+    void case4Cell001ContextAwareRecommendation() throws Exception {
+        mockMvc.perform(post("/api/v1/recommendations")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "question": "Why might BLER be high on CELL-001?",
+                                  "cellId": "CELL-001"
+                                }
+                                """))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.contextFound").value(true))
+                .andExpect(jsonPath("$.contextCellId").value("CELL-001"))
+                .andExpect(jsonPath("$.contextEvidence.cellId").value("CELL-001"))
+                .andExpect(jsonPath("$.contextEvidence.gnbId").value("GNB-001"))
+                .andExpect(jsonPath("$.contextEvidence.siteId").value("SITE-001"))
+                .andExpect(jsonPath("$.contextEvidence.synthetic").value(true))
+                .andExpect(jsonPath("$.contextEvidence.source").value("DEMO_SEED"))
+                .andExpect(jsonPath("$.retrievalEmpty").value(false))
+                .andExpect(jsonPath("$.citations", hasSize(greaterThanOrEqualTo(1))))
+                .andExpect(jsonPath("$.citations[0].sourceId").exists())
+                .andExpect(jsonPath("$.kpiObservationCount").value(greaterThanOrEqualTo(1)))
+                .andExpect(jsonPath("$.neighbourCount").value(greaterThanOrEqualTo(1)))
+                .andExpect(jsonPath("$.recommendation", containsString("CELL-001")));
+    }
+
+    @Test
+    void unknownCellRecommendationReturns404() throws Exception {
+        mockMvc.perform(post("/api/v1/recommendations")
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .content("""
+                                {
+                                  "question": "Why might BLER be high on CELL-MISSING?",
+                                  "cellId": "CELL-MISSING"
+                                }
+                                """))
+                .andExpect(status().isNotFound())
+                .andExpect(jsonPath("$.error").value("cell not found"))
+                .andExpect(jsonPath("$.id").value("CELL-MISSING"));
     }
 }

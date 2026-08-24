@@ -4,6 +4,7 @@ import jakarta.validation.constraints.NotBlank;
 
 public record RecommendationRequest(
         @NotBlank String question,
-        String contextId
+        String contextId,
+        String cellId
 ) {
 }

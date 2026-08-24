@@ -16,6 +16,9 @@ public class SnipProperties {
     private double retrieveMinScore = 0.45;
     private String chatModel = "qwen2.5:7b";
     private String embeddingModel = "nomic-embed-text";
+    /** KPI observations older than this window are omitted from reasoning context. */
+    private int recentKpiHours = 168;
+    private int recentKpiLimit = 20;
 
     public String getCorpusDir() {
         return corpusDir;
@@ -79,5 +82,21 @@ public class SnipProperties {
 
     public void setEmbeddingModel(String embeddingModel) {
         this.embeddingModel = embeddingModel;
+    }
+
+    public int getRecentKpiHours() {
+        return recentKpiHours;
+    }
+
+    public void setRecentKpiHours(int recentKpiHours) {
+        this.recentKpiHours = recentKpiHours;
+    }
+
+    public int getRecentKpiLimit() {
+        return recentKpiLimit;
+    }
+
+    public void setRecentKpiLimit(int recentKpiLimit) {
+        this.recentKpiLimit = recentKpiLimit;
     }
 }

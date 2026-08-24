@@ -1,5 +1,6 @@
 package com.simba.snip.npo.api;
 
+import com.simba.snip.npo.AbstractPostgresIT;
 import com.simba.snip.npo.NpoApplication;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,7 +19,7 @@ import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.
 
 @SpringBootTest(classes = NpoApplication.class)
 @AutoConfigureMockMvc
-class RecommendationApiTest {
+class RecommendationApiTest extends AbstractPostgresIT {
 
     @Autowired
     private MockMvc mockMvc;

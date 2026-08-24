@@ -7,8 +7,8 @@ This file is the architecture library. The binding below is **authoritative for 
 **Platform:** SNIP — Simba Network Intelligence Platform  
 **This repository:** first SNIP **domain application** (Network Planning & Optimisation), not the entire enterprise platform.  
 **Phase 0:** complete — see `SNIP-PHASE-0-DISCOVERY-REPORT.md`  
-**Current authorised phase:** **Phase 1A.1 — Semantic RAG Validation** (complete — see `SNIP-PHASE-1A.1-COMPLETION-REPORT.md`)  
-**Coding contract:** `SNIP-PHASE-1A.1-SEMANTIC-RAG-VALIDATION.md`  
+**Current authorised phase:** **Phase 1B — Core Network Domain & Context Intelligence** (complete — see `SNIP-PHASE-1B-COMPLETION-REPORT.md`)  
+**Coding contract:** `SNIP-PHASE-1B-CORE-NETWORK-CONTEXT-SPECIFICATION.md`  
 **Status:** `SNIP-IMPLEMENTATION-STATUS.md`
 
 ```text
@@ -21,7 +21,7 @@ Phase 1A    Read-Only Knowledge Intelligence Slice       (done)
 Phase 1A.1  Semantic RAG Validation                      (done)
     │
     ▼
-Phase 1B    Core SNIP Platform Foundation                (not authorised)
+Phase 1B    Core Network Domain & Context Intelligence   (done)
     │
     ▼
 Phase 2     Context + Event Intelligence
@@ -35,7 +35,7 @@ Phase 4     Learning + Agent Factory
 
 §22–§24 below describe the **long-term** SNIP programme (Foundation, Kafka, Kubernetes, Agent → RAG → MCP). **Do not implement that generic Phase 1 foundation in this repository.** Phase 1A is the approved first increment: local, cited, read-only planning copilot. MCP, Agent Factory, Kafka, EKS, Kong, ALICE, and live network writes remain closed.
 
-Cursor must implement only Phase 1A.1 unless a later phase is explicitly authorised.
+Cursor must implement only Phase 1B unless a later phase is explicitly authorised. Do not start Phase 2. Do not redesign Phase 1A/1A.1 semantic RAG.
 
 ---
 
