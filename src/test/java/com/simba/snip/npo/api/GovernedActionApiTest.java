@@ -74,6 +74,11 @@ class GovernedActionApiTest extends AbstractPostgresIT {
         jdbc.update("DELETE FROM action_approval");
         jdbc.update("DELETE FROM policy_decision");
         jdbc.update("DELETE FROM proposed_action");
+        jdbc.update("DELETE FROM agent_run_audit_event");
+        jdbc.update("DELETE FROM agent_case_memory");
+        jdbc.update("DELETE FROM agent_plan_step");
+        jdbc.update("DELETE FROM agent_plan");
+        jdbc.update("DELETE FROM agent_run");
         jdbc.update("DELETE FROM assurance_evidence");
         jdbc.update("DELETE FROM assurance_case");
         jdbc.update("DELETE FROM kpi_observation WHERE event_id LIKE 'p4-%'");

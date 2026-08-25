@@ -24,6 +24,14 @@ snip:
   assurance-bler-dl-critical-threshold: 0.12
   mcp-base-url: ${SNIP_MCP_BASE_URL:}
   mcp-timeout-ms: 3000
+  agent-max-steps: 8
+  agent-max-agent-calls: 10
+  agent-max-total-model-calls: 20
+  agent-max-retries-per-step: 1
+  agent-max-proposed-actions: 2
+  agent-per-agent-timeout-ms: 8000
+  agent-overall-run-timeout-ms: 30000
+  agent-force-fail-agent-id: ${SNIP_AGENT_FORCE_FAIL:}
 
 spring:
   datasource:

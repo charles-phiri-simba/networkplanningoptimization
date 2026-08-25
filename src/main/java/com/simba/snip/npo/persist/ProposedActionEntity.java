@@ -57,6 +57,12 @@ public class ProposedActionEntity {
     @Column(nullable = false)
     private boolean synthetic;
 
+    @Column(name = "agent_run_id")
+    private UUID agentRunId;
+
+    @Column(name = "agent_id", length = 64)
+    private String agentId;
+
     public static ProposedActionEntity create(
             UUID id,
             UUID assuranceCaseId,
@@ -97,6 +103,11 @@ public class ProposedActionEntity {
 
     public void setExecutedBy(String executedBy) {
         this.executedBy = executedBy;
+    }
+
+    public void setAgentProvenance(UUID agentRunId, String agentId) {
+        this.agentRunId = agentRunId;
+        this.agentId = agentId;
     }
 
     public UUID getId() {
@@ -157,5 +168,13 @@ public class ProposedActionEntity {
 
     public boolean isSynthetic() {
         return synthetic;
+    }
+
+    public UUID getAgentRunId() {
+        return agentRunId;
+    }
+
+    public String getAgentId() {
+        return agentId;
     }
 }

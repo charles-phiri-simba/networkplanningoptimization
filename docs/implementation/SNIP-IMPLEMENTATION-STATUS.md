@@ -2,7 +2,7 @@
 
 **Repository:** networkplanningoptimization  
 **Platform role:** SNIP domain application / first vertical slice  
-**Updated:** 2026-08-24 (Phase 4 architecturally accepted — frozen)
+**Updated:** 2026-08-25 (Phase 5 architecturally accepted — frozen)
 
 ---
 
@@ -10,11 +10,11 @@
 
 | Field | Value |
 |-------|--------|
-| Active phase | **4 — Governed Action Intelligence & MCP** (architecturally accepted — frozen) |
-| Authorised | Phase 4 frozen. Phase 5 **not** authorised |
-| Previous phase | 3 — Assurance & Decision Intelligence (architecturally accepted — frozen) |
-| Baseline | `c692eb8d42711ed523460d2de34ffb0a607e7f17` on `main`, CI PASS, 60 tests. Phase 4 is uncommitted working-tree work (71 tests), awaiting Git baseline when asked. |
-| Next phase | 5 (not authorised). Agent Factory and live network writes remain deferred. |
+| Active phase | **5 — Agentic Orchestration & Controlled Autonomy** (architecturally accepted — frozen) |
+| Authorised | Phase 5 frozen. Phase 6 **not** authorised |
+| Previous phase | 4 — Governed Action Intelligence & MCP (architecturally accepted — frozen) |
+| Baseline | `58c6e4111e83ef32137f2c0ffd083a060bd73796` on `main`, CI PASS, 71 tests. Phase 5 is uncommitted working-tree work (83 tests), awaiting Git baseline when asked |
+| Next phase | 6 (not authorised). Agent Factory and live network writes remain deferred |
 
 ---
 
@@ -29,16 +29,17 @@
 | 2 | Context + Event Intelligence | Architecturally accepted — see `SNIP-PHASE-2-COMPLETION-REPORT.md` |
 | 3 | Assurance & Decision Intelligence | Architecturally accepted — frozen — see `SNIP-PHASE-3-COMPLETION-REPORT.md` |
 | 4 | Governed Action Intelligence & MCP | Architecturally accepted — frozen — see `SNIP-PHASE-4-COMPLETION-REPORT.md` |
-| 5 | (not authorised) | Not started |
+| 5 | Agentic Orchestration & Controlled Autonomy | Architecturally accepted — frozen — see `SNIP-PHASE-5-COMPLETION-REPORT.md` |
+| 6 | (not authorised) | Not started |
 
 ---
 
 ## Explicitly out of scope (do not start)
 
-Live network writes, Ericsson ENM / Nokia NetAct, OSS/NMS/EMS write integration, auto-remediation, autonomous agents, Agent Factory, RL, production IAM/OIDC, remote third-party MCP, vendor MCP adapters, production RF simulation, full Digital Twin, network rollback, Schema Registry, Avro, Flink/Spark/Kafka Streams, dedicated time-series DB, EKS/Kubernetes, Phase 5.
+Agent Factory, dynamic Agent creation, self-modifying Agents, persistent conversational memory, long-running autonomous Agents, continuous background Agents, freeform Agent-to-Agent mesh, automatic remediation, direct Agent-to-MCP execution, Agent approval authority, policy override, live network writes, Ericsson ENM / Nokia NetAct, OSS/NMS/EMS write integration, RL, production IAM/OIDC, remote third-party MCP, vendor MCP adapters, production RF simulation, full Digital Twin, network rollback, Schema Registry, Avro, Flink/Spark/Kafka Streams, dedicated time-series DB, EKS/Kubernetes, Phase 6.
 
 ---
 
 ## Notes for Cursor
 
-Phase 4 is architecturally accepted and frozen. Do not add functionality, resolve deferred technical debt, perform unrelated refactoring, or start Phase 5. Do not push or establish a new Git baseline until asked.
+Phase 5 is architecturally accepted and frozen. Do not add functionality, resolve deferred technical debt, perform unrelated refactoring, or start Phase 6. Do not push or establish a new Git baseline until asked.

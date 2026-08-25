@@ -21,6 +21,8 @@ public record ActionDetailDto(
         String proposedBy,
         String executedBy,
         boolean synthetic,
+        UUID agentRunId,
+        String agentId,
         ActionPolicyDto policy,
         ActionApprovalDto approval,
         ActionResultDto result,

@@ -33,6 +33,14 @@ public class SnipProperties {
     private double assuranceBlerDlCriticalThreshold = 0.12;
     private String mcpBaseUrl = "";
     private long mcpTimeoutMs = 3000L;
+    private int agentMaxSteps = 8;
+    private int agentMaxAgentCalls = 10;
+    private int agentMaxTotalModelCalls = 20;
+    private int agentMaxRetriesPerStep = 1;
+    private int agentMaxProposedActions = 2;
+    private long agentPerAgentTimeoutMs = 8000L;
+    private long agentOverallRunTimeoutMs = 30000L;
+    private String agentForceFailAgentId = "";
 
     public String getCorpusDir() {
         return corpusDir;
@@ -200,5 +208,69 @@ public class SnipProperties {
 
     public void setMcpTimeoutMs(long mcpTimeoutMs) {
         this.mcpTimeoutMs = mcpTimeoutMs;
+    }
+
+    public int getAgentMaxSteps() {
+        return agentMaxSteps;
+    }
+
+    public void setAgentMaxSteps(int agentMaxSteps) {
+        this.agentMaxSteps = agentMaxSteps;
+    }
+
+    public int getAgentMaxAgentCalls() {
+        return agentMaxAgentCalls;
+    }
+
+    public void setAgentMaxAgentCalls(int agentMaxAgentCalls) {
+        this.agentMaxAgentCalls = agentMaxAgentCalls;
+    }
+
+    public int getAgentMaxTotalModelCalls() {
+        return agentMaxTotalModelCalls;
+    }
+
+    public void setAgentMaxTotalModelCalls(int agentMaxTotalModelCalls) {
+        this.agentMaxTotalModelCalls = agentMaxTotalModelCalls;
+    }
+
+    public int getAgentMaxRetriesPerStep() {
+        return agentMaxRetriesPerStep;
+    }
+
+    public void setAgentMaxRetriesPerStep(int agentMaxRetriesPerStep) {
+        this.agentMaxRetriesPerStep = agentMaxRetriesPerStep;
+    }
+
+    public int getAgentMaxProposedActions() {
+        return agentMaxProposedActions;
+    }
+
+    public void setAgentMaxProposedActions(int agentMaxProposedActions) {
+        this.agentMaxProposedActions = agentMaxProposedActions;
+    }
+
+    public long getAgentPerAgentTimeoutMs() {
+        return agentPerAgentTimeoutMs;
+    }
+
+    public void setAgentPerAgentTimeoutMs(long agentPerAgentTimeoutMs) {
+        this.agentPerAgentTimeoutMs = agentPerAgentTimeoutMs;
+    }
+
+    public long getAgentOverallRunTimeoutMs() {
+        return agentOverallRunTimeoutMs;
+    }
+
+    public void setAgentOverallRunTimeoutMs(long agentOverallRunTimeoutMs) {
+        this.agentOverallRunTimeoutMs = agentOverallRunTimeoutMs;
+    }
+
+    public String getAgentForceFailAgentId() {
+        return agentForceFailAgentId;
+    }
+
+    public void setAgentForceFailAgentId(String agentForceFailAgentId) {
+        this.agentForceFailAgentId = agentForceFailAgentId;
     }
 }

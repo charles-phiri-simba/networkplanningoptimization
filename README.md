@@ -2,9 +2,9 @@
 
 First **SNIP** domain application: a local, **read-only** 5G planning copilot.
 
-It ingests synthetic cell telemetry, projects KPI state, detects deterministic assurance conditions, persists an Assurance Case with operational evidence, returns a cited advisory assessment, and can propose **governed** actions through a local Java MCP server. It does **not** change the live network.
+It ingests synthetic cell telemetry, projects KPI state, detects deterministic assurance conditions, persists an Assurance Case with operational evidence, returns a cited advisory assessment, can propose **governed** actions through a local Java MCP server, and can run a **bounded Agent orchestration** that gathers evidence and proposes those same Phase 4 actions. It does **not** change the live network.
 
-This repository is not the full Simba Network Intelligence Platform. Target-state product requirements are in [`docs/requirements/product-requirements.md`](docs/requirements/product-requirements.md). Phase 4 bounds are in [`NIP-PHASE-4-GOVERNED-ACTION-MCP-ARCHITECTURE.md`](NIP-PHASE-4-GOVERNED-ACTION-MCP-ARCHITECTURE.md) and [`SNIP-PHASE-4-GOVERNED-ACTION-MCP-SPECIFICATION.md`](SNIP-PHASE-4-GOVERNED-ACTION-MCP-SPECIFICATION.md).
+This repository is not the full Simba Network Intelligence Platform. Target-state product requirements are in [`docs/requirements/product-requirements.md`](docs/requirements/product-requirements.md). Phase 5 bounds are in [`SNIP-PHASE-5-AGENTIC-ORCHESTRATION-CONTROLLED-AUTONOMY-ARCHITECTURE.md`](SNIP-PHASE-5-AGENTIC-ORCHESTRATION-CONTROLLED-AUTONOMY-ARCHITECTURE.md) and [`SNIP-PHASE-5-AGENTIC-ORCHESTRATION-CONTROLLED-AUTONOMY-SPECIFICATION.md`](SNIP-PHASE-5-AGENTIC-ORCHESTRATION-CONTROLLED-AUTONOMY-SPECIFICATION.md).
 
 ## Prerequisites
 
@@ -71,6 +71,14 @@ curl -s http://127.0.0.1:8080/api/v1/assurance/cases/{caseId}/actions -H "Conten
 
 Simulation (`SIMULATE_CELL_PARAMETER_CHANGE`) is `MEDIUM` / `REQUIRE_APPROVAL` and is blocked until `POST /api/v1/actions/{id}/approve`. Apply (`APPLY_CELL_PARAMETER_CHANGE`) is `HIGH` / `DENY` and never reaches MCP.
 
+Canonical Phase 5 question (after a CELL-001 Assurance Case exists):
+
+```bash
+curl -s http://127.0.0.1:8080/api/v1/agent-runs -H "Content-Type: application/json" -d "{\"objective\":\"Investigate the DEGRADING_RADIO_QUALITY case for CELL-001 and recommend the next safe action.\",\"assuranceCaseId\":\"{caseId}\",\"initiatedBy\":\"demo-user\"}"
+```
+
+One Chief Orchestration Agent delegates to Context, Assurance, Knowledge, then Decision. Agents may propose a Phase 4 `ProposedAction` (`proposedBy=AGENT`). They cannot approve, override policy, or call MCP. CI uses the stub narrator; `local-ai` uses shared `qwen2.5:7b` via `AgentModelResolver`.
+
 Canonical Phase 2 question:
 
 ```bash
@@ -122,11 +130,14 @@ GET /api/v1/actions/{actionId}
 POST /api/v1/actions/{actionId}/approve
 POST /api/v1/actions/{actionId}/reject
 POST /api/v1/actions/{actionId}/execute
+POST /api/v1/agent-runs
+GET /api/v1/agent-runs
+GET /api/v1/agent-runs/{runId}
 POST /api/v1/recommendations
 POST /mcp
 ```
 
-Action APIs mutate SNIP governance state only. Registered MCP capabilities: `remediation.generate.v1` (ALLOW) and `simulation.cell-parameter.v1` (approval + `dryRun=true`). There is no live apply capability.
+Action APIs mutate SNIP governance state only. Agent-run APIs mutate SNIP orchestration state only. Registered MCP capabilities: `remediation.generate.v1` (ALLOW) and `simulation.cell-parameter.v1` (approval + `dryRun=true`). There is no live apply capability. Agents never invoke MCP directly.
 
 Canonical detector: `DEGRADING_RADIO_QUALITY` when `BLER_DL >= 0.08` (ratio) and BLER trend is `INCREASING`. Severity/confidence are deterministic (see ADR 016). Repeated detections update the active case.
 
@@ -134,7 +145,7 @@ Demo dataset: `SITE-001` / `GNB-001` / `CELL-001` (elevated DL BLER) plus health
 
 ## What this phase does not include
 
-Live network writes, Ericsson ENM / Nokia NetAct, OSS/NMS/EMS write integration, auto-remediation, autonomous agents, Agent Factory, remote third-party MCP, production RF simulation, Schema Registry, Avro, Protobuf, Flink, Spark, Kafka Streams, a dedicated time-series DB, EKS/Kubernetes, RL, Phase 5.
+Live network writes, Ericsson ENM / Nokia NetAct, OSS/NMS/EMS write integration, auto-remediation, Agent Factory, dynamic Agent creation, long-running autonomous Agents, direct Agent-to-MCP execution, remote third-party MCP, production RF simulation, Schema Registry, Avro, Protobuf, Flink, Spark, Kafka Streams, a dedicated time-series DB, EKS/Kubernetes, RL, Phase 6.
 
 ## License
 

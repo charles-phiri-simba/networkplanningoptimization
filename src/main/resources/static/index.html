@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>SNIP Phase 4 — Planning copilot</title>
+    <title>SNIP Phase 5 — Planning copilot</title>
     <style>
         body { font-family: sans-serif; max-width: 48rem; margin: 2rem auto; padding: 0 1rem; }
         textarea, input, button { width: 100%; box-sizing: border-box; margin: 0.4rem 0; padding: 0.5rem; }
@@ -12,8 +12,8 @@
     </style>
 </head>
 <body>
-<h1>SNIP Phase 4 — governed planning copilot</h1>
-<p class="muted">Recommendations, assurance assessments, and governed actions only. Nothing is written to the live network. CELL-001 context and telemetry are synthetic demo data.</p>
+<h1>SNIP Phase 5 — guided agentic copilot</h1>
+<p class="muted">Recommendations, assurance, governed actions, and bounded Agent runs. Agents may propose. Phase 4 policy still decides. Nothing is written to the live network. CELL-001 context and telemetry are synthetic demo data.</p>
 <label for="question">Question</label>
 <textarea id="question" rows="4">Why has SNIP raised a DEGRADING_RADIO_QUALITY assurance case for CELL-001, and what should I investigate first?</textarea>
 <label for="cellId">Cell id (structured context)</label>
@@ -21,6 +21,9 @@
 <label for="contextId">Legacy synthetic KPI context id (optional)</label>
 <input id="contextId" value="">
 <button id="ask" type="button">Ask</button>
+<label for="caseId">Assurance case id (agent run)</label>
+<input id="caseId" value="" placeholder="paste case UUID">
+<button id="agentRun" type="button">Run agents</button>
 <pre id="out">Submit a question to see a cited recommendation.</pre>
 <script>
     document.getElementById("ask").addEventListener("click", async () => {
@@ -33,6 +36,27 @@
                 contextId: document.getElementById("contextId").value || null
             };
             const res = await fetch("/api/v1/recommendations", {
+                method: "POST",
+                headers: { "Content-Type": "application/json" },
+                body: JSON.stringify(body)
+            });
+            const json = await res.json();
+            out.textContent = JSON.stringify(json, null, 2);
+        } catch (err) {
+            out.textContent = String(err);
+        }
+    });
+    document.getElementById("agentRun").addEventListener("click", async () => {
+        const out = document.getElementById("out");
+        out.textContent = "Working…";
+        try {
+            const caseId = document.getElementById("caseId").value.trim();
+            const body = {
+                objective: document.getElementById("question").value,
+                assuranceCaseId: caseId,
+                initiatedBy: "demo-user"
+            };
+            const res = await fetch("/api/v1/agent-runs", {
                 method: "POST",
                 headers: { "Content-Type": "application/json" },
                 body: JSON.stringify(body)

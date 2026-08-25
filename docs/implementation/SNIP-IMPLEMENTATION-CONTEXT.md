@@ -7,10 +7,10 @@ This file is the architecture library. The binding below is **authoritative for 
 **Platform:** SNIP — Simba Network Intelligence Platform  
 **This repository:** first SNIP **domain application** (Network Planning & Optimisation), not the entire enterprise platform.  
 **Phase 0:** complete — see `SNIP-PHASE-0-DISCOVERY-REPORT.md`  
-**Current authorised phase:** **Phase 4 — Governed Action Intelligence & MCP** (architecturally accepted — frozen; architecture has authority; specification is the execution contract)  
-**Architecture:** `docs/architecture/NIP-PHASE-4-GOVERNED-ACTION-MCP-ARCHITECTURE.md`  
-**Coding contract:** `docs/implementation/SNIP-PHASE-4-GOVERNED-ACTION-MCP-SPECIFICATION.md`  
-**Phase 3 baseline:** `c692eb8d42711ed523460d2de34ffb0a607e7f17` (architecturally accepted — see `SNIP-PHASE-3-COMPLETION-REPORT.md`)  
+**Current authorised phase:** **Phase 5 — Agentic Orchestration & Controlled Autonomy** (architecturally accepted — frozen; architecture has authority; specification is the execution contract)  
+**Architecture:** `docs/architecture/SNIP-PHASE-5-AGENTIC-ORCHESTRATION-CONTROLLED-AUTONOMY-ARCHITECTURE.md`  
+**Coding contract:** `docs/implementation/SNIP-PHASE-5-AGENTIC-ORCHESTRATION-CONTROLLED-AUTONOMY-SPECIFICATION.md`  
+**Phase 4 baseline:** `58c6e4111e83ef32137f2c0ffd083a060bd73796` (architecturally accepted — see `SNIP-PHASE-4-COMPLETION-REPORT.md`)  
 **Status:** `SNIP-IMPLEMENTATION-STATUS.md`
 
 ```text
@@ -35,12 +35,15 @@ Phase 3     Assurance & Decision Intelligence            (done — frozen)
 Phase 4     Governed Action Intelligence & MCP           (done — frozen)
     │
     ▼
-Phase 5     (closed)
+Phase 5     Agentic Orchestration & Controlled Autonomy  (done — frozen)
+    │
+    ▼
+Phase 6     (closed)
 ```
 
-Phase 4 authorises governed ProposedAction workflow, deterministic policy, human approval, a local Java MCP server, and registered capabilities `remediation.generate.v1` and `simulation.cell-parameter.v1`. **Do not implement live network writes, Agent Factory, autonomous agents, remote MCP, or Phase 5.**
+This repository’s Phase 5 is **guided orchestration (Autonomy Level 1)**, not the generic “Agent Factory & Learning” volume in the architecture library. Phase 5 authorises one Chief Orchestration Agent, four specialists (Knowledge, Context, Assurance, Decision), a structured `AgentPlan`, bounded synchronous `AgentRun`s, an in-code Agent Registry, `AgentModelResolver` over one shared physical LLM, and Agent-proposed Phase 4 `ProposedAction` records. **Agents must not invoke MCP, approve actions, override policy, or write the live network. Do not implement Agent Factory, remote MCP, live network writes, or Phase 6.**
 
-Cursor must not add Phase 4 functionality and must not start Phase 5 unless a later phase is explicitly authorised. Do not redesign Phase 1A/1A.1 semantic RAG, the Phase 1B domain model, the Phase 2 Kafka/telemetry slice, the frozen Phase 3 assurance slice, or the frozen Phase 4 governed-action slice.
+Cursor must not add Phase 4 or Phase 5 functionality and must not start Phase 6. Do not redesign Phase 1A/1A.1 semantic RAG, the Phase 1B domain model, the Phase 2 Kafka/telemetry slice, the frozen Phase 3 assurance slice, the frozen Phase 4 governed-action slice, or the frozen Phase 5 agent slice. Non-interruptible per-Agent timeout remains accepted Phase 5 technical debt.
 
 ---
 

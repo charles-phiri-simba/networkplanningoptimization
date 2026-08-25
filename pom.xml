@@ -15,7 +15,7 @@
     <artifactId>network-planning-optimisation</artifactId>
     <version>0.1.0-SNAPSHOT</version>
     <name>Network Planning &amp; Optimisation</name>
-    <description>SNIP Phase 4 governed action intelligence and MCP</description>
+    <description>SNIP Phase 5 agentic orchestration and controlled autonomy</description>
 
     <properties>
         <java.version>17</java.version>

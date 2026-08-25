@@ -62,6 +62,33 @@ public class ActionProposalService {
             String rationale,
             String proposedBy
     ) {
+        return propose(
+                assuranceCaseId,
+                rawType,
+                requestedCapabilityId,
+                targetType,
+                targetId,
+                parameters,
+                rationale,
+                proposedBy,
+                null,
+                null
+        );
+    }
+
+    @Transactional
+    public ProposedActionEntity propose(
+            UUID assuranceCaseId,
+            String rawType,
+            String requestedCapabilityId,
+            String targetType,
+            String targetId,
+            Map<String, Object> parameters,
+            String rationale,
+            String proposedBy,
+            UUID agentRunId,
+            String agentId
+    ) {
         assuranceCaseRepository.loadById(assuranceCaseId)
                 .orElseThrow(() -> new DomainNotFoundException("assurance case", assuranceCaseId.toString()));
         ActionType actionType = ActionSemantics.requireType(rawType);
@@ -75,7 +102,9 @@ public class ActionProposalService {
                 && semantics.capabilityId() == null) {
             throw new DomainValidationException("APPLY_CELL_PARAMETER_CHANGE has no registered capability");
         }
-        String actor = DomainRules.requireDomainId(proposedBy == null || proposedBy.isBlank() ? "demo-user" : proposedBy, "proposedBy");
+        String actor = agentRunId != null
+                ? "AGENT"
+                : DomainRules.requireDomainId(proposedBy == null || proposedBy.isBlank() ? "demo-user" : proposedBy, "proposedBy");
         String target = DomainRules.requireDomainId(targetId, "targetId");
         if (targetType == null || !ActionRules.ENTITY_CELL.equals(targetType)) {
             throw new DomainValidationException("targetType must be CELL");
@@ -114,6 +143,9 @@ public class ActionProposalService {
                 actor,
                 true
         );
+        if (agentRunId != null) {
+            action.setAgentProvenance(agentRunId, agentId);
+        }
         actionRepository.save(action);
         policyDecisionRepository.save(PolicyDecisionEntity.create(
                 UUID.randomUUID(),

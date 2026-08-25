@@ -49,6 +49,8 @@ public final class ActionMapper {
                 action.getProposedBy(),
                 action.getExecutedBy(),
                 action.isSynthetic(),
+                action.getAgentRunId(),
+                action.getAgentId(),
                 policy == null ? null : new ActionPolicyDto(
                         policy.getId(),
                         policy.getDecision(),
