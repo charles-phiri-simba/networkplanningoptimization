@@ -41,6 +41,8 @@ public class SnipProperties {
     private long agentPerAgentTimeoutMs = 8000L;
     private long agentOverallRunTimeoutMs = 30000L;
     private String agentForceFailAgentId = "";
+    /** Twin snapshot older than this is EXPIRED even if operational fingerprint is unchanged. */
+    private int twinExpiredHours = 24;
 
     public String getCorpusDir() {
         return corpusDir;
@@ -272,5 +274,13 @@ public class SnipProperties {
 
     public void setAgentForceFailAgentId(String agentForceFailAgentId) {
         this.agentForceFailAgentId = agentForceFailAgentId;
+    }
+
+    public int getTwinExpiredHours() {
+        return twinExpiredHours;
+    }
+
+    public void setTwinExpiredHours(int twinExpiredHours) {
+        this.twinExpiredHours = twinExpiredHours;
     }
 }

@@ -2,9 +2,9 @@
 
 First **SNIP** domain application: a local, **read-only** 5G planning copilot.
 
-It ingests synthetic cell telemetry, projects KPI state, detects deterministic assurance conditions, persists an Assurance Case with operational evidence, returns a cited advisory assessment, can propose **governed** actions through a local Java MCP server, and can run a **bounded Agent orchestration** that gathers evidence and proposes those same Phase 4 actions. It does **not** change the live network.
+It ingests synthetic cell telemetry, projects KPI state, detects deterministic assurance conditions, persists an Assurance Case with operational evidence, returns a cited advisory assessment, can propose **governed** actions through a local Java MCP server, can run a **bounded Agent orchestration** that gathers evidence and proposes those same Phase 4 actions, and can synchronize a **cell Digital Twin** so a hypothetical `txPower` change is simulated deterministically after approval. It does **not** change the live network.
 
-This repository is not the full Simba Network Intelligence Platform. Target-state product requirements are in [`docs/requirements/product-requirements.md`](docs/requirements/product-requirements.md). Phase 5 bounds are in [`SNIP-PHASE-5-AGENTIC-ORCHESTRATION-CONTROLLED-AUTONOMY-ARCHITECTURE.md`](SNIP-PHASE-5-AGENTIC-ORCHESTRATION-CONTROLLED-AUTONOMY-ARCHITECTURE.md) and [`SNIP-PHASE-5-AGENTIC-ORCHESTRATION-CONTROLLED-AUTONOMY-SPECIFICATION.md`](SNIP-PHASE-5-AGENTIC-ORCHESTRATION-CONTROLLED-AUTONOMY-SPECIFICATION.md).
+This repository is not the full Simba Network Intelligence Platform. Target-state product requirements are in [`docs/requirements/product-requirements.md`](docs/requirements/product-requirements.md). Phase 6 bounds are in [`SNIP-PHASE-6-DIGITAL-TWIN-SIMULATION-INTELLIGENCE-ARCHITECTURE.md`](SNIP-PHASE-6-DIGITAL-TWIN-SIMULATION-INTELLIGENCE-ARCHITECTURE.md) and [`SNIP-PHASE-6-DIGITAL-TWIN-SIMULATION-INTELLIGENCE-SPECIFICATION.md`](SNIP-PHASE-6-DIGITAL-TWIN-SIMULATION-INTELLIGENCE-SPECIFICATION.md).
 
 ## Prerequisites
 
@@ -69,7 +69,20 @@ curl -s http://127.0.0.1:8080/api/v1/assurance/cases/{caseId}/assessment
 curl -s http://127.0.0.1:8080/api/v1/assurance/cases/{caseId}/actions -H "Content-Type: application/json" -d "{\"actionType\":\"GENERATE_REMEDIATION_PLAN\",\"capabilityId\":\"remediation.generate.v1\",\"targetType\":\"CELL\",\"targetId\":\"CELL-001\",\"rationale\":\"plan\",\"proposedBy\":\"demo-user\"}"
 ```
 
-Simulation (`SIMULATE_CELL_PARAMETER_CHANGE`) is `MEDIUM` / `REQUIRE_APPROVAL` and is blocked until `POST /api/v1/actions/{id}/approve`. Apply (`APPLY_CELL_PARAMETER_CHANGE`) is `HIGH` / `DENY` and never reaches MCP.
+Simulation (`SIMULATE_CELL_PARAMETER_CHANGE`) is `MEDIUM` / `REQUIRE_APPROVAL` and is blocked until `POST /api/v1/actions/{id}/approve`. After approval, MCP `simulation.cell-parameter.v1` delegates to the Phase 6 Digital Twin model. Apply (`APPLY_CELL_PARAMETER_CHANGE`) is `HIGH` / `DENY` and never reaches MCP.
+
+Canonical Phase 6 question (CELL-001 fixture `txPower=46 dBm`; equivalent to the architecture’s 40→38 example):
+
+```bash
+curl -s -X POST http://127.0.0.1:8080/api/v1/twins/cells/CELL-001/synchronize
+# create a scenario 46 -> 44, then:
+curl -s http://127.0.0.1:8080/api/v1/assurance/cases/{caseId}/actions -H "Content-Type: application/json" -d "{\"actionType\":\"SIMULATE_CELL_PARAMETER_CHANGE\",\"capabilityId\":\"simulation.cell-parameter.v1\",\"targetType\":\"CELL\",\"targetId\":\"CELL-001\",\"parameters\":{\"dryRun\":true,\"parameter\":\"txPower\",\"currentValue\":46,\"proposedValue\":44,\"scenarioId\":\"{scenarioId}\"},\"rationale\":\"twin dry-run\",\"proposedBy\":\"demo-user\"}"
+# execute is 409 until:
+curl -s -X POST http://127.0.0.1:8080/api/v1/actions/{actionId}/approve -H "Content-Type: application/json" -d "{\"decidedBy\":\"demo-approver\",\"comment\":\"synthetic dry-run only\"}"
+curl -s -X POST http://127.0.0.1:8080/api/v1/actions/{actionId}/execute
+```
+
+There is no public `POST /simulate`. Twin-management APIs mutate SNIP Twin/scenario state only.
 
 Canonical Phase 5 question (after a CELL-001 Assurance Case exists):
 
@@ -133,11 +146,20 @@ POST /api/v1/actions/{actionId}/execute
 POST /api/v1/agent-runs
 GET /api/v1/agent-runs
 GET /api/v1/agent-runs/{runId}
+POST /api/v1/twins/cells/{cellId}/synchronize
+GET /api/v1/twins/{twinId}
+GET /api/v1/twins/{twinId}/versions
+GET /api/v1/twins/{twinId}/versions/{version}
+POST /api/v1/twins/{twinId}/scenarios
+GET /api/v1/twins/{twinId}/scenarios
+GET /api/v1/scenarios/{scenarioId}
+GET /api/v1/simulations/{simulationId}
+GET /api/v1/simulation-comparisons?left={id}&right={id}
 POST /api/v1/recommendations
 POST /mcp
 ```
 
-Action APIs mutate SNIP governance state only. Agent-run APIs mutate SNIP orchestration state only. Registered MCP capabilities: `remediation.generate.v1` (ALLOW) and `simulation.cell-parameter.v1` (approval + `dryRun=true`). There is no live apply capability. Agents never invoke MCP directly.
+Action APIs mutate SNIP governance state only. Agent-run APIs mutate SNIP orchestration state only. Twin synchronize/scenario APIs mutate SNIP Twin state only. Registered MCP capabilities: `remediation.generate.v1` (ALLOW) and `simulation.cell-parameter.v1` (approval + `dryRun=true`, delegates to the Digital Twin model). There is no live apply capability. Agents never invoke MCP directly.
 
 Canonical detector: `DEGRADING_RADIO_QUALITY` when `BLER_DL >= 0.08` (ratio) and BLER trend is `INCREASING`. Severity/confidence are deterministic (see ADR 016). Repeated detections update the active case.
 
@@ -145,7 +167,7 @@ Demo dataset: `SITE-001` / `GNB-001` / `CELL-001` (elevated DL BLER) plus health
 
 ## What this phase does not include
 
-Live network writes, Ericsson ENM / Nokia NetAct, OSS/NMS/EMS write integration, auto-remediation, Agent Factory, dynamic Agent creation, long-running autonomous Agents, direct Agent-to-MCP execution, remote third-party MCP, production RF simulation, Schema Registry, Avro, Protobuf, Flink, Spark, Kafka Streams, a dedicated time-series DB, EKS/Kubernetes, RL, Phase 6.
+Live network writes, Ericsson ENM / Nokia NetAct, OSS/NMS/EMS write integration, auto-remediation, Agent Factory, dynamic Agent creation, long-running autonomous Agents, direct Agent-to-MCP execution, remote third-party MCP, production RF simulation, electricalTilt simulation, automatic optimization, Kafka-triggered Twin synchronization, Schema Registry, Avro, Protobuf, Flink, Spark, Kafka Streams, a dedicated time-series DB, EKS/Kubernetes, RL, Phase 7.
 
 ## License
 

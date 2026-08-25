@@ -69,6 +69,13 @@ class GovernedActionApiTest extends AbstractPostgresIT {
 
     @AfterAll
     void cleanupCommittedTelemetry(@Autowired JdbcTemplate jdbc) {
+        jdbc.update("DELETE FROM simulation_limitation");
+        jdbc.update("DELETE FROM simulation_result_metric");
+        jdbc.update("DELETE FROM simulation_run");
+        jdbc.update("DELETE FROM simulation_scenario_change");
+        jdbc.update("DELETE FROM simulation_scenario");
+        jdbc.update("DELETE FROM network_twin_version");
+        jdbc.update("DELETE FROM network_twin");
         jdbc.update("DELETE FROM action_audit_event");
         jdbc.update("DELETE FROM action_result");
         jdbc.update("DELETE FROM action_approval");
@@ -119,10 +126,30 @@ class GovernedActionApiTest extends AbstractPostgresIT {
     @Test
     void pathBSimulationRequiresApprovalThenSyntheticMcp() {
         long before = metrics.mcpInvocations();
+        TwinDetailDto twin = http.postForEntity(
+                "/api/v1/twins/cells/CELL-001/synchronize", null, TwinDetailDto.class).getBody();
+        assertNotNull(twin);
+        ScenarioDetailDto scenario = http.postForEntity(
+                "/api/v1/twins/" + twin.id() + "/scenarios",
+                new CreateScenarioRequest(
+                        "path-b",
+                        "txPower dry-run",
+                        "demo-user",
+                        null,
+                        new ScenarioChangeRequest("txPower", 46.0, 44.0)
+                ),
+                ScenarioDetailDto.class).getBody();
+        assertNotNull(scenario);
         ActionDetailDto proposed = propose(
                 "SIMULATE_CELL_PARAMETER_CHANGE",
                 "simulation.cell-parameter.v1",
-                Map.of("parameter", "pci", "currentValue", 12, "proposedValue", 24, "dryRun", true)
+                Map.of(
+                        "parameter", "txPower",
+                        "currentValue", 46,
+                        "proposedValue", 44,
+                        "dryRun", true,
+                        "scenarioId", scenario.id().toString()
+                )
         );
         assertEquals("MEDIUM", proposed.riskLevel());
         assertEquals("REQUIRE_APPROVAL", proposed.policyDecision());
@@ -148,6 +175,7 @@ class GovernedActionApiTest extends AbstractPostgresIT {
         assertTrue(success.result().output().contains("\"synthetic\":true")
                 || success.result().output().contains("SYNTHETIC"));
         assertTrue(success.result().output().contains("dryRun"));
+        assertTrue(success.result().output().contains("snip.synthetic.cell-parameter.v1"));
         assertEquals(before + 1, metrics.mcpInvocations());
     }
 

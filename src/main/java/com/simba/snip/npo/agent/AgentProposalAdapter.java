@@ -21,7 +21,7 @@ public class AgentProposalAdapter {
     public ProposedActionEntity propose(UUID runId, UUID assuranceCaseId, AgentOutputs.CandidateAction candidate) {
         Map<String, Object> parameters = new LinkedHashMap<>();
         if (candidate.actionType() == ActionType.SIMULATE_CELL_PARAMETER_CHANGE) {
-            parameters.put("parameter", "pci");
+            parameters.put("parameter", "txPower");
             parameters.put("dryRun", true);
             parameters.put("cellId", candidate.targetId());
         }

@@ -32,6 +32,7 @@ snip:
   agent-per-agent-timeout-ms: 8000
   agent-overall-run-timeout-ms: 30000
   agent-force-fail-agent-id: ${SNIP_AGENT_FORCE_FAIL:}
+  twin-expired-hours: 24
 
 spring:
   datasource:

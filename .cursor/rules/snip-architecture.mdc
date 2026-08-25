@@ -1,5 +1,5 @@
 ---
-description: SNIP architecture and Phase 5 execution bounds for this repository
+description: SNIP architecture and Phase 6 execution bounds for this repository
 alwaysApply: true
 ---
 
@@ -11,36 +11,38 @@ Read before changing code:
 
 - `docs/implementation/SNIP-IMPLEMENTATION-CONTEXT.md` (section 0 is authoritative for scope)
 - `docs/implementation/SNIP-IMPLEMENTATION-STATUS.md`
-- `docs/architecture/SNIP-PHASE-5-AGENTIC-ORCHESTRATION-CONTROLLED-AUTONOMY-ARCHITECTURE.md`
-- `docs/implementation/SNIP-PHASE-5-AGENTIC-ORCHESTRATION-CONTROLLED-AUTONOMY-SPECIFICATION.md`
+- `docs/architecture/SNIP-PHASE-6-DIGITAL-TWIN-SIMULATION-INTELLIGENCE-ARCHITECTURE.md`
+- `docs/implementation/SNIP-PHASE-6-DIGITAL-TWIN-SIMULATION-INTELLIGENCE-SPECIFICATION.md`
 
 Root copies also exist:
 
-- `SNIP-PHASE-5-AGENTIC-ORCHESTRATION-CONTROLLED-AUTONOMY-ARCHITECTURE.md`
-- `SNIP-PHASE-5-AGENTIC-ORCHESTRATION-CONTROLLED-AUTONOMY-SPECIFICATION.md`
+- `SNIP-PHASE-6-DIGITAL-TWIN-SIMULATION-INTELLIGENCE-ARCHITECTURE.md`
+- `SNIP-PHASE-6-DIGITAL-TWIN-SIMULATION-INTELLIGENCE-SPECIFICATION.md`
 
 ## Authorised now
 
-Phase **5** is architecturally accepted and **frozen** on the Phase 4 baseline (`58c6e4111e83ef32137f2c0ffd083a060bd73796`). Do not add Phase 5 functionality, resolve deferred technical debt, or refactor for its own sake.
+Phase **6** is architecturally accepted and **frozen** on the Phase 5 baseline (`4e7a8feeb7a16924666e094828db829d5f4b703c`). Do not add Phase 6 functionality, resolve deferred technical debt, or refactor for its own sake.
 
-Preserve Phase 1A/1A.1/1B/2/3/4/5. Kafka remains off by default. Do not vectorize operational telemetry or Assurance Case state. Detection remains deterministic. The LLM explains and prioritises investigation; it does not decide thresholds, severity, confidence, risk, or policy. AI may propose. Deterministic policy decides. Humans approve where required. MCP invokes only registered capabilities.
+Preserve Phase 1A/1A.1/1B/2/3/4/5/6. Kafka remains off by default. Do not vectorize operational telemetry or Assurance Case state. Detection remains deterministic. The LLM explains and prioritises investigation; it does not decide thresholds, severity, confidence, risk, policy, or numeric simulation results. AI may propose. Deterministic policy decides. Humans approve where required. MCP invokes only registered capabilities.
 
-Exactly one Chief Orchestration Agent plus Knowledge, Context, Assurance, and Decision specialists. Communication is orchestrator-mediated. Orchestration is synchronous and bounded. Persist structured AgentPlan / PlanStep only; no hidden chain-of-thought. Memory is ephemeral Run Memory, concise Case Memory, and existing Enterprise Memory. Agent Registry is in-code. Permissions are explicit least privilege. One shared physical LLM initially; AgentModelResolver is retained; no heterogeneous model routing. Agents reuse Phase 4 ProposedAction. Phase 4 remains authoritative for risk, policy, approval, execution, MCP, and action audit. Agents have no direct MCP or network execution authority.
+Exactly one Chief Orchestration Agent plus Knowledge, Context, Assurance, and Decision specialists. Communication is orchestrator-mediated. Orchestration is synchronous and bounded. Persist structured AgentPlan / PlanStep only; no hidden chain-of-thought. Memory is ephemeral Run Memory, concise Case Memory, and existing Enterprise Memory. Agent Registry is in-code. Permissions are explicit least privilege. One shared physical LLM initially; AgentModelResolver is retained; no heterogeneous model routing. Agents reuse Phase 4 ProposedAction. Phase 4 remains authoritative for risk, policy, approval, execution, MCP, and action audit. Agents have no direct MCP or network execution authority. No Digital Twin Agent is added.
 
-Same-JVM loopback JSON-RPC HTTP MCP remains accepted. Phase 4 POST APIs mutate SNIP governance state only. Agent-run POST APIs mutate SNIP orchestration state only. They do not authorise live network mutation. Failed-result row replacement remains deferred technical debt. Non-interruptible per-Agent timeout is accepted Phase 5 technical debt; preserve the future interruptible timeout / run watchdog requirement and do not redesign it in Phase 5.
+Phase 6 is a cell-centric, versioned Digital Twin projection with manual/on-demand synchronization, CURRENT/STALE/EXPIRED freshness, a txPower-only in-code parameter registry, and a deterministic non-LLM synthetic simulation model. Governed simulation execution remains Phase 4 → human approval → MCP `simulation.cell-parameter.v1` → Digital Twin simulation. Do not expose an ungoverned public simulate endpoint. Do not automatically synchronize on Kafka/telemetry. STALE/EXPIRED twins must not simulate.
 
-Governance POST APIs mutate SNIP workflow state only. They must never write to the live network. Direct LLM-to-MCP invocation is prohibited. Direct Agent-to-MCP invocation is prohibited.
+Same-JVM loopback JSON-RPC HTTP MCP remains accepted. Phase 4 POST APIs mutate SNIP governance state only. Agent-run POST APIs mutate SNIP orchestration state only. Twin-management POST APIs mutate SNIP Twin/scenario state only. They do not authorise live network mutation. Failed-result row replacement remains deferred technical debt. Non-interruptible per-Agent timeout is accepted Phase 5 technical debt; preserve the future interruptible timeout / run watchdog requirement and do not redesign it. Failed Twin simulation attempts are not persisted as SimulationRun records; that remains accepted Phase 6 technical debt.
+
+Governance POST APIs mutate SNIP workflow state only. They must never write to the live network. Direct LLM-to-MCP invocation is prohibited. Direct Agent-to-MCP invocation is prohibited. The LLM must not produce authoritative numeric KPI predictions.
 
 ## Do not implement
 
-Agent Factory, dynamic Agent creation, self-modifying Agents, persistent conversational memory, long-running or continuous background Agents, freeform Agent-to-Agent mesh, automatic remediation, Agent approval authority, policy override, production Agent identity federation, different physical models per Agent, automatic model routing, live OSS/NMS/EMS integrations, live gNB/network writes, Ericsson ENM / Nokia NetAct writes, incident-management / ITSM, Schema Registry, Avro, Protobuf, Flink, Spark, Kafka Streams, dedicated time-series DB, EKS/Kubernetes, Kong, ALB, ALICE, RL, ML anomaly detection, adaptive thresholds, forecasting, billing, Ionic, AWS lock-in, production IAM/OIDC, remote third-party MCP, vendor MCP adapters, production RF simulation, full Digital Twin execution, network rollback, Phase 6.
+Agent Factory, dynamic Agent creation, self-modifying Agents, persistent conversational memory, long-running or continuous background Agents, freeform Agent-to-Agent mesh, automatic remediation, Agent approval authority, policy override, production Agent identity federation, different physical models per Agent, automatic model routing, live OSS/NMS/EMS integrations, live gNB/network writes, Ericsson ENM / Nokia NetAct writes, incident-management / ITSM, Schema Registry, Avro, Protobuf, Flink, Spark, Kafka Streams, dedicated time-series DB, EKS/Kubernetes, Kong, ALB, ALICE, RL, ML anomaly detection, adaptive thresholds, forecasting, billing, Ionic, AWS lock-in, production IAM/OIDC, remote third-party MCP, vendor MCP adapters, production RF simulation, ray tracing, vendor-calibrated radio models, electricalTilt simulation, arbitrary parameter simulation, automatic optimization, best-parameter search, whole-network Twin, core-network Twin, transport Twin, remote vendor Digital Twin, Kafka-triggered automatic Twin synchronization, continuous Twin synchronization, graph database, 3D GIS Twin, mobility simulation, traffic forecasting, network rollback, Phase 7.
 
 ## Rules
 
-- Extend Phase 1A/1B/2/3/4 abstractions. Do not rewrite the slice.
-- Keep recommendation and domain APIs read-only for the network. Action execute/approve mutate SNIP governance state only. Agent-run POST APIs mutate SNIP orchestration state only.
+- Extend Phase 1A/1B/2/3/4/5 abstractions. Do not rewrite the slice.
+- Keep recommendation and domain APIs read-only for the network. Action execute/approve mutate SNIP governance state only. Agent-run POST APIs mutate SNIP orchestration state only. Twin synchronize/scenario APIs mutate SNIP Twin state only.
 - If retrieval is empty, do not fabricate citations or specialist evidence.
 - Ordinary CI must not download large models. PostgreSQL via Testcontainers remains required. Kafka Testcontainers remains allowed.
 - Implementation markdown lives under `docs/implementation/`. ADRs under `docs/architecture/adr/`.
 - Architecture document has architectural authority. Implementation specification is the authorised execution scope.
-- Do not push or establish a new Git baseline until the Phase 5 completion report has been reviewed and explicit architectural acceptance has been granted.
+- Do not push or establish a new Git baseline until asked after Phase 6 architectural acceptance.

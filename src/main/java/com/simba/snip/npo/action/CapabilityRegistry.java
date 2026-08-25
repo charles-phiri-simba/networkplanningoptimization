@@ -43,7 +43,7 @@ public final class CapabilityRegistry {
                 ActionRules.CAPABILITY_SIMULATION,
                 "Simulate cell parameter change",
                 "1",
-                "Synthetic dry-run simulation of a cell parameter change. Not a production RF digital twin.",
+                "Synthetic dry-run against a versioned Digital Twin. Not vendor-calibrated RF physics.",
                 RiskLevel.MEDIUM,
                 "SNIP_NPO",
                 true,

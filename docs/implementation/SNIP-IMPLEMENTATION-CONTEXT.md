@@ -7,10 +7,10 @@ This file is the architecture library. The binding below is **authoritative for 
 **Platform:** SNIP — Simba Network Intelligence Platform  
 **This repository:** first SNIP **domain application** (Network Planning & Optimisation), not the entire enterprise platform.  
 **Phase 0:** complete — see `SNIP-PHASE-0-DISCOVERY-REPORT.md`  
-**Current authorised phase:** **Phase 5 — Agentic Orchestration & Controlled Autonomy** (architecturally accepted — frozen; architecture has authority; specification is the execution contract)  
-**Architecture:** `docs/architecture/SNIP-PHASE-5-AGENTIC-ORCHESTRATION-CONTROLLED-AUTONOMY-ARCHITECTURE.md`  
-**Coding contract:** `docs/implementation/SNIP-PHASE-5-AGENTIC-ORCHESTRATION-CONTROLLED-AUTONOMY-SPECIFICATION.md`  
-**Phase 4 baseline:** `58c6e4111e83ef32137f2c0ffd083a060bd73796` (architecturally accepted — see `SNIP-PHASE-4-COMPLETION-REPORT.md`)  
+**Current authorised phase:** **Phase 6 — Digital Twin & Simulation Intelligence Foundation** (architecturally accepted — frozen; architecture has authority; specification is the execution contract)  
+**Architecture:** `docs/architecture/SNIP-PHASE-6-DIGITAL-TWIN-SIMULATION-INTELLIGENCE-ARCHITECTURE.md`  
+**Coding contract:** `docs/implementation/SNIP-PHASE-6-DIGITAL-TWIN-SIMULATION-INTELLIGENCE-SPECIFICATION.md`  
+**Phase 5 baseline:** `4e7a8feeb7a16924666e094828db829d5f4b703c` (architecturally accepted — see `SNIP-PHASE-5-COMPLETION-REPORT.md`)  
 **Status:** `SNIP-IMPLEMENTATION-STATUS.md`
 
 ```text
@@ -38,12 +38,15 @@ Phase 4     Governed Action Intelligence & MCP           (done — frozen)
 Phase 5     Agentic Orchestration & Controlled Autonomy  (done — frozen)
     │
     ▼
-Phase 6     (closed)
+Phase 6     Digital Twin & Simulation Intelligence       (done — frozen)
+    │
+    ▼
+Phase 7     (closed)
 ```
 
-This repository’s Phase 5 is **guided orchestration (Autonomy Level 1)**, not the generic “Agent Factory & Learning” volume in the architecture library. Phase 5 authorises one Chief Orchestration Agent, four specialists (Knowledge, Context, Assurance, Decision), a structured `AgentPlan`, bounded synchronous `AgentRun`s, an in-code Agent Registry, `AgentModelResolver` over one shared physical LLM, and Agent-proposed Phase 4 `ProposedAction` records. **Agents must not invoke MCP, approve actions, override policy, or write the live network. Do not implement Agent Factory, remote MCP, live network writes, or Phase 6.**
+This repository’s Phase 6 is a **cell-centric Digital Twin and deterministic synthetic simulation foundation**, not production RF physics, a whole-network Twin, or autonomous optimization. Phase 6 authorises a versioned `NetworkTwin` projection, manual/on-demand synchronization, CURRENT/STALE/EXPIRED freshness, persisted `SimulationScenario` / `txPower`-only changes, a documented non-LLM rule-based model (`snip.synthetic.cell-parameter.v1`), immutable `SimulationRun`s, and scenario comparison. Governed execution remains Phase 4 policy + human approval + MCP `simulation.cell-parameter.v1`. **Agents must not invoke MCP, approve actions, override policy, mutate Twin baselines, or write the live network. The LLM must not produce authoritative numeric predictions. Do not implement Agent Factory, remote MCP, live network writes, or Phase 7.**
 
-Cursor must not add Phase 4 or Phase 5 functionality and must not start Phase 6. Do not redesign Phase 1A/1A.1 semantic RAG, the Phase 1B domain model, the Phase 2 Kafka/telemetry slice, the frozen Phase 3 assurance slice, the frozen Phase 4 governed-action slice, or the frozen Phase 5 agent slice. Non-interruptible per-Agent timeout remains accepted Phase 5 technical debt.
+Cursor must not add Phase 4, Phase 5, or Phase 6 functionality and must not start Phase 7. Do not redesign Phase 1A/1A.1 semantic RAG, the Phase 1B domain model, the Phase 2 Kafka/telemetry slice, the frozen Phase 3 assurance slice, the frozen Phase 4 governed-action slice, the frozen Phase 5 agent slice, or the frozen Phase 6 Twin/simulation slice. Non-interruptible per-Agent timeout remains accepted Phase 5 technical debt. Failed Twin simulation attempts are not persisted as `SimulationRun` records; that remains accepted Phase 6 technical debt.
 
 ---
 
