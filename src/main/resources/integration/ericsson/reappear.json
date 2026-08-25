@@ -1,0 +1,69 @@
+{
+  "exportId": "er-snap-reappear-001",
+  "schema": "ERICSSON_FIXTURE_V1",
+  "capturedAt": "2026-08-25T13:00:00Z",
+  "complete": true,
+  "managedElements": [
+    {
+      "moId": "ME-E001",
+      "dn": "SubNetwork=SN1,MeContext=SITE-E001",
+      "userLabel": "Ericsson Midband Site",
+      "snipCanonicalId": "SITE-E001",
+      "geo": { "lat": -26.21, "lon": 28.05 },
+      "administrativeState": "UNLOCKED"
+    }
+  ],
+  "gnodeBs": [
+    {
+      "moId": "GNBMO-E001",
+      "dn": "SubNetwork=SN1,MeContext=SITE-E001,ManagedElement=GNB-E001",
+      "userLabel": "Ericsson gNB E001",
+      "snipCanonicalId": "GNB-E001",
+      "parentSiteCanonicalId": "SITE-E001",
+      "productName": "AIR-6488",
+      "administrativeState": "UNLOCKED"
+    }
+  ],
+  "nrCells": [
+    {
+      "moId": "CELLMO-E001",
+      "ldn": "ManagedElement=GNB-E001,GNBDUFunction=1,NRCellDU=CELL-E001",
+      "userLabel": "Ericsson NR cell E001",
+      "snipCanonicalId": "CELL-E001",
+      "parentGnbCanonicalId": "GNB-E001",
+      "rat": "NR",
+      "freqBand": "n78",
+      "earfcnDl": 630000,
+      "physicalCellId": 101,
+      "dlBandwidth": 40,
+      "duplex": "TDD",
+      "administrativeState": "UNLOCKED",
+      "configuredMaxTxPower": 460
+    },
+    {
+      "moId": "CELLMO-E002",
+      "ldn": "ManagedElement=GNB-E001,GNBDUFunction=1,NRCellDU=CELL-E002",
+      "userLabel": "Ericsson NR cell E002",
+      "snipCanonicalId": "CELL-E002",
+      "parentGnbCanonicalId": "GNB-E001",
+      "rat": "NR",
+      "freqBand": "n78",
+      "earfcnDl": 630000,
+      "physicalCellId": 102,
+      "dlBandwidth": 40,
+      "duplex": "TDD",
+      "administrativeState": "UNLOCKED",
+      "configuredMaxTxPower": 430
+    }
+  ],
+  "cellRelations": [
+    {
+      "moId": "REL-E001-E002",
+      "dn": "ManagedElement=GNB-E001,NRCellRelation=E001-E002",
+      "sourceCanonicalId": "CELL-E001",
+      "targetCanonicalId": "CELL-E002",
+      "relationType": "INTRA_FREQUENCY",
+      "administrativeState": "UNLOCKED"
+    }
+  ]
+}

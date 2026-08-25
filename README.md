@@ -2,9 +2,9 @@
 
 First **SNIP** domain application: a local, **read-only** 5G planning copilot.
 
-It ingests synthetic cell telemetry, projects KPI state, detects deterministic assurance conditions, persists an Assurance Case with operational evidence, returns a cited advisory assessment, can propose **governed** actions through a local Java MCP server, can run a **bounded Agent orchestration** that gathers evidence and proposes those same Phase 4 actions, can synchronize a **cell Digital Twin** so a hypothetical `txPower` change is simulated deterministically after approval, and can **import read-only Ericsson/Nokia fixture inventory** into the same canonical Site/gNB/Cell graph. It does **not** change the live network.
+It ingests synthetic cell telemetry, projects KPI state, detects deterministic assurance conditions, persists an Assurance Case with operational evidence, returns a cited advisory assessment, can propose **governed** actions through a local Java MCP server, can run a **bounded Agent orchestration** that gathers evidence and proposes those same Phase 4 actions, can synchronize a **cell Digital Twin** so a hypothetical `txPower` change is simulated deterministically after approval, and can **import read-only Ericsson/Nokia fixture inventory** through a durable, lease-fenced runtime into the same canonical Site/gNB/Cell graph. It does **not** change the live network.
 
-This repository is not the full Simba Network Intelligence Platform. Target-state product requirements are in [`docs/requirements/product-requirements.md`](docs/requirements/product-requirements.md). Phase 7 bounds are in [`SNIP-PHASE-7-MULTI-VENDOR-NETWORK-INTEGRATION-ARCHITECTURE.md`](SNIP-PHASE-7-MULTI-VENDOR-NETWORK-INTEGRATION-ARCHITECTURE.md) and [`SNIP-PHASE-7-MULTI-VENDOR-NETWORK-INTEGRATION-SPECIFICATION.md`](SNIP-PHASE-7-MULTI-VENDOR-NETWORK-INTEGRATION-SPECIFICATION.md).
+This repository is not the full Simba Network Intelligence Platform. Target-state product requirements are in [`docs/requirements/product-requirements.md`](docs/requirements/product-requirements.md). Phase 8 bounds are in [`SNIP-PHASE-8-INTEGRATION-RUNTIME-HARDENING-ARCHITECTURE.md`](SNIP-PHASE-8-INTEGRATION-RUNTIME-HARDENING-ARCHITECTURE.md) and [`SNIP-PHASE-8-INTEGRATION-RUNTIME-HARDENING-SPECIFICATION.md`](SNIP-PHASE-8-INTEGRATION-RUNTIME-HARDENING-SPECIFICATION.md). Phase 7 reconciliation remains frozen.
 
 ## Prerequisites
 
@@ -159,6 +159,8 @@ POST /api/v1/integration/imports/ericsson
 POST /api/v1/integration/imports/nokia
 GET /api/v1/integration/imports
 GET /api/v1/integration/imports/{importId}
+GET /api/v1/integration/imports/{importId}/checkpoints
+GET /api/v1/integration/health
 GET /api/v1/integration/conflicts
 GET /api/v1/integration/conflicts/{conflictId}
 GET /api/v1/integration/rejections
@@ -172,6 +174,15 @@ Canonical detector: `DEGRADING_RADIO_QUALITY` when `BLER_DL >= 0.08` (ratio) and
 
 Demo dataset: `SITE-001` / `GNB-001` / `CELL-001` (elevated DL BLER) plus healthier `CELL-002` and comparison `CELL-003`. Seed rows are synthetic (`DEMO_SEED`). Phase 7 normal fixtures add isolated `SITE-E001`/`CELL-E001` (Ericsson) and `SITE-N001`/`CELL-N001` (Nokia) without mutating `CELL-001`. Schema is Flyway-managed (`src/main/resources/db/migration/`).
 
+Canonical Phase 8 question (local fixtures only; no ENM/NetAct). A second identical successful snapshot is `REPLAY` with zero canonical mutation. Same-scope contention returns HTTP 409.
+
+```bash
+curl -s -X POST http://127.0.0.1:8080/api/v1/integration/imports/ericsson -H "Content-Type: application/json" -d "{\"fixtureKind\":\"NORMAL\"}"
+curl -s -X POST http://127.0.0.1:8080/api/v1/integration/imports/ericsson -H "Content-Type: application/json" -d "{\"fixtureKind\":\"NORMAL\"}"
+curl -s http://127.0.0.1:8080/api/v1/integration/health
+curl -s http://127.0.0.1:8080/api/v1/integration/imports
+```
+
 Canonical Phase 7 question (local fixtures only; no ENM/NetAct):
 
 ```bash
@@ -183,7 +194,7 @@ curl -s http://127.0.0.1:8080/api/v1/integration/conflicts
 
 ## What this phase does not include
 
-Live network writes, real Ericsson ENM / Nokia NetAct connectivity, OSS/NMS/EMS write integration, vendor REST/SFTP/SNMP/NETCONF, vendor telemetry adapters, automatic Twin synchronization, automatic conflict resolution, auto-remediation, Agent Factory, dynamic Agent creation, long-running autonomous Agents, direct Agent-to-MCP execution, remote third-party MCP, production RF simulation, electricalTilt simulation, automatic optimization, Kafka-triggered Twin synchronization, Schema Registry, Avro, Protobuf, Flink, Spark, Kafka Streams, a dedicated time-series DB, EKS/Kubernetes, RL, Phase 8.
+Live network writes, real Ericsson ENM / Nokia NetAct connectivity, OSS/NMS/EMS write integration, vendor REST/SFTP/SNMP/NETCONF, vendor telemetry adapters, automatic Twin synchronization, automatic conflict resolution, auto-remediation, Agent Factory, dynamic Agent creation, long-running autonomous Agents, direct Agent-to-MCP execution, remote third-party MCP, production RF simulation, electricalTilt simulation, automatic optimization, Kafka-triggered Twin synchronization, Schema Registry, Avro, Protobuf, Flink, Spark, Kafka Streams, a dedicated time-series DB, EKS/Kubernetes, RL, import queues, automatic retry loops, cancellation APIs, record-level resume, Phase 9.
 
 ## License
 

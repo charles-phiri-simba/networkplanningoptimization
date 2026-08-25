@@ -22,6 +22,16 @@ public record ImportBatchDto(
         int conflictsDetected,
         int missingEntitiesDetected,
         String error,
-        List<ImportAuditEventDto> audit
+        List<ImportAuditEventDto> audit,
+        String executionType,
+        int attemptNumber,
+        UUID previousExecutionId,
+        UUID originalSuccessfulExecutionId,
+        String sourceScope,
+        String canonicalSnapshotHash,
+        String failureCode,
+        Boolean retryable,
+        Long leaseFencingToken,
+        Instant requestedAt
 ) {
 }

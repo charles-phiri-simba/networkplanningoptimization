@@ -1,0 +1,45 @@
+{
+  "exportId": "er-snap-commit-fail-001",
+  "schema": "ERICSSON_FIXTURE_V1",
+  "capturedAt": "2026-08-25T10:00:00Z",
+  "complete": true,
+  "managedElements": [
+    {
+      "moId": "ME-E-RETRY",
+      "dn": "SubNetwork=SN1,MeContext=SITE-E-RETRY",
+      "userLabel": "Ericsson Retry Site",
+      "snipCanonicalId": "SITE-E-RETRY",
+      "geo": { "lat": -26.23, "lon": 28.07 },
+      "administrativeState": "UNLOCKED"
+    }
+  ],
+  "gnodeBs": [
+    {
+      "moId": "GNBMO-E-RETRY",
+      "dn": "SubNetwork=SN1,MeContext=SITE-E-RETRY,ManagedElement=GNB-E-RETRY",
+      "userLabel": "Ericsson gNB retry",
+      "snipCanonicalId": "GNB-E-RETRY",
+      "parentSiteCanonicalId": "SITE-E-RETRY",
+      "productName": "AIR-6488",
+      "administrativeState": "UNLOCKED"
+    }
+  ],
+  "nrCells": [
+    {
+      "moId": "CELLMO-E-RETRY",
+      "ldn": "ManagedElement=GNB-E-RETRY,GNBDUFunction=1,NRCellDU=CELL-E-RETRY",
+      "userLabel": "Ericsson NR retry cell",
+      "snipCanonicalId": "CELL-E-RETRY",
+      "parentGnbCanonicalId": "GNB-E-RETRY",
+      "rat": "NR",
+      "freqBand": "n78",
+      "earfcnDl": 630000,
+      "physicalCellId": 301,
+      "dlBandwidth": 40,
+      "duplex": "TDD",
+      "administrativeState": "UNLOCKED",
+      "configuredMaxTxPower": 460
+    }
+  ],
+  "cellRelations": []
+}

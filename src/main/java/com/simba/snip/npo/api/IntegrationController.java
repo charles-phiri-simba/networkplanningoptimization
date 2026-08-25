@@ -45,6 +45,16 @@ public class IntegrationController {
         return queryService.importDetail(importId);
     }
 
+    @GetMapping("/api/v1/integration/imports/{importId}/checkpoints")
+    public List<ImportCheckpointDto> checkpoints(@PathVariable UUID importId) {
+        return queryService.checkpoints(importId);
+    }
+
+    @GetMapping("/api/v1/integration/health")
+    public java.util.Map<String, Object> integrationHealth() {
+        return queryService.runtimeHealth();
+    }
+
     @GetMapping("/api/v1/integration/conflicts")
     public List<ImportConflictDto> conflicts() {
         return queryService.listConflicts();

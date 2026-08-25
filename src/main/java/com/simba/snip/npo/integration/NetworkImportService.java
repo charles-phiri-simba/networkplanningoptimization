@@ -1,34 +1,66 @@
 package com.simba.snip.npo.integration;
 
+import com.simba.snip.npo.config.IntegrationRuntimeProperties;
 import com.simba.snip.npo.domain.DomainValidationException;
+import com.simba.snip.npo.domain.ImportBusyException;
 import com.simba.snip.npo.persist.NetworkImportBatchEntity;
+import com.simba.snip.npo.persist.NetworkImportBatchRepository;
+import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
+import java.io.Closeable;
 import java.time.Instant;
+import java.util.Comparator;
+import java.util.List;
+import java.util.Optional;
+import java.util.UUID;
 
 @Service
 public class NetworkImportService {
 
+    public static final String DEFAULT_SCOPE = IntegrationRuntimeProperties.DEFAULT_SCOPE;
+
     private final NetworkSourceAdapterRegistry adapterRegistry;
     private final CanonicalNormalizer normalizer;
     private final CanonicalValidator validator;
+    private final CanonicalSnapshotHasher hasher;
     private final NetworkImportBatchService batchService;
+    private final NetworkImportBatchRepository batchRepository;
     private final NetworkReconciliationService reconciliationService;
+    private final ImportLeaseService leaseService;
+    private final ImportExecutionGuard executionGuard;
+    private final ImportFaultInjector faultInjector;
+    private final IntegrationRuntimeIdentity identity;
+    private final IntegrationRuntimeProperties properties;
     private final IntegrationMetrics metrics;
 
     public NetworkImportService(
             NetworkSourceAdapterRegistry adapterRegistry,
             CanonicalNormalizer normalizer,
             CanonicalValidator validator,
+            CanonicalSnapshotHasher hasher,
             NetworkImportBatchService batchService,
+            NetworkImportBatchRepository batchRepository,
             NetworkReconciliationService reconciliationService,
+            ImportLeaseService leaseService,
+            ImportExecutionGuard executionGuard,
+            ImportFaultInjector faultInjector,
+            IntegrationRuntimeIdentity identity,
+            IntegrationRuntimeProperties properties,
             IntegrationMetrics metrics
     ) {
         this.adapterRegistry = adapterRegistry;
         this.normalizer = normalizer;
         this.validator = validator;
+        this.hasher = hasher;
         this.batchService = batchService;
+        this.batchRepository = batchRepository;
         this.reconciliationService = reconciliationService;
+        this.leaseService = leaseService;
+        this.executionGuard = executionGuard;
+        this.faultInjector = faultInjector;
+        this.identity = identity;
+        this.properties = properties;
         this.metrics = metrics;
     }
 
@@ -42,62 +74,453 @@ public class NetworkImportService {
 
     public NetworkImportBatchEntity importVendor(Vendor vendor, FixtureKind kind, boolean allowCatastrophicKind) {
         FixtureKind resolved = kind == null ? FixtureKind.NORMAL : kind;
-        if (resolved == FixtureKind.CATASTROPHIC && !allowCatastrophicKind) {
-            throw new DomainValidationException("catastrophic fixture kind is not importable via API");
+        if (!allowCatastrophicKind && isTestOnlyKind(resolved)) {
+            throw new DomainValidationException("fixture kind is not importable via API: " + resolved);
         }
         if (vendor == Vendor.NOKIA && resolved != FixtureKind.NORMAL && resolved != FixtureKind.CONFLICT) {
             throw new DomainValidationException("Nokia fixture kind is not configured: " + resolved);
         }
         NetworkSourceAdapter adapter = adapterRegistry.require(vendor);
-        Instant startedAt = Instant.now();
-        NetworkImportBatchEntity batch = batchService.start(
-                adapter.sourceSystem(), vendor.name(), adapter.schemaVersion(), resolved, startedAt);
-        batchService.appendAudit(batch.getId(), ImportAuditEventType.IMPORT_STARTED, startedAt,
-                "vendor=" + vendor + " fixtureKind=" + resolved);
+        String sourceSystem = adapter.sourceSystem();
+        String sourceScope = DEFAULT_SCOPE;
+        Instant requestedAt = Instant.now();
+        leaseService.recoverExpired(sourceSystem, sourceScope);
+
+        Optional<NetworkImportBatchEntity> active = activeExecution(sourceSystem, sourceScope);
+        if (active.isPresent()) {
+            metrics.incrementConcurrentRejected();
+            throw new ImportBusyException(
+                    "import already RUNNING for " + sourceSystem + "/" + sourceScope,
+                    active.get().getId(),
+                    ImportFailureCode.LEASE_UNAVAILABLE.name()
+            );
+        }
+
+        SourceSnapshot snapshot;
+        try {
+            snapshot = adapter.readSnapshot(resolved);
+        } catch (RuntimeException ex) {
+            return persistReadFailure(adapter, vendor, resolved, sourceScope, requestedAt, ex);
+        }
+        if (snapshot.sourceSnapshotId() == null || snapshot.sourceSnapshotId().isBlank() || snapshot.capturedAt() == null) {
+            return persistReadFailure(adapter, vendor, resolved, sourceScope, requestedAt,
+                    new IntegrationSnapshotException("snapshot metadata is incomplete"));
+        }
+
+        CanonicalNormalizer.NormalizeResult normalized = normalizer.normalize(snapshot);
+        String hash = hasher.hash(normalized.snapshot());
+        SnapshotClassification classification = classify(sourceSystem, sourceScope, snapshot.sourceSnapshotId(), hash);
+
+        if (classification.type() == ImportExecutionType.REPLAY) {
+            return persistReplay(adapter, vendor, resolved, sourceScope, requestedAt, snapshot, hash, classification);
+        }
+        if (classification.rejected()) {
+            return persistRejected(adapter, vendor, resolved, sourceScope, requestedAt, snapshot, hash, classification);
+        }
+
+        UUID executionId = UUID.randomUUID();
+        NetworkImportBatchEntity execution = batchService.requested(
+                executionId,
+                sourceSystem,
+                vendor.name(),
+                adapter.schemaVersion(),
+                resolved,
+                sourceScope,
+                classification.type(),
+                classification.attemptNumber(),
+                classification.previousExecutionId(),
+                requestedAt,
+                identity.instanceId()
+        );
+        batchService.recordSnapshot(executionId, snapshot.sourceSnapshotId(), snapshot.vendorSchemaVersion(), hash);
+        batchService.appendAudit(executionId, ImportAuditEventType.IMPORT_STARTED, requestedAt,
+                "vendor=" + vendor + " fixtureKind=" + resolved
+                        + " executionType=" + classification.type()
+                        + " sourceScope=" + sourceScope);
         metrics.incrementStarted();
+        if (classification.type() == ImportExecutionType.RETRY) {
+            metrics.incrementRetries();
+        }
+
+        Optional<ImportLease> lease = leaseService.acquire(sourceSystem, sourceScope, executionId, identity.instanceId());
+        if (lease.isEmpty()) {
+            UUID owner = leaseService.find(sourceSystem, sourceScope).map(ImportLease::ownerExecutionId).orElse(executionId);
+            batchService.terminalize(
+                    executionId,
+                    ImportExecutionStatus.REJECTED.name(),
+                    Instant.now(),
+                    ImportFailureCode.LEASE_UNAVAILABLE,
+                    true,
+                    "lease unavailable for " + sourceSystem + "/" + sourceScope
+            );
+            batchService.appendAudit(executionId, ImportAuditEventType.IMPORT_REJECTED, Instant.now(),
+                    "failureCode=LEASE_UNAVAILABLE");
+            metrics.incrementConcurrentRejected();
+            throw new ImportBusyException(
+                    "import lease unavailable for " + sourceSystem + "/" + sourceScope,
+                    owner,
+                    ImportFailureCode.LEASE_UNAVAILABLE.name()
+            );
+        }
+
+        SnapshotClassification afterLease = classify(sourceSystem, sourceScope, snapshot.sourceSnapshotId(), hash);
+        if (afterLease.type() == ImportExecutionType.REPLAY && afterLease.originalSuccessfulExecutionId() != null
+                && !afterLease.originalSuccessfulExecutionId().equals(executionId)) {
+            leaseService.release(lease.get());
+            metrics.incrementReplays();
+            NetworkImportBatchEntity replayed = batchService.completeReplay(
+                    executionId,
+                    Instant.now(),
+                    afterLease.originalSuccessfulExecutionId(),
+                    snapshot.sourceSnapshotId(),
+                    snapshot.vendorSchemaVersion(),
+                    hash
+            );
+            batchService.appendAudit(executionId, ImportAuditEventType.IMPORT_REPLAYED, Instant.now(),
+                    "originalSuccessfulExecutionId=" + afterLease.originalSuccessfulExecutionId());
+            return replayed;
+        }
+
+        batchService.markRunning(executionId, Instant.now(), lease.get().fencingToken());
+        batchService.appendAudit(executionId, ImportAuditEventType.LEASE_ACQUIRED, Instant.now(),
+                "fencingToken=" + lease.get().fencingToken() + " ownerInstanceId=" + identity.instanceId());
+        faultInjector.signalLeaseHeld();
+        faultInjector.awaitHold();
+        Closeable guard = executionGuard.start(executionId, lease.get());
         long startedNs = System.nanoTime();
         try {
-            SourceSnapshot snapshot = adapter.readSnapshot(resolved);
-            if (snapshot.sourceSnapshotId() == null || snapshot.sourceSnapshotId().isBlank()
-                    || snapshot.capturedAt() == null) {
-                throw new IntegrationSnapshotException("snapshot metadata is incomplete");
+            maybeDelay(resolved);
+            NetworkImportBatchEntity running = batchService.require(executionId);
+            if (!"RUNNING".equals(running.getStatus())) {
+                throw new ImportRuntimeException(ImportFailureCode.EXECUTION_TIMEOUT, "execution is no longer RUNNING");
             }
-            batchService.recordSnapshot(batch.getId(), snapshot.sourceSnapshotId(), snapshot.vendorSchemaVersion());
-            batchService.appendAudit(batch.getId(), ImportAuditEventType.SNAPSHOT_READ, Instant.now(),
+            Instant now = Instant.now();
+            batchService.appendCheckpoint(executionId, ImportCheckpointType.SNAPSHOT_READ, now,
                     "sourceSnapshotId=" + snapshot.sourceSnapshotId()
                             + " complete=" + snapshot.completeSnapshot()
                             + " entitiesRead=" + snapshot.entityCount());
-            CanonicalNormalizer.NormalizeResult normalized = normalizer.normalize(snapshot);
+            batchService.appendAudit(executionId, ImportAuditEventType.SNAPSHOT_READ, now,
+                    "sourceSnapshotId=" + snapshot.sourceSnapshotId()
+                            + " complete=" + snapshot.completeSnapshot()
+                            + " entitiesRead=" + snapshot.entityCount()
+                            + " hash=" + hash);
+            batchService.appendCheckpoint(executionId, ImportCheckpointType.NORMALIZATION_COMPLETED, Instant.now(),
+                    "canonicalHash=" + hash);
             var issues = validator.validateAndFilter(normalized.snapshot(), normalized.issues());
-            batchService.appendAudit(batch.getId(), ImportAuditEventType.VALIDATION_COMPLETED, Instant.now(),
+            batchService.appendCheckpoint(executionId, ImportCheckpointType.VALIDATION_COMPLETED, Instant.now(),
                     "issues=" + issues.size());
-            ReconciliationResult result = reconciliationService.reconcile(
-                    batchService.require(batch.getId()), normalized.snapshot(), issues, Instant.now());
-            batchService.appendAudit(batch.getId(), ImportAuditEventType.RECONCILIATION_COMPLETED, Instant.now(),
-                    "created=" + result.created() + " updated=" + result.updated()
-                            + " unchanged=" + result.unchanged() + " conflicts=" + result.conflicts());
+            batchService.appendAudit(executionId, ImportAuditEventType.VALIDATION_COMPLETED, Instant.now(),
+                    "issues=" + issues.size());
+            ImportPlan plan = reconciliationService.plan(normalized.snapshot(), issues, Instant.now());
+            batchService.appendCheckpoint(executionId, ImportCheckpointType.RECONCILIATION_COMPLETED, Instant.now(),
+                    "created=" + plan.toResult().created() + " updated=" + plan.toResult().updated()
+                            + " unchanged=" + plan.toResult().unchanged() + " conflicts=" + plan.toResult().conflicts());
+            batchService.appendAudit(executionId, ImportAuditEventType.RECONCILIATION_COMPLETED, Instant.now(),
+                    "created=" + plan.toResult().created() + " updated=" + plan.toResult().updated()
+                            + " unchanged=" + plan.toResult().unchanged() + " conflicts=" + plan.toResult().conflicts());
+            leaseService.assertOwnership(lease.get());
+            running = batchService.require(executionId);
+            ReconciliationResult result = reconciliationService.apply(
+                    running, normalized.snapshot(), plan, Instant.now(), lease.get());
+            batchService.appendCheckpoint(executionId, ImportCheckpointType.CANONICAL_COMMIT_COMPLETED, Instant.now(),
+                    "created=" + result.created() + " updated=" + result.updated());
             Instant completedAt = Instant.now();
-            batchService.complete(batch.getId(), completedAt, result);
-            batchService.appendAudit(batch.getId(), ImportAuditEventType.IMPORT_COMPLETED, completedAt, "status=COMPLETED");
-            NetworkImportBatchEntity completed = batchService.require(batch.getId());
+            boolean completed = batchService.complete(executionId, completedAt, result);
+            if (!completed) {
+                throw new ImportRuntimeException(ImportFailureCode.EXECUTION_TIMEOUT, "execution left RUNNING before complete");
+            }
+            batchService.appendAudit(executionId, ImportAuditEventType.IMPORT_COMPLETED, completedAt, "status=COMPLETED");
+            NetworkImportBatchEntity done = batchService.require(executionId);
             metrics.recordSuccess(
                     result,
                     (System.nanoTime() - startedNs) / 1_000_000L,
                     new IntegrationMetrics.UUIDLike(
-                            completed.getId().toString(),
-                            completed.getSourceSystem(),
-                            completed.getSourceSnapshotId()
+                            done.getId().toString(),
+                            done.getSourceSystem(),
+                            done.getSourceSnapshotId(),
+                            done.getSourceScope(),
+                            done.getLeaseFencingToken()
                     )
             );
-            return completed;
+            return done;
         } catch (RuntimeException ex) {
+            ImportFailureCode code = failureCode(ex);
+            boolean retryable = ImportRuntimeException.retryableDefault(code);
             Instant failedAt = Instant.now();
-            batchService.fail(batch.getId(), failedAt, ex.getMessage());
-            batchService.appendAudit(batch.getId(), ImportAuditEventType.IMPORT_FAILED, failedAt,
-                    ex.getClass().getSimpleName() + ": " + ex.getMessage());
-            metrics.recordFailure(batch.getId().toString(), adapter.sourceSystem(), ex.getMessage(),
-                    (System.nanoTime() - startedNs) / 1_000_000L);
-            return batchService.require(batch.getId());
+            String status = code == ImportFailureCode.EXECUTION_TIMEOUT
+                    ? ImportExecutionStatus.TIMED_OUT.name()
+                    : ImportExecutionStatus.FAILED.name();
+            boolean updated = batchService.terminalize(executionId, status, failedAt, code, retryable, ex.getMessage());
+            if (updated) {
+                batchService.appendAudit(executionId, ImportAuditEventType.IMPORT_FAILED, failedAt,
+                        code.name() + ": " + ex.getClass().getSimpleName() + ": " + ex.getMessage());
+                metrics.recordFailure(executionId.toString(), sourceSystem, sourceScope, snapshot.sourceSnapshotId(),
+                        code, (System.nanoTime() - startedNs) / 1_000_000L);
+            }
+            return batchService.require(executionId);
+        } finally {
+            try {
+                guard.close();
+            } catch (Exception ignored) {
+                // already cancelled
+            }
+            leaseService.release(lease.get());
+            batchService.appendAudit(executionId, ImportAuditEventType.LEASE_RELEASED, Instant.now(),
+                    "fencingToken=" + lease.get().fencingToken());
+        }
+    }
+
+    private NetworkImportBatchEntity persistReplay(
+            NetworkSourceAdapter adapter,
+            Vendor vendor,
+            FixtureKind kind,
+            String sourceScope,
+            Instant requestedAt,
+            SourceSnapshot snapshot,
+            String hash,
+            SnapshotClassification classification
+    ) {
+        UUID executionId = UUID.randomUUID();
+        batchService.requested(
+                executionId,
+                adapter.sourceSystem(),
+                vendor.name(),
+                adapter.schemaVersion(),
+                kind,
+                sourceScope,
+                ImportExecutionType.REPLAY,
+                1,
+                null,
+                requestedAt,
+                identity.instanceId()
+        );
+        NetworkImportBatchEntity replayed = batchService.completeReplay(
+                executionId,
+                Instant.now(),
+                classification.originalSuccessfulExecutionId(),
+                snapshot.sourceSnapshotId(),
+                snapshot.vendorSchemaVersion(),
+                hash
+        );
+        batchService.appendAudit(executionId, ImportAuditEventType.IMPORT_REPLAYED, Instant.now(),
+                "originalSuccessfulExecutionId=" + classification.originalSuccessfulExecutionId()
+                        + " canonicalMutation=false");
+        metrics.incrementReplays();
+        return replayed;
+    }
+
+    private NetworkImportBatchEntity persistRejected(
+            NetworkSourceAdapter adapter,
+            Vendor vendor,
+            FixtureKind kind,
+            String sourceScope,
+            Instant requestedAt,
+            SourceSnapshot snapshot,
+            String hash,
+            SnapshotClassification classification
+    ) {
+        UUID executionId = UUID.randomUUID();
+        batchService.requested(
+                executionId,
+                adapter.sourceSystem(),
+                vendor.name(),
+                adapter.schemaVersion(),
+                kind,
+                sourceScope,
+                classification.type(),
+                classification.attemptNumber(),
+                classification.previousExecutionId(),
+                requestedAt,
+                identity.instanceId()
+        );
+        batchService.recordSnapshot(executionId, snapshot.sourceSnapshotId(), snapshot.vendorSchemaVersion(), hash);
+        batchService.terminalize(
+                executionId,
+                ImportExecutionStatus.REJECTED.name(),
+                Instant.now(),
+                classification.failureCode(),
+                false,
+                classification.detail()
+        );
+        batchService.appendAudit(executionId, ImportAuditEventType.IMPORT_REJECTED, Instant.now(),
+                "failureCode=" + classification.failureCode());
+        metrics.recordFailure(executionId.toString(), adapter.sourceSystem(), sourceScope, snapshot.sourceSnapshotId(),
+                classification.failureCode(), 0L);
+        return batchService.require(executionId);
+    }
+
+    private NetworkImportBatchEntity persistReadFailure(
+            NetworkSourceAdapter adapter,
+            Vendor vendor,
+            FixtureKind kind,
+            String sourceScope,
+            Instant requestedAt,
+            RuntimeException ex
+    ) {
+        ImportFailureCode code = failureCode(ex);
+        UUID executionId = UUID.randomUUID();
+        batchService.requested(
+                executionId,
+                adapter.sourceSystem(),
+                vendor.name(),
+                adapter.schemaVersion(),
+                kind,
+                sourceScope,
+                ImportExecutionType.NEW,
+                1,
+                null,
+                requestedAt,
+                identity.instanceId()
+        );
+        batchService.appendAudit(executionId, ImportAuditEventType.IMPORT_STARTED, requestedAt,
+                "vendor=" + vendor + " fixtureKind=" + kind);
+        metrics.incrementStarted();
+        batchService.terminalize(
+                executionId,
+                ImportExecutionStatus.FAILED.name(),
+                Instant.now(),
+                code,
+                ImportRuntimeException.retryableDefault(code),
+                ex.getMessage()
+        );
+        batchService.appendAudit(executionId, ImportAuditEventType.IMPORT_FAILED, Instant.now(),
+                code.name() + ": " + ex.getClass().getSimpleName() + ": " + ex.getMessage());
+        metrics.recordFailure(executionId.toString(), adapter.sourceSystem(), sourceScope, "UNREAD", code, 0L);
+        return batchService.require(executionId);
+    }
+
+    private SnapshotClassification classify(String sourceSystem, String sourceScope, String snapshotId, String hash) {
+        List<NetworkImportBatchEntity> history = batchRepository
+                .findBySourceSystemAndSourceScopeAndSourceSnapshotIdOrderByAttemptNumberAsc(
+                        sourceSystem, sourceScope, snapshotId);
+        Optional<String> establishedHash = history.stream()
+                .filter(item -> item.getCanonicalSnapshotHash() != null && !item.getCanonicalSnapshotHash().isBlank())
+                .filter(item -> !ImportFailureCode.SNAPSHOT_ID_CONTENT_MISMATCH.name().equals(item.getFailureCode()))
+                .map(NetworkImportBatchEntity::getCanonicalSnapshotHash)
+                .findFirst();
+        if (establishedHash.isPresent() && !establishedHash.get().equals(hash)) {
+            return SnapshotClassification.reject(
+                    ImportExecutionType.NEW,
+                    1,
+                    null,
+                    ImportFailureCode.SNAPSHOT_ID_CONTENT_MISMATCH,
+                    "sourceSnapshotId content mismatch"
+            );
+        }
+        Optional<NetworkImportBatchEntity> successful = history.stream()
+                .filter(item -> "COMPLETED".equals(item.getStatus()))
+                .filter(item -> !"REPLAY".equals(item.getExecutionType()))
+                .min(Comparator.comparing(NetworkImportBatchEntity::getAttemptNumber)
+                        .thenComparing(NetworkImportBatchEntity::getRequestedAt));
+        if (successful.isPresent()) {
+            return SnapshotClassification.replay(successful.get().getId());
+        }
+        Optional<NetworkImportBatchEntity> latest = history.stream()
+                .max(Comparator.comparing(NetworkImportBatchEntity::getAttemptNumber)
+                        .thenComparing(NetworkImportBatchEntity::getRequestedAt));
+        if (latest.isPresent()) {
+            NetworkImportBatchEntity prior = latest.get();
+            boolean retryableFailure = ("FAILED".equals(prior.getStatus()) || "TIMED_OUT".equals(prior.getStatus()))
+                    && Boolean.TRUE.equals(prior.getRetryable());
+            if (retryableFailure) {
+                return SnapshotClassification.retry(prior.getAttemptNumber() + 1, prior.getId());
+            }
+            if ("REJECTED".equals(prior.getStatus()) || "FAILED".equals(prior.getStatus())
+                    || "TIMED_OUT".equals(prior.getStatus())) {
+                ImportFailureCode code = prior.getFailureCode() == null
+                        ? ImportFailureCode.VALIDATION_FATAL
+                        : ImportFailureCode.valueOf(prior.getFailureCode());
+                return SnapshotClassification.reject(
+                        ImportExecutionType.NEW,
+                        1,
+                        prior.getId(),
+                        code,
+                        "prior execution is not retryable"
+                );
+            }
+        }
+        return SnapshotClassification.fresh();
+    }
+
+    private Optional<NetworkImportBatchEntity> activeExecution(String sourceSystem, String sourceScope) {
+        return batchRepository.findBySourceSystemAndSourceScopeAndStatus(sourceSystem, sourceScope, "RUNNING")
+                .stream()
+                .findFirst();
+    }
+
+    private void maybeDelay(FixtureKind kind) {
+        if (kind != FixtureKind.DELAY && kind != FixtureKind.TIMEOUT) {
+            return;
+        }
+        long delayMs = properties.getFixtureReadDelay().toMillis();
+        if (delayMs <= 0L) {
+            return;
+        }
+        try {
+            Thread.sleep(delayMs);
+        } catch (InterruptedException ex) {
+            Thread.currentThread().interrupt();
+            throw new ImportRuntimeException(ImportFailureCode.EXECUTION_TIMEOUT, "import delay interrupted", ex);
+        }
+    }
+
+    private static boolean isTestOnlyKind(FixtureKind kind) {
+        return kind == FixtureKind.CATASTROPHIC
+                || kind == FixtureKind.DELAY
+                || kind == FixtureKind.SNAPSHOT_FAIL
+                || kind == FixtureKind.CONTENT_MISMATCH
+                || kind == FixtureKind.COMMIT_FAIL
+                || kind == FixtureKind.TIMEOUT
+                || kind == FixtureKind.IDENTITY_BASE;
+    }
+
+    private static ImportFailureCode failureCode(RuntimeException ex) {
+        if (ex instanceof ImportRuntimeException runtime) {
+            return runtime.failureCode();
+        }
+        if (ex instanceof IntegrationSnapshotException) {
+            return ImportFailureCode.SNAPSHOT_READ_FAILED;
+        }
+        if (ex instanceof DomainValidationException) {
+            return ImportFailureCode.SCHEMA_UNSUPPORTED;
+        }
+        if (ex instanceof DataAccessException) {
+            return ImportFailureCode.DATABASE_COMMIT_FAILED;
+        }
+        return ImportFailureCode.RECONCILIATION_FAILED;
+    }
+
+    private record SnapshotClassification(
+            ImportExecutionType type,
+            int attemptNumber,
+            UUID previousExecutionId,
+            UUID originalSuccessfulExecutionId,
+            boolean rejected,
+            ImportFailureCode failureCode,
+            String detail
+    ) {
+        static SnapshotClassification fresh() {
+            return new SnapshotClassification(ImportExecutionType.NEW, 1, null, null, false, null, null);
+        }
+
+        static SnapshotClassification retry(int attemptNumber, UUID previousExecutionId) {
+            return new SnapshotClassification(
+                    ImportExecutionType.RETRY, attemptNumber, previousExecutionId, null, false, null, null);
+        }
+
+        static SnapshotClassification replay(UUID originalSuccessfulExecutionId) {
+            return new SnapshotClassification(
+                    ImportExecutionType.REPLAY, 1, null, originalSuccessfulExecutionId, false, null, null);
+        }
+
+        static SnapshotClassification reject(
+                ImportExecutionType type,
+                int attemptNumber,
+                UUID previousExecutionId,
+                ImportFailureCode failureCode,
+                String detail
+        ) {
+            return new SnapshotClassification(type, attemptNumber, previousExecutionId, null, true, failureCode, detail);
         }
     }
 }

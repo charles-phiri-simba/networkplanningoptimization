@@ -1,0 +1,45 @@
+{
+  "exportId": "er-snap-delay-001",
+  "schema": "ERICSSON_FIXTURE_V1",
+  "capturedAt": "2026-08-25T10:00:00Z",
+  "complete": true,
+  "managedElements": [
+    {
+      "moId": "ME-E-DELAY",
+      "dn": "SubNetwork=SN1,MeContext=SITE-E-DELAY",
+      "userLabel": "Ericsson Delay Site",
+      "snipCanonicalId": "SITE-E-DELAY",
+      "geo": { "lat": -26.22, "lon": 28.06 },
+      "administrativeState": "UNLOCKED"
+    }
+  ],
+  "gnodeBs": [
+    {
+      "moId": "GNBMO-E-DELAY",
+      "dn": "SubNetwork=SN1,MeContext=SITE-E-DELAY,ManagedElement=GNB-E-DELAY",
+      "userLabel": "Ericsson gNB delay",
+      "snipCanonicalId": "GNB-E-DELAY",
+      "parentSiteCanonicalId": "SITE-E-DELAY",
+      "productName": "AIR-6488",
+      "administrativeState": "UNLOCKED"
+    }
+  ],
+  "nrCells": [
+    {
+      "moId": "CELLMO-E-DELAY",
+      "ldn": "ManagedElement=GNB-E-DELAY,GNBDUFunction=1,NRCellDU=CELL-E-DELAY",
+      "userLabel": "Ericsson NR delay cell",
+      "snipCanonicalId": "CELL-E-DELAY",
+      "parentGnbCanonicalId": "GNB-E-DELAY",
+      "rat": "NR",
+      "freqBand": "n78",
+      "earfcnDl": 630000,
+      "physicalCellId": 201,
+      "dlBandwidth": 40,
+      "duplex": "TDD",
+      "administrativeState": "UNLOCKED",
+      "configuredMaxTxPower": 460
+    }
+  ],
+  "cellRelations": []
+}

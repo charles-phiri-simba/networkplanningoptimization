@@ -39,6 +39,8 @@ public class NetworkReconciliationService {
     private final NetworkSourceReferenceRepository sourceReferenceRepository;
     private final NetworkImportRejectionRepository rejectionRepository;
     private final NetworkIntegrationConflictRepository conflictRepository;
+    private final ImportLeaseService leaseService;
+    private final ImportFaultInjector faultInjector;
 
     public NetworkReconciliationService(
             SiteRepository siteRepository,
@@ -48,7 +50,9 @@ public class NetworkReconciliationService {
             NeighbourRelationshipRepository neighbourRelationshipRepository,
             NetworkSourceReferenceRepository sourceReferenceRepository,
             NetworkImportRejectionRepository rejectionRepository,
-            NetworkIntegrationConflictRepository conflictRepository
+            NetworkIntegrationConflictRepository conflictRepository,
+            ImportLeaseService leaseService,
+            ImportFaultInjector faultInjector
     ) {
         this.siteRepository = siteRepository;
         this.gnbRepository = gnbRepository;
@@ -58,17 +62,57 @@ public class NetworkReconciliationService {
         this.sourceReferenceRepository = sourceReferenceRepository;
         this.rejectionRepository = rejectionRepository;
         this.conflictRepository = conflictRepository;
+        this.leaseService = leaseService;
+        this.faultInjector = faultInjector;
+    }
+
+    public ImportPlan plan(CanonicalSnapshot snapshot, List<ValidationIssue> issues, Instant now) {
+        ImportPlan plan = new ImportPlan(snapshot.source().entityCount(), issues);
+        Set<String> seen = new HashSet<>();
+        for (CanonicalSite site : snapshot.sites()) {
+            planSite(snapshot, site, plan);
+            seen.add(key(CanonicalEntityType.SITE, site.sourceEntityId()));
+        }
+        for (CanonicalGnb gnb : snapshot.gnbs()) {
+            planGnb(snapshot, gnb, plan);
+            seen.add(key(CanonicalEntityType.GNB, gnb.sourceEntityId()));
+        }
+        for (CanonicalCell cell : snapshot.cells()) {
+            planCell(snapshot, cell, plan);
+            seen.add(key(CanonicalEntityType.CELL, cell.sourceEntityId()));
+        }
+        for (CanonicalCellConfiguration configuration : snapshot.configurations()) {
+            planConfiguration(snapshot, configuration, plan);
+            seen.add(key(CanonicalEntityType.CELL_CONFIGURATION, configuration.sourceEntityId()));
+        }
+        for (CanonicalNeighbourRelation neighbour : snapshot.neighbours()) {
+            planNeighbour(snapshot, neighbour, plan);
+            seen.add(key(CanonicalEntityType.NEIGHBOUR, neighbour.sourceEntityId()));
+        }
+        if (snapshot.completeSnapshot()) {
+            for (NetworkSourceReferenceEntity reference
+                    : sourceReferenceRepository.findBySourceSystemAndSourceStatus(snapshot.sourceSystem(), "ACTIVE")) {
+                if (!seen.contains(key(reference.getSourceEntityType(), reference.getSourceEntityId()))) {
+                    plan.addMissing(reference);
+                }
+            }
+        }
+        return plan;
     }
 
     @Transactional
-    public ReconciliationResult reconcile(
+    public ReconciliationResult apply(
             NetworkImportBatchEntity batch,
             CanonicalSnapshot snapshot,
-            List<ValidationIssue> issues,
-            Instant now
+            ImportPlan plan,
+            Instant now,
+            ImportLease lease
     ) {
-        Counters counters = new Counters(snapshot.source().entityCount(), issues.size());
-        for (ValidationIssue issue : issues) {
+        leaseService.assertOwnership(lease);
+        if (!"RUNNING".equals(batch.getStatus())) {
+            throw new ImportRuntimeException(ImportFailureCode.LEASE_LOST, "execution is not RUNNING");
+        }
+        for (ValidationIssue issue : plan.rejections()) {
             rejectionRepository.save(NetworkImportRejectionEntity.create(
                     UUID.randomUUID(),
                     batch.getId(),
@@ -79,57 +123,7 @@ public class NetworkReconciliationService {
                     now
             ));
         }
-        Set<String> seen = new HashSet<>();
-        for (CanonicalSite site : snapshot.sites()) {
-            applySite(batch, snapshot, site, now, counters);
-            seen.add(key(CanonicalEntityType.SITE, site.sourceEntityId()));
-        }
-        for (CanonicalGnb gnb : snapshot.gnbs()) {
-            applyGnb(batch, snapshot, gnb, now, counters);
-            seen.add(key(CanonicalEntityType.GNB, gnb.sourceEntityId()));
-        }
-        for (CanonicalCell cell : snapshot.cells()) {
-            applyCell(batch, snapshot, cell, now, counters);
-            seen.add(key(CanonicalEntityType.CELL, cell.sourceEntityId()));
-        }
-        for (CanonicalCellConfiguration configuration : snapshot.configurations()) {
-            applyConfiguration(batch, snapshot, configuration, now, counters);
-            seen.add(key(CanonicalEntityType.CELL_CONFIGURATION, configuration.sourceEntityId()));
-        }
-        for (CanonicalNeighbourRelation neighbour : snapshot.neighbours()) {
-            applyNeighbour(batch, snapshot, neighbour, now, counters);
-            seen.add(key(CanonicalEntityType.NEIGHBOUR, neighbour.sourceEntityId()));
-        }
-        if (snapshot.completeSnapshot()) {
-            for (NetworkSourceReferenceEntity reference
-                    : sourceReferenceRepository.findBySourceSystemAndSourceStatus(snapshot.sourceSystem(), "ACTIVE")) {
-                if (!seen.contains(key(reference.getSourceEntityType(), reference.getSourceEntityId()))) {
-                    reference.markMissing(now, batch.getId());
-                    counters.missing++;
-                }
-            }
-        }
-        return new ReconciliationResult(
-                counters.read,
-                counters.created,
-                counters.updated,
-                counters.unchanged,
-                counters.rejected,
-                counters.conflicts,
-                counters.missing
-        );
-    }
-
-    private void applySite(
-            NetworkImportBatchEntity batch,
-            CanonicalSnapshot snapshot,
-            CanonicalSite incoming,
-            Instant now,
-            Counters counters
-    ) {
-        Optional<SiteEntity> existing = siteRepository.findBySiteId(incoming.canonicalSiteId());
-        NetworkSourceReferenceEntity authority = authority(CanonicalEntityType.SITE, incoming.canonicalSiteId());
-        if (existing.isEmpty()) {
+        for (CanonicalSite incoming : plan.siteCreates()) {
             siteRepository.saveAndFlush(SiteEntity.create(
                     UUID.randomUUID(),
                     incoming.canonicalSiteId(),
@@ -138,38 +132,13 @@ public class NetworkReconciliationService {
                     incoming.longitude(),
                     incoming.status()
             ));
-            upsertReference(batch, snapshot, CanonicalEntityType.SITE, incoming.canonicalSiteId(),
-                    incoming.sourceEntityId(), incoming.sourceDn(), true, now);
-            counters.created++;
-            return;
         }
-        if (canWrite(authority, snapshot.sourceSystem())) {
-            if (sameSite(existing.get(), incoming)) {
-                counters.unchanged++;
-            } else {
-                existing.get().applyInventory(incoming.name(), incoming.latitude(), incoming.longitude(), incoming.status());
-                counters.updated++;
-            }
-            upsertReference(batch, snapshot, CanonicalEntityType.SITE, incoming.canonicalSiteId(),
-                    incoming.sourceEntityId(), incoming.sourceDn(), authority == null, now);
-            return;
+        faultInjector.maybeFailCanonicalCommit(snapshot.sourceSnapshotId());
+        for (CanonicalSite incoming : plan.siteUpdates()) {
+            SiteEntity existing = siteRepository.findBySiteId(incoming.canonicalSiteId()).orElseThrow();
+            existing.applyInventory(incoming.name(), incoming.latitude(), incoming.longitude(), incoming.status());
         }
-        recordSecondSource(batch, snapshot, CanonicalEntityType.SITE, incoming.canonicalSiteId(),
-                incoming.sourceEntityId(), incoming.sourceDn(),
-                "inventory", describeSite(existing.get()), describeSite(incoming),
-                sameSite(existing.get(), incoming), now, counters);
-    }
-
-    private void applyGnb(
-            NetworkImportBatchEntity batch,
-            CanonicalSnapshot snapshot,
-            CanonicalGnb incoming,
-            Instant now,
-            Counters counters
-    ) {
-        Optional<GnbEntity> existing = gnbRepository.findByGnbId(incoming.canonicalGnbId());
-        NetworkSourceReferenceEntity authority = authority(CanonicalEntityType.GNB, incoming.canonicalGnbId());
-        if (existing.isEmpty()) {
+        for (CanonicalGnb incoming : plan.gnbCreates()) {
             SiteEntity site = siteRepository.findBySiteId(incoming.canonicalSiteId()).orElseThrow();
             gnbRepository.saveAndFlush(GnbEntity.create(
                     UUID.randomUUID(),
@@ -180,38 +149,12 @@ public class NetworkReconciliationService {
                     incoming.model(),
                     incoming.status()
             ));
-            upsertReference(batch, snapshot, CanonicalEntityType.GNB, incoming.canonicalGnbId(),
-                    incoming.sourceEntityId(), incoming.sourceDn(), true, now);
-            counters.created++;
-            return;
         }
-        if (canWrite(authority, snapshot.sourceSystem())) {
-            if (sameGnb(existing.get(), incoming)) {
-                counters.unchanged++;
-            } else {
-                existing.get().applyInventory(incoming.name(), incoming.equipmentVendor(), incoming.model(), incoming.status());
-                counters.updated++;
-            }
-            upsertReference(batch, snapshot, CanonicalEntityType.GNB, incoming.canonicalGnbId(),
-                    incoming.sourceEntityId(), incoming.sourceDn(), authority == null, now);
-            return;
+        for (CanonicalGnb incoming : plan.gnbUpdates()) {
+            GnbEntity existing = gnbRepository.findByGnbId(incoming.canonicalGnbId()).orElseThrow();
+            existing.applyInventory(incoming.name(), incoming.equipmentVendor(), incoming.model(), incoming.status());
         }
-        recordSecondSource(batch, snapshot, CanonicalEntityType.GNB, incoming.canonicalGnbId(),
-                incoming.sourceEntityId(), incoming.sourceDn(),
-                "inventory", describeGnb(existing.get()), describeGnb(incoming),
-                sameGnb(existing.get(), incoming), now, counters);
-    }
-
-    private void applyCell(
-            NetworkImportBatchEntity batch,
-            CanonicalSnapshot snapshot,
-            CanonicalCell incoming,
-            Instant now,
-            Counters counters
-    ) {
-        Optional<CellEntity> existing = cellRepository.findByCellId(incoming.canonicalCellId());
-        NetworkSourceReferenceEntity authority = authority(CanonicalEntityType.CELL, incoming.canonicalCellId());
-        if (existing.isEmpty()) {
+        for (CanonicalCell incoming : plan.cellCreates()) {
             GnbEntity gnb = gnbRepository.findByGnbId(incoming.canonicalGnbId()).orElseThrow();
             cellRepository.saveAndFlush(CellEntity.create(
                     UUID.randomUUID(),
@@ -226,123 +169,202 @@ public class NetworkReconciliationService {
                     incoming.duplexMode(),
                     incoming.status()
             ));
-            upsertReference(batch, snapshot, CanonicalEntityType.CELL, incoming.canonicalCellId(),
-                    incoming.sourceEntityId(), incoming.sourceDn(), true, now);
-            counters.created++;
-            return;
         }
-        if (canWrite(authority, snapshot.sourceSystem())) {
-            if (sameCell(existing.get(), incoming)) {
-                counters.unchanged++;
-            } else {
-                existing.get().applyInventory(
-                        incoming.name(),
-                        incoming.technology(),
-                        incoming.band(),
-                        incoming.arfcn(),
-                        incoming.pci(),
-                        incoming.bandwidthMhz(),
-                        incoming.duplexMode(),
-                        incoming.status()
-                );
-                counters.updated++;
-            }
-            upsertReference(batch, snapshot, CanonicalEntityType.CELL, incoming.canonicalCellId(),
-                    incoming.sourceEntityId(), incoming.sourceDn(), authority == null, now);
-            return;
+        for (CanonicalCell incoming : plan.cellUpdates()) {
+            CellEntity existing = cellRepository.findByCellId(incoming.canonicalCellId()).orElseThrow();
+            existing.applyInventory(
+                    incoming.name(),
+                    incoming.technology(),
+                    incoming.band(),
+                    incoming.arfcn(),
+                    incoming.pci(),
+                    incoming.bandwidthMhz(),
+                    incoming.duplexMode(),
+                    incoming.status()
+            );
         }
-        recordSecondSource(batch, snapshot, CanonicalEntityType.CELL, incoming.canonicalCellId(),
-                incoming.sourceEntityId(), incoming.sourceDn(),
-                "inventory", describeCell(existing.get()), describeCell(incoming),
-                sameCell(existing.get(), incoming), now, counters);
-    }
-
-    private void applyConfiguration(
-            NetworkImportBatchEntity batch,
-            CanonicalSnapshot snapshot,
-            CanonicalCellConfiguration incoming,
-            Instant now,
-            Counters counters
-    ) {
-        CellEntity cell = cellRepository.findByCellId(incoming.canonicalCellId()).orElseThrow();
-        Optional<RadioConfigurationEntity> existing =
-                radioConfigurationRepository.findByCell_IdAndParameterName(cell.getId(), incoming.parameterName());
-        String canonicalConfigId = incoming.canonicalCellId() + ":" + incoming.parameterName();
-        NetworkSourceReferenceEntity authority = authority(CanonicalEntityType.CELL_CONFIGURATION, canonicalConfigId);
-        String incomingValue = CanonicalUnitNormalizer.formatDbm(incoming.txPowerDbm());
-        if (existing.isEmpty()) {
+        for (CanonicalCellConfiguration incoming : plan.configurationCreates()) {
+            CellEntity cell = cellRepository.findByCellId(incoming.canonicalCellId()).orElseThrow();
             radioConfigurationRepository.saveAndFlush(RadioConfigurationEntity.create(
                     UUID.randomUUID(),
                     cell,
                     incoming.parameterName(),
-                    incomingValue,
+                    CanonicalUnitNormalizer.formatDbm(incoming.txPowerDbm()),
                     incoming.unit(),
                     snapshot.capturedAt()
             ));
-            upsertReference(batch, snapshot, CanonicalEntityType.CELL_CONFIGURATION, canonicalConfigId,
-                    incoming.sourceEntityId(), incoming.sourceDn(), true, now);
-            counters.created++;
+        }
+        for (CanonicalCellConfiguration incoming : plan.configurationUpdates()) {
+            CellEntity cell = cellRepository.findByCellId(incoming.canonicalCellId()).orElseThrow();
+            RadioConfigurationEntity existing = radioConfigurationRepository
+                    .findByCell_IdAndParameterName(cell.getId(), incoming.parameterName())
+                    .orElseThrow();
+            existing.applyValue(CanonicalUnitNormalizer.formatDbm(incoming.txPowerDbm()), snapshot.capturedAt());
+        }
+        for (CanonicalNeighbourRelation incoming : plan.neighbourCreates()) {
+            CellEntity source = cellRepository.findByCellId(incoming.canonicalSourceCellId()).orElseThrow();
+            CellEntity target = cellRepository.findByCellId(incoming.canonicalTargetCellId()).orElseThrow();
+            neighbourRelationshipRepository.saveAndFlush(NeighbourRelationshipEntity.create(
+                    UUID.randomUUID(), source, target, incoming.relationType(), incoming.status()));
+        }
+        for (ImportPlan.ConflictItem conflict : plan.conflicts()) {
+            NetworkSourceReferenceEntity authority = authority(conflict.type(), conflict.canonicalId());
+            conflictRepository.save(NetworkIntegrationConflictEntity.create(
+                    UUID.randomUUID(),
+                    batch.getId(),
+                    conflict.type().name(),
+                    conflict.canonicalId(),
+                    conflict.scope(),
+                    conflict.currentValue(),
+                    conflict.incomingValue(),
+                    authority == null ? "UNKNOWN" : authority.getSourceSystem(),
+                    snapshot.sourceSystem(),
+                    "SECOND_SOURCE_VALUE_MISMATCH",
+                    now
+            ));
+        }
+        for (ImportPlan.ReferenceItem reference : plan.references()) {
+            upsertReference(batch, snapshot, reference, now);
+        }
+        for (UUID missingId : plan.missingReferenceIds()) {
+            sourceReferenceRepository.findById(missingId).ifPresent(reference -> reference.markMissing(now, batch.getId()));
+        }
+        leaseService.assertOwnership(lease);
+        return plan.toResult();
+    }
+
+    private void planSite(CanonicalSnapshot snapshot, CanonicalSite incoming, ImportPlan plan) {
+        Optional<SiteEntity> existing = siteRepository.findBySiteId(incoming.canonicalSiteId());
+        NetworkSourceReferenceEntity authority = authority(CanonicalEntityType.SITE, incoming.canonicalSiteId());
+        ImportPlan.ReferenceItem reference = reference(CanonicalEntityType.SITE, incoming.canonicalSiteId(),
+                incoming.sourceEntityId(), incoming.sourceDn(), authority == null || canWrite(authority, snapshot.sourceSystem()));
+        if (existing.isEmpty()) {
+            plan.addSiteCreate(incoming, new ImportPlan.ReferenceItem(
+                    CanonicalEntityType.SITE, incoming.canonicalSiteId(), incoming.sourceEntityId(), incoming.sourceDn(), true));
+            return;
+        }
+        if (canWrite(authority, snapshot.sourceSystem())) {
+            if (sameSite(existing.get(), incoming)) {
+                plan.addUnchanged(reference);
+            } else {
+                plan.addSiteUpdate(incoming, reference);
+            }
+            return;
+        }
+        recordSecondSource(plan, CanonicalEntityType.SITE, incoming.canonicalSiteId(),
+                incoming.sourceEntityId(), incoming.sourceDn(), "inventory",
+                describeSite(existing.get()), describeSite(incoming), sameSite(existing.get(), incoming));
+    }
+
+    private void planGnb(CanonicalSnapshot snapshot, CanonicalGnb incoming, ImportPlan plan) {
+        Optional<GnbEntity> existing = gnbRepository.findByGnbId(incoming.canonicalGnbId());
+        NetworkSourceReferenceEntity authority = authority(CanonicalEntityType.GNB, incoming.canonicalGnbId());
+        ImportPlan.ReferenceItem reference = reference(CanonicalEntityType.GNB, incoming.canonicalGnbId(),
+                incoming.sourceEntityId(), incoming.sourceDn(), authority == null || canWrite(authority, snapshot.sourceSystem()));
+        if (existing.isEmpty()) {
+            plan.addGnbCreate(incoming, new ImportPlan.ReferenceItem(
+                    CanonicalEntityType.GNB, incoming.canonicalGnbId(), incoming.sourceEntityId(), incoming.sourceDn(), true));
+            return;
+        }
+        if (canWrite(authority, snapshot.sourceSystem())) {
+            if (sameGnb(existing.get(), incoming)) {
+                plan.addUnchanged(reference);
+            } else {
+                plan.addGnbUpdate(incoming, reference);
+            }
+            return;
+        }
+        recordSecondSource(plan, CanonicalEntityType.GNB, incoming.canonicalGnbId(),
+                incoming.sourceEntityId(), incoming.sourceDn(), "inventory",
+                describeGnb(existing.get()), describeGnb(incoming), sameGnb(existing.get(), incoming));
+    }
+
+    private void planCell(CanonicalSnapshot snapshot, CanonicalCell incoming, ImportPlan plan) {
+        Optional<CellEntity> existing = cellRepository.findByCellId(incoming.canonicalCellId());
+        NetworkSourceReferenceEntity authority = authority(CanonicalEntityType.CELL, incoming.canonicalCellId());
+        ImportPlan.ReferenceItem reference = reference(CanonicalEntityType.CELL, incoming.canonicalCellId(),
+                incoming.sourceEntityId(), incoming.sourceDn(), authority == null || canWrite(authority, snapshot.sourceSystem()));
+        if (existing.isEmpty()) {
+            plan.addCellCreate(incoming, new ImportPlan.ReferenceItem(
+                    CanonicalEntityType.CELL, incoming.canonicalCellId(), incoming.sourceEntityId(), incoming.sourceDn(), true));
+            return;
+        }
+        if (canWrite(authority, snapshot.sourceSystem())) {
+            if (sameCell(existing.get(), incoming)) {
+                plan.addUnchanged(reference);
+            } else {
+                plan.addCellUpdate(incoming, reference);
+            }
+            return;
+        }
+        recordSecondSource(plan, CanonicalEntityType.CELL, incoming.canonicalCellId(),
+                incoming.sourceEntityId(), incoming.sourceDn(), "inventory",
+                describeCell(existing.get()), describeCell(incoming), sameCell(existing.get(), incoming));
+    }
+
+    private void planConfiguration(CanonicalSnapshot snapshot, CanonicalCellConfiguration incoming, ImportPlan plan) {
+        Optional<CellEntity> cell = cellRepository.findByCellId(incoming.canonicalCellId());
+        String canonicalConfigId = incoming.canonicalCellId() + ":" + incoming.parameterName();
+        NetworkSourceReferenceEntity authority = authority(CanonicalEntityType.CELL_CONFIGURATION, canonicalConfigId);
+        String incomingValue = CanonicalUnitNormalizer.formatDbm(incoming.txPowerDbm());
+        ImportPlan.ReferenceItem reference = reference(CanonicalEntityType.CELL_CONFIGURATION, canonicalConfigId,
+                incoming.sourceEntityId(), incoming.sourceDn(),
+                authority == null || canWrite(authority, snapshot.sourceSystem()));
+        if (cell.isEmpty()) {
+            plan.addConfigurationCreate(incoming, new ImportPlan.ReferenceItem(
+                    CanonicalEntityType.CELL_CONFIGURATION, canonicalConfigId,
+                    incoming.sourceEntityId(), incoming.sourceDn(), true));
+            return;
+        }
+        Optional<RadioConfigurationEntity> existing =
+                radioConfigurationRepository.findByCell_IdAndParameterName(cell.get().getId(), incoming.parameterName());
+        if (existing.isEmpty()) {
+            plan.addConfigurationCreate(incoming, new ImportPlan.ReferenceItem(
+                    CanonicalEntityType.CELL_CONFIGURATION, canonicalConfigId,
+                    incoming.sourceEntityId(), incoming.sourceDn(), true));
             return;
         }
         boolean same = sameConfig(existing.get(), incomingValue, incoming.unit());
         if (canWrite(authority, snapshot.sourceSystem())) {
             if (same) {
-                counters.unchanged++;
+                plan.addUnchanged(reference);
             } else {
-                existing.get().applyValue(incomingValue, snapshot.capturedAt());
-                counters.updated++;
+                plan.addConfigurationUpdate(incoming, reference);
             }
-            upsertReference(batch, snapshot, CanonicalEntityType.CELL_CONFIGURATION, canonicalConfigId,
-                    incoming.sourceEntityId(), incoming.sourceDn(), authority == null, now);
             return;
         }
-        recordSecondSource(batch, snapshot, CanonicalEntityType.CELL_CONFIGURATION, canonicalConfigId,
-                incoming.sourceEntityId(), incoming.sourceDn(),
-                incoming.parameterName(),
+        recordSecondSource(plan, CanonicalEntityType.CELL_CONFIGURATION, canonicalConfigId,
+                incoming.sourceEntityId(), incoming.sourceDn(), incoming.parameterName(),
                 existing.get().getParameterValue() + " " + existing.get().getUnit(),
-                incomingValue + " " + incoming.unit(),
-                same, now, counters);
+                incomingValue + " " + incoming.unit(), same);
     }
 
-    private void applyNeighbour(
-            NetworkImportBatchEntity batch,
-            CanonicalSnapshot snapshot,
-            CanonicalNeighbourRelation incoming,
-            Instant now,
-            Counters counters
-    ) {
+    private void planNeighbour(CanonicalSnapshot snapshot, CanonicalNeighbourRelation incoming, ImportPlan plan) {
         String canonicalId = incoming.canonicalSourceCellId() + "->" + incoming.canonicalTargetCellId();
         Optional<NeighbourRelationshipEntity> existing =
                 neighbourRelationshipRepository.findBySourceCell_CellIdAndTargetCell_CellId(
                         incoming.canonicalSourceCellId(), incoming.canonicalTargetCellId());
         NetworkSourceReferenceEntity authority = authority(CanonicalEntityType.NEIGHBOUR, canonicalId);
+        ImportPlan.ReferenceItem reference = reference(CanonicalEntityType.NEIGHBOUR, canonicalId,
+                incoming.sourceEntityId(), incoming.sourceDn(),
+                authority == null || canWrite(authority, snapshot.sourceSystem()));
         if (existing.isEmpty()) {
-            CellEntity source = cellRepository.findByCellId(incoming.canonicalSourceCellId()).orElseThrow();
-            CellEntity target = cellRepository.findByCellId(incoming.canonicalTargetCellId()).orElseThrow();
-            neighbourRelationshipRepository.saveAndFlush(NeighbourRelationshipEntity.create(
-                    UUID.randomUUID(), source, target, incoming.relationType(), incoming.status()));
-            upsertReference(batch, snapshot, CanonicalEntityType.NEIGHBOUR, canonicalId,
-                    incoming.sourceEntityId(), incoming.sourceDn(), true, now);
-            counters.created++;
+            plan.addNeighbourCreate(incoming, new ImportPlan.ReferenceItem(
+                    CanonicalEntityType.NEIGHBOUR, canonicalId, incoming.sourceEntityId(), incoming.sourceDn(), true));
             return;
         }
         if (canWrite(authority, snapshot.sourceSystem())) {
-            counters.unchanged++;
-            upsertReference(batch, snapshot, CanonicalEntityType.NEIGHBOUR, canonicalId,
-                    incoming.sourceEntityId(), incoming.sourceDn(), authority == null, now);
+            plan.addUnchanged(reference);
             return;
         }
-        recordSecondSource(batch, snapshot, CanonicalEntityType.NEIGHBOUR, canonicalId,
-                incoming.sourceEntityId(), incoming.sourceDn(),
-                "relation",
+        recordSecondSource(plan, CanonicalEntityType.NEIGHBOUR, canonicalId,
+                incoming.sourceEntityId(), incoming.sourceDn(), "relation",
                 existing.get().getRelationType() + "/" + existing.get().getStatus(),
-                incoming.relationType() + "/" + incoming.status(),
-                true, now, counters);
+                incoming.relationType() + "/" + incoming.status(), true);
     }
 
     private void recordSecondSource(
-            NetworkImportBatchEntity batch,
-            CanonicalSnapshot snapshot,
+            ImportPlan plan,
             CanonicalEntityType type,
             String canonicalId,
             String sourceEntityId,
@@ -350,45 +372,26 @@ public class NetworkReconciliationService {
             String scope,
             String currentValue,
             String incomingValue,
-            boolean equivalent,
-            Instant now,
-            Counters counters
+            boolean equivalent
     ) {
-        NetworkSourceReferenceEntity authority = authority(type, canonicalId);
-        upsertReference(batch, snapshot, type, canonicalId, sourceEntityId, sourceDn, false, now);
+        ImportPlan.ReferenceItem reference = new ImportPlan.ReferenceItem(type, canonicalId, sourceEntityId, sourceDn, false);
         if (equivalent) {
-            counters.unchanged++;
+            plan.addUnchanged(reference);
             return;
         }
-        conflictRepository.save(NetworkIntegrationConflictEntity.create(
-                UUID.randomUUID(),
-                batch.getId(),
-                type.name(),
-                canonicalId,
-                scope,
-                currentValue,
-                incomingValue,
-                authority == null ? "UNKNOWN" : authority.getSourceSystem(),
-                snapshot.sourceSystem(),
-                "SECOND_SOURCE_VALUE_MISMATCH",
-                now
-        ));
-        counters.conflicts++;
+        plan.addConflict(new ImportPlan.ConflictItem(
+                type, canonicalId, scope, currentValue, incomingValue, sourceEntityId, sourceDn), reference);
     }
 
     private void upsertReference(
             NetworkImportBatchEntity batch,
             CanonicalSnapshot snapshot,
-            CanonicalEntityType type,
-            String canonicalId,
-            String sourceEntityId,
-            String sourceDn,
-            boolean authoritative,
+            ImportPlan.ReferenceItem item,
             Instant now
     ) {
         Optional<NetworkSourceReferenceEntity> existing =
                 sourceReferenceRepository.findByCanonicalEntityTypeAndCanonicalEntityIdAndSourceSystemAndSourceEntityId(
-                        type.name(), canonicalId, snapshot.sourceSystem(), sourceEntityId);
+                        item.type().name(), item.canonicalId(), snapshot.sourceSystem(), item.sourceEntityId());
         if (existing.isPresent()) {
             existing.get().markSeen(
                     now,
@@ -403,14 +406,14 @@ public class NetworkReconciliationService {
         }
         sourceReferenceRepository.saveAndFlush(NetworkSourceReferenceEntity.create(
                 UUID.randomUUID(),
-                type.name(),
-                canonicalId,
+                item.type().name(),
+                item.canonicalId(),
                 snapshot.sourceSystem(),
                 snapshot.vendor().name(),
-                type.name(),
-                sourceEntityId,
-                sourceDn,
-                authoritative,
+                item.type().name(),
+                item.sourceEntityId(),
+                item.sourceDn(),
+                item.authoritative(),
                 now,
                 snapshot.sourceSnapshotId(),
                 snapshot.vendorSchemaVersion(),
@@ -425,6 +428,12 @@ public class NetworkReconciliationService {
         return sourceReferenceRepository
                 .findByCanonicalEntityTypeAndCanonicalEntityIdAndAuthoritativeTrue(type.name(), canonicalId)
                 .orElse(null);
+    }
+
+    private static ImportPlan.ReferenceItem reference(
+            CanonicalEntityType type, String canonicalId, String sourceEntityId, String sourceDn, boolean authoritative
+    ) {
+        return new ImportPlan.ReferenceItem(type, canonicalId, sourceEntityId, sourceDn, authoritative);
     }
 
     private static boolean canWrite(NetworkSourceReferenceEntity authority, String incomingSource) {
@@ -510,20 +519,5 @@ public class NetworkReconciliationService {
 
     private static String key(String type, String sourceEntityId) {
         return type + ":" + sourceEntityId;
-    }
-
-    private static final class Counters {
-        private final int read;
-        private final int rejected;
-        private int created;
-        private int updated;
-        private int unchanged;
-        private int conflicts;
-        private int missing;
-
-        private Counters(int read, int rejected) {
-            this.read = read;
-            this.rejected = rejected;
-        }
     }
 }

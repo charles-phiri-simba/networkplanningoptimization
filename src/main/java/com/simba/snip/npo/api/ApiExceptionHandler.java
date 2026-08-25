@@ -5,6 +5,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
+import java.util.LinkedHashMap;
 import java.util.Map;
 
 @RestControllerAdvice
@@ -20,9 +21,17 @@ public class ApiExceptionHandler {
 
     @ExceptionHandler(com.simba.snip.npo.domain.DomainConflictException.class)
     public ResponseEntity<Map<String, String>> conflict(com.simba.snip.npo.domain.DomainConflictException ex) {
-        return ResponseEntity.status(HttpStatus.CONFLICT).body(Map.of(
-                "error", ex.getMessage()
-        ));
+        Map<String, String> body = new LinkedHashMap<>();
+        body.put("error", ex.getMessage());
+        if (ex instanceof com.simba.snip.npo.domain.ImportBusyException busy) {
+            if (busy.getActiveExecutionId() != null) {
+                body.put("activeExecutionId", busy.getActiveExecutionId().toString());
+            }
+            if (busy.getFailureCode() != null) {
+                body.put("failureCode", busy.getFailureCode());
+            }
+        }
+        return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
     }
 
     @ExceptionHandler(com.simba.snip.npo.domain.DomainValidationException.class)

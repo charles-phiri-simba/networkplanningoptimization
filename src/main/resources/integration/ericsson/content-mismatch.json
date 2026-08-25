@@ -1,0 +1,45 @@
+{
+  "exportId": "er-snap-identity-001",
+  "schema": "ERICSSON_FIXTURE_V1",
+  "capturedAt": "2026-08-25T10:00:00Z",
+  "complete": true,
+  "managedElements": [
+    {
+      "moId": "ME-E-IDENT",
+      "dn": "SubNetwork=SN1,MeContext=SITE-E-IDENT",
+      "userLabel": "Ericsson Identity Site",
+      "snipCanonicalId": "SITE-E-IDENT",
+      "geo": { "lat": -26.25, "lon": 28.09 },
+      "administrativeState": "UNLOCKED"
+    }
+  ],
+  "gnodeBs": [
+    {
+      "moId": "GNBMO-E-IDENT",
+      "dn": "SubNetwork=SN1,MeContext=SITE-E-IDENT,ManagedElement=GNB-E-IDENT",
+      "userLabel": "Ericsson gNB identity",
+      "snipCanonicalId": "GNB-E-IDENT",
+      "parentSiteCanonicalId": "SITE-E-IDENT",
+      "productName": "AIR-6488",
+      "administrativeState": "UNLOCKED"
+    }
+  ],
+  "nrCells": [
+    {
+      "moId": "CELLMO-E-IDENT",
+      "ldn": "ManagedElement=GNB-E-IDENT,GNBDUFunction=1,NRCellDU=CELL-E-IDENT",
+      "userLabel": "Ericsson NR identity cell",
+      "snipCanonicalId": "CELL-E-IDENT",
+      "parentGnbCanonicalId": "GNB-E-IDENT",
+      "rat": "NR",
+      "freqBand": "n78",
+      "earfcnDl": 630000,
+      "physicalCellId": 501,
+      "dlBandwidth": 40,
+      "duplex": "TDD",
+      "administrativeState": "UNLOCKED",
+      "configuredMaxTxPower": 400
+    }
+  ],
+  "cellRelations": []
+}

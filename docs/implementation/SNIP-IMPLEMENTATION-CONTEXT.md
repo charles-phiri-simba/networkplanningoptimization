@@ -7,10 +7,10 @@ This file is the architecture library. The binding below is **authoritative for 
 **Platform:** SNIP — Simba Network Intelligence Platform  
 **This repository:** first SNIP **domain application** (Network Planning & Optimisation), not the entire enterprise platform.  
 **Phase 0:** complete — see `SNIP-PHASE-0-DISCOVERY-REPORT.md`  
-**Current authorised phase:** **Phase 7 — Multi-Vendor Network Integration Foundation** (architecturally accepted — frozen; architecture has authority; specification is the execution contract)  
-**Architecture:** `docs/architecture/SNIP-PHASE-7-MULTI-VENDOR-NETWORK-INTEGRATION-ARCHITECTURE.md`  
-**Coding contract:** `docs/implementation/SNIP-PHASE-7-MULTI-VENDOR-NETWORK-INTEGRATION-SPECIFICATION.md`  
-**Phase 6 baseline:** `9c8d57b600f3bc8f9d251767211985a550502e5d` (architecturally accepted — see `SNIP-PHASE-6-COMPLETION-REPORT.md`)  
+**Current authorised phase:** **Phase 8 — Integration Runtime Hardening & Reliable Synchronization** (architecturally accepted — frozen; architecture has authority; specification is the execution contract)  
+**Architecture:** `docs/architecture/SNIP-PHASE-8-INTEGRATION-RUNTIME-HARDENING-ARCHITECTURE.md`  
+**Coding contract:** `docs/implementation/SNIP-PHASE-8-INTEGRATION-RUNTIME-HARDENING-SPECIFICATION.md`  
+**Phase 7 baseline:** `10bcd3369d68a3304687a007324da4566e048098` (architecturally accepted — see `SNIP-PHASE-7-COMPLETION-REPORT.md`)  
 **Status:** `SNIP-IMPLEMENTATION-STATUS.md`
 
 ```text
@@ -44,12 +44,15 @@ Phase 6     Digital Twin & Simulation Intelligence       (done — frozen)
 Phase 7     Multi-Vendor Network Integration             (done — frozen)
     │
     ▼
-Phase 8     (closed)
+Phase 8     Integration Runtime Hardening                (done — frozen)
+    │
+    ▼
+Phase 9     (closed)
 ```
 
-This repository’s Phase 7 is a **fixture-first, read-only Ericsson/Nokia integration foundation**, not production ENM/NetAct connectivity, vendor writes, or vendor telemetry. Phase 7 authorises vendor adapters, a SNIP-owned canonical integration model, deterministic reconciliation with provenance and conflict safety, and import of Site/gNB/Cell/configuration/neighbour state into the existing operational tables. Vendor-specific DTOs must not leak into Assurance, Decision, Agents, Twin, RAG, or governed actions. Import may make an existing Twin STALE and must not call Twin synchronization. **Agents must not invoke MCP, approve actions, override policy, mutate Twin baselines, or write the live network. The LLM must not produce authoritative numeric predictions or reconciliation outcomes. Do not implement Agent Factory, remote MCP, live network writes, real ENM/NetAct, or Phase 8.**
+This repository’s Phase 8 is a **fixture-first reliable import runtime** around the frozen Phase 7 Ericsson/Nokia integration foundation, not production ENM/NetAct connectivity, vendor writes, or vendor telemetry. Phase 7 remains authoritative for vendor adapters, the SNIP-owned canonical model, and deterministic reconciliation. Phase 8 authorises durable NEW/RETRY/REPLAY executions, PostgreSQL source-scope leases with fencing, checkpoints, atomic canonical commit, and a bounded import watchdog. Vendor-specific DTOs must not leak into Assurance, Decision, Agents, Twin, RAG, or governed actions. Import may make an existing Twin STALE and must not call Twin synchronization. Replay must not mutate canonical state. **Agents must not invoke MCP, approve actions, override policy, mutate Twin baselines, or write the live network. The LLM must not produce authoritative numeric predictions or reconciliation outcomes. Do not implement Agent Factory, remote MCP, live network writes, real ENM/NetAct, integration security/credential architecture, scheduled synchronization, or Phase 9.**
 
-Cursor must not add Phase 4, Phase 5, Phase 6, or Phase 7 functionality and must not start Phase 8. Do not redesign Phase 1A/1A.1 semantic RAG, the Phase 1B domain model, the Phase 2 Kafka/telemetry slice, the frozen Phase 3 assurance slice, the frozen Phase 4 governed-action slice, the frozen Phase 5 agent slice, the frozen Phase 6 Twin/simulation slice, or the frozen Phase 7 integration slice. Non-interruptible per-Agent timeout remains accepted Phase 5 technical debt. Failed Twin simulation attempts are not persisted as `SimulationRun` records; that remains accepted Phase 6 technical debt. Replay creating a new import batch while canonical state stays idempotent is accepted Phase 7 behaviour. Absence of distributed import locking is an accepted Phase 7 limitation.
+Cursor must not add Phase 4, Phase 5, Phase 6, Phase 7, or Phase 8 functionality and must not start Phase 9. Do not redesign Phase 1A/1A.1 semantic RAG, the Phase 1B domain model, the Phase 2 Kafka/telemetry slice, the frozen Phase 3 assurance slice, the frozen Phase 4 governed-action slice, the frozen Phase 5 agent slice, the frozen Phase 6 Twin/simulation slice, the frozen Phase 7 reconciliation rules, or the frozen Phase 8 import runtime. Non-interruptible per-Agent timeout remains accepted Phase 5 technical debt. Failed Twin simulation attempts are not persisted as `SimulationRun` records; that remains accepted Phase 6 technical debt. Do not add import queues, automatic retries, schedulers, record-level resume, cancellation APIs, raw snapshot archival, Kubernetes deployment, vendor telemetry, vendor writes, or new MCP tools. PostgreSQL lease + fencing remains the accepted coordination mechanism and canonical commit authority.
 
 ---
 

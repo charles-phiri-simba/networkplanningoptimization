@@ -63,13 +63,51 @@ public class NetworkImportBatchEntity {
     @Column(columnDefinition = "TEXT")
     private String error;
 
-    public static NetworkImportBatchEntity start(
+    @Column(name = "execution_type", nullable = false, length = 32)
+    private String executionType;
+
+    @Column(name = "attempt_number", nullable = false)
+    private int attemptNumber;
+
+    @Column(name = "previous_execution_id")
+    private UUID previousExecutionId;
+
+    @Column(name = "original_successful_execution_id")
+    private UUID originalSuccessfulExecutionId;
+
+    @Column(name = "source_scope", nullable = false, length = 64)
+    private String sourceScope;
+
+    @Column(name = "canonical_snapshot_hash", length = 64)
+    private String canonicalSnapshotHash;
+
+    @Column(name = "failure_code", length = 64)
+    private String failureCode;
+
+    @Column(name = "retryable")
+    private Boolean retryable;
+
+    @Column(name = "owner_instance_id", length = 64)
+    private String ownerInstanceId;
+
+    @Column(name = "lease_fencing_token")
+    private Long leaseFencingToken;
+
+    @Column(name = "requested_at", nullable = false)
+    private Instant requestedAt;
+
+    public static NetworkImportBatchEntity requested(
             UUID id,
             String sourceSystem,
             String vendor,
             String vendorSchemaVersion,
             String fixtureKind,
-            Instant startedAt
+            String sourceScope,
+            String executionType,
+            int attemptNumber,
+            UUID previousExecutionId,
+            Instant requestedAt,
+            String ownerInstanceId
     ) {
         NetworkImportBatchEntity entity = new NetworkImportBatchEntity();
         entity.id = id;
@@ -78,17 +116,30 @@ public class NetworkImportBatchEntity {
         entity.sourceSnapshotId = "UNREAD";
         entity.vendorSchemaVersion = vendorSchemaVersion;
         entity.fixtureKind = fixtureKind;
-        entity.startedAt = startedAt;
-        entity.status = "STARTED";
+        entity.sourceScope = sourceScope;
+        entity.executionType = executionType;
+        entity.attemptNumber = attemptNumber;
+        entity.previousExecutionId = previousExecutionId;
+        entity.requestedAt = requestedAt;
+        entity.startedAt = requestedAt;
+        entity.status = "REQUESTED";
+        entity.ownerInstanceId = ownerInstanceId;
         return entity;
     }
 
-    public void recordSnapshot(String sourceSnapshotId, String vendorSchemaVersion) {
+    public void recordSnapshot(String sourceSnapshotId, String vendorSchemaVersion, String canonicalSnapshotHash) {
         this.sourceSnapshotId = sourceSnapshotId;
         this.vendorSchemaVersion = vendorSchemaVersion;
+        this.canonicalSnapshotHash = canonicalSnapshotHash;
     }
 
-    public void complete(
+    public void markRunning(Instant startedAt, Long leaseFencingToken) {
+        this.startedAt = startedAt;
+        this.leaseFencingToken = leaseFencingToken;
+        this.status = "RUNNING";
+    }
+
+    public boolean complete(
             Instant completedAt,
             int entitiesRead,
             int entitiesCreated,
@@ -98,6 +149,9 @@ public class NetworkImportBatchEntity {
             int conflictsDetected,
             int missingEntitiesDetected
     ) {
+        if (!"RUNNING".equals(this.status) && !"REQUESTED".equals(this.status)) {
+            return false;
+        }
         this.completedAt = completedAt;
         this.status = "COMPLETED";
         this.entitiesRead = entitiesRead;
@@ -108,12 +162,50 @@ public class NetworkImportBatchEntity {
         this.conflictsDetected = conflictsDetected;
         this.missingEntitiesDetected = missingEntitiesDetected;
         this.error = null;
+        this.failureCode = null;
+        this.retryable = null;
+        return true;
     }
 
-    public void fail(Instant completedAt, String error) {
+    public void completeReplay(
+            Instant completedAt,
+            UUID originalSuccessfulExecutionId,
+            String sourceSnapshotId,
+            String vendorSchemaVersion,
+            String canonicalSnapshotHash
+    ) {
+        this.executionType = "REPLAY";
+        this.status = "COMPLETED";
         this.completedAt = completedAt;
-        this.status = "FAILED";
+        this.originalSuccessfulExecutionId = originalSuccessfulExecutionId;
+        this.sourceSnapshotId = sourceSnapshotId;
+        this.vendorSchemaVersion = vendorSchemaVersion;
+        this.canonicalSnapshotHash = canonicalSnapshotHash;
+        this.entitiesRead = 0;
+        this.entitiesCreated = 0;
+        this.entitiesUpdated = 0;
+        this.entitiesUnchanged = 0;
+        this.entitiesRejected = 0;
+        this.conflictsDetected = 0;
+        this.missingEntitiesDetected = 0;
+        this.error = null;
+        this.failureCode = null;
+        this.retryable = null;
+    }
+
+    public boolean terminalize(String status, Instant completedAt, String failureCode, boolean retryable, String error) {
+        if ("COMPLETED".equals(this.status)
+                || "FAILED".equals(this.status)
+                || "TIMED_OUT".equals(this.status)
+                || "REJECTED".equals(this.status)) {
+            return false;
+        }
+        this.completedAt = completedAt;
+        this.status = status;
+        this.failureCode = failureCode;
+        this.retryable = retryable;
         this.error = error;
+        return true;
     }
 
     public UUID getId() {
@@ -182,5 +274,49 @@ public class NetworkImportBatchEntity {
 
     public String getError() {
         return error;
+    }
+
+    public String getExecutionType() {
+        return executionType;
+    }
+
+    public int getAttemptNumber() {
+        return attemptNumber;
+    }
+
+    public UUID getPreviousExecutionId() {
+        return previousExecutionId;
+    }
+
+    public UUID getOriginalSuccessfulExecutionId() {
+        return originalSuccessfulExecutionId;
+    }
+
+    public String getSourceScope() {
+        return sourceScope;
+    }
+
+    public String getCanonicalSnapshotHash() {
+        return canonicalSnapshotHash;
+    }
+
+    public String getFailureCode() {
+        return failureCode;
+    }
+
+    public Boolean getRetryable() {
+        return retryable;
+    }
+
+    public String getOwnerInstanceId() {
+        return ownerInstanceId;
+    }
+
+    public Long getLeaseFencingToken() {
+        return leaseFencingToken;
+    }
+
+    public Instant getRequestedAt() {
+        return requestedAt;
     }
 }

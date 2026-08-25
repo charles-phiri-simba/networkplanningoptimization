@@ -69,7 +69,14 @@ public class EricssonFixtureAdapter implements NetworkSourceAdapter {
             case MISSING_OMIT -> "/integration/ericsson/missing-omit.json";
             case REJECT -> "/integration/ericsson/reject.json";
             case PARTIAL -> "/integration/ericsson/partial.json";
+            case REAPPEAR -> "/integration/ericsson/reappear.json";
             case CATASTROPHIC -> "/integration/ericsson/catastrophic.json";
+            case DELAY -> "/integration/ericsson/delay.json";
+            case SNAPSHOT_FAIL -> throw new IntegrationSnapshotException("Ericsson snapshot read failed");
+            case CONTENT_MISMATCH -> "/integration/ericsson/content-mismatch.json";
+            case COMMIT_FAIL -> "/integration/ericsson/commit-fail.json";
+            case TIMEOUT -> "/integration/ericsson/timeout.json";
+            case IDENTITY_BASE -> "/integration/ericsson/identity-base.json";
         };
     }
 

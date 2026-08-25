@@ -1,0 +1,45 @@
+{
+  "exportId": "er-snap-timeout-001",
+  "schema": "ERICSSON_FIXTURE_V1",
+  "capturedAt": "2026-08-25T10:00:00Z",
+  "complete": true,
+  "managedElements": [
+    {
+      "moId": "ME-E-TIMEOUT",
+      "dn": "SubNetwork=SN1,MeContext=SITE-E-TIMEOUT",
+      "userLabel": "Ericsson Timeout Site",
+      "snipCanonicalId": "SITE-E-TIMEOUT",
+      "geo": { "lat": -26.24, "lon": 28.08 },
+      "administrativeState": "UNLOCKED"
+    }
+  ],
+  "gnodeBs": [
+    {
+      "moId": "GNBMO-E-TIMEOUT",
+      "dn": "SubNetwork=SN1,MeContext=SITE-E-TIMEOUT,ManagedElement=GNB-E-TIMEOUT",
+      "userLabel": "Ericsson gNB timeout",
+      "snipCanonicalId": "GNB-E-TIMEOUT",
+      "parentSiteCanonicalId": "SITE-E-TIMEOUT",
+      "productName": "AIR-6488",
+      "administrativeState": "UNLOCKED"
+    }
+  ],
+  "nrCells": [
+    {
+      "moId": "CELLMO-E-TIMEOUT",
+      "ldn": "ManagedElement=GNB-E-TIMEOUT,GNBDUFunction=1,NRCellDU=CELL-E-TIMEOUT",
+      "userLabel": "Ericsson NR timeout cell",
+      "snipCanonicalId": "CELL-E-TIMEOUT",
+      "parentGnbCanonicalId": "GNB-E-TIMEOUT",
+      "rat": "NR",
+      "freqBand": "n78",
+      "earfcnDl": 630000,
+      "physicalCellId": 401,
+      "dlBandwidth": 40,
+      "duplex": "TDD",
+      "administrativeState": "UNLOCKED",
+      "configuredMaxTxPower": 460
+    }
+  ],
+  "cellRelations": []
+}

@@ -8,5 +8,12 @@ public enum FixtureKind {
     MISSING_OMIT,
     REJECT,
     PARTIAL,
-    CATASTROPHIC
+    REAPPEAR,
+    CATASTROPHIC,
+    DELAY,
+    SNAPSHOT_FAIL,
+    CONTENT_MISMATCH,
+    COMMIT_FAIL,
+    TIMEOUT,
+    IDENTITY_BASE
 }

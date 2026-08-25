@@ -28,6 +28,7 @@ import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.Arrays;
 import java.util.List;
+import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
@@ -71,6 +72,10 @@ class MultiVendorIntegrationApiTest extends AbstractPostgresIT {
     void ericssonNormalImportCreatesCanonicalStateAndAudit() {
         ImportBatchDto batch = importEricsson(FixtureKind.NORMAL);
         assertEquals("COMPLETED", batch.status());
+        assertEquals("NEW", batch.executionType());
+        assertEquals(1, batch.attemptNumber());
+        assertEquals("DEFAULT", batch.sourceScope());
+        assertNotNull(batch.canonicalSnapshotHash());
         assertEquals("ERICSSON_FIXTURE", batch.sourceSystem());
         assertEquals("ERICSSON_FIXTURE_V1", batch.vendorSchemaVersion());
         assertEquals("er-snap-normal-001", batch.sourceSnapshotId());
@@ -92,11 +97,18 @@ class MultiVendorIntegrationApiTest extends AbstractPostgresIT {
                 .map(event -> event.getEventType()).toList();
         assertEquals(List.of(
                 "IMPORT_STARTED",
+                "LEASE_ACQUIRED",
                 "SNAPSHOT_READ",
                 "VALIDATION_COMPLETED",
                 "RECONCILIATION_COMPLETED",
-                "IMPORT_COMPLETED"
+                "IMPORT_COMPLETED",
+                "LEASE_RELEASED"
         ), types);
+        ImportCheckpointDto[] checkpoints = http.getForObject(
+                "/api/v1/integration/imports/" + batch.importId() + "/checkpoints", ImportCheckpointDto[].class);
+        assertEquals(5, checkpoints.length);
+        assertEquals("SNAPSHOT_READ", checkpoints[0].checkpointType());
+        assertEquals("CANONICAL_COMMIT_COMPLETED", checkpoints[4].checkpointType());
     }
 
     @Test
@@ -104,9 +116,13 @@ class MultiVendorIntegrationApiTest extends AbstractPostgresIT {
     void identicalEricssonReimportIsIdempotent() {
         ImportBatchDto batch = importEricsson(FixtureKind.NORMAL);
         assertEquals("COMPLETED", batch.status());
+        assertEquals("REPLAY", batch.executionType());
+        assertEquals("DEFAULT", batch.sourceScope());
+        assertNotNull(batch.originalSuccessfulExecutionId());
+        assertNotEquals(batch.importId(), batch.originalSuccessfulExecutionId());
         assertEquals(0, batch.entitiesCreated());
         assertEquals(0, batch.entitiesUpdated());
-        assertTrue(batch.entitiesUnchanged() > 0);
+        assertEquals(0, batch.entitiesUnchanged());
         assertEquals(1, cellRepository.findByCellId("CELL-E001").stream().count());
         assertEquals(1, jdbc.queryForObject(
                 "SELECT COUNT(*) FROM neighbour_relationship n JOIN cell s ON s.id = n.source_cell_id JOIN cell t ON t.id = n.target_cell_id WHERE s.cell_id='CELL-E001' AND t.cell_id='CELL-E002'",
@@ -114,6 +130,11 @@ class MultiVendorIntegrationApiTest extends AbstractPostgresIT {
         assertEquals(1, jdbc.queryForObject(
                 "SELECT COUNT(*) FROM network_source_reference WHERE canonical_entity_id='CELL-E001' AND source_system='ERICSSON_FIXTURE'",
                 Integer.class));
+        ImportBatchDto original = http.getForObject(
+                "/api/v1/integration/imports/" + batch.originalSuccessfulExecutionId(), ImportBatchDto.class);
+        assertEquals("NEW", original.executionType());
+        assertEquals("COMPLETED", original.status());
+        assertEquals(original.canonicalSnapshotHash(), batch.canonicalSnapshotHash());
     }
 
     @Test
@@ -164,7 +185,7 @@ class MultiVendorIntegrationApiTest extends AbstractPostgresIT {
         assertTrue(batch.missingEntitiesDetected() >= 1);
         assertEquals("MISSING", sourceStatus("CELL", "CELL-E002"));
         assertTrue(cellRepository.findByCellId("CELL-E002").isPresent());
-        importEricsson(FixtureKind.NORMAL);
+        importEricsson(FixtureKind.REAPPEAR);
         assertEquals("ACTIVE", sourceStatus("CELL", "CELL-E002"));
     }
 
@@ -251,6 +272,16 @@ class MultiVendorIntegrationApiTest extends AbstractPostgresIT {
             Integer versionsAfter = jdbc.queryForObject(
                     "SELECT COUNT(*) FROM network_twin_version WHERE twin_id = ?", Integer.class, twin.id());
             assertEquals(versionsBefore, versionsAfter);
+            ImportBatchDto replay = importEricsson(FixtureKind.CELL001_STALE);
+            assertEquals("REPLAY", replay.executionType());
+            assertEquals(0, replay.entitiesCreated());
+            assertEquals(0, replay.entitiesUpdated());
+            TwinDetailDto afterReplay = http.getForObject("/api/v1/twins/" + twin.id(), TwinDetailDto.class);
+            assertEquals("STALE", afterReplay.freshness());
+            assertEquals(version, afterReplay.latestVersion());
+            Integer versionsReplay = jdbc.queryForObject(
+                    "SELECT COUNT(*) FROM network_twin_version WHERE twin_id = ?", Integer.class, twin.id());
+            assertEquals(versionsBefore, versionsReplay);
         } finally {
             jdbc.update(
                     "UPDATE radio_configuration SET parameter_value = '46' WHERE parameter_name = 'txPower' AND cell_id = (SELECT id FROM cell WHERE cell_id = 'CELL-001')");
@@ -275,6 +306,14 @@ class MultiVendorIntegrationApiTest extends AbstractPostgresIT {
                 new CreateImportRequest("NOT_A_KIND"),
                 String.class);
         assertEquals(HttpStatus.BAD_REQUEST, badKind.getStatusCode());
+        ResponseEntity<String> delayKind = http.postForEntity(
+                "/api/v1/integration/imports/ericsson",
+                new CreateImportRequest("DELAY"),
+                String.class);
+        assertEquals(HttpStatus.BAD_REQUEST, delayKind.getStatusCode());
+        ResponseEntity<Map> health = http.getForEntity("/api/v1/integration/health", Map.class);
+        assertEquals(HttpStatus.OK, health.getStatusCode());
+        assertTrue(((Number) health.getBody().get("activeImports")).intValue() >= 0);
         ResponseEntity<ImportBatchDto[]> listed = http.getForEntity("/api/v1/integration/imports", ImportBatchDto[].class);
         assertEquals(HttpStatus.OK, listed.getStatusCode());
         assertTrue(listed.getBody().length >= 1);
