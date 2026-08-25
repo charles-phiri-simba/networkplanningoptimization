@@ -33,6 +33,27 @@ public class GnbEntity {
     @Column(nullable = false, length = 32)
     private String status;
 
+    public static GnbEntity create(
+            UUID id, String gnbId, String name, SiteEntity site, String vendor, String model, String status
+    ) {
+        GnbEntity entity = new GnbEntity();
+        entity.id = id;
+        entity.gnbId = gnbId;
+        entity.name = name;
+        entity.site = site;
+        entity.vendor = vendor;
+        entity.model = model;
+        entity.status = status;
+        return entity;
+    }
+
+    public void applyInventory(String name, String vendor, String model, String status) {
+        this.name = name;
+        this.vendor = vendor;
+        this.model = model;
+        this.status = status;
+    }
+
     public UUID getId() {
         return id;
     }

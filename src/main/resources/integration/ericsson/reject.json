@@ -1,0 +1,148 @@
+{
+  "exportId": "er-snap-reject-001",
+  "schema": "ERICSSON_FIXTURE_V1",
+  "capturedAt": "2026-08-25T14:00:00Z",
+  "complete": true,
+  "managedElements": [
+    {
+      "moId": "ME-R001",
+      "dn": "SubNetwork=SN1,MeContext=SITE-R001",
+      "userLabel": "Rejection Demo Site",
+      "snipCanonicalId": "SITE-R001",
+      "geo": { "lat": -26.24, "lon": 28.08 },
+      "administrativeState": "UNLOCKED"
+    }
+  ],
+  "gnodeBs": [
+    {
+      "moId": "GNBMO-R001",
+      "dn": "SubNetwork=SN1,MeContext=SITE-R001,ManagedElement=GNB-R001",
+      "userLabel": "Rejection Demo gNB",
+      "snipCanonicalId": "GNB-R001",
+      "parentSiteCanonicalId": "SITE-R001",
+      "productName": "AIR-6488",
+      "administrativeState": "UNLOCKED"
+    }
+  ],
+  "nrCells": [
+    {
+      "moId": "CELLMO-R001",
+      "ldn": "ManagedElement=GNB-R001,GNBDUFunction=1,NRCellDU=CELL-R001",
+      "userLabel": "Valid rejection-fixture cell",
+      "snipCanonicalId": "CELL-R001",
+      "parentGnbCanonicalId": "GNB-R001",
+      "rat": "NR",
+      "freqBand": "n78",
+      "earfcnDl": 630000,
+      "physicalCellId": 401,
+      "dlBandwidth": 40,
+      "duplex": "TDD",
+      "administrativeState": "UNLOCKED",
+      "configuredMaxTxPower": 460
+    },
+    {
+      "moId": "CELLMO-BADTECH",
+      "ldn": "ManagedElement=GNB-R001,NRCellDU=BADTECH",
+      "userLabel": "Unsupported RAT",
+      "snipCanonicalId": "CELL-R-BADTECH",
+      "parentGnbCanonicalId": "GNB-R001",
+      "rat": "GSM",
+      "freqBand": "n78",
+      "earfcnDl": 630000,
+      "physicalCellId": 402,
+      "dlBandwidth": 40,
+      "duplex": "TDD",
+      "administrativeState": "UNLOCKED",
+      "configuredMaxTxPower": 460
+    },
+    {
+      "moId": "CELLMO-BADPWR",
+      "ldn": "ManagedElement=GNB-R001,NRCellDU=BADPWR",
+      "userLabel": "Out of range power",
+      "snipCanonicalId": "CELL-R-BADPWR",
+      "parentGnbCanonicalId": "GNB-R001",
+      "rat": "NR",
+      "freqBand": "n78",
+      "earfcnDl": 630000,
+      "physicalCellId": 403,
+      "dlBandwidth": 40,
+      "duplex": "TDD",
+      "administrativeState": "UNLOCKED",
+      "configuredMaxTxPower": 5
+    },
+    {
+      "moId": "CELLMO-NOPARENT",
+      "ldn": "ManagedElement=MISSING,NRCellDU=NOPARENT",
+      "userLabel": "Missing parent",
+      "snipCanonicalId": "CELL-R-NOPARENT",
+      "parentGnbCanonicalId": "GNB-MISSING",
+      "rat": "NR",
+      "freqBand": "n78",
+      "earfcnDl": 630000,
+      "physicalCellId": 404,
+      "dlBandwidth": 40,
+      "duplex": "TDD",
+      "administrativeState": "UNLOCKED",
+      "configuredMaxTxPower": 460
+    },
+    {
+      "ldn": "ManagedElement=GNB-R001,NRCellDU=NOSRC",
+      "userLabel": "Missing source id",
+      "snipCanonicalId": "CELL-R-NOSRC",
+      "parentGnbCanonicalId": "GNB-R001",
+      "rat": "NR",
+      "freqBand": "n78",
+      "duplex": "TDD",
+      "administrativeState": "UNLOCKED",
+      "configuredMaxTxPower": 460
+    },
+    {
+      "moId": "CELLMO-DUP",
+      "ldn": "ManagedElement=GNB-R001,NRCellDU=DUP-A",
+      "userLabel": "Duplicate A",
+      "snipCanonicalId": "CELL-R-DUP-A",
+      "parentGnbCanonicalId": "GNB-R001",
+      "rat": "NR",
+      "freqBand": "n78",
+      "earfcnDl": 630000,
+      "physicalCellId": 405,
+      "dlBandwidth": 40,
+      "duplex": "TDD",
+      "administrativeState": "UNLOCKED",
+      "configuredMaxTxPower": 460
+    },
+    {
+      "moId": "CELLMO-DUP",
+      "ldn": "ManagedElement=GNB-R001,NRCellDU=DUP-B",
+      "userLabel": "Duplicate B",
+      "snipCanonicalId": "CELL-R-DUP-B",
+      "parentGnbCanonicalId": "GNB-R001",
+      "rat": "NR",
+      "freqBand": "n78",
+      "earfcnDl": 630000,
+      "physicalCellId": 406,
+      "dlBandwidth": 40,
+      "duplex": "TDD",
+      "administrativeState": "UNLOCKED",
+      "configuredMaxTxPower": 460
+    }
+  ],
+  "cellRelations": [
+    {
+      "moId": "REL-R-UNKNOWN",
+      "dn": "ManagedElement=GNB-R001,NRCellRelation=UNKNOWN",
+      "sourceCanonicalId": "CELL-R001",
+      "targetCanonicalId": "CELL-UNKNOWN",
+      "relationType": "INTRA_FREQUENCY",
+      "administrativeState": "UNLOCKED"
+    },
+    {
+      "moId": "REL-R-SELF",
+      "dn": "ManagedElement=GNB-R001,NRCellRelation=SELF",
+      "sourceCanonicalId": "CELL-R001",
+      "targetCanonicalId": "CELL-R001",
+      "relationType": "INTRA_FREQUENCY",
+      "administrativeState": "UNLOCKED"
+    }
+  ]
+}

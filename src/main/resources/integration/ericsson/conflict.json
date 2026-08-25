@@ -1,0 +1,45 @@
+{
+  "exportId": "er-snap-conflict-001",
+  "schema": "ERICSSON_FIXTURE_V1",
+  "capturedAt": "2026-08-25T10:15:00Z",
+  "complete": true,
+  "managedElements": [
+    {
+      "moId": "ME-C001",
+      "dn": "SubNetwork=SN1,MeContext=SITE-CONFLICT-001",
+      "userLabel": "Conflict Demo Site",
+      "snipCanonicalId": "SITE-CONFLICT-001",
+      "geo": { "lat": -26.23, "lon": 28.07 },
+      "administrativeState": "UNLOCKED"
+    }
+  ],
+  "gnodeBs": [
+    {
+      "moId": "GNBMO-C001",
+      "dn": "SubNetwork=SN1,MeContext=SITE-CONFLICT-001,ManagedElement=GNB-CONFLICT-001",
+      "userLabel": "Conflict Demo gNB",
+      "snipCanonicalId": "GNB-CONFLICT-001",
+      "parentSiteCanonicalId": "SITE-CONFLICT-001",
+      "productName": "AIR-6488",
+      "administrativeState": "UNLOCKED"
+    }
+  ],
+  "nrCells": [
+    {
+      "moId": "CELLMO-C001",
+      "ldn": "ManagedElement=GNB-CONFLICT-001,GNBDUFunction=1,NRCellDU=CELL-CONFLICT-001",
+      "userLabel": "Conflict cell",
+      "snipCanonicalId": "CELL-CONFLICT-001",
+      "parentGnbCanonicalId": "GNB-CONFLICT-001",
+      "rat": "NR",
+      "freqBand": "n78",
+      "earfcnDl": 630000,
+      "physicalCellId": 301,
+      "dlBandwidth": 40,
+      "duplex": "TDD",
+      "administrativeState": "UNLOCKED",
+      "configuredMaxTxPower": 460
+    }
+  ],
+  "cellRelations": []
+}

@@ -1,0 +1,66 @@
+{
+  "snapshotUid": "nk-snap-normal-001",
+  "schemaVersion": "NOKIA_FIXTURE_V1",
+  "timeStamp": "2026-08-25T10:05:00Z",
+  "fullExport": true,
+  "btsSites": [
+    {
+      "distName": "PLMN-PLMN/MRBTS-N001",
+      "siteName": "Nokia Midband Site",
+      "snipId": "SITE-N001",
+      "latitude": -26.22,
+      "longitude": 28.06,
+      "operationalState": "enabled"
+    }
+  ],
+  "nrbts": [
+    {
+      "distName": "PLMN-PLMN/MRBTS-N001/NRBTS-1",
+      "btsName": "Nokia gNB N001",
+      "snipId": "GNB-N001",
+      "parentSite": "SITE-N001",
+      "vendorName": "Nokia",
+      "hardware": "AHFIA",
+      "operationalState": "enabled"
+    }
+  ],
+  "lcells": [
+    {
+      "distName": "PLMN-PLMN/MRBTS-N001/LNCEL-1",
+      "cellName": "Nokia NR cell N001",
+      "snipId": "CELL-N001",
+      "parentGnb": "GNB-N001",
+      "technology": "5G-NR",
+      "operatingBand": "n78",
+      "nrarfcn": 630000,
+      "pci": 201,
+      "channelBw": 40,
+      "duplexMode": "TDD",
+      "operationalState": "enabled",
+      "pMax": 46.0
+    },
+    {
+      "distName": "PLMN-PLMN/MRBTS-N001/LNCEL-2",
+      "cellName": "Nokia NR cell N002",
+      "snipId": "CELL-N002",
+      "parentGnb": "GNB-N001",
+      "technology": "5G-NR",
+      "operatingBand": "n78",
+      "nrarfcn": 630000,
+      "pci": 202,
+      "channelBw": 40,
+      "duplexMode": "TDD",
+      "operationalState": "enabled",
+      "pMax": 43.0
+    }
+  ],
+  "adjs": [
+    {
+      "distName": "PLMN-PLMN/MRBTS-N001/LNCEL-1/LNADJL-1",
+      "sourceSnipId": "CELL-N001",
+      "targetSnipId": "CELL-N002",
+      "adjType": "INTRA_FREQUENCY",
+      "operationalState": "enabled"
+    }
+  ]
+}

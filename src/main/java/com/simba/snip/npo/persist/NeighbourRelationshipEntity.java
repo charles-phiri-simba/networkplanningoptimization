@@ -31,6 +31,18 @@ public class NeighbourRelationshipEntity {
     @Column(nullable = false, length = 32)
     private String status;
 
+    public static NeighbourRelationshipEntity create(
+            UUID id, CellEntity sourceCell, CellEntity targetCell, String relationType, String status
+    ) {
+        NeighbourRelationshipEntity entity = new NeighbourRelationshipEntity();
+        entity.id = id;
+        entity.sourceCell = sourceCell;
+        entity.targetCell = targetCell;
+        entity.relationType = relationType;
+        entity.status = status;
+        return entity;
+    }
+
     public UUID getId() {
         return id;
     }

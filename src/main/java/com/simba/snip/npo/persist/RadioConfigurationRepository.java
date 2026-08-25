@@ -8,4 +8,6 @@ import java.util.UUID;
 public interface RadioConfigurationRepository extends JpaRepository<RadioConfigurationEntity, UUID> {
 
     List<RadioConfigurationEntity> findByCell_IdOrderByParameterNameAsc(UUID cellId);
+
+    java.util.Optional<RadioConfigurationEntity> findByCell_IdAndParameterName(UUID cellId, String parameterName);
 }

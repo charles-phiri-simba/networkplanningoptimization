@@ -10,4 +10,8 @@ public interface NeighbourRelationshipRepository extends JpaRepository<Neighbour
 
     @EntityGraph(attributePaths = {"sourceCell", "targetCell"})
     List<NeighbourRelationshipEntity> findBySourceCell_IdOrderByTargetCell_CellIdAsc(UUID sourceCellId);
+
+    java.util.Optional<NeighbourRelationshipEntity> findBySourceCell_CellIdAndTargetCell_CellId(
+            String sourceCellId, String targetCellId
+    );
 }

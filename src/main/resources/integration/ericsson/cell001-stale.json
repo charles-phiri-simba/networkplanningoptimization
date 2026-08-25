@@ -1,0 +1,46 @@
+{
+  "exportId": "er-snap-cell001-stale-001",
+  "schema": "ERICSSON_FIXTURE_V1",
+  "capturedAt": "2026-08-25T13:00:00Z",
+  "complete": false,
+  "managedElements": [
+    {
+      "moId": "ME-001",
+      "dn": "SubNetwork=SN1,MeContext=SITE-001",
+      "userLabel": "Midband Demo Site",
+      "snipCanonicalId": "SITE-001",
+      "geo": { "lat": -26.2041, "lon": 28.0473 },
+      "administrativeState": "UNLOCKED"
+    }
+  ],
+  "gnodeBs": [
+    {
+      "moId": "GNBMO-001",
+      "dn": "SubNetwork=SN1,MeContext=SITE-001,ManagedElement=GNB-001",
+      "userLabel": "Demo gNB Midband",
+      "snipCanonicalId": "GNB-001",
+      "parentSiteCanonicalId": "SITE-001",
+      "equipmentVendor": "DemoVendor",
+      "productName": "SNIP-RAN-1",
+      "administrativeState": "UNLOCKED"
+    }
+  ],
+  "nrCells": [
+    {
+      "moId": "CELLMO-001",
+      "ldn": "ManagedElement=GNB-001,GNBDUFunction=1,NRCellDU=CELL-001",
+      "userLabel": "n78-1 high-BLER demo",
+      "snipCanonicalId": "CELL-001",
+      "parentGnbCanonicalId": "GNB-001",
+      "rat": "NR",
+      "freqBand": "n78",
+      "earfcnDl": 630000,
+      "physicalCellId": 12,
+      "dlBandwidth": 40,
+      "duplex": "TDD",
+      "administrativeState": "UNLOCKED",
+      "configuredMaxTxPower": 440
+    }
+  ],
+  "cellRelations": []
+}

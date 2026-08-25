@@ -33,6 +33,24 @@ public class RadioConfigurationEntity {
     @Column(name = "effective_from", nullable = false)
     private Instant effectiveFrom;
 
+    public static RadioConfigurationEntity create(
+            UUID id, CellEntity cell, String parameterName, String parameterValue, String unit, Instant effectiveFrom
+    ) {
+        RadioConfigurationEntity entity = new RadioConfigurationEntity();
+        entity.id = id;
+        entity.cell = cell;
+        entity.parameterName = parameterName;
+        entity.parameterValue = parameterValue;
+        entity.unit = unit;
+        entity.effectiveFrom = effectiveFrom;
+        return entity;
+    }
+
+    public void applyValue(String parameterValue, Instant effectiveFrom) {
+        this.parameterValue = parameterValue;
+        this.effectiveFrom = effectiveFrom;
+    }
+
     public UUID getId() {
         return id;
     }

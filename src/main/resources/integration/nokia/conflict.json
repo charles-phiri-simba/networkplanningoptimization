@@ -1,0 +1,44 @@
+{
+  "snapshotUid": "nk-snap-conflict-001",
+  "schemaVersion": "NOKIA_FIXTURE_V1",
+  "timeStamp": "2026-08-25T10:20:00Z",
+  "fullExport": true,
+  "btsSites": [
+    {
+      "distName": "PLMN-PLMN/MRBTS-C001",
+      "siteName": "Conflict Demo Site",
+      "snipId": "SITE-CONFLICT-001",
+      "latitude": -26.23,
+      "longitude": 28.07,
+      "operationalState": "enabled"
+    }
+  ],
+  "nrbts": [
+    {
+      "distName": "PLMN-PLMN/MRBTS-C001/NRBTS-1",
+      "btsName": "Conflict Demo gNB",
+      "snipId": "GNB-CONFLICT-001",
+      "parentSite": "SITE-CONFLICT-001",
+      "vendorName": "Nokia",
+      "hardware": "AHFIA",
+      "operationalState": "enabled"
+    }
+  ],
+  "lcells": [
+    {
+      "distName": "PLMN-PLMN/MRBTS-C001/LNCEL-1",
+      "cellName": "Conflict cell",
+      "snipId": "CELL-CONFLICT-001",
+      "parentGnb": "GNB-CONFLICT-001",
+      "technology": "5G-NR",
+      "operatingBand": "n78",
+      "nrarfcn": 630000,
+      "pci": 301,
+      "channelBw": 40,
+      "duplexMode": "TDD",
+      "operationalState": "enabled",
+      "pMax": 43.0
+    }
+  ],
+  "adjs": []
+}

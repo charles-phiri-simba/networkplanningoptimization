@@ -45,6 +45,54 @@ public class CellEntity {
     @Column(nullable = false, length = 32)
     private String status;
 
+    public static CellEntity create(
+            UUID id,
+            String cellId,
+            String name,
+            GnbEntity gnb,
+            String technology,
+            String band,
+            Integer arfcn,
+            Integer pci,
+            Integer bandwidthMhz,
+            String duplexMode,
+            String status
+    ) {
+        CellEntity entity = new CellEntity();
+        entity.id = id;
+        entity.cellId = cellId;
+        entity.name = name;
+        entity.gnb = gnb;
+        entity.technology = technology;
+        entity.band = band;
+        entity.arfcn = arfcn;
+        entity.pci = pci;
+        entity.bandwidthMhz = bandwidthMhz;
+        entity.duplexMode = duplexMode;
+        entity.status = status;
+        return entity;
+    }
+
+    public void applyInventory(
+            String name,
+            String technology,
+            String band,
+            Integer arfcn,
+            Integer pci,
+            Integer bandwidthMhz,
+            String duplexMode,
+            String status
+    ) {
+        this.name = name;
+        this.technology = technology;
+        this.band = band;
+        this.arfcn = arfcn;
+        this.pci = pci;
+        this.bandwidthMhz = bandwidthMhz;
+        this.duplexMode = duplexMode;
+        this.status = status;
+    }
+
     public UUID getId() {
         return id;
     }

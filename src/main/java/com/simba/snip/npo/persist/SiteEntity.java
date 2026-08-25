@@ -26,6 +26,26 @@ public class SiteEntity {
     @Column(nullable = false, length = 32)
     private String status;
 
+    public static SiteEntity create(
+            UUID id, String siteId, String name, Double latitude, Double longitude, String status
+    ) {
+        SiteEntity entity = new SiteEntity();
+        entity.id = id;
+        entity.siteId = siteId;
+        entity.name = name;
+        entity.latitude = latitude;
+        entity.longitude = longitude;
+        entity.status = status;
+        return entity;
+    }
+
+    public void applyInventory(String name, Double latitude, Double longitude, String status) {
+        this.name = name;
+        this.latitude = latitude;
+        this.longitude = longitude;
+        this.status = status;
+    }
+
     public UUID getId() {
         return id;
     }
