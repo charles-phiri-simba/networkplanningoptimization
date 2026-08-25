@@ -38,6 +38,12 @@ snip:
     heartbeat-interval: 5s
     execution-timeout: 120s
     fixture-read-delay: 0s
+    security:
+      local-credentials-enabled: false
+      azure-key-vault:
+        enabled: false
+        vault-uri: ${SNIP_AZURE_KEY_VAULT_URI:}
+        authentication: MANAGED_IDENTITY
 
 spring:
   datasource:

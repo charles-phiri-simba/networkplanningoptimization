@@ -7,10 +7,11 @@ This file is the architecture library. The binding below is **authoritative for 
 **Platform:** SNIP — Simba Network Intelligence Platform  
 **This repository:** first SNIP **domain application** (Network Planning & Optimisation), not the entire enterprise platform.  
 **Phase 0:** complete — see `SNIP-PHASE-0-DISCOVERY-REPORT.md`  
-**Current authorised phase:** **Phase 8 — Integration Runtime Hardening & Reliable Synchronization** (architecturally accepted — frozen; architecture has authority; specification is the execution contract)  
-**Architecture:** `docs/architecture/SNIP-PHASE-8-INTEGRATION-RUNTIME-HARDENING-ARCHITECTURE.md`  
-**Coding contract:** `docs/implementation/SNIP-PHASE-8-INTEGRATION-RUNTIME-HARDENING-SPECIFICATION.md`  
-**Phase 7 baseline:** `10bcd3369d68a3304687a007324da4566e048098` (architecturally accepted — see `SNIP-PHASE-7-COMPLETION-REPORT.md`)  
+**Current authorised phase:** **Phase 9 — Integration Security, Connector Identity & Credential Architecture** (architecturally accepted — frozen). Phase 10 is **not** authorised.  
+**Architecture:** `docs/architecture/SNIP-PHASE-9-INTEGRATION-SECURITY-CONNECTOR-IDENTITY-CREDENTIAL-ARCHITECTURE.md`  
+**Coding contract:** `docs/implementation/SNIP-PHASE-9-INTEGRATION-SECURITY-CONNECTOR-IDENTITY-CREDENTIAL-SPECIFICATION.md`  
+**Phase 8 baseline:** `7028bf39f90c26bdddb23000c0c5803c4f8c7686` (architecturally accepted — see `SNIP-PHASE-8-COMPLETION-REPORT.md`)  
+**Phase 9:** architecturally accepted — frozen — see `SNIP-PHASE-9-COMPLETION-REPORT.md`. Git baseline is not established until explicit authorization.  
 **Status:** `SNIP-IMPLEMENTATION-STATUS.md`
 
 ```text
@@ -47,12 +48,15 @@ Phase 7     Multi-Vendor Network Integration             (done — frozen)
 Phase 8     Integration Runtime Hardening                (done — frozen)
     │
     ▼
-Phase 9     (closed)
+Phase 9     Integration Security / Connector Identity    (done — frozen)
+    │
+    ▼
+Phase 10    (closed)
 ```
 
-This repository’s Phase 8 is a **fixture-first reliable import runtime** around the frozen Phase 7 Ericsson/Nokia integration foundation, not production ENM/NetAct connectivity, vendor writes, or vendor telemetry. Phase 7 remains authoritative for vendor adapters, the SNIP-owned canonical model, and deterministic reconciliation. Phase 8 authorises durable NEW/RETRY/REPLAY executions, PostgreSQL source-scope leases with fencing, checkpoints, atomic canonical commit, and a bounded import watchdog. Vendor-specific DTOs must not leak into Assurance, Decision, Agents, Twin, RAG, or governed actions. Import may make an existing Twin STALE and must not call Twin synchronization. Replay must not mutate canonical state. **Agents must not invoke MCP, approve actions, override policy, mutate Twin baselines, or write the live network. The LLM must not produce authoritative numeric predictions or reconciliation outcomes. Do not implement Agent Factory, remote MCP, live network writes, real ENM/NetAct, integration security/credential architecture, scheduled synchronization, or Phase 9.**
+This repository’s Phase 9 is a **fixture-first MOCK_SECURE connector security proof** around the frozen Phase 8 import runtime and frozen Phase 7 Ericsson/Nokia reconciliation, not production ENM/NetAct connectivity, live Azure Key Vault, vendor writes, or vendor telemetry. Phase 8 remains authoritative for NEW/RETRY/REPLAY, PostgreSQL source-scope leases with fencing, checkpoints, atomic canonical commit, and the import watchdog. Phase 7 remains authoritative for vendor adapters, the SNIP-owned canonical model, and deterministic reconciliation. Phase 9 authorises fixed connector identities, externally referenced credentials, per-connector TLS/optional mTLS, read-only authorization allow-lists, and application-level network egress policy. Vendor credentials are infrastructure security material and never domain data. Vendor-specific DTOs must not leak into Assurance, Decision, Agents, Twin, RAG, or governed actions. Import may make an existing Twin STALE and must not call Twin synchronization. Replay must not mutate canonical state. **Agents must not invoke MCP, approve actions, override policy, mutate Twin baselines, write the live network, or access credentials. The LLM must not produce authoritative numeric predictions or reconciliation outcomes. Do not implement Agent Factory, remote MCP, live network writes, real ENM/NetAct, live Key Vault, scheduled synchronization, or Phase 10.**
 
-Cursor must not add Phase 4, Phase 5, Phase 6, Phase 7, or Phase 8 functionality and must not start Phase 9. Do not redesign Phase 1A/1A.1 semantic RAG, the Phase 1B domain model, the Phase 2 Kafka/telemetry slice, the frozen Phase 3 assurance slice, the frozen Phase 4 governed-action slice, the frozen Phase 5 agent slice, the frozen Phase 6 Twin/simulation slice, the frozen Phase 7 reconciliation rules, or the frozen Phase 8 import runtime. Non-interruptible per-Agent timeout remains accepted Phase 5 technical debt. Failed Twin simulation attempts are not persisted as `SimulationRun` records; that remains accepted Phase 6 technical debt. Do not add import queues, automatic retries, schedulers, record-level resume, cancellation APIs, raw snapshot archival, Kubernetes deployment, vendor telemetry, vendor writes, or new MCP tools. PostgreSQL lease + fencing remains the accepted coordination mechanism and canonical commit authority.
+Cursor must not add Phase 4, Phase 5, Phase 6, Phase 7, Phase 8, or Phase 9 functionality and must not start Phase 10. Do not redesign Phase 1A/1A.1 semantic RAG, the Phase 1B domain model, the Phase 2 Kafka/telemetry slice, the frozen Phase 3 assurance slice, the frozen Phase 4 governed-action slice, the frozen Phase 5 agent slice, the frozen Phase 6 Twin/simulation slice, the frozen Phase 7 reconciliation rules, the frozen Phase 8 import runtime, or the frozen Phase 9 connector security envelope. Non-interruptible per-Agent timeout remains accepted Phase 5 technical debt. Failed Twin simulation attempts are not persisted as `SimulationRun` records; that remains accepted Phase 6 technical debt. Do not add import queues, automatic retries, schedulers, record-level resume, cancellation APIs, raw snapshot archival, Kubernetes deployment, vendor telemetry, vendor writes, OAuth, live Azure Key Vault calls, real ENM/NetAct, or new MCP tools. PostgreSQL lease + fencing remains the accepted coordination mechanism and canonical commit authority. Application-level egress policy remains canonical. Connector/trust/authorization/network profiles remain static/in-code. Secrets must never be committed, logged, or returned on APIs.
 
 ---
 

@@ -1,0 +1,44 @@
+{
+  "snapshotUid": "nk-snap-secure-001",
+  "schemaVersion": "NOKIA_SECURE_MOCK_V1",
+  "timeStamp": "2026-08-25T12:05:00Z",
+  "fullExport": true,
+  "btsSites": [
+    {
+      "distName": "PLMN-PLMN/MRBTS-N-SEC001",
+      "siteName": "Nokia Secure Mock Site",
+      "snipId": "SITE-N-SEC001",
+      "latitude": -26.22,
+      "longitude": 28.06,
+      "operationalState": "enabled"
+    }
+  ],
+  "nrbts": [
+    {
+      "distName": "PLMN-PLMN/MRBTS-N-SEC001/NRBTS-1",
+      "btsName": "Nokia secure mock gNB",
+      "snipId": "GNB-N-SEC001",
+      "parentSite": "SITE-N-SEC001",
+      "vendorName": "Nokia",
+      "hardware": "AHFIA",
+      "operationalState": "enabled"
+    }
+  ],
+  "lcells": [
+    {
+      "distName": "PLMN-PLMN/MRBTS-N-SEC001/LNCEL-1",
+      "cellName": "Nokia secure mock cell",
+      "snipId": "CELL-N-SEC001",
+      "parentGnb": "GNB-N-SEC001",
+      "technology": "5G-NR",
+      "operatingBand": "n78",
+      "nrarfcn": 630000,
+      "pci": 211,
+      "channelBw": 40,
+      "duplexMode": "TDD",
+      "operationalState": "enabled",
+      "pMax": 46.0
+    }
+  ],
+  "adjs": []
+}

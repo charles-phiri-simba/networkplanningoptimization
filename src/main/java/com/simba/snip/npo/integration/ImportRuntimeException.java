@@ -29,9 +29,12 @@ public class ImportRuntimeException extends RuntimeException {
 
     public static boolean retryableDefault(ImportFailureCode code) {
         return switch (code) {
-            case SCHEMA_UNSUPPORTED, VALIDATION_FATAL, SNAPSHOT_ID_CONTENT_MISMATCH -> false;
+            case SCHEMA_UNSUPPORTED, VALIDATION_FATAL, SNAPSHOT_ID_CONTENT_MISMATCH,
+                    CONNECTOR_AUTHENTICATION_FAILED, TLS_TRUST_FAILED, CONNECTOR_AUTHORIZATION_DENIED,
+                    NETWORK_POLICY_DENIED, CONNECTOR_DISABLED -> false;
             case ADAPTER_ERROR, SNAPSHOT_READ_FAILED, LEASE_UNAVAILABLE, LEASE_LOST, LEASE_EXPIRED,
-                    EXECUTION_TIMEOUT, RECONCILIATION_FAILED, DATABASE_COMMIT_FAILED -> true;
+                    EXECUTION_TIMEOUT, RECONCILIATION_FAILED, DATABASE_COMMIT_FAILED,
+                    CREDENTIAL_RESOLUTION_FAILED -> true;
         };
     }
 }

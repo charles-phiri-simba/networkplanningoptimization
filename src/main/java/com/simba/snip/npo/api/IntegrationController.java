@@ -4,6 +4,7 @@ import com.simba.snip.npo.domain.DomainValidationException;
 import com.simba.snip.npo.integration.FixtureKind;
 import com.simba.snip.npo.integration.NetworkImportQueryService;
 import com.simba.snip.npo.integration.NetworkImportService;
+import com.simba.snip.npo.integration.security.ConnectorSecurityQueryService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -19,10 +20,16 @@ public class IntegrationController {
 
     private final NetworkImportService importService;
     private final NetworkImportQueryService queryService;
+    private final ConnectorSecurityQueryService securityQueryService;
 
-    public IntegrationController(NetworkImportService importService, NetworkImportQueryService queryService) {
+    public IntegrationController(
+            NetworkImportService importService,
+            NetworkImportQueryService queryService,
+            ConnectorSecurityQueryService securityQueryService
+    ) {
         this.importService = importService;
         this.queryService = queryService;
+        this.securityQueryService = securityQueryService;
     }
 
     @PostMapping("/api/v1/integration/imports/ericsson")
@@ -33,6 +40,24 @@ public class IntegrationController {
     @PostMapping("/api/v1/integration/imports/nokia")
     public ImportBatchDto importNokia(@RequestBody(required = false) CreateImportRequest request) {
         return queryService.importDetail(importService.importNokia(parseKind(request)).getId());
+    }
+
+    @PostMapping("/api/v1/integration/imports/connectors/{connectorId}")
+    public ImportBatchDto importConnector(
+            @PathVariable String connectorId,
+            @RequestBody(required = false) java.util.Map<String, Object> ignored
+    ) {
+        return queryService.importDetail(importService.importSecure(connectorId).getId());
+    }
+
+    @GetMapping("/api/v1/integration/connectors/security")
+    public java.util.List<java.util.Map<String, Object>> connectorSecurity() {
+        return securityQueryService.readiness();
+    }
+
+    @GetMapping("/api/v1/integration/imports/{importId}/security-audit")
+    public java.util.List<java.util.Map<String, Object>> securityAudit(@PathVariable UUID importId) {
+        return securityQueryService.audit(importId);
     }
 
     @GetMapping("/api/v1/integration/imports")

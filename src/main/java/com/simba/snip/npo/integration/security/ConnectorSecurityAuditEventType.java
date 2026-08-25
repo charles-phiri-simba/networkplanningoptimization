@@ -1,0 +1,13 @@
+package com.simba.snip.npo.integration.security;
+
+public enum ConnectorSecurityAuditEventType {
+    SESSION_REQUESTED,
+    CREDENTIAL_RESOLVED,
+    NETWORK_POLICY_VALIDATED,
+    TLS_VALIDATED,
+    AUTHENTICATION_SUCCEEDED,
+    AUTHENTICATION_FAILED,
+    AUTHORIZATION_DENIED,
+    SESSION_COMPLETED,
+    SESSION_FAILED
+}

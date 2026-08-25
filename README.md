@@ -4,7 +4,7 @@ First **SNIP** domain application: a local, **read-only** 5G planning copilot.
 
 It ingests synthetic cell telemetry, projects KPI state, detects deterministic assurance conditions, persists an Assurance Case with operational evidence, returns a cited advisory assessment, can propose **governed** actions through a local Java MCP server, can run a **bounded Agent orchestration** that gathers evidence and proposes those same Phase 4 actions, can synchronize a **cell Digital Twin** so a hypothetical `txPower` change is simulated deterministically after approval, and can **import read-only Ericsson/Nokia fixture inventory** through a durable, lease-fenced runtime into the same canonical Site/gNB/Cell graph. It does **not** change the live network.
 
-This repository is not the full Simba Network Intelligence Platform. Target-state product requirements are in [`docs/requirements/product-requirements.md`](docs/requirements/product-requirements.md). Phase 8 bounds are in [`SNIP-PHASE-8-INTEGRATION-RUNTIME-HARDENING-ARCHITECTURE.md`](SNIP-PHASE-8-INTEGRATION-RUNTIME-HARDENING-ARCHITECTURE.md) and [`SNIP-PHASE-8-INTEGRATION-RUNTIME-HARDENING-SPECIFICATION.md`](SNIP-PHASE-8-INTEGRATION-RUNTIME-HARDENING-SPECIFICATION.md). Phase 7 reconciliation remains frozen.
+This repository is not the full Simba Network Intelligence Platform. Target-state product requirements are in [`docs/requirements/product-requirements.md`](docs/requirements/product-requirements.md). Phase 8 bounds are in [`SNIP-PHASE-8-INTEGRATION-RUNTIME-HARDENING-ARCHITECTURE.md`](SNIP-PHASE-8-INTEGRATION-RUNTIME-HARDENING-ARCHITECTURE.md). Phase 9 bounds are in [`SNIP-PHASE-9-INTEGRATION-SECURITY-CONNECTOR-IDENTITY-CREDENTIAL-ARCHITECTURE.md`](SNIP-PHASE-9-INTEGRATION-SECURITY-CONNECTOR-IDENTITY-CREDENTIAL-ARCHITECTURE.md). Phase 7 reconciliation and Phase 8 import runtime remain frozen.
 
 ## Prerequisites
 
@@ -181,6 +181,7 @@ curl -s -X POST http://127.0.0.1:8080/api/v1/integration/imports/ericsson -H "Co
 curl -s -X POST http://127.0.0.1:8080/api/v1/integration/imports/ericsson -H "Content-Type: application/json" -d "{\"fixtureKind\":\"NORMAL\"}"
 curl -s http://127.0.0.1:8080/api/v1/integration/health
 curl -s http://127.0.0.1:8080/api/v1/integration/imports
+curl -s http://127.0.0.1:8080/api/v1/integration/connectors/security
 ```
 
 Canonical Phase 7 question (local fixtures only; no ENM/NetAct):
@@ -194,7 +195,7 @@ curl -s http://127.0.0.1:8080/api/v1/integration/conflicts
 
 ## What this phase does not include
 
-Live network writes, real Ericsson ENM / Nokia NetAct connectivity, OSS/NMS/EMS write integration, vendor REST/SFTP/SNMP/NETCONF, vendor telemetry adapters, automatic Twin synchronization, automatic conflict resolution, auto-remediation, Agent Factory, dynamic Agent creation, long-running autonomous Agents, direct Agent-to-MCP execution, remote third-party MCP, production RF simulation, electricalTilt simulation, automatic optimization, Kafka-triggered Twin synchronization, Schema Registry, Avro, Protobuf, Flink, Spark, Kafka Streams, a dedicated time-series DB, EKS/Kubernetes, RL, import queues, automatic retry loops, cancellation APIs, record-level resume, Phase 9.
+Live network writes, real Ericsson ENM / Nokia NetAct connectivity, live Azure Key Vault, OSS/NMS/EMS write integration, vendor REST/SFTP/SNMP/NETCONF, vendor telemetry adapters, automatic Twin synchronization, automatic conflict resolution, auto-remediation, Agent Factory, dynamic Agent creation, long-running autonomous Agents, direct Agent-to-MCP execution, remote third-party MCP, production RF simulation, electricalTilt simulation, automatic optimization, Kafka-triggered Twin synchronization, Schema Registry, Avro, Protobuf, Flink, Spark, Kafka Streams, a dedicated time-series DB, EKS/Kubernetes, RL, import queues, automatic retry loops, cancellation APIs, record-level resume, OAuth, production credentials, Phase 10.
 
 ## License
 

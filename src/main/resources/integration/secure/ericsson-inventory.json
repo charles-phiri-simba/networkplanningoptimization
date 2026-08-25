@@ -1,0 +1,45 @@
+{
+  "exportId": "er-snap-secure-001",
+  "schema": "ERICSSON_SECURE_MOCK_V1",
+  "capturedAt": "2026-08-25T12:00:00Z",
+  "complete": true,
+  "managedElements": [
+    {
+      "moId": "ME-E-SEC001",
+      "dn": "SubNetwork=SN1,MeContext=SITE-E-SEC001",
+      "userLabel": "Ericsson Secure Mock Site",
+      "snipCanonicalId": "SITE-E-SEC001",
+      "geo": { "lat": -26.21, "lon": 28.05 },
+      "administrativeState": "UNLOCKED"
+    }
+  ],
+  "gnodeBs": [
+    {
+      "moId": "GNBMO-E-SEC001",
+      "dn": "SubNetwork=SN1,MeContext=SITE-E-SEC001,ManagedElement=GNB-E-SEC001",
+      "userLabel": "Ericsson secure mock gNB",
+      "snipCanonicalId": "GNB-E-SEC001",
+      "parentSiteCanonicalId": "SITE-E-SEC001",
+      "productName": "AIR-6488",
+      "administrativeState": "UNLOCKED"
+    }
+  ],
+  "nrCells": [
+    {
+      "moId": "CELLMO-E-SEC001",
+      "ldn": "ManagedElement=GNB-E-SEC001,GNBDUFunction=1,NRCellDU=CELL-E-SEC001",
+      "userLabel": "Ericsson secure mock cell",
+      "snipCanonicalId": "CELL-E-SEC001",
+      "parentGnbCanonicalId": "GNB-E-SEC001",
+      "rat": "NR",
+      "freqBand": "n78",
+      "earfcnDl": 630000,
+      "physicalCellId": 111,
+      "dlBandwidth": 40,
+      "duplex": "TDD",
+      "administrativeState": "UNLOCKED",
+      "configuredMaxTxPower": 460
+    }
+  ],
+  "cellRelations": []
+}
