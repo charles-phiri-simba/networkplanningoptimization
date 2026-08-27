@@ -39,11 +39,26 @@ snip:
     execution-timeout: 120s
     fixture-read-delay: 0s
     security:
-      local-credentials-enabled: false
+      local-credentials-enabled: ${SNIP_LOCAL_CREDENTIALS_ENABLED:false}
+      production-runtime: ${SNIP_PRODUCTION_RUNTIME:false}
+      network-policy-configured: ${SNIP_NETWORK_POLICY_CONFIGURED:false}
+      enable-mock-connectors: ${SNIP_ENABLE_MOCK_CONNECTORS:false}
+      mock-vendor-host: ${SNIP_MOCK_VENDOR_HOST:}
       azure-key-vault:
-        enabled: false
+        enabled: ${SNIP_AZURE_KEY_VAULT_ENABLED:false}
         vault-uri: ${SNIP_AZURE_KEY_VAULT_URI:}
-        authentication: MANAGED_IDENTITY
+        authentication: ${SNIP_AZURE_KEY_VAULT_AUTH:WORKLOAD_IDENTITY}
+        environment: INT
+        client-id: ${AZURE_CLIENT_ID:}
+        timeout: 5s
+        use-sdk-client: ${SNIP_AZURE_KEY_VAULT_SDK:false}
+        secret-names:
+          ericsson-enm-int-inventory-reader: snip-int-ericsson-inventory-reader
+          nokia-netact-int-inventory-reader: snip-int-nokia-inventory-reader
+        trust-secret-names:
+          ericsson-int-custom-ca: ${SNIP_TRUST_SECRET_ERICSSON:}
+          nokia-int-custom-ca: ${SNIP_TRUST_SECRET_NOKIA:}
+        pinned-versions: {}
 
 spring:
   datasource:

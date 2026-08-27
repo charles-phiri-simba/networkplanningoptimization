@@ -1,5 +1,6 @@
 package com.simba.snip.npo.integration.security;
 
+import com.simba.snip.npo.config.ConnectorSecurityProperties;
 import com.simba.snip.npo.integration.ImportFailureCode;
 import com.simba.snip.npo.integration.Vendor;
 import org.springframework.stereotype.Component;
@@ -29,8 +30,18 @@ public class ConnectorRegistry {
     private final Map<String, ConnectorNetworkPolicy> networkPolicies = new ConcurrentHashMap<>();
     private final ConnectorEndpointRegistry endpoints;
 
-    public ConnectorRegistry(ConnectorEndpointRegistry endpoints) {
+    public ConnectorRegistry(ConnectorEndpointRegistry endpoints, ConnectorSecurityProperties properties) {
         this.endpoints = endpoints;
+        CredentialProviderType provider = properties.isProductionRuntime()
+                ? CredentialProviderType.AZURE_KEY_VAULT
+                : CredentialProviderType.LOCAL_DEVELOPMENT;
+        boolean enabled = properties.isEnableMockConnectors();
+        String mockHost = properties.getMockVendorHost() == null ? "" : properties.getMockVendorHost().trim();
+        boolean labMock = !mockHost.isBlank();
+        String ericssonHost = labMock ? mockHost : "enm.invalid";
+        String nokiaHost = labMock ? mockHost : "netact.invalid";
+        List<String> ericssonNames = labMock ? List.of(mockHost) : List.of("localhost");
+        List<String> nokiaNames = labMock ? List.of(mockHost) : List.of("localhost");
         authorizationProfiles.put(
                 ConnectorAuthorizationProfile.READ_ONLY_NETWORK_INVENTORY,
                 ConnectorAuthorizationProfile.readOnlyNetworkInventory()
@@ -38,17 +49,17 @@ public class ConnectorRegistry {
         trustProfiles.put(SYSTEM_TRUST, new ConnectorTrustProfile(
                 SYSTEM_TRUST, TrustMode.SYSTEM_CA, List.of(), true, List.of(), null));
         trustProfiles.put(ERICSSON_TRUST, new ConnectorTrustProfile(
-                ERICSSON_TRUST, TrustMode.CUSTOM_CA, List.of(), true, List.of("localhost"), null));
+                ERICSSON_TRUST, TrustMode.CUSTOM_CA, List.of(), true, ericssonNames, null));
         trustProfiles.put(NOKIA_TRUST, new ConnectorTrustProfile(
-                NOKIA_TRUST, TrustMode.CUSTOM_CA, List.of(), true, List.of("localhost"), null));
+                NOKIA_TRUST, TrustMode.CUSTOM_CA, List.of(), true, nokiaNames, null));
         networkPolicies.put(ERICSSON_NETWORK, new ConnectorNetworkPolicy(
-                ERICSSON_NETWORK, List.of("enm.invalid"), Set.of(443), true, false));
+                ERICSSON_NETWORK, List.of(ericssonHost), Set.of(443), true, false));
         networkPolicies.put(NOKIA_NETWORK, new ConnectorNetworkPolicy(
-                NOKIA_NETWORK, List.of("netact.invalid"), Set.of(443), true, false));
-        endpoints.register(new ConnectorEndpoint(ERICSSON_ENDPOINT_REF, URI.create("https://enm.invalid")));
-        endpoints.register(new ConnectorEndpoint(NOKIA_ENDPOINT_REF, URI.create("https://netact.invalid")));
-        definitions.put(ConnectorDefinition.ERICSSON_ENM_INT_INVENTORY_READER, ericsson(false, AuthenticationMethod.BASIC));
-        definitions.put(ConnectorDefinition.NOKIA_NETACT_INT_INVENTORY_READER, nokia(false, AuthenticationMethod.BASIC));
+                NOKIA_NETWORK, List.of(nokiaHost), Set.of(443), true, false));
+        endpoints.register(new ConnectorEndpoint(ERICSSON_ENDPOINT_REF, URI.create("https://" + ericssonHost)));
+        endpoints.register(new ConnectorEndpoint(NOKIA_ENDPOINT_REF, URI.create("https://" + nokiaHost)));
+        definitions.put(ConnectorDefinition.ERICSSON_ENM_INT_INVENTORY_READER, ericsson(enabled, AuthenticationMethod.BASIC, provider));
+        definitions.put(ConnectorDefinition.NOKIA_NETACT_INT_INVENTORY_READER, nokia(enabled, AuthenticationMethod.BASIC, provider));
     }
 
     public ConnectorDefinition require(String connectorId) {
@@ -129,7 +140,7 @@ public class ConnectorRegistry {
         return updated;
     }
 
-    private static ConnectorDefinition ericsson(boolean enabled, AuthenticationMethod method) {
+    private static ConnectorDefinition ericsson(boolean enabled, AuthenticationMethod method, CredentialProviderType provider) {
         return new ConnectorDefinition(
                 ConnectorDefinition.ERICSSON_ENM_INT_INVENTORY_READER,
                 Vendor.ERICSSON,
@@ -142,14 +153,14 @@ public class ConnectorRegistry {
                 ConnectorAuthorizationProfile.READ_ONLY_NETWORK_INVENTORY,
                 ERICSSON_NETWORK,
                 method,
-                CredentialProviderType.LOCAL_DEVELOPMENT,
+                provider,
                 ConnectorAuthorizationProfile.READ_INVENTORY_CAPABILITIES,
                 enabled,
                 ConnectorMode.MOCK_SECURE
         );
     }
 
-    private static ConnectorDefinition nokia(boolean enabled, AuthenticationMethod method) {
+    private static ConnectorDefinition nokia(boolean enabled, AuthenticationMethod method, CredentialProviderType provider) {
         return new ConnectorDefinition(
                 ConnectorDefinition.NOKIA_NETACT_INT_INVENTORY_READER,
                 Vendor.NOKIA,
@@ -162,7 +173,7 @@ public class ConnectorRegistry {
                 ConnectorAuthorizationProfile.READ_ONLY_NETWORK_INVENTORY,
                 NOKIA_NETWORK,
                 method,
-                CredentialProviderType.LOCAL_DEVELOPMENT,
+                provider,
                 ConnectorAuthorizationProfile.READ_INVENTORY_CAPABILITIES,
                 enabled,
                 ConnectorMode.MOCK_SECURE

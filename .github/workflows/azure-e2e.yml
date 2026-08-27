@@ -1,0 +1,35 @@
+name: azure-e2e
+
+# Protected, environment-gated Azure proof. Not part of default CI.
+# GitHub Actions orchestrates the AKS job. It must not retrieve the connector secret
+# for the application pod (no az keyvault secret show of vendor credentials).
+
+on:
+  workflow_dispatch:
+  workflow_call:
+
+jobs:
+  aks-workload-identity-keyvault:
+    name: AKS Workload Identity to Key Vault
+    runs-on: ubuntu-latest
+    environment: azure-e2e-int
+    permissions:
+      id-token: write
+      contents: read
+    steps:
+      - uses: actions/checkout@v4
+      - name: Require Azure E2E configuration
+        env:
+          AKS_CLUSTER: ${{ vars.SNIP_AKS_CLUSTER }}
+          AKS_RESOURCE_GROUP: ${{ vars.SNIP_AKS_RESOURCE_GROUP }}
+        run: |
+          if [ -z "$AKS_CLUSTER" ] || [ -z "$AKS_RESOURCE_GROUP" ]; then
+            echo "Azure E2E is not configured in this environment."
+            echo "Default CI remains Azure-independent. Phase 10 acceptance requires this job to run on non-production AKS."
+            exit 1
+          fi
+      - name: Record that Actions must not fetch connector secrets
+        run: |
+          echo "This workflow must not call Key Vault GetSecret for connector credentials."
+          echo "The snip-connector-runtime pod authenticates with Workload Identity and resolves secrets in-process."
+          echo "Acceptance probes (GET configured secret, deny SET/DELETE, rotation, mock connector) run inside the pod."

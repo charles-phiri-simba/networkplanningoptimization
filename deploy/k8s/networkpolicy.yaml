@@ -1,0 +1,113 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: snip-npo-default-deny-egress
+  namespace: snip
+spec:
+  podSelector:
+    matchLabels:
+      app: snip-npo
+  policyTypes:
+    - Egress
+  egress: []
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: snip-npo-allow-required-egress
+  namespace: snip
+spec:
+  podSelector:
+    matchLabels:
+      app: snip-npo
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+    - to:
+        - podSelector:
+            matchLabels:
+              app: postgres
+      ports:
+        - protocol: TCP
+          port: 5432
+    - to:
+        - podSelector:
+            matchLabels:
+              app: snip-secure-mock
+      ports:
+        - protocol: TCP
+          port: 443
+        - protocol: TCP
+          port: 8443
+    # Cilium toFQDNs is present, but this AKS Cilium datapath did not attach DNS
+    # proxy (FQDN cache empty; bpf policy PROXY PORT NONE on :53). Allow the
+    # observed Azure data-plane /32s instead of 0.0.0.0/0.
+    - to:
+        - ipBlock: { cidr: 102.133.0.0/16 }
+        - ipBlock: { cidr: 20.190.0.0/16 }
+        - ipBlock: { cidr: 40.126.0.0/16 }
+      ports:
+        - protocol: TCP
+          port: 443
+# Key Vault and Azure AD token exchange require FQDN-aware policy (Cilium below).
+# Standard NetworkPolicy cannot name *.vault.azure.net. Do not open 0.0.0.0/0 to compensate.
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: snip-npo-azure-and-mock-egress
+  namespace: snip
+spec:
+  endpointSelector:
+    matchLabels:
+      app: snip-npo
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: ANY
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toFQDNs:
+        - matchPattern: "*.vault.azure.net"
+        - matchPattern: "*.vaultcore.azure.net"
+        - matchName: login.microsoftonline.com
+        - matchPattern: "*.microsoftonline.com"
+        - matchPattern: "*.msidentity.com"
+        - matchName: login.microsoft.com
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+    - toCIDR:
+        - 102.133.0.0/16
+        - 20.190.0.0/16
+        - 40.126.0.0/16
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+    - toFQDNs:
+        - matchName: mock-ericsson.snip.svc.cluster.local
+        - matchName: mock-ericsson.int
+        - matchName: mock-nokia.int
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+# IMDS 169.254.169.254 and arbitrary internet destinations are not allowed.

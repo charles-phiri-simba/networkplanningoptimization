@@ -13,6 +13,7 @@ public class SecureConnectorClientFactory {
     private final ConnectorEndpointRegistry endpoints;
     private final CredentialProviderRegistry credentialProviders;
     private final ConnectorSslContextFactory sslContextFactory;
+    private final ConnectorTrustMaterialProvider trustMaterialProvider;
     private final ConnectorSecurityAuditService auditService;
     private final ConnectorSecurityMetrics metrics;
 
@@ -21,6 +22,7 @@ public class SecureConnectorClientFactory {
             ConnectorEndpointRegistry endpoints,
             CredentialProviderRegistry credentialProviders,
             ConnectorSslContextFactory sslContextFactory,
+            ConnectorTrustMaterialProvider trustMaterialProvider,
             ConnectorSecurityAuditService auditService,
             ConnectorSecurityMetrics metrics
     ) {
@@ -28,6 +30,7 @@ public class SecureConnectorClientFactory {
         this.endpoints = endpoints;
         this.credentialProviders = credentialProviders;
         this.sslContextFactory = sslContextFactory;
+        this.trustMaterialProvider = trustMaterialProvider;
         this.auditService = auditService;
         this.metrics = metrics;
     }
@@ -114,7 +117,8 @@ public class SecureConnectorClientFactory {
                 definition.trustProfileId(),
                 null,
                 null,
-                "credential resolved version=" + handle.metadata().versionIdentifier()
+                "credential resolved provider=" + handle.metadata().provider()
+                        + " version=" + handle.metadata().versionIdentifier()
         );
         ConnectorEndpoint endpoint = endpoints.require(definition.endpointRef());
         ConnectorNetworkPolicy policy = registry.networkPolicy(definition.networkPolicyId());
@@ -134,7 +138,7 @@ public class SecureConnectorClientFactory {
                 null,
                 "network policy validated"
         );
-        ConnectorTrustProfile trust = registry.trust(definition.trustProfileId());
+        ConnectorTrustProfile trust = trustMaterialProvider.resolve(registry.trust(definition.trustProfileId()));
         CredentialHandle clientCert = null;
         if (definition.authenticationMethod() == AuthenticationMethod.BASIC_PLUS_MTLS
                 || definition.authenticationMethod() == AuthenticationMethod.MTLS) {

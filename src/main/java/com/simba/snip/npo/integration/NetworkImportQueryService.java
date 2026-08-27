@@ -5,6 +5,7 @@ import com.simba.snip.npo.api.ImportBatchDto;
 import com.simba.snip.npo.api.ImportCheckpointDto;
 import com.simba.snip.npo.api.ImportConflictDto;
 import com.simba.snip.npo.api.ImportRejectionDto;
+import com.simba.snip.npo.config.ConnectorSecurityProperties;
 import com.simba.snip.npo.domain.DomainNotFoundException;
 import com.simba.snip.npo.persist.NetworkImportAuditEventRepository;
 import com.simba.snip.npo.persist.NetworkImportBatchEntity;
@@ -31,6 +32,7 @@ public class NetworkImportQueryService {
     private final NetworkIntegrationConflictRepository conflictRepository;
     private final NetworkImportRejectionRepository rejectionRepository;
     private final ImportLeaseService leaseService;
+    private final ConnectorSecurityProperties securityProperties;
 
     public NetworkImportQueryService(
             NetworkImportBatchRepository batchRepository,
@@ -38,7 +40,8 @@ public class NetworkImportQueryService {
             NetworkImportCheckpointRepository checkpointRepository,
             NetworkIntegrationConflictRepository conflictRepository,
             NetworkImportRejectionRepository rejectionRepository,
-            ImportLeaseService leaseService
+            ImportLeaseService leaseService,
+            ConnectorSecurityProperties securityProperties
     ) {
         this.batchRepository = batchRepository;
         this.auditRepository = auditRepository;
@@ -46,6 +49,7 @@ public class NetworkImportQueryService {
         this.conflictRepository = conflictRepository;
         this.rejectionRepository = rejectionRepository;
         this.leaseService = leaseService;
+        this.securityProperties = securityProperties;
     }
 
     public List<ImportBatchDto> listImports() {
@@ -94,6 +98,8 @@ public class NetworkImportQueryService {
                         .isEmpty())
                 .count());
         body.put("lastSuccessfulImportBySource", lastSuccessful);
+        body.put("credentialProviderMode", securityProperties.isProductionRuntime()
+                ? "AZURE_KEY_VAULT" : "LOCAL_DEVELOPMENT");
         return body;
     }
 

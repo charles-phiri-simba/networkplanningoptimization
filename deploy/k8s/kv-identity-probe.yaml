@@ -1,0 +1,32 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: kv-identity-probe
+  namespace: snip
+spec:
+  backoffLimit: 0
+  ttlSecondsAfterFinished: 600
+  template:
+    metadata:
+      labels:
+        app: snip-npo
+        azure.workload.identity/use: "true"
+    spec:
+      serviceAccountName: snip-connector-runtime
+      automountServiceAccountToken: true
+      restartPolicy: Never
+      containers:
+        - name: probe
+          image: python:3.12-alpine
+          command: ["python", "/probe/kv-identity-probe.py"]
+          env:
+            - name: SNIP_AZURE_KEY_VAULT_URI
+              value: "https://kvsnipp10e59l.vault.azure.net/"
+          volumeMounts:
+            - name: probe
+              mountPath: /probe
+              readOnly: true
+      volumes:
+        - name: probe
+          configMap:
+            name: kv-identity-probe

@@ -6,6 +6,7 @@ import com.simba.snip.npo.domain.ImportBusyException;
 import com.simba.snip.npo.integration.security.ConnectorDefinition;
 import com.simba.snip.npo.integration.security.ConnectorRegistry;
 import com.simba.snip.npo.integration.security.ConnectorSecurityException;
+import com.simba.snip.npo.integration.security.ConnectorSecurityMetrics;
 import com.simba.snip.npo.integration.security.SecureConnectorClientFactory;
 import com.simba.snip.npo.integration.security.SecureVendorSnapshotParser;
 import com.simba.snip.npo.persist.NetworkImportBatchEntity;
@@ -41,6 +42,7 @@ public class NetworkImportService {
     private final ConnectorRegistry connectorRegistry;
     private final SecureConnectorClientFactory connectorClientFactory;
     private final SecureVendorSnapshotParser snapshotParser;
+    private final ConnectorSecurityMetrics connectorSecurityMetrics;
 
     public NetworkImportService(
             NetworkSourceAdapterRegistry adapterRegistry,
@@ -58,7 +60,8 @@ public class NetworkImportService {
             IntegrationMetrics metrics,
             ConnectorRegistry connectorRegistry,
             SecureConnectorClientFactory connectorClientFactory,
-            SecureVendorSnapshotParser snapshotParser
+            SecureVendorSnapshotParser snapshotParser,
+            ConnectorSecurityMetrics connectorSecurityMetrics
     ) {
         this.adapterRegistry = adapterRegistry;
         this.normalizer = normalizer;
@@ -76,6 +79,7 @@ public class NetworkImportService {
         this.connectorRegistry = connectorRegistry;
         this.connectorClientFactory = connectorClientFactory;
         this.snapshotParser = snapshotParser;
+        this.connectorSecurityMetrics = connectorSecurityMetrics;
     }
 
     public NetworkImportBatchEntity importEricsson(FixtureKind kind) {
@@ -135,6 +139,7 @@ public class NetworkImportService {
             batchService.appendAudit(executionId, ImportAuditEventType.IMPORT_REJECTED, Instant.now(),
                     "failureCode=LEASE_UNAVAILABLE");
             metrics.incrementConcurrentRejected();
+            connectorSecurityMetrics.incrementMultiReplicaLeaseContention();
             throw new ImportBusyException(
                     "import lease unavailable for " + sourceSystem + "/" + sourceScope,
                     owner,

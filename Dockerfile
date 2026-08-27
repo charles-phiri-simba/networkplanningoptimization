@@ -8,6 +8,9 @@ FROM eclipse-temurin:17-jre
 WORKDIR /app
 COPY --from=build /src/target/network-planning-optimisation-0.1.0-SNAPSHOT.jar app.jar
 COPY testdata ./testdata
+RUN groupadd --system snip && useradd --system --gid snip --uid 10001 snip \
+    && chown -R snip:snip /app
+USER 10001
 EXPOSE 8080
 ENV SERVER_ADDRESS=0.0.0.0
 ENTRYPOINT ["java", "-jar", "app.jar"]

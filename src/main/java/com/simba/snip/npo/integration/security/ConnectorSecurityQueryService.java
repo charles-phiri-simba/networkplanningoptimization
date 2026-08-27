@@ -47,6 +47,11 @@ public class ConnectorSecurityQueryService {
                     ? "UNAVAILABLE" : "READY");
             ConnectorReadinessStatus overall = overall(definition);
             row.put("overallSecurityStatus", overall.name());
+            row.put("credentialProviderMode", definition.credentialProvider().name());
+            row.put("workloadIdentityConfigured", azureKeyVaultCredentialProvider.workloadIdentityConfigured());
+            row.put("vaultConfigured", azureKeyVaultCredentialProvider.configured());
+            row.put("networkPolicyConfigured", properties.isNetworkPolicyConfigured());
+            row.put("connectorSecurityStatus", overall.name());
             rows.add(row);
         }
         return rows;

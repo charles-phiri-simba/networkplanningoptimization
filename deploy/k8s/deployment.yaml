@@ -1,0 +1,69 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snip-npo
+  namespace: snip
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: snip-npo
+  template:
+    metadata:
+      labels:
+        app: snip-npo
+        azure.workload.identity/use: "true"
+    spec:
+      serviceAccountName: snip-connector-runtime
+      automountServiceAccountToken: true
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: api
+          image: snip-npo:phase10
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SNIP_AZURE_KEY_VAULT_URI
+              value: "${SNIP_AZURE_KEY_VAULT_URI}"
+            - name: SNIP_AZURE_KEY_VAULT_AUTH
+              value: WORKLOAD_IDENTITY
+            - name: SNIP_AZURE_KEY_VAULT_ENABLED
+              value: "true"
+            - name: SNIP_AZURE_KEY_VAULT_SDK
+              value: "true"
+            - name: SNIP_PRODUCTION_RUNTIME
+              value: "true"
+            - name: SNIP_LOCAL_CREDENTIALS_ENABLED
+              value: "false"
+            - name: SNIP_NETWORK_POLICY_CONFIGURED
+              value: "true"
+            - name: SNIP_GENERATOR
+              value: stub
+          # Workload Identity webhook injects AZURE_CLIENT_ID, AZURE_TENANT_ID,
+          # and AZURE_FEDERATED_TOKEN_FILE. Application config:
+          # snip.integration.security.production-runtime=true
+          # snip.integration.security.azure-key-vault.enabled=true
+          # snip.integration.security.local-credentials-enabled=false
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 10001
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+      volumes:
+        - name: tmp
+          emptyDir: {}

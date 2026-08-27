@@ -1,0 +1,239 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: snip
+---
+apiVersion: v1
+kind: ServiceAccount
+metadata:
+  name: snip-connector-runtime
+  namespace: snip
+  annotations:
+    azure.workload.identity/client-id: "CLIENT_ID_PLACEHOLDER"
+  labels:
+    azure.workload.identity/use: "true"
+automountServiceAccountToken: true
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: postgres
+  namespace: snip
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: postgres
+  template:
+    metadata:
+      labels:
+        app: postgres
+    spec:
+      securityContext:
+        fsGroup: 999
+      containers:
+        - name: postgres
+          image: postgres:16-alpine
+          ports:
+            - containerPort: 5432
+          env:
+            - name: POSTGRES_DB
+              value: snip
+            - name: POSTGRES_USER
+              value: snip
+            - name: POSTGRES_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: snip-postgres
+                  key: password
+          volumeMounts:
+            - name: data
+              mountPath: /var/lib/postgresql/data
+      volumes:
+        - name: data
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: postgres
+  namespace: snip
+spec:
+  selector:
+    app: postgres
+  ports:
+    - port: 5432
+      targetPort: 5432
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snip-secure-mock
+  namespace: snip
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: snip-secure-mock
+  template:
+    metadata:
+      labels:
+        app: snip-secure-mock
+    spec:
+      containers:
+        - name: mock
+          image: python:3.12-alpine
+          command: ["python", "/app/mock-inventory-server.py"]
+          ports:
+            - containerPort: 8443
+          env:
+            - name: MOCK_BASIC_USER
+              valueFrom:
+                secretKeyRef:
+                  name: snip-secure-mock-basic
+                  key: username
+            - name: MOCK_BASIC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: snip-secure-mock-basic
+                  key: password
+            - name: MOCK_INVENTORY_PATH
+              value: /app/inventory.json
+            - name: MOCK_TLS_CERT
+              value: /tls/tls.crt
+            - name: MOCK_TLS_KEY
+              value: /tls/tls.key
+          volumeMounts:
+            - name: app
+              mountPath: /app
+            - name: tls
+              mountPath: /tls
+              readOnly: true
+      volumes:
+        - name: app
+          configMap:
+            name: snip-secure-mock-app
+        - name: tls
+          secret:
+            secretName: snip-secure-mock-tls
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: mock-ericsson
+  namespace: snip
+spec:
+  selector:
+    app: snip-secure-mock
+  ports:
+    - name: https
+      port: 443
+      targetPort: 8443
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: snip-npo
+  namespace: snip
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: snip-npo
+  template:
+    metadata:
+      labels:
+        app: snip-npo
+        azure.workload.identity/use: "true"
+    spec:
+      serviceAccountName: snip-connector-runtime
+      automountServiceAccountToken: true
+      securityContext:
+        runAsNonRoot: true
+        runAsUser: 10001
+        runAsGroup: 10001
+        fsGroup: 10001
+        seccompProfile:
+          type: RuntimeDefault
+      containers:
+        - name: api
+          image: IMAGE_PLACEHOLDER
+          ports:
+            - containerPort: 8080
+          env:
+            - name: SERVER_ADDRESS
+              value: "0.0.0.0"
+            - name: SNIP_AZURE_KEY_VAULT_URI
+              value: "VAULT_URI_PLACEHOLDER"
+            - name: AZURE_CLIENT_ID
+              value: "CLIENT_ID_PLACEHOLDER"
+            - name: SNIP_AZURE_KEY_VAULT_AUTH
+              value: WORKLOAD_IDENTITY
+            - name: SNIP_AZURE_KEY_VAULT_ENABLED
+              value: "true"
+            - name: SNIP_AZURE_KEY_VAULT_SDK
+              value: "true"
+            - name: SNIP_PRODUCTION_RUNTIME
+              value: "true"
+            - name: SNIP_LOCAL_CREDENTIALS_ENABLED
+              value: "false"
+            - name: SNIP_NETWORK_POLICY_CONFIGURED
+              value: "true"
+            - name: SNIP_ENABLE_MOCK_CONNECTORS
+              value: "true"
+            - name: SNIP_MOCK_VENDOR_HOST
+              value: mock-ericsson.snip.svc.cluster.local
+            - name: SNIP_TRUST_SECRET_ERICSSON
+              value: snip-int-ericsson-trust
+            - name: SNIP_GENERATOR
+              value: stub
+            - name: SPRING_DATASOURCE_URL
+              value: jdbc:postgresql://postgres:5432/snip
+            - name: SPRING_DATASOURCE_USERNAME
+              value: snip
+            - name: SPRING_DATASOURCE_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: snip-postgres
+                  key: password
+          securityContext:
+            allowPrivilegeEscalation: false
+            readOnlyRootFilesystem: true
+            runAsNonRoot: true
+            runAsUser: 10001
+            capabilities:
+              drop: ["ALL"]
+          volumeMounts:
+            - name: tmp
+              mountPath: /tmp
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+          readinessProbe:
+            httpGet:
+              path: /api/v1/integration/health
+              port: 8080
+            initialDelaySeconds: 40
+            periodSeconds: 10
+          livenessProbe:
+            httpGet:
+              path: /api/v1/integration/health
+              port: 8080
+            initialDelaySeconds: 60
+            periodSeconds: 20
+      volumes:
+        - name: tmp
+          emptyDir: {}
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: snip-npo
+  namespace: snip
+spec:
+  selector:
+    app: snip-npo
+  ports:
+    - port: 8080
+      targetPort: 8080

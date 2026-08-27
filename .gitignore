@@ -32,6 +32,17 @@ Desktop.ini
 .ollama/
 *.gguf
 
+# Terraform local state and plugins (never commit; must not contain secret values)
+**/.terraform/
+**/*.tfstate
+**/*.tfstate.*
+crash.log
+override.tf
+override.tf.json
+*_override.tf
+*_override.tf.json
+infra/phase10/lab-out/
+
 # Go simulator build output
 simulator/simulator
 simulator/simulator.exe

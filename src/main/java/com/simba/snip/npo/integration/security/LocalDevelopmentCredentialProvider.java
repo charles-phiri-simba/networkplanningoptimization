@@ -185,6 +185,10 @@ public class LocalDevelopmentCredentialProvider implements ConnectorCredentialPr
     }
 
     private void assertEnabled() {
+        if (properties.isProductionRuntime()) {
+            throw new ConnectorSecurityException(
+                    ImportFailureCode.VAULT_UNAVAILABLE, "local credential provider is disabled in production");
+        }
         if (!properties.isLocalCredentialsEnabled()) {
             throw new ConnectorSecurityException(
                     ImportFailureCode.CREDENTIAL_RESOLUTION_FAILED, "local credential provider is disabled");

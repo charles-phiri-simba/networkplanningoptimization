@@ -21,6 +21,14 @@ public class ConnectorSecurityMetrics {
     private final AtomicLong authorizationDenied = new AtomicLong();
     private final AtomicLong networkPolicyDenied = new AtomicLong();
     private final AtomicLong rotationsObserved = new AtomicLong();
+    private final AtomicLong vaultCredentialResolutions = new AtomicLong();
+    private final AtomicLong vaultCredentialResolutionFailures = new AtomicLong();
+    private final AtomicLong vaultAccessDenied = new AtomicLong();
+    private final AtomicLong vaultUnavailable = new AtomicLong();
+    private final AtomicLong vaultSecretDisabled = new AtomicLong();
+    private final AtomicLong workloadIdentityAuthenticationFailures = new AtomicLong();
+    private final AtomicLong credentialVersionChangesObserved = new AtomicLong();
+    private final AtomicLong multiReplicaLeaseContention = new AtomicLong();
 
     public void incrementSessionsStarted() {
         sessionsStarted.incrementAndGet();
@@ -41,6 +49,73 @@ public class ConnectorSecurityMetrics {
 
     public void incrementRotationsObserved() {
         rotationsObserved.incrementAndGet();
+    }
+
+    public void incrementVaultCredentialResolutions() {
+        vaultCredentialResolutions.incrementAndGet();
+    }
+
+    public void incrementCredentialVersionChangesObserved() {
+        credentialVersionChangesObserved.incrementAndGet();
+        rotationsObserved.incrementAndGet();
+    }
+
+    public void incrementMultiReplicaLeaseContention() {
+        multiReplicaLeaseContention.incrementAndGet();
+    }
+
+    public void incrementVaultFailure(ImportFailureCode code) {
+        vaultCredentialResolutionFailures.incrementAndGet();
+        if (code == ImportFailureCode.VAULT_ACCESS_DENIED) {
+            vaultAccessDenied.incrementAndGet();
+        } else if (code == ImportFailureCode.VAULT_UNAVAILABLE) {
+            vaultUnavailable.incrementAndGet();
+        } else if (code == ImportFailureCode.VAULT_SECRET_DISABLED) {
+            vaultSecretDisabled.incrementAndGet();
+        } else if (code == ImportFailureCode.VAULT_AUTHENTICATION_FAILED) {
+            workloadIdentityAuthenticationFailures.incrementAndGet();
+        }
+        incrementFailure(code);
+    }
+
+    public long vaultCredentialResolutions() {
+        return vaultCredentialResolutions.get();
+    }
+
+    public long vaultCredentialResolutionFailures() {
+        return vaultCredentialResolutionFailures.get();
+    }
+
+    public long multiReplicaLeaseContention() {
+        return multiReplicaLeaseContention.get();
+    }
+
+    public long vaultAccessDenied() {
+        return vaultAccessDenied.get();
+    }
+
+    public long vaultUnavailable() {
+        return vaultUnavailable.get();
+    }
+
+    public long vaultSecretDisabled() {
+        return vaultSecretDisabled.get();
+    }
+
+    public long workloadIdentityAuthenticationFailures() {
+        return workloadIdentityAuthenticationFailures.get();
+    }
+
+    public long credentialVersionChangesObserved() {
+        return credentialVersionChangesObserved.get();
+    }
+
+    public long rotationsObserved() {
+        return rotationsObserved.get();
+    }
+
+    public long credentialResolutionFailures() {
+        return credentialResolutionFailures.get();
     }
 
     public void incrementFailure(ImportFailureCode code) {
