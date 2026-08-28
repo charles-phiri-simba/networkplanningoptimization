@@ -1,13 +1,18 @@
 package com.simba.snip.npo.integration.enm;
 
+import com.simba.snip.npo.integration.CanonicalEntityType;
 import com.simba.snip.npo.integration.ImportFailureCode;
 import com.simba.snip.npo.integration.ericsson.enm.EnmCell;
 import com.simba.snip.npo.integration.ericsson.enm.EnmInventoryPage;
 import com.simba.snip.npo.integration.ericsson.enm.EnmManagedElement;
 import com.simba.snip.npo.integration.ericsson.enm.EnmRadioFunction;
+import com.simba.snip.npo.integration.sync.VendorIncrementalBatch;
+import com.simba.snip.npo.integration.sync.VendorIncrementalChange;
+import com.simba.snip.npo.integration.sync.VendorIncrementalChangeType;
 import org.springframework.stereotype.Component;
 
 import java.time.Duration;
+import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -20,11 +25,13 @@ public class SimulatorEnmTransport implements EnmTransport {
     public static final String TOKEN_INVALID = "sim-token-invalid";
 
     private final SimulatorEnmScenarioController controller;
+    private final SimulatorEnmSyncState syncState;
     private Duration lastRetryAfter = Duration.ZERO;
     private boolean open;
 
-    public SimulatorEnmTransport(SimulatorEnmScenarioController controller) {
+    public SimulatorEnmTransport(SimulatorEnmScenarioController controller, SimulatorEnmSyncState syncState) {
         this.controller = controller;
+        this.syncState = syncState;
     }
 
     @Override
@@ -48,6 +55,108 @@ public class SimulatorEnmTransport implements EnmTransport {
     @Override
     public EnmInventoryPage fetchContinuation(ImportExecutionContext context, String continuationToken, int pageSize) {
         return fetch(context, continuationToken, pageSize, false);
+    }
+
+    @Override
+    public boolean supportsIncremental() {
+        return true;
+    }
+
+    @Override
+    public VendorIncrementalBatch fetchIncremental(SynchronizationExecutionContext context) {
+        if (!open) {
+            throw new VendorConnectorException(ImportFailureCode.VENDOR_PROTOCOL_ERROR, "simulator session is not open");
+        }
+        context.assertContinuing();
+        SimulatorEnmScenario scenario = controller.scenario();
+        String scope = context.importContext().lease().sourceScope();
+        String starting = context.startingCheckpoint();
+        int startingSeq = syncState.parseSequence(starting);
+        if (startingSeq < 0) {
+            throw new VendorConnectorException(ImportFailureCode.CHECKPOINT_REJECTED, "synthetic checkpoint rejected");
+        }
+        if (scenario == SimulatorEnmScenario.CHECKPOINT_EXPIRED) {
+            throw new VendorConnectorException(ImportFailureCode.CHECKPOINT_EXPIRED, "synthetic checkpoint expired");
+        }
+        if (scenario == SimulatorEnmScenario.CHECKPOINT_REJECTED) {
+            throw new VendorConnectorException(ImportFailureCode.CHECKPOINT_REJECTED, "synthetic checkpoint rejected");
+        }
+        if (scenario == SimulatorEnmScenario.SEQUENCE_GAP) {
+            throw new VendorConnectorException(ImportFailureCode.SEQUENCE_GAP, "synthetic sequence gap");
+        }
+        if (startingSeq == 0) {
+            throw new VendorConnectorException(ImportFailureCode.INCREMENTAL_NOT_SUPPORTED, "incremental requires trusted baseline");
+        }
+        int current = syncState.currentSequence(scope);
+        if (startingSeq > current) {
+            throw new VendorConnectorException(ImportFailureCode.SEQUENCE_GAP, "starting checkpoint ahead of simulator state");
+        }
+        String batchId = context.importContext().executionId().toString();
+        if (batchId.equals(syncState.lastBatchId())) {
+            return replayBatch(context, scope, starting, startingSeq);
+        }
+        List<VendorIncrementalChange> changes = new ArrayList<>();
+        if (scenario == SimulatorEnmScenario.NO_CHANGES) {
+            // deliberate empty batch
+        } else if (scenario == SimulatorEnmScenario.SOURCE_CHANGES
+                || scenario == SimulatorEnmScenario.INCREMENTAL_SUCCESS
+                || scenario == SimulatorEnmScenario.DRIFT_DETECTED) {
+            changes.add(new VendorIncrementalChange(
+                    VendorIncrementalChangeType.UPSERT,
+                    CanonicalEntityType.CELL,
+                    "CELL-002",
+                    "CELL-SIM-002"
+            ));
+        } else if (scenario == SimulatorEnmScenario.DRIFT_RESOLVED) {
+            changes.add(new VendorIncrementalChange(
+                    VendorIncrementalChangeType.UPSERT,
+                    CanonicalEntityType.CELL,
+                    "CELL-002",
+                    "CELL-SIM-002"
+            ));
+        } else if (scenario == SimulatorEnmScenario.EXPLICIT_REMOVE) {
+            changes.add(new VendorIncrementalChange(
+                    VendorIncrementalChangeType.REMOVE,
+                    CanonicalEntityType.CELL,
+                    "CELL-001",
+                    "CELL-SIM-001"
+            ));
+        }
+        String resulting = syncState.advanceCheckpoint(scope);
+        syncState.rememberBatchId(batchId);
+        return new VendorIncrementalBatch(
+                context.importContext().lease().sourceSystem(),
+                "ERICSSON_ENM_SIMULATOR_INT_INVENTORY_READER",
+                context.importContext().executionId(),
+                starting,
+                resulting,
+                "sim-v" + resulting,
+                Instant.now(),
+                List.copyOf(changes),
+                true,
+                true
+        );
+    }
+
+    private VendorIncrementalBatch replayBatch(
+            SynchronizationExecutionContext context,
+            String scope,
+            String starting,
+            int startingSeq
+    ) {
+        String resulting = SimulatorEnmSyncState.CHECKPOINT_PREFIX + startingSeq;
+        return new VendorIncrementalBatch(
+                context.importContext().lease().sourceSystem(),
+                "ERICSSON_ENM_SIMULATOR_INT_INVENTORY_READER",
+                context.importContext().executionId(),
+                starting,
+                resulting,
+                "sim-v" + resulting,
+                Instant.now(),
+                List.of(),
+                true,
+                true
+        );
     }
 
     @Override

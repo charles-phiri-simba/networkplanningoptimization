@@ -18,6 +18,9 @@ public interface NetworkImportBatchRepository extends JpaRepository<NetworkImpor
     List<NetworkImportBatchEntity> findBySourceSystemAndSourceScopeAndSourceSnapshotIdOrderByAttemptNumberAsc(
             String sourceSystem, String sourceScope, String sourceSnapshotId);
 
+    Optional<NetworkImportBatchEntity> findFirstBySourceSystemAndSourceScopeAndSynchronizationModeNotNullAndStatusOrderByCompletedAtDesc(
+            String sourceSystem, String sourceScope, String status);
+
     Optional<NetworkImportBatchEntity> findFirstBySourceSystemAndStatusOrderByCompletedAtDesc(
             String sourceSystem, String status);
 }

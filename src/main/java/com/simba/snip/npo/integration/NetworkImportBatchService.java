@@ -78,6 +78,13 @@ public class NetworkImportBatchService {
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void recordSynchronization(UUID importId, String mode, String initiator) {
+        NetworkImportBatchEntity batch = batchRepository.findById(importId).orElseThrow();
+        batch.recordSynchronization(mode, initiator);
+        batchRepository.saveAndFlush(batch);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
     public NetworkImportBatchEntity markRunning(UUID importId, Instant startedAt, long fencingToken) {
         NetworkImportBatchEntity batch = batchRepository.findById(importId).orElseThrow();
         batch.markRunning(startedAt, fencingToken);

@@ -1057,6 +1057,23 @@ public class NetworkImportService {
         return SnapshotClassification.fresh();
     }
 
+    public Optional<NetworkImportBatchEntity> activeExecutionForTests(String sourceSystem, String sourceScope) {
+        return activeExecution(sourceSystem, sourceScope);
+    }
+
+    public void persistVendorSnapshotForSync(VendorSnapshot snapshot) {
+        persistVendorSnapshot(snapshot);
+    }
+
+    public void persistProvenanceForSync(
+            UUID executionId,
+            VendorSnapshot snapshot,
+            SourceSnapshot source,
+            Instant observedAt
+    ) {
+        persistProvenance(executionId, snapshot, source, observedAt);
+    }
+
     private Optional<NetworkImportBatchEntity> activeExecution(String sourceSystem, String sourceScope) {
         return batchRepository.findBySourceSystemAndSourceScopeAndStatus(sourceSystem, sourceScope, "RUNNING")
                 .stream()

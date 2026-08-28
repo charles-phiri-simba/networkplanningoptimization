@@ -96,6 +96,17 @@ public class NetworkImportBatchEntity {
     @Column(name = "requested_at", nullable = false)
     private Instant requestedAt;
 
+    @Column(name = "synchronization_mode", length = 32)
+    private String synchronizationMode;
+
+    @Column(name = "synchronization_initiator", length = 16)
+    private String synchronizationInitiator;
+
+    public void recordSynchronization(String mode, String initiator) {
+        this.synchronizationMode = mode;
+        this.synchronizationInitiator = initiator;
+    }
+
     public static NetworkImportBatchEntity requested(
             UUID id,
             String sourceSystem,
@@ -318,5 +329,13 @@ public class NetworkImportBatchEntity {
 
     public Instant getRequestedAt() {
         return requestedAt;
+    }
+
+    public String getSynchronizationMode() {
+        return synchronizationMode;
+    }
+
+    public String getSynchronizationInitiator() {
+        return synchronizationInitiator;
     }
 }

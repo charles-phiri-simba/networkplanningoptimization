@@ -75,6 +75,27 @@ snip:
       max-attempts: 3
       initial-backoff: 10ms
       max-backoff: 100ms
+    sync:
+      scheduler-enabled: true
+      scheduler-tick: 5000
+      scheduler-jitter: 500ms
+      max-due-sources-per-tick: 4
+      policies:
+        - source-system: ERICSSON_ENM_SIMULATOR
+          connector-id: ERICSSON_ENM_SIMULATOR_INT_INVENTORY_READER
+          source-scope: DEFAULT
+          enabled: true
+          preferred-mode: INCREMENTAL
+          cadence: 15m
+          request-timeout: 2s
+          max-execution-duration: 30s
+          max-consecutive-failures: 3
+          aging-after: 30m
+          stale-after: 2h
+          overlap-policy: SKIP
+          max-retry-attempts: 2
+          retry-backoff: 5s
+          allow-recovery-full-on-scheduled: false
 
 spring:
   datasource:

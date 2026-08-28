@@ -5,6 +5,9 @@ import com.simba.snip.npo.integration.FixtureKind;
 import com.simba.snip.npo.integration.NetworkImportQueryService;
 import com.simba.snip.npo.integration.NetworkImportService;
 import com.simba.snip.npo.integration.enm.VendorImportAuthorizer;
+import com.simba.snip.npo.integration.sync.SynchronizationControlPlane;
+import com.simba.snip.npo.integration.sync.SynchronizationExecutionResult;
+import com.simba.snip.npo.integration.sync.SynchronizationQueryService;
 import com.simba.snip.npo.integration.security.ConnectorDefinition;
 import com.simba.snip.npo.integration.security.ConnectorMode;
 import com.simba.snip.npo.integration.security.ConnectorRegistry;
@@ -28,19 +31,25 @@ public class IntegrationController {
     private final ConnectorSecurityQueryService securityQueryService;
     private final ConnectorRegistry connectorRegistry;
     private final VendorImportAuthorizer vendorImportAuthorizer;
+    private final SynchronizationControlPlane synchronizationControlPlane;
+    private final SynchronizationQueryService synchronizationQueryService;
 
     public IntegrationController(
             NetworkImportService importService,
             NetworkImportQueryService queryService,
             ConnectorSecurityQueryService securityQueryService,
             ConnectorRegistry connectorRegistry,
-            VendorImportAuthorizer vendorImportAuthorizer
+            VendorImportAuthorizer vendorImportAuthorizer,
+            SynchronizationControlPlane synchronizationControlPlane,
+            SynchronizationQueryService synchronizationQueryService
     ) {
         this.importService = importService;
         this.queryService = queryService;
         this.securityQueryService = securityQueryService;
         this.connectorRegistry = connectorRegistry;
         this.vendorImportAuthorizer = vendorImportAuthorizer;
+        this.synchronizationControlPlane = synchronizationControlPlane;
+        this.synchronizationQueryService = synchronizationQueryService;
     }
 
     @PostMapping("/api/v1/integration/imports/ericsson")
@@ -74,6 +83,63 @@ public class IntegrationController {
     @GetMapping("/api/v1/integration/imports/{importId}/security-audit")
     public java.util.List<java.util.Map<String, Object>> securityAudit(@PathVariable UUID importId) {
         return securityQueryService.audit(importId);
+    }
+
+    @PostMapping("/api/v1/integration/sync/connectors/{connectorId}")
+    public ImportBatchDto synchronizeConnector(
+            @PathVariable String connectorId,
+            @RequestHeader(value = VendorImportAuthorizer.HEADER, required = false) String vendorImportPermission
+    ) {
+        vendorImportAuthorizer.bindRequestPermission(vendorImportPermission);
+        SynchronizationExecutionResult result = synchronizationControlPlane.triggerManual(connectorId);
+        if (result.overlapSkipped() || result.batch() == null) {
+            throw new DomainValidationException("synchronization skipped due to active overlap policy");
+        }
+        return queryService.importDetail(result.batch().getId());
+    }
+
+    @PostMapping("/api/v1/integration/sync/connectors/{connectorId}/recovery")
+    public ImportBatchDto recoverConnector(
+            @PathVariable String connectorId,
+            @RequestHeader(value = VendorImportAuthorizer.HEADER, required = false) String vendorImportPermission
+    ) {
+        vendorImportAuthorizer.bindRequestPermission(vendorImportPermission);
+        SynchronizationExecutionResult result = synchronizationControlPlane.triggerRecovery(connectorId);
+        if (result.overlapSkipped() || result.batch() == null) {
+            throw new DomainValidationException("recovery synchronization skipped due to active overlap policy");
+        }
+        return queryService.importDetail(result.batch().getId());
+    }
+
+    @GetMapping("/api/v1/integration/sync/sources")
+    public java.util.List<java.util.Map<String, Object>> synchronizationSources(
+            @RequestHeader(value = VendorImportAuthorizer.HEADER, required = false) String vendorImportPermission
+    ) {
+        vendorImportAuthorizer.bindRequestPermission(vendorImportPermission);
+        vendorImportAuthorizer.requireViewStatus();
+        return synchronizationQueryService.listSources();
+    }
+
+    @GetMapping("/api/v1/integration/sync/sources/{sourceSystem}/{sourceScope}")
+    public java.util.Map<String, Object> synchronizationSourceState(
+            @PathVariable String sourceSystem,
+            @PathVariable String sourceScope,
+            @RequestHeader(value = VendorImportAuthorizer.HEADER, required = false) String vendorImportPermission
+    ) {
+        vendorImportAuthorizer.bindRequestPermission(vendorImportPermission);
+        vendorImportAuthorizer.requireViewStatus();
+        return synchronizationQueryService.sourceState(sourceSystem, sourceScope);
+    }
+
+    @GetMapping("/api/v1/integration/sync/sources/{sourceSystem}/{sourceScope}/drift")
+    public java.util.List<java.util.Map<String, Object>> synchronizationDrift(
+            @PathVariable String sourceSystem,
+            @PathVariable String sourceScope,
+            @RequestHeader(value = VendorImportAuthorizer.HEADER, required = false) String vendorImportPermission
+    ) {
+        vendorImportAuthorizer.bindRequestPermission(vendorImportPermission);
+        vendorImportAuthorizer.requireViewStatus();
+        return synchronizationQueryService.drift(sourceSystem, sourceScope);
     }
 
     @GetMapping("/api/v1/integration/imports")

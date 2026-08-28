@@ -17,5 +17,6 @@ public abstract class AbstractPostgresIT {
         registry.add("spring.datasource.url", POSTGRES::getJdbcUrl);
         registry.add("spring.datasource.username", POSTGRES::getUsername);
         registry.add("spring.datasource.password", POSTGRES::getPassword);
+        registry.add("snip.integration.sync.scheduler-enabled", () -> "false");
     }
 }

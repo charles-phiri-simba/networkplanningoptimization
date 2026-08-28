@@ -11,6 +11,7 @@ public class EnmImportTestHooks {
     private final AtomicReference<ConnectorCancellationToken> token = new AtomicReference<>();
     private final AtomicReference<Runnable> afterFirstPage = new AtomicReference<>();
     private final AtomicReference<Runnable> beforeReconcile = new AtomicReference<>();
+    private final AtomicReference<Runnable> afterReconcileBeforeCheckpoint = new AtomicReference<>();
     private final AtomicReference<Consumer<ConnectorCancellationToken>> onBind = new AtomicReference<>();
 
     public void bind(ConnectorCancellationToken cancellationToken) {
@@ -35,6 +36,13 @@ public class EnmImportTestHooks {
         }
     }
 
+    public void runAfterReconcileBeforeCheckpoint() {
+        Runnable action = afterReconcileBeforeCheckpoint.getAndSet(null);
+        if (action != null) {
+            action.run();
+        }
+    }
+
     public ConnectorCancellationToken token() {
         return token.get();
     }
@@ -51,10 +59,15 @@ public class EnmImportTestHooks {
         beforeReconcile.set(action);
     }
 
+    public void afterReconcileBeforeCheckpoint(Runnable action) {
+        afterReconcileBeforeCheckpoint.set(action);
+    }
+
     public void clear() {
         token.set(null);
         afterFirstPage.set(null);
         beforeReconcile.set(null);
+        afterReconcileBeforeCheckpoint.set(null);
         onBind.set(null);
     }
 }

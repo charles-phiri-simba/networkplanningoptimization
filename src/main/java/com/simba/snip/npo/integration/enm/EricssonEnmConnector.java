@@ -12,6 +12,7 @@ import com.simba.snip.npo.integration.security.ConnectorDefinition;
 import com.simba.snip.npo.integration.security.ConnectorDescriptor;
 import com.simba.snip.npo.integration.security.ConnectorImplementationType;
 import com.simba.snip.npo.integration.security.ConnectorMode;
+import com.simba.snip.npo.integration.sync.VendorIncrementalBatch;
 
 import org.springframework.stereotype.Component;
 
@@ -35,7 +36,15 @@ public class EricssonEnmConnector {
             ConnectorCapability.READ_SITE,
             ConnectorCapability.READ_GNB,
             ConnectorCapability.READ_CELL,
-            ConnectorCapability.READ_CONFIGURATION
+            ConnectorCapability.READ_CONFIGURATION,
+            ConnectorCapability.FULL_SYNCHRONIZATION,
+            ConnectorCapability.DURABLE_CHECKPOINT,
+            ConnectorCapability.RESUMABLE_CHECKPOINT
+    );
+
+    public static final Set<ConnectorCapability> SIMULATOR_SYNC_CAPABILITIES = Set.of(
+            ConnectorCapability.INCREMENTAL_SYNCHRONIZATION,
+            ConnectorCapability.EXPLICIT_REMOVE_EVENT
     );
 
     private final EnmIntegrationProperties properties;
@@ -62,6 +71,10 @@ public class EricssonEnmConnector {
         ConnectorImplementationType type = definition.mode() == ConnectorMode.REAL
                 ? ConnectorImplementationType.REAL
                 : ConnectorImplementationType.SIMULATOR;
+        java.util.Set<ConnectorCapability> capabilities = new java.util.HashSet<>(READ_CAPABILITIES);
+        if (definition.mode() != ConnectorMode.REAL && !properties.productionSelected()) {
+            capabilities.addAll(SIMULATOR_SYNC_CAPABILITIES);
+        }
         return new ConnectorDescriptor(
                 definition.connectorId(),
                 definition.vendor(),
@@ -69,8 +82,18 @@ public class EricssonEnmConnector {
                 "INT",
                 type,
                 ConnectorAccessMode.READ_ONLY,
-                READ_CAPABILITIES
+                java.util.Set.copyOf(capabilities)
         );
+    }
+
+    public AcquisitionResult acquireSynchronized(
+            ConnectorDefinition definition,
+            SynchronizationExecutionContext syncContext
+    ) {
+        if (syncContext.mode() == com.simba.snip.npo.integration.sync.SynchronizationMode.INCREMENTAL) {
+            return acquireIncremental(definition, syncContext);
+        }
+        return acquire(definition, syncContext.importContext());
     }
 
     public AcquisitionResult acquire(ConnectorDefinition definition, ImportExecutionContext context) {
@@ -171,6 +194,56 @@ public class EricssonEnmConnector {
         }
     }
 
+    private AcquisitionResult acquireIncremental(
+            ConnectorDefinition definition,
+            SynchronizationExecutionContext syncContext
+    ) {
+        ImportExecutionContext context = syncContext.importContext();
+        context.assertContinuing();
+        EnmTransport transport = transportFor(definition);
+        metrics.incrementSessions();
+        Instant started = Instant.now();
+        try {
+            transport.open(context);
+            VendorIncrementalBatch batch = transport.fetchIncremental(syncContext);
+            syncContext.assertContinuing();
+            if (!batch.continuityValid()) {
+                throw new VendorConnectorException(mapContinuityFailure(batch), "incremental continuity invalid");
+            }
+            SourceSnapshot neutral = mapper.toNeutralIncremental(
+                    "enm-incr-" + context.executionId(),
+                    definition.sourceSystem(),
+                    started,
+                    batch
+            );
+            VendorSnapshot vendorSnapshot = new VendorSnapshot(
+                    neutral.sourceSnapshotId(),
+                    context.executionId(),
+                    definition.connectorId(),
+                    definition.vendor().name(),
+                    definition.sourceSystem(),
+                    started,
+                    Instant.now(),
+                    SnapshotCompleteness.COMPLETE,
+                    null,
+                    1,
+                    batch.changes().size(),
+                    List.of(),
+                    batch.sourceVersion()
+            );
+            return new AcquisitionResult(vendorSnapshot, neutral, List.of(), batch);
+        } catch (ImportRuntimeException ex) {
+            metrics.incrementSessionFailures();
+            throw ex;
+        } finally {
+            transport.close();
+        }
+    }
+
+    private ImportFailureCode mapContinuityFailure(VendorIncrementalBatch batch) {
+        return ImportFailureCode.SEQUENCE_GAP;
+    }
+
     private EnmTransport transportFor(ConnectorDefinition definition) {
         if (definition.mode() == ConnectorMode.REAL
                 || properties.productionSelected()) {
@@ -266,7 +339,15 @@ public class EricssonEnmConnector {
         }
     }
 
-    public record AcquisitionResult(VendorSnapshot vendorSnapshot, SourceSnapshot sourceSnapshot, List<EnmInventoryPage> pages) {
+    public record AcquisitionResult(
+            VendorSnapshot vendorSnapshot,
+            SourceSnapshot sourceSnapshot,
+            List<EnmInventoryPage> pages,
+            VendorIncrementalBatch incrementalBatch
+    ) {
+        public AcquisitionResult(VendorSnapshot vendorSnapshot, SourceSnapshot sourceSnapshot, List<EnmInventoryPage> pages) {
+            this(vendorSnapshot, sourceSnapshot, pages, null);
+        }
     }
 
     public static final class AcquisitionFailedException extends ImportRuntimeException {

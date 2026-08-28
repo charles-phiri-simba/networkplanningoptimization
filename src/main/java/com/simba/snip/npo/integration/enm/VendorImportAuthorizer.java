@@ -10,6 +10,9 @@ import org.springframework.web.context.request.RequestContextHolder;
 public class VendorImportAuthorizer {
 
     public static final String PERMISSION = "TRIGGER_VENDOR_IMPORT";
+    public static final String PERMISSION_RECOVERY = "TRIGGER_RECOVERY_SYNCHRONIZATION";
+    public static final String PERMISSION_VIEW = "VIEW_SYNCHRONIZATION_STATUS";
+    public static final String SYSTEM_SCHEDULED_PERMISSION = "SYSTEM_SCHEDULED_SYNCHRONIZATION";
     public static final String HEADER = "X-SNIP-VENDOR-IMPORT-PERMISSION";
     private static final String ATTR = "snip.vendorImportPermission";
 
@@ -48,10 +51,30 @@ public class VendorImportAuthorizer {
     }
 
     public void requireTrigger() {
-        if (!PERMISSION.equals(current())) {
+        if (!PERMISSION.equals(current()) && !SYSTEM_SCHEDULED_PERMISSION.equals(current())) {
             throw new ConnectorSecurityException(
                     ImportFailureCode.CONNECTOR_AUTHORIZATION_DENIED,
                     "TRIGGER_VENDOR_IMPORT is required"
+            );
+        }
+    }
+
+    public void requireRecovery() {
+        if (!PERMISSION_RECOVERY.equals(current())) {
+            throw new ConnectorSecurityException(
+                    ImportFailureCode.CONNECTOR_AUTHORIZATION_DENIED,
+                    "TRIGGER_RECOVERY_SYNCHRONIZATION is required"
+            );
+        }
+    }
+
+    public void requireViewStatus() {
+        if (!PERMISSION_VIEW.equals(current())
+                && !PERMISSION.equals(current())
+                && !PERMISSION_RECOVERY.equals(current())) {
+            throw new ConnectorSecurityException(
+                    ImportFailureCode.CONNECTOR_AUTHORIZATION_DENIED,
+                    "VIEW_SYNCHRONIZATION_STATUS is required"
             );
         }
     }

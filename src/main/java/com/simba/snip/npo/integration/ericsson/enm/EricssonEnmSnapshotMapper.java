@@ -95,4 +95,58 @@ public class EricssonEnmSnapshotMapper {
                 List.of()
         );
     }
+
+    public SourceSnapshot toNeutralIncremental(
+            String snapshotId,
+            String sourceSystem,
+            Instant capturedAt,
+            com.simba.snip.npo.integration.sync.VendorIncrementalBatch batch
+    ) {
+        List<SourceSite> sites = new ArrayList<>();
+        List<SourceGnb> gnbs = new ArrayList<>();
+        List<SourceCell> cells = new ArrayList<>();
+        List<SourceConfiguration> configurations = new ArrayList<>();
+        for (com.simba.snip.npo.integration.sync.VendorIncrementalChange change : batch.changes()) {
+            if (change.changeType() != com.simba.snip.npo.integration.sync.VendorIncrementalChangeType.UPSERT) {
+                continue;
+            }
+            if (change.entityType() == com.simba.snip.npo.integration.CanonicalEntityType.CELL) {
+                cells.add(new SourceCell(
+                        change.sourceEntityId(),
+                        "GNBDUFunction=1,NRCellDU=2",
+                        change.canonicalEntityId(),
+                        "GNB-SIM-001",
+                        "Sim Cell 2",
+                        "NR",
+                        "n78",
+                        630000,
+                        1,
+                        20,
+                        "TDD",
+                        "UNLOCKED"
+                ));
+                configurations.add(new SourceConfiguration(
+                        change.sourceEntityId() + ":txPower",
+                        "GNBDUFunction=1,NRCellDU=2",
+                        change.canonicalEntityId(),
+                        "txPower",
+                        460.0,
+                        PowerUnit.TENTHS_DBM
+                ));
+            }
+        }
+        return new SourceSnapshot(
+                snapshotId,
+                sourceSystem,
+                Vendor.ERICSSON,
+                SCHEMA_VERSION,
+                capturedAt,
+                false,
+                sites,
+                gnbs,
+                cells,
+                configurations,
+                List.of()
+        );
+    }
 }

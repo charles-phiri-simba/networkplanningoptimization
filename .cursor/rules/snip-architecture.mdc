@@ -1,5 +1,5 @@
 ---
-description: SNIP architecture, Phase 10 freeze, and Phase 11 architecturally accepted freeze
+description: SNIP architecture, Phase 11/12 freeze bounds
 alwaysApply: true
 ---
 
@@ -11,6 +11,7 @@ Read before changing code:
 
 - `docs/implementation/SNIP-IMPLEMENTATION-CONTEXT.md` (section 0 is authoritative for scope)
 - `docs/implementation/SNIP-IMPLEMENTATION-STATUS.md`
+- `docs/architecture/SNIP-PHASE-12-CONTINUOUS-SYNCHRONIZATION-DRIFT-NETWORK-KNOWLEDGE-CONFIDENCE-ARCHITECTURE.md` (ACCEPTED; implementation complete — architecturally accepted)
 - `docs/architecture/SNIP-PHASE-11-FIRST-REAL-VENDOR-CONNECTOR-PRODUCTION-READ-ONLY-INTEGRATION-ARCHITECTURE.md` (ACCEPTED; implementation complete — architecturally accepted)
 - `docs/implementation/SNIP-PHASE-11-FIRST-REAL-VENDOR-CONNECTOR-PRODUCTION-READ-ONLY-INTEGRATION-SPECIFICATION.md`
 - `docs/implementation/SNIP-PHASE-11-FIRST-REAL-VENDOR-CONNECTOR-PRODUCTION-READ-ONLY-INTEGRATION-COMPLETION-REPORT.md`
@@ -19,6 +20,7 @@ Read before changing code:
 
 Root copies also exist:
 
+- `SNIP-PHASE-12-CONTINUOUS-SYNCHRONIZATION-DRIFT-NETWORK-KNOWLEDGE-CONFIDENCE-ARCHITECTURE.md`
 - `SNIP-PHASE-11-FIRST-REAL-VENDOR-CONNECTOR-PRODUCTION-READ-ONLY-INTEGRATION-ARCHITECTURE.md`
 - `SNIP-PHASE-10-PRODUCTION-SECRET-WORKLOAD-IDENTITY-CONNECTOR-RUNTIME-SECURITY-ARCHITECTURE.md`
 - `SNIP-PHASE-10-PRODUCTION-SECRET-WORKLOAD-IDENTITY-CONNECTOR-RUNTIME-SECURITY-SPECIFICATION.md`
@@ -27,19 +29,27 @@ Phase 7 architecture/specification remain the frozen reconciliation contract.
 Phase 8 architecture/specification remain the frozen import runtime contract.
 Phase 9 architecture/specification remain the frozen connector security contract.
 Phase 10 architecture/specification remain the frozen production secret / Workload Identity contract.
-Phase 11 architecture is **ACCEPTED**. Phase 11 implementation is **COMPLETE — ARCHITECTURALLY ACCEPTED**. Simulator/contract is **VERIFIED**. Real vendor E2E is **NOT YET VERIFIED**. Phase 11 Git baseline is **NOT YET ESTABLISHED**. Phase 12 is **NOT STARTED**.
+Phase 11 architecture is **ACCEPTED**. Phase 11 implementation is **COMPLETE — ARCHITECTURALLY ACCEPTED**. Simulator/contract is **VERIFIED**. Real vendor E2E is **NOT YET VERIFIED**. Phase 11 Git baseline is `78e699380be37109cfdd2111dd0f29c7052709c3`. Phase 12 architecture is **ACCEPTED**. Phase 12 implementation is **COMPLETE** (architecturally accepted). Simulator/contract for Phase 12 is **VERIFIED** (not real Ericsson verification). Real vendor continuous synchronization is **NOT YET VERIFIED**. Production ENM transport is **NOT CONFIGURED**. Phase 12 Git baseline is **NOT YET ESTABLISHED**. Phase 13 is **NOT STARTED**.
 
 ```text
 PHASE 11 ARCHITECTURE STATUS: ACCEPTED
 PHASE 11 IMPLEMENTATION STATUS: COMPLETE — ARCHITECTURALLY ACCEPTED
 REAL VENDOR E2E STATUS: NOT YET VERIFIED
-PHASE 11 GIT BASELINE: NOT YET ESTABLISHED
-PHASE 12 STATUS: NOT STARTED
+PHASE 11 GIT BASELINE: 78e699380be37109cfdd2111dd0f29c7052709c3
+PHASE 12 ARCHITECTURE STATUS: ACCEPTED
+PHASE 12 IMPLEMENTATION STATUS: COMPLETE
+SIMULATOR/CONTRACT STATUS: VERIFIED
+REAL VENDOR CONTINUOUS SYNCHRONIZATION STATUS: NOT YET VERIFIED
+PRODUCTION ENM TRANSPORT: NOT CONFIGURED
+PHASE 12 GIT BASELINE: NOT YET ESTABLISHED
+PHASE 13 STATUS: NOT STARTED
 ```
 
 ## Authorised now
 
-Phase **11** is architecturally accepted on Phase 10 parent `c7d85e32ee5871d23855784d141ae66c68655bfa`. Git baseline is **NOT YET ESTABLISHED**. Do not start Phase 12. Do not guess the Ericsson ENM production interface. `UnconfiguredProductionEnmTransport` remains the REAL-mode fail-closed path. Do not implement Nokia NetAct as a real connector. Do not add vendor writes, vendor telemetry, OAuth vendor authentication, or scheduled synchronization. Do not add Phase 10 or Phase 11 functionality, resolve deferred technical debt, or refactor for its own sake. Do not amend the Phase 10 Git baseline.
+Phase **11** is architecturally accepted and frozen at `78e699380be37109cfdd2111dd0f29c7052709c3`. Do not amend the Phase 10 or Phase 11 Git baselines. Do not add Phase 10 or Phase 11 functionality, resolve deferred technical debt, or refactor for its own sake.
+
+Phase **12** is architecturally accepted and implementation complete (2026-08-28). Do not add Phase 12 functionality, resolve deferred technical debt, or refactor for its own sake. Do not commit or push a Phase 12 Git baseline without explicit authorization. Do not implement production ENM transport. Do not guess the Ericsson ENM production interface. `UnconfiguredProductionEnmTransport` remains the REAL-mode fail-closed path. Do not implement Nokia NetAct as a real connector. Do not add vendor writes, vendor telemetry, or OAuth vendor authentication. Do not start Phase 13. Simulator/contract verification is not real Ericsson verification.
 
 Preserve Phase 1A/1A.1/1B/2/3/4/5/6/7/8/9/10/11. Kafka remains off by default. Do not vectorize operational telemetry, imported operational records, Assurance Case state, credentials, trust material, connector sessions, security audit, Azure tokens, or Key Vault secret values. Detection remains deterministic. The LLM explains and prioritises investigation; it does not decide thresholds, severity, confidence, risk, policy, numeric simulation results, or reconciliation outcomes. AI may propose. Deterministic policy decides. Humans approve where required. MCP invokes only registered capabilities.
 
@@ -57,20 +67,22 @@ Phase 10 remains frozen: production uses explicit WorkloadIdentityCredential and
 
 Phase 11 is frozen: Ericsson ENM is the first real-vendor **target**; access is strictly READ_ONLY; `EnmTransport` plus simulator-backed contract proof is the default CI path; production transport is fail-closed and unconfigured; FAILED snapshots produce zero canonical mutation; PARTIAL snapshots produce zero canonical mutation; import is manual and explicitly authorized; Agents, MCP, and Phase 4 Actions must not access ENM; no scheduler. Simulator/contract verification is not real-vendor E2E.
 
+Phase 12 is frozen: synchronization control plane, scheduled initiator-only scheduling into that plane, durable checkpoints, FULL / INCREMENTAL / RECOVERY_FULL, overlap SKIP, freshness, drift, and deterministic knowledge confidence. The scheduler must never call vendor transport directly. Vendor interaction remains read-only. Confidence is operational and deterministic; Agents/LLMs cannot assign authoritative confidence. Simulator/contract is **VERIFIED**; real vendor continuous synchronization is **NOT YET VERIFIED**. Production ENM transport remains **NOT CONFIGURED**.
+
 Same-JVM loopback JSON-RPC HTTP MCP remains accepted. Phase 4 POST APIs mutate SNIP governance state only. Agent-run POST APIs mutate SNIP orchestration state only. Twin-management POST APIs mutate SNIP Twin/scenario state only. Twin-management and integration POST APIs do not authorise live network mutation. Failed-result row replacement remains deferred technical debt. Non-interruptible per-Agent timeout is accepted Phase 5 technical debt; preserve the future interruptible timeout / run watchdog requirement and do not redesign it. Failed Twin simulation attempts are not persisted as SimulationRun records; that remains accepted Phase 6 technical debt.
 
 Governance POST APIs mutate SNIP workflow state only. They must never write to the live network. Direct LLM-to-MCP invocation is prohibited. Direct Agent-to-MCP invocation is prohibited. The LLM must not produce authoritative numeric KPI predictions.
 
 ## Do not implement
 
-Agent Factory, dynamic Agent creation, self-modifying Agents, persistent conversational memory, long-running or continuous background Agents, freeform Agent-to-Agent mesh, automatic remediation, Agent approval authority, policy override, production Agent identity federation, different physical models per Agent, automatic model routing, live OSS/NMS/EMS integrations, live gNB/network writes, real Ericsson ENM production connectivity, Nokia NetAct connectivity or writes, incident-management / ITSM, Schema Registry, Avro, Protobuf, Flink, Spark, Kafka Streams, dedicated time-series DB, Kong, ALB, ALICE, RL, ML anomaly detection, adaptive thresholds, forecasting, billing, Ionic, AWS lock-in, production IAM/OIDC for humans, remote third-party MCP, vendor MCP adapters, production RF simulation, ray tracing, vendor-calibrated radio models, electricalTilt simulation, arbitrary parameter simulation, automatic optimization, best-parameter search, whole-network Twin, core-network Twin, transport Twin, remote vendor Digital Twin, Kafka-triggered automatic Twin synchronization, continuous Twin synchronization, graph database, 3D GIS Twin, mobility simulation, traffic forecasting, network rollback, vendor REST/SFTP/SNMP/NETCONF/gNMI/Bulk CM, vendor telemetry streaming, automatic conflict resolution, AI reconciliation, dynamic adapter plugins, raw payload DB archive, field-level provenance, mastership policy engine, continuous/incremental import, import command queues, worker pools, automatic retry loops, cancellation API, record-level resume, dry-run import API, scheduled synchronization, OAuth vendor token flow, production vendor credentials, dynamic connector admin UI, secret rotation watcher, connector worker microservice split, general-purpose Key Vault admin, secret creation/update API, Terraform-managed secret values, production PKI automation, Vendor Integration Agent, Integration Operations Agent, Phase 12.
+Agent Factory, dynamic Agent creation, self-modifying Agents, persistent conversational memory, long-running or continuous background Agents, freeform Agent-to-Agent mesh, automatic remediation, Agent approval authority, policy override, production Agent identity federation, different physical models per Agent, automatic model routing, live OSS/NMS/EMS integrations, live gNB/network writes, real Ericsson ENM production connectivity, Nokia NetAct connectivity or writes, incident-management / ITSM, Schema Registry, Avro, Protobuf, Flink, Spark, Kafka Streams, dedicated time-series DB, Kong, ALB, ALICE, RL, ML anomaly detection, adaptive thresholds, forecasting, billing, Ionic, AWS lock-in, production IAM/OIDC for humans, remote third-party MCP, vendor MCP adapters, production RF simulation, ray tracing, vendor-calibrated radio models, electricalTilt simulation, arbitrary parameter simulation, automatic optimization, best-parameter search, whole-network Twin, core-network Twin, transport Twin, remote vendor Digital Twin, Kafka-triggered automatic Twin synchronization, graph database, 3D GIS Twin, mobility simulation, traffic forecasting, network rollback, vendor REST/SFTP/SNMP/NETCONF/gNMI/Bulk CM, vendor telemetry streaming, automatic conflict resolution, AI reconciliation, dynamic adapter plugins, raw payload DB archive, field-level provenance, mastership policy engine, OAuth vendor token flow, production vendor credentials, dynamic connector admin UI, secret rotation watcher, connector worker microservice split, general-purpose Key Vault admin, secret creation/update API, Terraform-managed secret values, production PKI automation, Vendor Integration Agent, Integration Operations Agent, Phase 13.
 
 ## Rules
 
-- Extend Phase 1A/1B/2/3/4/5/6/7/8/9/10/11 abstractions. Do not rewrite the slice.
+- Extend Phase 1A/1B/2/3/4/5/6/7/8/9/10/11/12 abstractions. Do not rewrite the slice.
 - Keep recommendation and domain APIs read-only for the network. Action execute/approve mutate SNIP governance state only. Agent-run POST APIs mutate SNIP orchestration state only. Twin synchronize/scenario APIs mutate SNIP Twin state only. Integration import APIs mutate SNIP integration/operational state only.
 - If retrieval is empty, do not fabricate citations or specialist evidence.
 - Ordinary CI must not download large models. PostgreSQL via Testcontainers remains required. Kafka Testcontainers remains allowed. CI must not require Azure, ENM, or NetAct.
 - Implementation markdown lives under `docs/implementation/`. ADRs under `docs/architecture/adr/`.
-- Architecture document has architectural authority. Implementation specification is the authorised execution scope. Phase 11 implementation is complete and architecturally accepted; do not start Phase 12.
-- Do not amend the Phase 10 Git baseline. Do not amend the Phase 11 Git baseline once established. Do not start Phase 12.
+- Architecture document has architectural authority. Implementation specification is the authorised execution scope. Phase 12 architecture is **ACCEPTED** and implementation is **COMPLETE**; Git baseline is **NOT YET ESTABLISHED**.
+- Do not amend the Phase 10 Git baseline. Do not amend the Phase 11 Git baseline. Do not add Phase 12 functionality or commit/push a Phase 12 Git baseline without explicit authorization. Do not start Phase 13.
