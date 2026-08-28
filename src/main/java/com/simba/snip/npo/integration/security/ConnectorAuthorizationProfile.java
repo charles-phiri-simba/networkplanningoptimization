@@ -8,6 +8,7 @@ public record ConnectorAuthorizationProfile(
         Set<ConnectorCapability> allowedCapabilities
 ) {
     public static final String READ_ONLY_NETWORK_INVENTORY = "READ_ONLY_NETWORK_INVENTORY";
+    public static final String ENM_READ_ONLY = "ENM_READ_ONLY";
 
     public static final Set<ConnectorCapability> READ_INVENTORY_CAPABILITIES = EnumSet.of(
             ConnectorCapability.READ_SITE,
@@ -25,6 +26,15 @@ public record ConnectorAuthorizationProfile(
 
     public static ConnectorAuthorizationProfile readOnlyNetworkInventory() {
         return new ConnectorAuthorizationProfile(READ_ONLY_NETWORK_INVENTORY, READ_INVENTORY_CAPABILITIES);
+    }
+
+    public static ConnectorAuthorizationProfile enmReadOnly() {
+        EnumSet<ConnectorCapability> allowed = EnumSet.copyOf(READ_INVENTORY_CAPABILITIES);
+        allowed.add(ConnectorCapability.INVENTORY_READ);
+        allowed.add(ConnectorCapability.CONFIGURATION_READ);
+        allowed.add(ConnectorCapability.PAGINATION);
+        allowed.add(ConnectorCapability.SOURCE_VERSION);
+        return new ConnectorAuthorizationProfile(ENM_READ_ONLY, allowed);
     }
 
     public boolean allowsAll(Set<ConnectorCapability> required) {

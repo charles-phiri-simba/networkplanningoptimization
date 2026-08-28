@@ -1,0 +1,19 @@
+package com.simba.snip.npo.integration.enm;
+
+public enum SimulatorEnmScenario {
+    SUCCESS_SINGLE_PAGE,
+    SUCCESS_MULTI_PAGE,
+    AUTH_401,
+    AUTH_403,
+    RATE_LIMIT_429,
+    UNAVAILABLE_503,
+    TIMEOUT,
+    MALFORMED,
+    REPEATED_CONTINUATION,
+    CONTINUATION_CYCLE,
+    EMPTY_INVALID_CONTINUATION,
+    ENTITY_LIMIT,
+    PAGE_LIMIT,
+    FAIL_AFTER_FIRST_PAGE,
+    PARTIAL_AFTER_FIRST_PAGE
+}

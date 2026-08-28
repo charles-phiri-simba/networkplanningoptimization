@@ -22,6 +22,7 @@ public record ConnectorDefinition(
         ConnectorMode mode
 ) {
     public static final String ERICSSON_ENM_INT_INVENTORY_READER = "ERICSSON_ENM_INT_INVENTORY_READER";
+    public static final String ERICSSON_ENM_SIMULATOR_INT_INVENTORY_READER = "ERICSSON_ENM_SIMULATOR_INT_INVENTORY_READER";
     public static final String NOKIA_NETACT_INT_INVENTORY_READER = "NOKIA_NETACT_INT_INVENTORY_READER";
 
     public ConnectorDefinition {

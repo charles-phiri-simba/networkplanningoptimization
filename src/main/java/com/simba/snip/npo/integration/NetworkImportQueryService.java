@@ -14,6 +14,8 @@ import com.simba.snip.npo.persist.NetworkImportCheckpointRepository;
 import com.simba.snip.npo.persist.NetworkImportRejectionRepository;
 import com.simba.snip.npo.persist.NetworkIntegrationConflictEntity;
 import com.simba.snip.npo.persist.NetworkIntegrationConflictRepository;
+import com.simba.snip.npo.persist.VendorSnapshotEntity;
+import com.simba.snip.npo.persist.VendorSnapshotRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +35,7 @@ public class NetworkImportQueryService {
     private final NetworkImportRejectionRepository rejectionRepository;
     private final ImportLeaseService leaseService;
     private final ConnectorSecurityProperties securityProperties;
+    private final VendorSnapshotRepository vendorSnapshotRepository;
 
     public NetworkImportQueryService(
             NetworkImportBatchRepository batchRepository,
@@ -41,7 +44,8 @@ public class NetworkImportQueryService {
             NetworkIntegrationConflictRepository conflictRepository,
             NetworkImportRejectionRepository rejectionRepository,
             ImportLeaseService leaseService,
-            ConnectorSecurityProperties securityProperties
+            ConnectorSecurityProperties securityProperties,
+            VendorSnapshotRepository vendorSnapshotRepository
     ) {
         this.batchRepository = batchRepository;
         this.auditRepository = auditRepository;
@@ -50,6 +54,7 @@ public class NetworkImportQueryService {
         this.rejectionRepository = rejectionRepository;
         this.leaseService = leaseService;
         this.securityProperties = securityProperties;
+        this.vendorSnapshotRepository = vendorSnapshotRepository;
     }
 
     public List<ImportBatchDto> listImports() {
@@ -100,6 +105,7 @@ public class NetworkImportQueryService {
         body.put("lastSuccessfulImportBySource", lastSuccessful);
         body.put("credentialProviderMode", securityProperties.isProductionRuntime()
                 ? "AZURE_KEY_VAULT" : "LOCAL_DEVELOPMENT");
+        body.put("enmLiveInventoryProbed", false);
         return body;
     }
 
@@ -132,6 +138,8 @@ public class NetworkImportQueryService {
     }
 
     private ImportBatchDto toBatch(NetworkImportBatchEntity batch, List<ImportAuditEventDto> audit) {
+        List<VendorSnapshotEntity> snapshots = vendorSnapshotRepository.findByExecutionIdOrderByStartedAtAsc(batch.getId());
+        VendorSnapshotEntity snapshot = snapshots.isEmpty() ? null : snapshots.get(snapshots.size() - 1);
         return new ImportBatchDto(
                 batch.getId(),
                 batch.getSourceSystem(),
@@ -160,7 +168,12 @@ public class NetworkImportQueryService {
                 batch.getFailureCode(),
                 batch.getRetryable(),
                 batch.getLeaseFencingToken(),
-                batch.getRequestedAt()
+                batch.getRequestedAt(),
+                snapshot == null ? null : snapshot.getCompleteness(),
+                snapshot == null ? null : snapshot.getPagesReceived(),
+                snapshot == null ? null : snapshot.getConnectorId(),
+                snapshot == null ? null : "READ_ONLY",
+                snapshot == null ? null : "ENM"
         );
     }
 

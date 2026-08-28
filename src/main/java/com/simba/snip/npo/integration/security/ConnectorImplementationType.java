@@ -1,6 +1,6 @@
 package com.simba.snip.npo.integration.security;
 
-public enum ConnectorMode {
+public enum ConnectorImplementationType {
     MOCK_SECURE,
     SIMULATOR,
     REAL

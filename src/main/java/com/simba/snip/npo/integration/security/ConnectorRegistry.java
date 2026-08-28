@@ -1,6 +1,7 @@
 package com.simba.snip.npo.integration.security;
 
 import com.simba.snip.npo.config.ConnectorSecurityProperties;
+import com.simba.snip.npo.config.EnmIntegrationProperties;
 import com.simba.snip.npo.integration.ImportFailureCode;
 import com.simba.snip.npo.integration.Vendor;
 import org.springframework.stereotype.Component;
@@ -18,6 +19,7 @@ public class ConnectorRegistry {
     public static final String NOKIA_ENDPOINT_REF = "nokia-netact-int";
     public static final String ERICSSON_CREDENTIAL_REF = "ericsson-enm-int-inventory-reader";
     public static final String NOKIA_CREDENTIAL_REF = "nokia-netact-int-inventory-reader";
+    public static final String ERICSSON_SIMULATOR_CREDENTIAL_REF = "ericsson-enm-simulator-int-inventory-reader";
     public static final String ERICSSON_TRUST = "ericsson-int-custom-ca";
     public static final String NOKIA_TRUST = "nokia-int-custom-ca";
     public static final String ERICSSON_NETWORK = "ericsson-int-egress";
@@ -30,7 +32,11 @@ public class ConnectorRegistry {
     private final Map<String, ConnectorNetworkPolicy> networkPolicies = new ConcurrentHashMap<>();
     private final ConnectorEndpointRegistry endpoints;
 
-    public ConnectorRegistry(ConnectorEndpointRegistry endpoints, ConnectorSecurityProperties properties) {
+    public ConnectorRegistry(
+            ConnectorEndpointRegistry endpoints,
+            ConnectorSecurityProperties properties,
+            EnmIntegrationProperties enmProperties
+    ) {
         this.endpoints = endpoints;
         CredentialProviderType provider = properties.isProductionRuntime()
                 ? CredentialProviderType.AZURE_KEY_VAULT
@@ -46,6 +52,10 @@ public class ConnectorRegistry {
                 ConnectorAuthorizationProfile.READ_ONLY_NETWORK_INVENTORY,
                 ConnectorAuthorizationProfile.readOnlyNetworkInventory()
         );
+        authorizationProfiles.put(
+                ConnectorAuthorizationProfile.ENM_READ_ONLY,
+                ConnectorAuthorizationProfile.enmReadOnly()
+        );
         trustProfiles.put(SYSTEM_TRUST, new ConnectorTrustProfile(
                 SYSTEM_TRUST, TrustMode.SYSTEM_CA, List.of(), true, List.of(), null));
         trustProfiles.put(ERICSSON_TRUST, new ConnectorTrustProfile(
@@ -60,6 +70,10 @@ public class ConnectorRegistry {
         endpoints.register(new ConnectorEndpoint(NOKIA_ENDPOINT_REF, URI.create("https://" + nokiaHost)));
         definitions.put(ConnectorDefinition.ERICSSON_ENM_INT_INVENTORY_READER, ericsson(enabled, AuthenticationMethod.BASIC, provider));
         definitions.put(ConnectorDefinition.NOKIA_NETACT_INT_INVENTORY_READER, nokia(enabled, AuthenticationMethod.BASIC, provider));
+        definitions.put(
+                ConnectorDefinition.ERICSSON_ENM_SIMULATOR_INT_INVENTORY_READER,
+                enmSimulator(enmProperties.isEnabled(), provider)
+        );
     }
 
     public ConnectorDefinition require(String connectorId) {
@@ -177,6 +191,26 @@ public class ConnectorRegistry {
                 ConnectorAuthorizationProfile.READ_INVENTORY_CAPABILITIES,
                 enabled,
                 ConnectorMode.MOCK_SECURE
+        );
+    }
+
+    private static ConnectorDefinition enmSimulator(boolean enabled, CredentialProviderType provider) {
+        return new ConnectorDefinition(
+                ConnectorDefinition.ERICSSON_ENM_SIMULATOR_INT_INVENTORY_READER,
+                Vendor.ERICSSON,
+                "ERICSSON_ENM_SIMULATOR",
+                "DEFAULT",
+                ERICSSON_ENDPOINT_REF,
+                "/inventory",
+                ERICSSON_SIMULATOR_CREDENTIAL_REF,
+                ERICSSON_TRUST,
+                ConnectorAuthorizationProfile.ENM_READ_ONLY,
+                ERICSSON_NETWORK,
+                AuthenticationMethod.BASIC,
+                provider,
+                ConnectorAuthorizationProfile.enmReadOnly().allowedCapabilities(),
+                enabled,
+                ConnectorMode.SIMULATOR
         );
     }
 }

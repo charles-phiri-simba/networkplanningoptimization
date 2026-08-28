@@ -4,7 +4,7 @@ First **SNIP** domain application: a local, **read-only** 5G planning copilot.
 
 It ingests synthetic cell telemetry, projects KPI state, detects deterministic assurance conditions, persists an Assurance Case with operational evidence, returns a cited advisory assessment, can propose **governed** actions through a local Java MCP server, can run a **bounded Agent orchestration** that gathers evidence and proposes those same Phase 4 actions, can synchronize a **cell Digital Twin** so a hypothetical `txPower` change is simulated deterministically after approval, and can **import read-only Ericsson/Nokia fixture inventory** through a durable, lease-fenced runtime into the same canonical Site/gNB/Cell graph. It does **not** change the live network.
 
-This repository is not the full Simba Network Intelligence Platform. Target-state product requirements are in [`docs/requirements/product-requirements.md`](docs/requirements/product-requirements.md). Phase 10 bounds are in [`SNIP-PHASE-10-PRODUCTION-SECRET-WORKLOAD-IDENTITY-CONNECTOR-RUNTIME-SECURITY-ARCHITECTURE.md`](SNIP-PHASE-10-PRODUCTION-SECRET-WORKLOAD-IDENTITY-CONNECTOR-RUNTIME-SECURITY-ARCHITECTURE.md). Phase 7 reconciliation, Phase 8 import runtime, and Phase 9 connector security remain frozen.
+This repository is not the full Simba Network Intelligence Platform. Target-state product requirements are in [`docs/requirements/product-requirements.md`](docs/requirements/product-requirements.md). Phase 10 bounds are in [`docs/architecture/SNIP-PHASE-10-PRODUCTION-SECRET-WORKLOAD-IDENTITY-CONNECTOR-RUNTIME-SECURITY-ARCHITECTURE.md`](docs/architecture/SNIP-PHASE-10-PRODUCTION-SECRET-WORKLOAD-IDENTITY-CONNECTOR-RUNTIME-SECURITY-ARCHITECTURE.md). Phase 11 architecture is **accepted** in [`docs/architecture/SNIP-PHASE-11-FIRST-REAL-VENDOR-CONNECTOR-PRODUCTION-READ-ONLY-INTEGRATION-ARCHITECTURE.md`](docs/architecture/SNIP-PHASE-11-FIRST-REAL-VENDOR-CONNECTOR-PRODUCTION-READ-ONLY-INTEGRATION-ARCHITECTURE.md). Implementation is **complete — architecturally accepted** ([completion report](docs/implementation/SNIP-PHASE-11-FIRST-REAL-VENDOR-CONNECTOR-PRODUCTION-READ-ONLY-INTEGRATION-COMPLETION-REPORT.md)); simulator/contract is verified; real vendor E2E is **not yet verified**; Phase 11 Git baseline is not yet established; Phase 12 has not started. Phase 7 reconciliation, Phase 8 import runtime, Phase 9 connector security, and Phase 10 production secrets remain frozen.
 
 ## Prerequisites
 
@@ -196,9 +196,15 @@ curl -s http://127.0.0.1:8080/api/v1/cells/CELL-E001
 curl -s http://127.0.0.1:8080/api/v1/integration/conflicts
 ```
 
+Phase 11 simulator ENM import (not real ENM; requires explicit permission; default CI does not call a vendor):
+
+```bash
+curl -s -X POST http://127.0.0.1:8080/api/v1/integration/imports/connectors/ERICSSON_ENM_SIMULATOR_INT_INVENTORY_READER -H "X-SNIP-VENDOR-IMPORT-PERMISSION: TRIGGER_VENDOR_IMPORT"
+```
+
 ## What this phase does not include
 
-Live network writes, real Ericsson ENM / Nokia NetAct connectivity, production vendor credentials, OSS/NMS/EMS write integration, vendor REST/SFTP/SNMP/NETCONF, vendor telemetry adapters, automatic Twin synchronization, automatic conflict resolution, auto-remediation, Agent Factory, dynamic Agent creation, long-running autonomous Agents, direct Agent-to-MCP execution, remote third-party MCP, production RF simulation, electricalTilt simulation, automatic optimization, Kafka-triggered Twin synchronization, Schema Registry, Avro, Protobuf, Flink, Spark, Kafka Streams, a dedicated time-series DB, RL, import queues, automatic retry loops, cancellation APIs, record-level resume, OAuth vendor token flow, Terraform-managed secret values, Phase 11.
+Live network writes, real Ericsson ENM production connectivity, Nokia NetAct connectivity, production vendor credentials, OSS/NMS/EMS write integration, vendor REST/SFTP/SNMP/NETCONF, vendor telemetry adapters, automatic Twin synchronization, automatic conflict resolution, auto-remediation, Agent Factory, dynamic Agent creation, long-running autonomous Agents, direct Agent-to-MCP execution, remote third-party MCP, production RF simulation, electricalTilt simulation, automatic optimization, Kafka-triggered Twin synchronization, Schema Registry, Avro, Protobuf, Flink, Spark, Kafka Streams, a dedicated time-series DB, RL, import queues, automatic retry loops, cancellation APIs, record-level resume, OAuth vendor token flow, Terraform-managed secret values, Phase 12.
 
 ## License
 

@@ -32,6 +32,11 @@ public record ImportBatchDto(
         String failureCode,
         Boolean retryable,
         Long leaseFencingToken,
-        Instant requestedAt
+        Instant requestedAt,
+        String completeness,
+        Integer pagesReceived,
+        String connectorId,
+        String accessMode,
+        String platform
 ) {
 }

@@ -4,11 +4,16 @@ import com.simba.snip.npo.domain.DomainValidationException;
 import com.simba.snip.npo.integration.FixtureKind;
 import com.simba.snip.npo.integration.NetworkImportQueryService;
 import com.simba.snip.npo.integration.NetworkImportService;
+import com.simba.snip.npo.integration.enm.VendorImportAuthorizer;
+import com.simba.snip.npo.integration.security.ConnectorDefinition;
+import com.simba.snip.npo.integration.security.ConnectorMode;
+import com.simba.snip.npo.integration.security.ConnectorRegistry;
 import com.simba.snip.npo.integration.security.ConnectorSecurityQueryService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
@@ -21,15 +26,21 @@ public class IntegrationController {
     private final NetworkImportService importService;
     private final NetworkImportQueryService queryService;
     private final ConnectorSecurityQueryService securityQueryService;
+    private final ConnectorRegistry connectorRegistry;
+    private final VendorImportAuthorizer vendorImportAuthorizer;
 
     public IntegrationController(
             NetworkImportService importService,
             NetworkImportQueryService queryService,
-            ConnectorSecurityQueryService securityQueryService
+            ConnectorSecurityQueryService securityQueryService,
+            ConnectorRegistry connectorRegistry,
+            VendorImportAuthorizer vendorImportAuthorizer
     ) {
         this.importService = importService;
         this.queryService = queryService;
         this.securityQueryService = securityQueryService;
+        this.connectorRegistry = connectorRegistry;
+        this.vendorImportAuthorizer = vendorImportAuthorizer;
     }
 
     @PostMapping("/api/v1/integration/imports/ericsson")
@@ -45,8 +56,13 @@ public class IntegrationController {
     @PostMapping("/api/v1/integration/imports/connectors/{connectorId}")
     public ImportBatchDto importConnector(
             @PathVariable String connectorId,
+            @RequestHeader(value = VendorImportAuthorizer.HEADER, required = false) String vendorImportPermission,
             @RequestBody(required = false) java.util.Map<String, Object> ignored
     ) {
+        ConnectorDefinition definition = connectorRegistry.require(connectorId);
+        if (definition.mode() != ConnectorMode.MOCK_SECURE) {
+            vendorImportAuthorizer.bindRequestPermission(vendorImportPermission);
+        }
         return queryService.importDetail(importService.importSecure(connectorId).getId());
     }
 

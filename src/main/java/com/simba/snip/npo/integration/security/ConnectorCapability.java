@@ -6,6 +6,10 @@ public enum ConnectorCapability {
     READ_CELL,
     READ_CONFIGURATION,
     READ_NEIGHBOURS,
+    INVENTORY_READ,
+    CONFIGURATION_READ,
+    PAGINATION,
+    SOURCE_VERSION,
     WRITE_CONFIGURATION,
     ACTIVATE,
     DEACTIVATE,
@@ -13,5 +17,15 @@ public enum ConnectorCapability {
     UNLOCK,
     RESET,
     EXECUTE_COMMAND,
-    DELETE
+    DELETE,
+    NETWORK_MUTATION,
+    PARAMETER_CHANGE;
+
+    public boolean mutatesNetwork() {
+        return switch (this) {
+            case WRITE_CONFIGURATION, ACTIVATE, DEACTIVATE, LOCK, UNLOCK, RESET, EXECUTE_COMMAND, DELETE,
+                    NETWORK_MUTATION, PARAMETER_CHANGE -> true;
+            default -> false;
+        };
+    }
 }

@@ -6,6 +6,10 @@ import com.simba.snip.npo.persist.NetworkImportBatchEntity;
 import com.simba.snip.npo.persist.NetworkImportBatchRepository;
 import com.simba.snip.npo.persist.NetworkImportCheckpointEntity;
 import com.simba.snip.npo.persist.NetworkImportCheckpointRepository;
+import com.simba.snip.npo.persist.SourceProvenanceEntity;
+import com.simba.snip.npo.persist.SourceProvenanceRepository;
+import com.simba.snip.npo.persist.VendorSnapshotEntity;
+import com.simba.snip.npo.persist.VendorSnapshotRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Propagation;
 import org.springframework.transaction.annotation.Transactional;
@@ -19,15 +23,21 @@ public class NetworkImportBatchService {
     private final NetworkImportBatchRepository batchRepository;
     private final NetworkImportAuditEventRepository auditRepository;
     private final NetworkImportCheckpointRepository checkpointRepository;
+    private final VendorSnapshotRepository vendorSnapshotRepository;
+    private final SourceProvenanceRepository sourceProvenanceRepository;
 
     public NetworkImportBatchService(
             NetworkImportBatchRepository batchRepository,
             NetworkImportAuditEventRepository auditRepository,
-            NetworkImportCheckpointRepository checkpointRepository
+            NetworkImportCheckpointRepository checkpointRepository,
+            VendorSnapshotRepository vendorSnapshotRepository,
+            SourceProvenanceRepository sourceProvenanceRepository
     ) {
         this.batchRepository = batchRepository;
         this.auditRepository = auditRepository;
         this.checkpointRepository = checkpointRepository;
+        this.vendorSnapshotRepository = vendorSnapshotRepository;
+        this.sourceProvenanceRepository = sourceProvenanceRepository;
     }
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
@@ -139,5 +149,16 @@ public class NetworkImportBatchService {
     @Transactional(readOnly = true)
     public NetworkImportBatchEntity require(UUID importId) {
         return batchRepository.findById(importId).orElseThrow();
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void persistVendorSnapshot(VendorSnapshotEntity entity) {
+        vendorSnapshotRepository.saveAndFlush(entity);
+    }
+
+    @Transactional(propagation = Propagation.REQUIRES_NEW)
+    public void persistProvenance(java.util.List<SourceProvenanceEntity> rows) {
+        sourceProvenanceRepository.saveAll(rows);
+        sourceProvenanceRepository.flush();
     }
 }

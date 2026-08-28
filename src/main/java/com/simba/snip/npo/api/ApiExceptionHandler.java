@@ -34,6 +34,20 @@ public class ApiExceptionHandler {
         return ResponseEntity.status(HttpStatus.CONFLICT).body(body);
     }
 
+    @ExceptionHandler(com.simba.snip.npo.integration.security.ConnectorSecurityException.class)
+    public ResponseEntity<Map<String, String>> connectorSecurity(
+            com.simba.snip.npo.integration.security.ConnectorSecurityException ex
+    ) {
+        Map<String, String> body = new LinkedHashMap<>();
+        body.put("error", ex.getMessage());
+        body.put("failureCode", ex.failureCode().name());
+        HttpStatus status = ex.failureCode()
+                == com.simba.snip.npo.integration.ImportFailureCode.CONNECTOR_AUTHORIZATION_DENIED
+                ? HttpStatus.FORBIDDEN
+                : HttpStatus.BAD_REQUEST;
+        return ResponseEntity.status(status).body(body);
+    }
+
     @ExceptionHandler(com.simba.snip.npo.domain.DomainValidationException.class)
     public ResponseEntity<Map<String, String>> badRequest(com.simba.snip.npo.domain.DomainValidationException ex) {
         return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Map.of(

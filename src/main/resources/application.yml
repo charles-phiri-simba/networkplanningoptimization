@@ -59,6 +59,22 @@ snip:
           ericsson-int-custom-ca: ${SNIP_TRUST_SECRET_ERICSSON:}
           nokia-int-custom-ca: ${SNIP_TRUST_SECRET_NOKIA:}
         pinned-versions: {}
+    enm:
+      enabled: ${SNIP_ENM_ENABLED:true}
+      connector-id: ERICSSON_ENM_SIMULATOR_INT_INVENTORY_READER
+      implementation-type: SIMULATOR
+      access-mode: READ_ONLY
+      environment: INT
+      api-profile: ENM_SIMULATOR_V1
+      base-endpoint: ""
+      page-size: 10
+      max-pages: 8
+      max-entities: 32
+      request-timeout: 2s
+      overall-execution-timeout: 30s
+      max-attempts: 3
+      initial-backoff: 10ms
+      max-backoff: 100ms
 
 spring:
   datasource:

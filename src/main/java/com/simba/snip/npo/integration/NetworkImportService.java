@@ -1,9 +1,19 @@
 package com.simba.snip.npo.integration;
 
+import com.simba.snip.npo.config.EnmIntegrationProperties;
 import com.simba.snip.npo.config.IntegrationRuntimeProperties;
 import com.simba.snip.npo.domain.DomainValidationException;
 import com.simba.snip.npo.domain.ImportBusyException;
+import com.simba.snip.npo.integration.enm.ConnectorCancellationToken;
+import com.simba.snip.npo.integration.enm.EnmConnectorMetrics;
+import com.simba.snip.npo.integration.enm.EnmImportTestHooks;
+import com.simba.snip.npo.integration.enm.EricssonEnmConnector;
+import com.simba.snip.npo.integration.enm.ImportExecutionContext;
+import com.simba.snip.npo.integration.enm.SnapshotCompleteness;
+import com.simba.snip.npo.integration.enm.VendorImportAuthorizer;
+import com.simba.snip.npo.integration.enm.VendorSnapshot;
 import com.simba.snip.npo.integration.security.ConnectorDefinition;
+import com.simba.snip.npo.integration.security.ConnectorMode;
 import com.simba.snip.npo.integration.security.ConnectorRegistry;
 import com.simba.snip.npo.integration.security.ConnectorSecurityException;
 import com.simba.snip.npo.integration.security.ConnectorSecurityMetrics;
@@ -11,6 +21,8 @@ import com.simba.snip.npo.integration.security.SecureConnectorClientFactory;
 import com.simba.snip.npo.integration.security.SecureVendorSnapshotParser;
 import com.simba.snip.npo.persist.NetworkImportBatchEntity;
 import com.simba.snip.npo.persist.NetworkImportBatchRepository;
+import com.simba.snip.npo.persist.SourceProvenanceEntity;
+import com.simba.snip.npo.persist.VendorSnapshotEntity;
 import org.springframework.dao.DataAccessException;
 import org.springframework.stereotype.Service;
 
@@ -18,8 +30,10 @@ import java.io.Closeable;
 import java.time.Instant;
 import java.util.Comparator;
 import java.util.List;
+import java.util.Locale;
 import java.util.Optional;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 public class NetworkImportService {
@@ -43,6 +57,11 @@ public class NetworkImportService {
     private final SecureConnectorClientFactory connectorClientFactory;
     private final SecureVendorSnapshotParser snapshotParser;
     private final ConnectorSecurityMetrics connectorSecurityMetrics;
+    private final EricssonEnmConnector enmConnector;
+    private final VendorImportAuthorizer vendorImportAuthorizer;
+    private final EnmIntegrationProperties enmProperties;
+    private final EnmConnectorMetrics enmMetrics;
+    private final EnmImportTestHooks enmImportTestHooks;
 
     public NetworkImportService(
             NetworkSourceAdapterRegistry adapterRegistry,
@@ -61,7 +80,12 @@ public class NetworkImportService {
             ConnectorRegistry connectorRegistry,
             SecureConnectorClientFactory connectorClientFactory,
             SecureVendorSnapshotParser snapshotParser,
-            ConnectorSecurityMetrics connectorSecurityMetrics
+            ConnectorSecurityMetrics connectorSecurityMetrics,
+            EricssonEnmConnector enmConnector,
+            VendorImportAuthorizer vendorImportAuthorizer,
+            EnmIntegrationProperties enmProperties,
+            EnmConnectorMetrics enmMetrics,
+            EnmImportTestHooks enmImportTestHooks
     ) {
         this.adapterRegistry = adapterRegistry;
         this.normalizer = normalizer;
@@ -80,6 +104,11 @@ public class NetworkImportService {
         this.connectorClientFactory = connectorClientFactory;
         this.snapshotParser = snapshotParser;
         this.connectorSecurityMetrics = connectorSecurityMetrics;
+        this.enmConnector = enmConnector;
+        this.vendorImportAuthorizer = vendorImportAuthorizer;
+        this.enmProperties = enmProperties;
+        this.enmMetrics = enmMetrics;
+        this.enmImportTestHooks = enmImportTestHooks;
     }
 
     public NetworkImportBatchEntity importEricsson(FixtureKind kind) {
@@ -92,6 +121,9 @@ public class NetworkImportService {
 
     public NetworkImportBatchEntity importSecure(String connectorId) {
         ConnectorDefinition definition = connectorRegistry.require(connectorId);
+        if (definition.mode() == ConnectorMode.SIMULATOR || definition.mode() == ConnectorMode.REAL) {
+            return importEnm(definition);
+        }
         String sourceSystem = definition.sourceSystem();
         String sourceScope = definition.sourceScope();
         String schemaVersion = definition.vendor() == Vendor.ERICSSON
@@ -268,6 +300,391 @@ public class NetworkImportService {
             batchService.appendAudit(executionId, ImportAuditEventType.LEASE_RELEASED, Instant.now(),
                     "fencingToken=" + lease.get().fencingToken());
         }
+    }
+
+    public NetworkImportBatchEntity importEnm(ConnectorDefinition definition) {
+        vendorImportAuthorizer.requireTrigger();
+        if (!definition.enabled() || !enmProperties.isEnabled()) {
+            throw new ConnectorSecurityException(ImportFailureCode.CONNECTOR_DISABLED, "ENM connector is disabled");
+        }
+        if (enmConnector.descriptor(definition).capabilities().stream()
+                .anyMatch(com.simba.snip.npo.integration.security.ConnectorCapability::mutatesNetwork)) {
+            throw new ConnectorSecurityException(
+                    ImportFailureCode.CONNECTOR_AUTHORIZATION_DENIED, "ENM connector is not read-only");
+        }
+        String sourceSystem = definition.sourceSystem();
+        String sourceScope = definition.sourceScope();
+        Instant requestedAt = Instant.now();
+        leaseService.recoverExpired(sourceSystem, sourceScope);
+        Optional<NetworkImportBatchEntity> active = activeExecution(sourceSystem, sourceScope);
+        if (active.isPresent()) {
+            metrics.incrementConcurrentRejected();
+            throw new ImportBusyException(
+                    "import already RUNNING for " + sourceSystem + "/" + sourceScope,
+                    active.get().getId(),
+                    ImportFailureCode.LEASE_UNAVAILABLE.name()
+            );
+        }
+        UUID executionId = UUID.randomUUID();
+        batchService.requested(
+                executionId,
+                sourceSystem,
+                definition.vendor().name(),
+                "ENM_SIMULATOR_V1",
+                FixtureKind.NORMAL,
+                sourceScope,
+                ImportExecutionType.NEW,
+                1,
+                null,
+                requestedAt,
+                identity.instanceId()
+        );
+        batchService.appendAudit(executionId, ImportAuditEventType.IMPORT_REQUESTED, requestedAt,
+                "connectorId=" + definition.connectorId());
+        batchService.appendAudit(executionId, ImportAuditEventType.IMPORT_STARTED, requestedAt,
+                "connectorId=" + definition.connectorId() + " sourceScope=" + sourceScope);
+        metrics.incrementStarted();
+        Optional<ImportLease> lease = leaseService.acquire(sourceSystem, sourceScope, executionId, identity.instanceId());
+        if (lease.isEmpty()) {
+            UUID owner = leaseService.find(sourceSystem, sourceScope).map(ImportLease::ownerExecutionId).orElse(executionId);
+            batchService.terminalize(
+                    executionId,
+                    ImportExecutionStatus.REJECTED.name(),
+                    Instant.now(),
+                    ImportFailureCode.LEASE_UNAVAILABLE,
+                    true,
+                    "lease unavailable for " + sourceSystem + "/" + sourceScope
+            );
+            batchService.appendAudit(executionId, ImportAuditEventType.IMPORT_REJECTED, Instant.now(),
+                    "failureCode=LEASE_UNAVAILABLE");
+            metrics.incrementConcurrentRejected();
+            throw new ImportBusyException(
+                    "import lease unavailable for " + sourceSystem + "/" + sourceScope,
+                    owner,
+                    ImportFailureCode.LEASE_UNAVAILABLE.name()
+            );
+        }
+        batchService.markRunning(executionId, Instant.now(), lease.get().fencingToken());
+        batchService.appendAudit(executionId, ImportAuditEventType.LEASE_ACQUIRED, Instant.now(),
+                "fencingToken=" + lease.get().fencingToken() + " ownerInstanceId=" + identity.instanceId());
+        Closeable guard = executionGuard.start(executionId, lease.get());
+        long startedNs = System.nanoTime();
+        VendorSnapshot vendorSnapshot = null;
+        SourceSnapshot snapshot = null;
+        try {
+            ConnectorCancellationToken cancellationToken = new ConnectorCancellationToken();
+            enmImportTestHooks.bind(cancellationToken);
+            ImportExecutionContext context = new ImportExecutionContext(
+                    executionId,
+                    Instant.now().plus(enmProperties.getOverallExecutionTimeout()),
+                    lease.get(),
+                    leaseService,
+                    cancellationToken,
+                    enmProperties.getRequestTimeout()
+            );
+            context.assertContinuing();
+            batchService.appendAudit(executionId, ImportAuditEventType.SNAPSHOT_STARTED, Instant.now(),
+                    "connectorId=" + definition.connectorId());
+            EricssonEnmConnector.AcquisitionResult acquired = enmConnector.acquire(definition, context);
+            vendorSnapshot = acquired.vendorSnapshot();
+            snapshot = acquired.sourceSnapshot();
+            persistVendorSnapshot(vendorSnapshot);
+            batchService.recordSnapshot(
+                    executionId,
+                    snapshot.sourceSnapshotId(),
+                    snapshot.vendorSchemaVersion(),
+                    hasher.hash(normalizer.normalize(snapshot).snapshot())
+            );
+            if (vendorSnapshot.completeness() != SnapshotCompleteness.COMPLETE) {
+                return failClosedWithoutReconcile(
+                        executionId, sourceSystem, sourceScope, snapshot, vendorSnapshot, startedNs);
+            }
+            CanonicalNormalizer.NormalizeResult normalized = normalizer.normalize(snapshot);
+            String hash = hasher.hash(normalized.snapshot());
+            SnapshotClassification classification = classify(
+                    sourceSystem, sourceScope, snapshot.sourceSnapshotId(), hash);
+            if (classification.type() == ImportExecutionType.REPLAY) {
+                leaseService.release(lease.get());
+                metrics.incrementReplays();
+                NetworkImportBatchEntity replayed = batchService.completeReplay(
+                        executionId,
+                        Instant.now(),
+                        classification.originalSuccessfulExecutionId(),
+                        snapshot.sourceSnapshotId(),
+                        snapshot.vendorSchemaVersion(),
+                        hash
+                );
+                batchService.appendAudit(executionId, ImportAuditEventType.IMPORT_REPLAYED, Instant.now(),
+                        "originalSuccessfulExecutionId=" + classification.originalSuccessfulExecutionId());
+                return replayed;
+            }
+            if (classification.rejected()) {
+                batchService.terminalize(
+                        executionId,
+                        ImportExecutionStatus.REJECTED.name(),
+                        Instant.now(),
+                        classification.failureCode(),
+                        false,
+                        classification.detail()
+                );
+                batchService.appendAudit(executionId, ImportAuditEventType.IMPORT_REJECTED, Instant.now(),
+                        "failureCode=" + classification.failureCode());
+                return batchService.require(executionId);
+            }
+            var issues = validator.validateAndFilter(normalized.snapshot(), normalized.issues());
+            ImportPlan plan = reconciliationService.plan(normalized.snapshot(), issues, Instant.now());
+            enmImportTestHooks.runBeforeReconcile();
+            context.assertContinuing();
+            leaseService.assertOwnership(lease.get());
+            NetworkImportBatchEntity running = batchService.require(executionId);
+            if (!"RUNNING".equals(running.getStatus())) {
+                throw new ImportRuntimeException(
+                        ImportFailureCode.LEASE_LOST, "execution is no longer RUNNING", false, null);
+            }
+            ReconciliationResult result = reconciliationService.apply(
+                    running, normalized.snapshot(), plan, Instant.now(), lease.get());
+            persistProvenance(executionId, vendorSnapshot, snapshot, Instant.now());
+            Instant completedAt = Instant.now();
+            boolean completed = batchService.complete(executionId, completedAt, result);
+            if (!completed) {
+                throw new ImportRuntimeException(
+                        ImportFailureCode.EXECUTION_TIMEOUT, "execution left RUNNING before complete");
+            }
+            batchService.appendAudit(executionId, ImportAuditEventType.SNAPSHOT_COMPLETED, completedAt,
+                    "completeness=COMPLETE pagesReceived=" + vendorSnapshot.pagesReceived()
+                            + " entitiesRead=" + vendorSnapshot.entitiesRead());
+            batchService.appendAudit(executionId, ImportAuditEventType.RECONCILIATION_COMPLETED, completedAt,
+                    "created=" + result.created() + " updated=" + result.updated());
+            batchService.appendAudit(executionId, ImportAuditEventType.IMPORT_COMPLETED, completedAt, "status=COMPLETED");
+            NetworkImportBatchEntity done = batchService.require(executionId);
+            metrics.recordSuccess(
+                    result,
+                    (System.nanoTime() - startedNs) / 1_000_000L,
+                    new IntegrationMetrics.UUIDLike(
+                            done.getId().toString(),
+                            done.getSourceSystem(),
+                            done.getSourceSnapshotId(),
+                            done.getSourceScope(),
+                            done.getLeaseFencingToken()
+                    )
+            );
+            return done;
+        } catch (ImportBusyException ex) {
+            throw ex;
+        } catch (EricssonEnmConnector.AcquisitionFailedException ex) {
+            vendorSnapshot = ex.vendorSnapshot();
+            snapshot = ex.sourceSnapshot();
+            return failClosedFromException(executionId, sourceSystem, sourceScope, snapshot, vendorSnapshot, ex, startedNs);
+        } catch (RuntimeException ex) {
+            return failClosedFromException(executionId, sourceSystem, sourceScope, snapshot, vendorSnapshot, ex, startedNs);
+        } finally {
+            try {
+                guard.close();
+            } catch (Exception ignored) {
+                // already cancelled
+            }
+            leaseService.release(lease.get());
+            batchService.appendAudit(executionId, ImportAuditEventType.LEASE_RELEASED, Instant.now(),
+                    "fencingToken=" + lease.get().fencingToken());
+            enmImportTestHooks.clear();
+        }
+    }
+
+    private NetworkImportBatchEntity failClosedWithoutReconcile(
+            UUID executionId,
+            String sourceSystem,
+            String sourceScope,
+            SourceSnapshot snapshot,
+            VendorSnapshot vendorSnapshot,
+            long startedNs
+    ) {
+        ImportFailureCode code = vendorSnapshot.completeness() == SnapshotCompleteness.PARTIAL
+                ? ImportFailureCode.SNAPSHOT_PARTIAL
+                : ImportFailureCode.SNAPSHOT_READ_FAILED;
+        if (vendorSnapshot.completeness() == SnapshotCompleteness.PARTIAL) {
+            enmMetrics.incrementSnapshotPartial();
+            batchService.appendAudit(executionId, ImportAuditEventType.SNAPSHOT_PARTIAL, Instant.now(),
+                    "completeness=PARTIAL pagesReceived=" + vendorSnapshot.pagesReceived());
+        } else {
+            enmMetrics.incrementSnapshotFailed();
+        }
+        Instant failedAt = Instant.now();
+        batchService.terminalize(
+                executionId,
+                ImportExecutionStatus.FAILED.name(),
+                failedAt,
+                code,
+                false,
+                safeFailureMessage(code)
+        );
+        batchService.appendAudit(executionId, ImportAuditEventType.IMPORT_FAILED, failedAt, code.name());
+        metrics.recordFailure(
+                executionId.toString(),
+                sourceSystem,
+                sourceScope,
+                snapshot == null ? "UNREAD" : snapshot.sourceSnapshotId(),
+                code,
+                (System.nanoTime() - startedNs) / 1_000_000L
+        );
+        return batchService.require(executionId);
+    }
+
+    private NetworkImportBatchEntity failClosedFromException(
+            UUID executionId,
+            String sourceSystem,
+            String sourceScope,
+            SourceSnapshot snapshot,
+            VendorSnapshot vendorSnapshot,
+            RuntimeException ex,
+            long startedNs
+    ) {
+        ImportFailureCode code = failureCode(ex);
+        if (vendorSnapshot != null && vendorSnapshot.completeness() == SnapshotCompleteness.PARTIAL) {
+            code = ImportFailureCode.SNAPSHOT_PARTIAL;
+        }
+        if (vendorSnapshot != null) {
+            try {
+                persistVendorSnapshot(vendorSnapshot);
+            } catch (DataAccessException ignored) {
+                // snapshot metadata is diagnostic; do not replace the original failure code
+            }
+        }
+        boolean retryable = vendorRetryable(code, ex);
+        Instant failedAt = Instant.now();
+        String status = code == ImportFailureCode.EXECUTION_TIMEOUT
+                ? ImportExecutionStatus.TIMED_OUT.name()
+                : ImportExecutionStatus.FAILED.name();
+        try {
+            appendVendorFailureAudit(executionId, code);
+        } catch (DataAccessException ignored) {
+            // audit is diagnostic
+        }
+        boolean updated = batchService.terminalize(
+                executionId, status, failedAt, code, retryable, safeFailureMessage(code));
+        if (updated) {
+            batchService.appendAudit(executionId, ImportAuditEventType.IMPORT_FAILED, failedAt, code.name());
+            metrics.recordFailure(
+                    executionId.toString(),
+                    sourceSystem,
+                    sourceScope,
+                    snapshot == null ? "UNREAD" : snapshot.sourceSnapshotId(),
+                    code,
+                    (System.nanoTime() - startedNs) / 1_000_000L
+            );
+        }
+        return batchService.require(executionId);
+    }
+
+    private void persistVendorSnapshot(VendorSnapshot snapshot) {
+        if (snapshot == null) {
+            return;
+        }
+        String warnings = snapshot.warnings().stream().collect(Collectors.joining(","));
+        if (warnings.length() > 256) {
+            warnings = warnings.substring(0, 256);
+        }
+        batchService.persistVendorSnapshot(VendorSnapshotEntity.create(
+                UUID.randomUUID(),
+                snapshot.executionId(),
+                snapshot.snapshotId(),
+                snapshot.connectorId(),
+                snapshot.sourceVendor(),
+                snapshot.sourceSystem(),
+                snapshot.startedAt(),
+                snapshot.completedAt(),
+                snapshot.completeness().name(),
+                snapshot.pagesReceived(),
+                snapshot.entitiesRead(),
+                snapshot.sourceVersion(),
+                warnings.isBlank() ? null : warnings
+        ));
+    }
+
+    private void persistProvenance(
+            UUID executionId,
+            VendorSnapshot snapshot,
+            SourceSnapshot source,
+            Instant observedAt
+    ) {
+        java.util.ArrayList<SourceProvenanceEntity> rows = new java.util.ArrayList<>();
+        for (SourceSite site : source.sites()) {
+            rows.add(SourceProvenanceEntity.create(
+                    UUID.randomUUID(),
+                    "SITE",
+                    site.canonicalSiteId(),
+                    snapshot.sourceVendor(),
+                    snapshot.sourceSystem(),
+                    "ManagedElement",
+                    site.sourceEntityId(),
+                    snapshot.snapshotId(),
+                    observedAt,
+                    executionId
+            ));
+        }
+        for (SourceGnb gnb : source.gnbs()) {
+            rows.add(SourceProvenanceEntity.create(
+                    UUID.randomUUID(),
+                    "GNB",
+                    gnb.canonicalGnbId(),
+                    snapshot.sourceVendor(),
+                    snapshot.sourceSystem(),
+                    "RadioFunction",
+                    gnb.sourceEntityId(),
+                    snapshot.snapshotId(),
+                    observedAt,
+                    executionId
+            ));
+        }
+        for (SourceCell cell : source.cells()) {
+            rows.add(SourceProvenanceEntity.create(
+                    UUID.randomUUID(),
+                    "CELL",
+                    cell.canonicalCellId(),
+                    snapshot.sourceVendor(),
+                    snapshot.sourceSystem(),
+                    "Cell",
+                    cell.sourceEntityId(),
+                    snapshot.snapshotId(),
+                    observedAt,
+                    executionId
+            ));
+        }
+        batchService.persistProvenance(rows);
+    }
+
+    private void appendVendorFailureAudit(UUID executionId, ImportFailureCode code) {
+        ImportAuditEventType type = switch (code) {
+            case VENDOR_RATE_LIMITED -> ImportAuditEventType.VENDOR_RATE_LIMITED;
+            case VENDOR_TIMEOUT -> ImportAuditEventType.VENDOR_TIMEOUT;
+            case VENDOR_AUTHENTICATION_FAILED -> ImportAuditEventType.VENDOR_AUTHENTICATION_FAILED;
+            case VENDOR_AUTHORIZATION_DENIED -> ImportAuditEventType.VENDOR_AUTHORIZATION_DENIED;
+            case VENDOR_PROTOCOL_ERROR, VENDOR_RESPONSE_INVALID, VENDOR_PAGINATION_INVALID ->
+                    ImportAuditEventType.VENDOR_PROTOCOL_ERROR;
+            case LEASE_LOST -> ImportAuditEventType.LEASE_LOST;
+            case CONNECTOR_CANCELLED -> ImportAuditEventType.CONNECTOR_CANCELLED;
+            case SNAPSHOT_PARTIAL -> ImportAuditEventType.SNAPSHOT_PARTIAL;
+            default -> ImportAuditEventType.IMPORT_FAILED;
+        };
+        if (type != ImportAuditEventType.IMPORT_FAILED) {
+            batchService.appendAudit(executionId, type, Instant.now(), "failureCode=" + code.name());
+        }
+    }
+
+    private static boolean vendorRetryable(ImportFailureCode code, RuntimeException ex) {
+        if (ex instanceof ImportRuntimeException runtime) {
+            if (code == ImportFailureCode.LEASE_LOST
+                    || code == ImportFailureCode.CONNECTOR_CANCELLED
+                    || code == ImportFailureCode.SNAPSHOT_PARTIAL
+                    || code == ImportFailureCode.PRODUCTION_TRANSPORT_NOT_CONFIGURED) {
+                return false;
+            }
+            return runtime.retryable();
+        }
+        return ImportRuntimeException.retryableDefault(code);
+    }
+
+    private static String safeFailureMessage(ImportFailureCode code) {
+        return code.name().toLowerCase(Locale.ROOT).replace('_', ' ');
     }
 
     public NetworkImportBatchEntity importVendor(Vendor vendor, FixtureKind kind, boolean allowCatastrophicKind) {

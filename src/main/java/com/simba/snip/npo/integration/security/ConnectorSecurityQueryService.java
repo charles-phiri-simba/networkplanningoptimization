@@ -52,6 +52,10 @@ public class ConnectorSecurityQueryService {
             row.put("vaultConfigured", azureKeyVaultCredentialProvider.configured());
             row.put("networkPolicyConfigured", properties.isNetworkPolicyConfigured());
             row.put("connectorSecurityStatus", overall.name());
+            row.put("accessMode", "READ_ONLY");
+            row.put("implementationType", definition.mode().name());
+            row.put("transportConfigured", definition.mode() != ConnectorMode.REAL);
+            row.put("liveInventoryProbed", false);
             rows.add(row);
         }
         return rows;
@@ -74,6 +78,9 @@ public class ConnectorSecurityQueryService {
     }
 
     private String credentialStatus(ConnectorDefinition definition) {
+        if (definition.mode() == ConnectorMode.SIMULATOR) {
+            return "NOT_REQUIRED";
+        }
         if (definition.credentialProvider() == CredentialProviderType.AZURE_KEY_VAULT) {
             return azureKeyVaultCredentialProvider.configured() ? "READY" : "UNAVAILABLE";
         }
