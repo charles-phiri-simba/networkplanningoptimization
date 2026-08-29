@@ -54,4 +54,20 @@ public class ApiExceptionHandler {
                 "error", ex.getMessage()
         ));
     }
+
+    @ExceptionHandler(com.simba.snip.npo.changeintelligence.ChangeProposalException.class)
+    public ResponseEntity<Map<String, String>> changeProposal(com.simba.snip.npo.changeintelligence.ChangeProposalException ex) {
+        Map<String, String> body = new LinkedHashMap<>();
+        body.put("error", ex.getMessage());
+        body.put("failureCode", ex.failureCode().name());
+        HttpStatus status = switch (ex.failureCode()) {
+            case PROPOSAL_GENERATION_FORBIDDEN, PROPOSAL_REVIEW_FORBIDDEN,
+                 PROPOSAL_APPROVAL_FORBIDDEN, PROPOSAL_REJECTION_FORBIDDEN -> HttpStatus.FORBIDDEN;
+            case CONCURRENT_REVIEW_CONFLICT, PROPOSAL_EXPIRED, PROPOSAL_INVALIDATED,
+                 PROPOSAL_SUPERSEDED, CURRENT_VALUE_CHANGED, KNOWLEDGE_CONFIDENCE_DEGRADED,
+                 INVALID_PROPOSAL_STATE -> HttpStatus.CONFLICT;
+            default -> HttpStatus.BAD_REQUEST;
+        };
+        return ResponseEntity.status(status).body(body);
+    }
 }

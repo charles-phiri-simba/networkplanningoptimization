@@ -33,6 +33,11 @@ snip:
   agent-overall-run-timeout-ms: 30000
   agent-force-fail-agent-id: ${SNIP_AGENT_FORCE_FAIL:}
   twin-expired-hours: 24
+  change-intelligence:
+    candidate-step: 1
+    max-delta: 4
+    max-candidates: 5
+    validity-hours: 24
   integration:
     lease-duration: 30s
     heartbeat-interval: 5s
