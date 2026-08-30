@@ -52,7 +52,7 @@ All **53** architecture acceptance gates (§82) were reviewed against the implem
 ### Documentation (not committed)
 
 - `docs/architecture/SNIP-PHASE-13-*.md` (ACCEPTED)
-- `SNIP-PHASE-13-*.md` (root copy)
+- `docs/root-copies/SNIP-PHASE-13-*.md` (mirror)
 - `docs/implementation/SNIP-PHASE-13-*-SPECIFICATION.md`
 - This completion report
 
