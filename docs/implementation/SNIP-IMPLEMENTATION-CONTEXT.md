@@ -7,9 +7,11 @@ This file is the architecture library. The binding below is **authoritative for 
 **Platform:** SNIP — Simba Network Intelligence Platform  
 **This repository:** first SNIP **domain application** (Network Planning & Optimisation), not the entire enterprise platform.  
 **Phase 0:** complete — see `SNIP-PHASE-0-DISCOVERY-REPORT.md`  
-**Current authorised phase:** Phase 11 is **architecturally accepted and frozen** at `78e699380be37109cfdd2111dd0f29c7052709c3`. Phase 12 architecture is **ACCEPTED**. Phase 12 implementation is **COMPLETE** (architecturally accepted 2026-08-28). Simulator/contract is **VERIFIED** (simulator-backed contract; not real Ericsson verification). Real vendor continuous synchronization is **NOT YET VERIFIED**. Production ENM transport is **NOT CONFIGURED**. Phase 12 Git baseline is **NOT YET ESTABLISHED**. Phase 13 is **NOT STARTED**.
-**Architecture:** `docs/architecture/SNIP-PHASE-12-CONTINUOUS-SYNCHRONIZATION-DRIFT-NETWORK-KNOWLEDGE-CONFIDENCE-ARCHITECTURE.md`
-**Frozen Phase 11 architecture:** `docs/architecture/SNIP-PHASE-11-FIRST-REAL-VENDOR-CONNECTOR-PRODUCTION-READ-ONLY-INTEGRATION-ARCHITECTURE.md`
+**Current authorised phase:** Phase 13 is **architecturally accepted and frozen** at `5e9400005626fb93d5e61f96be680bea5540df31` (CI success — exact baseline SHA verified). Phase 14 architecture is **ACCEPTED**. Phase 14 implementation is **NOT STARTED**. Phase 14 implementation specification is **NOT YET ISSUED**. Phase 15 is **NOT STARTED**.
+**Architecture:** `docs/architecture/SNIP-PHASE-14-GOVERNED-CHANGE-PLANNING-EXECUTION-READINESS-SAFETY-CONTROL-ARCHITECTURE.md` (ACCEPTED)
+**Frozen Phase 13 architecture:** `docs/architecture/SNIP-PHASE-13-NETWORK-CHANGE-INTELLIGENCE-OPTIMIZATION-PROPOSALS-GOVERNED-RECOMMENDATIONS-ARCHITECTURE.md`
+**Phase 13 completion report:** `docs/implementation/SNIP-PHASE-13-NETWORK-CHANGE-INTELLIGENCE-OPTIMIZATION-PROPOSALS-GOVERNED-RECOMMENDATIONS-COMPLETION-REPORT.md`
+**Frozen Phase 12 architecture:** `docs/architecture/SNIP-PHASE-12-CONTINUOUS-SYNCHRONIZATION-DRIFT-NETWORK-KNOWLEDGE-CONFIDENCE-ARCHITECTURE.md`
 **Frozen Phase 11 coding contract:** `docs/implementation/SNIP-PHASE-11-FIRST-REAL-VENDOR-CONNECTOR-PRODUCTION-READ-ONLY-INTEGRATION-SPECIFICATION.md`
 **Phase 11 completion report:** `docs/implementation/SNIP-PHASE-11-FIRST-REAL-VENDOR-CONNECTOR-PRODUCTION-READ-ONLY-INTEGRATION-COMPLETION-REPORT.md`
 **Frozen Phase 10 architecture:** `docs/architecture/SNIP-PHASE-10-PRODUCTION-SECRET-WORKLOAD-IDENTITY-CONNECTOR-RUNTIME-SECURITY-ARCHITECTURE.md`
@@ -21,20 +23,29 @@ This file is the architecture library. The binding below is **authoritative for 
 **Phase 10:** architecturally accepted — frozen.
 **Phase 11:** architecture accepted; implementation complete — architecturally accepted. Simulator/contract verified. Real vendor E2E not yet verified. Git baseline `78e699380be37109cfdd2111dd0f29c7052709c3`.
 **Phase 12:** architecture **ACCEPTED**. Implementation **COMPLETE** — architecturally accepted 2026-08-28 (see completion report). Simulator/contract **VERIFIED** (not real Ericsson verification). Real vendor continuous synchronization **NOT YET VERIFIED**. Production ENM transport **NOT CONFIGURED**. Phase 12 Git baseline **NOT YET ESTABLISHED**.
+**Phase 13:** architecture **ACCEPTED**. Implementation **COMPLETE** — architecturally accepted. Git baseline `5e9400005626fb93d5e61f96be680bea5540df31`. CI **SUCCESS — EXACT BASELINE SHA VERIFIED**. Real vendor write capability **NOT AUTHORIZED**. Closed-loop optimization **NOT AUTHORIZED**.
+**Phase 14:** architecture **ACCEPTED** (2026-08-30). Implementation **NOT STARTED**. Implementation specification **NOT YET ISSUED**. No implementation is authorized until a separate Phase 14 implementation specification is issued.
 **Status:** `SNIP-IMPLEMENTATION-STATUS.md`
 
 ```text
-PHASE 11 ARCHITECTURE STATUS: ACCEPTED
-PHASE 11 IMPLEMENTATION STATUS: COMPLETE — ARCHITECTURALLY ACCEPTED
-REAL VENDOR E2E STATUS: NOT YET VERIFIED
-PHASE 11 GIT BASELINE: 78e699380be37109cfdd2111dd0f29c7052709c3
+PHASE 13 ARCHITECTURE STATUS: ACCEPTED
+PHASE 13 IMPLEMENTATION STATUS: COMPLETE
+PHASE 13 GIT BASELINE: 5e9400005626fb93d5e61f96be680bea5540df31
+PHASE 13 CI: SUCCESS — EXACT BASELINE SHA VERIFIED
+REAL VENDOR WRITE CAPABILITY: NOT AUTHORIZED
+CLOSED-LOOP OPTIMIZATION: NOT AUTHORIZED
+PRODUCTION ENM TRANSPORT: NOT CONFIGURED
+REAL VENDOR CONTINUOUS SYNCHRONIZATION: NOT YET VERIFIED
+PHASE 14 ARCHITECTURE STATUS: ACCEPTED
+PHASE 14 IMPLEMENTATION STATUS: NOT STARTED
+PHASE 14 IMPLEMENTATION SPECIFICATION: NOT YET ISSUED
+PHASE 15 STATUS: NOT STARTED
 PHASE 12 ARCHITECTURE STATUS: ACCEPTED
 PHASE 12 IMPLEMENTATION STATUS: COMPLETE
-SIMULATOR/CONTRACT STATUS: VERIFIED
-REAL VENDOR CONTINUOUS SYNCHRONIZATION STATUS: NOT YET VERIFIED
-PRODUCTION ENM TRANSPORT: NOT CONFIGURED
 PHASE 12 GIT BASELINE: NOT YET ESTABLISHED
-PHASE 13 STATUS: NOT STARTED
+PHASE 11 ARCHITECTURE STATUS: ACCEPTED
+PHASE 11 IMPLEMENTATION STATUS: COMPLETE — ARCHITECTURALLY ACCEPTED
+PHASE 11 GIT BASELINE: 78e699380be37109cfdd2111dd0f29c7052709c3
 ```
 
 ```text
@@ -83,14 +94,23 @@ Phase 11    First Real Vendor Connector / Read-Only ENM  (done — frozen)
 Phase 12    Continuous Synchronization / Drift / Confidence  (architecture ACCEPTED; implementation COMPLETE — frozen pending Git baseline)
     │
     ▼
-Phase 13    (closed)
+Phase 13    Network Change Intelligence / Governed Recommendations  (complete — frozen at 5e94000)
+    │
+    ▼
+Phase 14    Governed Change Planning / Execution Readiness        (architecture ACCEPTED; implementation NOT STARTED; specification NOT YET ISSUED)
 ```
+
+Phase 13 is **architecturally accepted and frozen** at `5e9400005626fb93d5e61f96be680bea5540df31`. Phase 14 architecture is **ACCEPTED**; no Phase 14 implementation is authorized until a separate implementation specification is issued. Do not start Phase 15.
 
 This repository’s Phase 11 is a **simulator-backed read-only Ericsson ENM connector** on the frozen Phase 7–10 integration, security, and secret envelopes: `EnmTransport`, COMPLETE/PARTIAL/FAILED snapshots, bounded acquisition, cooperative cancellation, and Agent/MCP/Phase 4 isolation. Production ENM transport remains unconfigured. **SIMULATOR/CONTRACT VERIFIED** is not **REAL VENDOR E2E VERIFIED**. Phase 10 remains authoritative for Workload Identity and Key Vault. Phase 9 remains authoritative for connector identity, TLS/mTLS, read-only authorization, application network policy, redaction, and security audit. Phase 8 remains authoritative for NEW/RETRY/REPLAY, PostgreSQL source-scope leases with fencing, checkpoints, atomic canonical commit, and the import watchdog. Phase 7 remains authoritative for vendor adapters, the SNIP-owned canonical model, and deterministic reconciliation. Vendor credentials are infrastructure security material and never domain data. Vendor-specific DTOs must not leak into Assurance, Decision, Agents, Twin, RAG, or governed actions. Import may make an existing Twin STALE and must not call Twin synchronization. Replay must not mutate canonical state. **Agents must not invoke MCP, approve actions, override policy, mutate Twin baselines, write the live network, access ENM, or access credentials, Azure tokens, or Key Vault. The LLM must not produce authoritative numeric predictions or reconciliation outcomes. Do not implement Agent Factory, remote MCP, live network writes, vendor writes, or Phase 13.**
 
-Phase 12 is **architecturally accepted** and **implementation complete** (2026-08-28): synchronization control plane, scheduled initiator-only scheduling into that plane, durable checkpoints, FULL / INCREMENTAL / RECOVERY_FULL, overlap SKIP, deterministic freshness/source health/knowledge confidence, drift observations, and governed manual/recovery APIs. Simulator/contract is **VERIFIED**; that is **not** real Ericsson verification. Real vendor continuous synchronization is **NOT YET VERIFIED**. Production ENM transport remains unconfigured and fail-closed. Vendor access remains read-only. Phase 12 Git baseline is **NOT YET ESTABLISHED**. Do not commit or push a Phase 12 baseline without explicit authorization. Do not implement production ENM transport. Do not guess the Ericsson ENM production interface. Do not add Nokia NetAct as a real connector. Do not start Phase 13.
+Phase 12 is **architecturally accepted** and **implementation complete** (2026-08-28): synchronization control plane, scheduled initiator-only scheduling into that plane, durable checkpoints, FULL / INCREMENTAL / RECOVERY_FULL, overlap SKIP, deterministic freshness/source health/knowledge confidence, drift observations, and governed manual/recovery APIs. Simulator/contract is **VERIFIED**; that is **not** real Ericsson verification. Real vendor continuous synchronization is **NOT YET VERIFIED**. Production ENM transport remains unconfigured and fail-closed. Vendor access remains read-only. Phase 12 Git baseline is **NOT YET ESTABLISHED**.
 
-Cursor must not add Phase 4, Phase 5, Phase 6, Phase 7, Phase 8, Phase 9, Phase 10, Phase 11, or Phase 12 functionality and must not start Phase 13. Do not redesign Phase 1A/1A.1 semantic RAG, the Phase 1B domain model, the Phase 2 Kafka/telemetry slice, the frozen Phase 3 assurance slice, the frozen Phase 4 governed-action slice, the frozen Phase 5 agent slice, the frozen Phase 6 Twin/simulation slice, the frozen Phase 7 reconciliation rules, the frozen Phase 8 import runtime, the frozen Phase 9 connector security envelope, the frozen Phase 10 production secret / Workload Identity envelope, or the frozen Phase 11 read-only ENM connector. Non-interruptible per-Agent timeout remains accepted Phase 5 technical debt. Failed Twin simulation attempts are not persisted as `SimulationRun` records; that remains accepted Phase 6 technical debt. Do not add import queues, automatic retries, schedulers, record-level resume, cancellation APIs, raw snapshot archival, vendor telemetry, vendor writes, OAuth vendor flows, or new MCP tools. PostgreSQL lease + fencing remains the accepted coordination mechanism and canonical commit authority. Application-level egress policy remains canonical; Kubernetes NetworkPolicy is defense in depth. Connector/trust/authorization/network profiles remain static/in-code. Secrets, private keys, and Azure tokens must never be committed, logged, or returned on APIs. Terraform must not store connector secret values. Default CI must remain Azure-independent and vendor-independent.
+Phase 13 is **architecturally accepted and frozen** at `5e9400005626fb93d5e61f96be680bea5540df31`: network change intelligence, bounded txPower proposals, governed review/approval with no execution side effect, durable post-recommendation invalidation, and distinct proposal-governance permissions. Real vendor write capability remains **NOT AUTHORIZED**. Closed-loop optimization remains **NOT AUTHORIZED**. Do not amend the Phase 13 Git baseline.
+
+Phase 14 architecture is **ACCEPTED** (2026-08-30): governed change planning, execution readiness, and safety control — plans may reach `READY_FOR_EXECUTION` but Phase 14 provides no real-network execution mechanism. Implementation is **NOT STARTED**. Implementation specification is **NOT YET ISSUED**.
+
+Cursor must not add Phase 4–13 functionality and must not start Phase 14 implementation without explicit authorization. Do not redesign Phase 1A/1A.1 semantic RAG, the Phase 1B domain model, the Phase 2 Kafka/telemetry slice, the frozen Phase 3 assurance slice, the frozen Phase 4 governed-action slice, the frozen Phase 5 agent slice, the frozen Phase 6 Twin/simulation slice, the frozen Phase 7 reconciliation rules, the frozen Phase 8 import runtime, the frozen Phase 9 connector security envelope, the frozen Phase 10 production secret / Workload Identity envelope, or the frozen Phase 11 read-only ENM connector. Non-interruptible per-Agent timeout remains accepted Phase 5 technical debt. Failed Twin simulation attempts are not persisted as `SimulationRun` records; that remains accepted Phase 6 technical debt. Do not add import queues, automatic retries, schedulers, record-level resume, cancellation APIs, raw snapshot archival, vendor telemetry, vendor writes, OAuth vendor flows, or new MCP tools. PostgreSQL lease + fencing remains the accepted coordination mechanism and canonical commit authority. Application-level egress policy remains canonical; Kubernetes NetworkPolicy is defense in depth. Connector/trust/authorization/network profiles remain static/in-code. Secrets, private keys, and Azure tokens must never be committed, logged, or returned on APIs. Terraform must not store connector secret values. Default CI must remain Azure-independent and vendor-independent.
 
 ---
 
