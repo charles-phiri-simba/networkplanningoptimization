@@ -553,3 +553,22 @@ PHASE 14 STATUS: NOT STARTED
 ```
 
 PHASE 13 STATUS: ARCHITECTURALLY ACCEPTED
+
+---
+
+## 29. CI Regression Correction (2026-08-30)
+
+**Original Phase 13 candidate:** `ef2bdc051c4d76ff8e69a669c86410c18bc739cb`
+
+| CI run | Result |
+|--------|--------|
+| #14 attempt 1 | FAILURE |
+| #14 attempt 2 | FAILURE |
+
+**Root cause:** Phase 13 integration-test state leakage into shared prior-phase PostgreSQL state. `ChangeIntelligenceApiTest` JDBC-mutated `CELL-001` txPower and persisted assurance cases without restoration; Phase 8 REPLAY imports could not repair canonical drift; OS-dependent Surefire filesystem class order exposed the leak on Linux CI.
+
+**Correction:** Deterministic restoration/cleanup of Phase 13 test-owned canonical and assurance state in `ChangeIntelligenceApiTest`; optional scenario-creation status assertion in `GovernedActionApiTest`.
+
+**Production semantics changed:** NO
+
+**Architecture impact:** NONE

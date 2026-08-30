@@ -129,7 +129,7 @@ class GovernedActionApiTest extends AbstractPostgresIT {
         TwinDetailDto twin = http.postForEntity(
                 "/api/v1/twins/cells/CELL-001/synchronize", null, TwinDetailDto.class).getBody();
         assertNotNull(twin);
-        ScenarioDetailDto scenario = http.postForEntity(
+        ResponseEntity<ScenarioDetailDto> scenarioResponse = http.postForEntity(
                 "/api/v1/twins/" + twin.id() + "/scenarios",
                 new CreateScenarioRequest(
                         "path-b",
@@ -138,8 +138,11 @@ class GovernedActionApiTest extends AbstractPostgresIT {
                         null,
                         new ScenarioChangeRequest("txPower", 46.0, 44.0)
                 ),
-                ScenarioDetailDto.class).getBody();
+                ScenarioDetailDto.class);
+        assertEquals(HttpStatus.OK, scenarioResponse.getStatusCode());
+        ScenarioDetailDto scenario = scenarioResponse.getBody();
         assertNotNull(scenario);
+        assertNotNull(scenario.id());
         ActionDetailDto proposed = propose(
                 "SIMULATE_CELL_PARAMETER_CHANGE",
                 "simulation.cell-parameter.v1",

@@ -50,6 +50,7 @@ import static org.junit.jupiter.api.Assertions.assertTrue;
 class ChangeIntelligenceApiTest extends AbstractPostgresIT {
 
     private static final String CELL = "CELL-001";
+    private static final String SEED_TX_POWER = "46";
 
     @Autowired private TestRestTemplate http;
     @Autowired private TelemetryProjectionService projectionService;
@@ -64,6 +65,7 @@ class ChangeIntelligenceApiTest extends AbstractPostgresIT {
     @Autowired private JdbcTemplate jdbc;
 
     private UUID assuranceCaseId;
+    private UUID phase13OwnedAssuranceCaseId;
 
     @AfterEach
     void cleanup() {
@@ -71,7 +73,9 @@ class ChangeIntelligenceApiTest extends AbstractPostgresIT {
         jdbc.update("DELETE FROM change_proposal_review");
         jdbc.update("DELETE FROM network_change_candidate");
         jdbc.update("DELETE FROM network_change_proposal");
+        cleanupPhase13AssuranceForCell001();
         jdbc.update("DELETE FROM kpi_observation WHERE event_id LIKE 'p13-%'");
+        restoreSharedPriorPhaseState();
     }
 
     @BeforeEach
@@ -81,6 +85,9 @@ class ChangeIntelligenceApiTest extends AbstractPostgresIT {
         List<AssuranceCaseEntity> cases = assuranceCaseService.listForCell(CELL);
         if (!cases.isEmpty()) {
             assuranceCaseId = cases.get(0).getId();
+            phase13OwnedAssuranceCaseId = assuranceCaseId;
+        } else {
+            phase13OwnedAssuranceCaseId = null;
         }
         http.postForEntity("/api/v1/twins/cells/" + CELL + "/synchronize", null, Map.class);
     }
@@ -120,19 +127,49 @@ class ChangeIntelligenceApiTest extends AbstractPostgresIT {
         setKnowledge("HIGH");
         ChangeProposalDetailDto recommended = generate();
         String expectedCurrent = recommended.proposal().currentValue();
-        jdbc.update(
-                "UPDATE radio_configuration SET parameter_value = ? WHERE parameter_name = 'txPower' AND cell_id = (SELECT id FROM cell WHERE cell_id = ?)",
-                String.valueOf(Integer.parseInt(expectedCurrent) - 1), CELL);
+        String mutatedTxPower = String.valueOf(Integer.parseInt(expectedCurrent) - 1);
+        try {
+            jdbc.update(
+                    "UPDATE radio_configuration SET parameter_value = ? WHERE parameter_name = 'txPower' AND cell_id = (SELECT id FROM cell WHERE cell_id = ?)",
+                    mutatedTxPower, CELL);
 
-        ResponseEntity<String> response = http.exchange(
-                "/api/v1/change-intelligence/proposals/" + recommended.proposal().id() + "/approve",
-                HttpMethod.POST,
-                entity(new ReviewChangeProposalRequest("approver", null, "approve"), ChangeProposalAuthorizer.PERMISSION_APPROVE),
-                String.class);
-        assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
-        assertNotEquals(expectedCurrent, canonicalTxPower());
-        ChangeProposalDetailDto reloaded = get(recommended.proposal().id());
-        assertEquals(expectedCurrent, reloaded.proposal().currentValue());
+            ResponseEntity<String> response = http.exchange(
+                    "/api/v1/change-intelligence/proposals/" + recommended.proposal().id() + "/approve",
+                    HttpMethod.POST,
+                    entity(new ReviewChangeProposalRequest("approver", null, "approve"), ChangeProposalAuthorizer.PERMISSION_APPROVE),
+                    String.class);
+            assertEquals(HttpStatus.CONFLICT, response.getStatusCode());
+            assertNotEquals(expectedCurrent, canonicalTxPower());
+            ChangeProposalDetailDto reloaded = get(recommended.proposal().id());
+            assertEquals(expectedCurrent, reloaded.proposal().currentValue());
+        } finally {
+            restoreCell001TxPower(SEED_TX_POWER);
+        }
+    }
+
+    @Test
+    void sharedPriorPhaseStateRestoredAfterStaleCurrentValueScenario() {
+        setKnowledge("HIGH");
+        ChangeProposalDetailDto recommended = generate();
+        String expectedCurrent = recommended.proposal().currentValue();
+        assertEquals(SEED_TX_POWER, expectedCurrent);
+        try {
+            jdbc.update(
+                    "UPDATE radio_configuration SET parameter_value = ? WHERE parameter_name = 'txPower' AND cell_id = (SELECT id FROM cell WHERE cell_id = ?)",
+                    String.valueOf(Integer.parseInt(expectedCurrent) - 1), CELL);
+            assertNotEquals(SEED_TX_POWER, canonicalTxPower());
+            assertFalse(assuranceCaseService.listForCell(CELL).isEmpty());
+        } finally {
+            restoreCell001TxPower(SEED_TX_POWER);
+            cleanupPhase13AssuranceForCell001();
+            jdbc.update("DELETE FROM kpi_observation WHERE event_id LIKE 'p13-%'");
+        }
+        assertEquals(SEED_TX_POWER, canonicalTxPower());
+        assertTrue(assuranceCaseService.listForCell(CELL).isEmpty());
+        Integer p13KpiCount = jdbc.queryForObject(
+                "SELECT COUNT(*) FROM kpi_observation WHERE event_id LIKE 'p13-%'",
+                Integer.class);
+        assertEquals(0, p13KpiCount);
     }
 
     @Test
@@ -261,6 +298,38 @@ class ChangeIntelligenceApiTest extends AbstractPostgresIT {
 
     private String canonicalTxPower() {
         return txPower();
+    }
+
+    private void restoreSharedPriorPhaseState() {
+        restoreCell001TxPower(SEED_TX_POWER);
+    }
+
+    private void restoreCell001TxPower(String txPower) {
+        jdbc.update(
+                "UPDATE radio_configuration SET parameter_value = ? WHERE parameter_name = 'txPower' AND cell_id = (SELECT id FROM cell WHERE cell_id = ?)",
+                txPower, CELL);
+    }
+
+    private void cleanupPhase13AssuranceForCell001() {
+        if (phase13OwnedAssuranceCaseId != null) {
+            jdbc.update("DELETE FROM assurance_evidence WHERE assurance_case_id = ?", phase13OwnedAssuranceCaseId);
+            jdbc.update("DELETE FROM assurance_case WHERE id = ?", phase13OwnedAssuranceCaseId);
+            phase13OwnedAssuranceCaseId = null;
+        }
+        jdbc.update(
+                """
+                DELETE FROM assurance_evidence WHERE assurance_case_id IN (
+                    SELECT id FROM assurance_case
+                    WHERE affected_entity_id = ? AND synthetic = TRUE AND rule_id = 'RULE_DEGRADING_RADIO_QUALITY_BLER_DL_V1'
+                )
+                """,
+                CELL);
+        jdbc.update(
+                """
+                DELETE FROM assurance_case
+                WHERE affected_entity_id = ? AND synthetic = TRUE AND rule_id = 'RULE_DEGRADING_RADIO_QUALITY_BLER_DL_V1'
+                """,
+                CELL);
     }
 
     private static TelemetryEvent event(String eventId, String cellId, String metric, double value, Instant eventTime) {
