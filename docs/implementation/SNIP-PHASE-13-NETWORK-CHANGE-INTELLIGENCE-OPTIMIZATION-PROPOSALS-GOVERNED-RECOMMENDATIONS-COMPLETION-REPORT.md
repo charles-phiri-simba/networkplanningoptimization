@@ -41,7 +41,7 @@ All **53** architecture acceptance gates (§82) were reviewed against the implem
 
 - `src/test/java/com/simba/snip/npo/changeintelligence/ChangeIntelligenceArchitectureIsolationTest.java` (18 tests)
 - `src/test/java/com/simba/snip/npo/changeintelligence/ChangeIntelligenceMandatoryMatrixTest.java` (142 parameterized tests)
-- `src/test/java/com/simba/snip/npo/changeintelligence/ChangeIntelligenceApiTest.java` (7 E2E tests)
+- `src/test/java/com/simba/snip/npo/changeintelligence/ChangeIntelligenceApiTest.java` (22 E2E tests)
 
 ### Modified
 
@@ -63,7 +63,7 @@ All **53** architecture acceptance gates (§82) were reviewed against the implem
 | Type | Values / notes |
 |------|----------------|
 | `ProposalType` | `RADIO_TX_POWER_OPTIMIZATION` (initial) |
-| `ProposalStatus` | `DRAFT`, `VALIDATING`, `EVALUATING`, `EVALUATED`, `RECOMMENDED`, `APPROVED`, `REJECTED`, `INVALID`, `EXPIRED`, `SUPERSEDED`, `FAILED` — no execution-like statuses |
+| `ProposalStatus` | `DRAFT`, `VALIDATING`, `SIMULATING`, `INVALID`, `SIMULATION_FAILED`, `EVALUATED`, `RECOMMENDED`, `APPROVED`, `REJECTED`, `EXPIRED`, `SUPERSEDED`, `INVALIDATED` — no execution-like statuses |
 | `GenerationInitiator` | `MANUAL`, `ASSURANCE_TRIGGERED`, `AGENT_REQUESTED` |
 | `ReviewDecision` | `APPROVE`, `REJECT` |
 | Entities | `NetworkChangeProposalEntity`, `NetworkChangeCandidateEntity`, `ChangeProposalReviewEntity`, `ChangeProposalAuditEventEntity` |
@@ -81,12 +81,12 @@ Four forward-only tables with no secret, endpoint, raw vendor payload, or execut
 ## 6. Proposal Lifecycle
 
 ```
-GENERATION REQUEST → VALIDATING → EVALUATING → (RECOMMENDED | EVALUATED | FAILED)
-RECOMMENDED → (APPROVED | REJECTED) after revalidation
-Any active proposal → INVALID | EXPIRED | SUPERSEDED via ChangeProposalValidityService
+GENERATION REQUEST → VALIDATING → SIMULATING → (RECOMMENDED | EVALUATED | INVALID | SIMULATION_FAILED)
+RECOMMENDED → (APPROVED | REJECTED | INVALIDATED) after revalidation
+Any active proposal → EXPIRED | SUPERSEDED via ChangeProposalValidityService
 ```
 
-Approval revalidates: status, expiration, supersession, current canonical value, Phase 12 knowledge confidence, relevant drift. Failure returns `409 CONFLICT` with stable failure codes.
+Approval revalidates: status, expiration, supersession, current canonical value, Phase 12 knowledge confidence, relevant drift. When revalidation fails for staleness, `ChangeProposalInvalidationPersistenceService` commits `INVALIDATED` in a separate transaction (`REQUIRES_NEW`) before the approval transaction rolls back. Failure returns `409 CONFLICT` with stable failure codes.
 
 ---
 
@@ -168,7 +168,7 @@ No collapsed `overallConfidence`. `KnowledgeGate` enforces hard LOW/UNKNOWN reco
 ## 14. Invalidation / Expiration / Supersession
 
 - **Expiration:** `expires_at = created_at + validity-hours` (default 24h UTC)
-- **Invalidation:** current value mismatch, knowledge degradation, relevant drift (`ChangeProposalValidityService` + `NetworkDriftService`)
+- **Invalidation:** current value mismatch, knowledge degradation, relevant drift (`ChangeProposalValidityService` + `ChangeProposalInvalidationPersistenceService` + `NetworkDriftService`); durably persisted as `INVALIDATED` even when approval fails
 - **Supersession:** new generation for same target/parameter supersedes prior active proposals with lineage (`predecessor_id`, `superseded_by`)
 
 ---
@@ -179,10 +179,13 @@ Header `X-SNIP-CHANGE-PROPOSAL-PERMISSION`:
 
 | Permission | Capability |
 |------------|------------|
-| `VIEW_NETWORK_CHANGE_PROPOSALS` | Read proposals and evidence |
+| `VIEW_NETWORK_CHANGE_PROPOSALS` | List proposals; ordinary read access |
 | `GENERATE_NETWORK_CHANGE_PROPOSAL` | Generate proposals |
+| `REVIEW_NETWORK_CHANGE_PROPOSAL` | Governance review read access to proposal detail and evidence (coexists with VIEW on get/evidence) |
 | `APPROVE_NETWORK_CHANGE_PROPOSAL` | Approve after revalidation |
 | `REJECT_NETWORK_CHANGE_PROPOSAL` | Reject with review record |
+
+`ChangeIntelligenceController` enforces: list → VIEW; get/evidence → VIEW or REVIEW; generate → GENERATE; approve → APPROVE; reject → REJECT. REVIEW alone does not grant approve/reject.
 
 Distinct from `VendorImportAuthorizer`. Agents have no governance permissions.
 
@@ -407,17 +410,17 @@ Note: `NetworkChangeProposalGenerationService` calls `DigitalTwinSimulationServi
 | 62 | Historical evidence survives expiration | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(62) | PASS |
 | 63 | Historical evidence survives supersession | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(63) | PASS |
 | 64 | Unchanged current value permits approval revalidation | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(64) | PASS |
-| 65 | Changed current value invalidates proposal | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(65); ChangeIntelligenceApiTest.staleCurrentValueBlocksApproval | PASS |
-| 66 | Phase 12 drift triggers validity re-evaluation | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(66) | PASS |
+| 65 | Changed current value invalidates proposal | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(65); ChangeIntelligenceApiTest.currentValueChangePersistsInvalidated | PASS |
+| 66 | Phase 12 drift triggers validity re-evaluation | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(66); ChangeIntelligenceApiTest.driftPersistsInvalidated | PASS |
 | 67 | No duplicate drift detector | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(67) | PASS |
-| 68 | Confidence degradation to LOW blocks approval | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(68); ChangeIntelligenceApiTest.knowledgeDegradationBlocksApproval | PASS |
-| 69 | Confidence degradation to UNKNOWN blocks approval | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(69); ChangeIntelligenceApiTest.knowledgeDegradationBlocksApproval | PASS |
+| 68 | Confidence degradation to LOW blocks approval | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(68); ChangeIntelligenceApiTest.knowledgeLowPersistsInvalidated | PASS |
+| 69 | Confidence degradation to UNKNOWN blocks approval | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(69); ChangeIntelligenceApiTest.knowledgeUnknownPersistsInvalidated | PASS |
 | 70 | Newer compatible state does not rewrite historical evidence | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(70) | PASS |
 | 71 | Proposal expiration UTC/deterministic | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(71) | PASS |
 | 72 | Supersession preserves lineage | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(72) | PASS |
 | 73 | Viewer cannot generate without permission | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(73); ChangeIntelligenceApiTest.viewerCannotGenerate | PASS |
 | 74 | Generator cannot approve without permission | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(74); ChangeIntelligenceApiTest.generatorCannotApproveWithoutPermission | PASS |
-| 75 | Reviewer permission does not imply approval | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(75) | PASS |
+| 75 | Reviewer permission does not imply approval | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(75); ChangeIntelligenceApiTest.reviewerCannotApproveWithReviewPermissionOnly; reviewerCannotRejectWithReviewPermissionOnly; reviewerCanAccessGovernanceEvidence | PASS |
 | 76 | Unauthorized approval rejected | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(76) | PASS |
 | 77 | Unauthorized rejection rejected | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(77) | PASS |
 | 78 | Authorized approval succeeds after revalidation | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(78); ChangeIntelligenceApiTest.approvalWithoutExecutionSideEffects | PASS |
@@ -427,7 +430,7 @@ Note: `NetworkChangeProposalGenerationService` calls `DigitalTwinSimulationServi
 | 82 | Agent cannot reject | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(82) | PASS |
 | 83 | Agent request converges on authoritative service | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(83) | PASS |
 | 84 | Assurance-triggered request converges on authoritative service | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(84) | PASS |
-| 85 | Vendor-import auth does not grant proposal approval | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(85) | PASS |
+| 85 | Vendor-import auth does not grant proposal approval | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(85); ChangeIntelligenceApiTest.vendorImportPermissionDoesNotGrantProposalApproval | PASS |
 | 86 | Approval does not create ProposedAction | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(86); ChangeIntelligenceApiTest.approvalWithoutExecutionSideEffects | PASS |
 | 87 | Approval does not call ActionPolicyEvaluator for execution | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(87) | PASS |
 | 88 | Approval does not call MCP | ChangeIntelligenceMandatoryMatrixTest | mandatoryMatrixItem(88) | PASS |
@@ -572,3 +575,24 @@ PHASE 13 STATUS: ARCHITECTURALLY ACCEPTED
 **Production semantics changed:** NO
 
 **Architecture impact:** NONE
+
+---
+
+## 30. Final Conformance Correction (2026-08-30)
+
+**Failed CI candidate:** `ef2bdc051c4d76ff8e69a669c86410c18bc739cb`
+
+**Test-isolation correction commit:** `6f0ed0c32d21752c251f6e08374935f71f52783e` (parent: `ef2bdc0`)
+
+| Defect | Correction |
+|--------|------------|
+| Post-recommendation invalidation rolled back with failed approval | `ChangeProposalInvalidationPersistenceService` with `@Transactional(REQUIRES_NEW)` commits `INVALIDATED`, audit, and reason before approval failure propagates |
+| `REVIEW_NETWORK_CHANGE_PROPOSAL` unused | `requireViewOrReview()` on get/evidence; REVIEW grants governance review access; VIEW retained for list and coexists on get/evidence |
+| Matrix item 75 lacked REVIEW behavioral proof | API tests for REVIEW-only approve/reject block and evidence access; matrix asserts REVIEW ≠ APPROVE/REJECT |
+| Invalidation persistence untested | Behavioral tests for current-value, knowledge LOW/UNKNOWN, and drift invalidation with persisted status, `invalidatedAt`, evidence retention |
+
+**Generation failure semantics preserved:** `INVALID` (twin stale), `SIMULATION_FAILED`, `EVALUATED` + failure code (no beneficial candidate, LOW/UNKNOWN knowledge at generation).
+
+**Production semantics changed:** YES — governance correction only (durable invalidation persistence and REVIEW wiring). No canonical mutation, no vendor write, no MCP execution, no Phase 14 scope.
+
+**Architecture impact:** NONE (53/53 gates preserved)

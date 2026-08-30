@@ -35,6 +35,7 @@ public class ChangeProposalValidityService {
     private final SynchronizationSourceStateService sourceStateService;
     private final NetworkDriftService driftService;
     private final KnowledgeGate knowledgeGate;
+    private final ChangeProposalInvalidationPersistenceService invalidationPersistenceService;
     private final ChangeProposalAuditService auditService;
     private final ChangeProposalMetrics metrics;
     private final Clock clock;
@@ -47,6 +48,7 @@ public class ChangeProposalValidityService {
             SynchronizationSourceStateService sourceStateService,
             NetworkDriftService driftService,
             KnowledgeGate knowledgeGate,
+            ChangeProposalInvalidationPersistenceService invalidationPersistenceService,
             ChangeProposalAuditService auditService,
             ChangeProposalMetrics metrics,
             Clock clock
@@ -58,6 +60,7 @@ public class ChangeProposalValidityService {
         this.sourceStateService = sourceStateService;
         this.driftService = driftService;
         this.knowledgeGate = knowledgeGate;
+        this.invalidationPersistenceService = invalidationPersistenceService;
         this.auditService = auditService;
         this.metrics = metrics;
         this.clock = clock;
@@ -105,10 +108,14 @@ public class ChangeProposalValidityService {
             return ValidityResult.invalid(ChangeProposalFailureCode.CURRENT_STATE_UNAVAILABLE, "txPower missing");
         }
         if (current.compareTo(new BigDecimal(proposal.getCurrentValue())) != 0) {
-            proposal.markInvalidated(ChangeProposalFailureCode.CURRENT_VALUE_CHANGED.name(), now);
-            proposalRepository.save(proposal);
-            auditService.append(proposal.getId(), "PROPOSAL_INVALIDATED", "system", "current value changed");
-            metrics.incrementInvalidations();
+            invalidationPersistenceService.persistInvalidation(
+                    proposal.getId(),
+                    ChangeProposalFailureCode.CURRENT_VALUE_CHANGED.name(),
+                    now,
+                    "current value changed",
+                    null,
+                    null
+            );
             return ValidityResult.invalid(ChangeProposalFailureCode.CURRENT_VALUE_CHANGED, "canonical changed");
         }
 
@@ -120,11 +127,14 @@ public class ChangeProposalValidityService {
                 policy.sourceSystem(), policy.connectorId(), policy.sourceScope(), now);
         NetworkKnowledgeConfidence confidence = NetworkKnowledgeConfidence.valueOf(knowledge.getConfidence());
         if (knowledgeGate.blocksApproval(confidence)) {
-            proposal.markInvalidated(ChangeProposalFailureCode.KNOWLEDGE_CONFIDENCE_DEGRADED.name(), now);
-            proposal.refreshKnowledgeSnapshot(knowledge.getConfidence(), knowledge.getReasonCodes());
-            proposalRepository.save(proposal);
-            auditService.append(proposal.getId(), "PROPOSAL_INVALIDATED", "system", confidence.name());
-            metrics.incrementInvalidations();
+            invalidationPersistenceService.persistInvalidation(
+                    proposal.getId(),
+                    ChangeProposalFailureCode.KNOWLEDGE_CONFIDENCE_DEGRADED.name(),
+                    now,
+                    confidence.name(),
+                    knowledge.getConfidence(),
+                    knowledge.getReasonCodes()
+            );
             return ValidityResult.invalid(ChangeProposalFailureCode.KNOWLEDGE_CONFIDENCE_DEGRADED, confidence.name());
         }
 
@@ -134,10 +144,14 @@ public class ChangeProposalValidityService {
                 .anyMatch(d -> "OPEN".equals(d.getDriftStatus())
                         && proposal.getTargetEntityId().equals(d.getEntityId()));
         if (relevantDrift) {
-            proposal.markInvalidated(ChangeProposalFailureCode.PROPOSAL_INVALIDATED.name(), now);
-            proposalRepository.save(proposal);
-            auditService.append(proposal.getId(), "PROPOSAL_INVALIDATED", "system", "drift detected");
-            metrics.incrementInvalidations();
+            invalidationPersistenceService.persistInvalidation(
+                    proposal.getId(),
+                    ChangeProposalFailureCode.PROPOSAL_INVALIDATED.name(),
+                    now,
+                    "drift detected",
+                    null,
+                    null
+            );
             return ValidityResult.invalid(ChangeProposalFailureCode.PROPOSAL_INVALIDATED, "drift");
         }
 

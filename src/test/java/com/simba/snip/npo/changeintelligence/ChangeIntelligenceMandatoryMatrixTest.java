@@ -111,7 +111,8 @@ class ChangeIntelligenceMandatoryMatrixTest {
             case 57, 58, 59 -> assertTrue(hasFailureCode(ChangeProposalFailureCode.PROPOSAL_EXPIRED));
             case 60, 61, 62, 63 -> assertTrue(proposalEntityPreservesHistoricalFields());
             case 64, 65, 66, 67, 68, 69, 70, 71, 72 -> assertTrue(validityServiceExists());
-            case 73, 74, 75, 76, 77, 78, 79, 80 -> assertDistinctPermissions();
+            case 73, 74, 76, 77, 78, 79, 80 -> assertDistinctPermissions();
+            case 75 -> assertReviewPermissionDistinctFromApproveAndReject();
             case 81, 82 -> assertAgentCannotGovern();
             case 83, 84 -> assertTrue(generationServiceExists());
             case 85 -> assertNotEquals(ChangeProposalAuthorizer.PERMISSION_APPROVE, ChangeProposalAuthorizer.PERMISSION_VIEW);
@@ -246,6 +247,11 @@ class ChangeIntelligenceMandatoryMatrixTest {
     private static void assertDistinctPermissions() {
         assertNotEquals(ChangeProposalAuthorizer.PERMISSION_GENERATE, ChangeProposalAuthorizer.PERMISSION_APPROVE);
         assertNotEquals(ChangeProposalAuthorizer.PERMISSION_VIEW, ChangeProposalAuthorizer.PERMISSION_REJECT);
+    }
+
+    private static void assertReviewPermissionDistinctFromApproveAndReject() {
+        assertNotEquals(ChangeProposalAuthorizer.PERMISSION_REVIEW, ChangeProposalAuthorizer.PERMISSION_APPROVE);
+        assertNotEquals(ChangeProposalAuthorizer.PERMISSION_REVIEW, ChangeProposalAuthorizer.PERMISSION_REJECT);
     }
 
     private static void assertAgentCannotGovern() throws IOException {

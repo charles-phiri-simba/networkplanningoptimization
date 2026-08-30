@@ -78,7 +78,7 @@ public class ChangeIntelligenceController {
             @PathVariable UUID proposalId
     ) {
         authorizer.bindRequestPermission(permission);
-        authorizer.requireView();
+        authorizer.requireViewOrReview();
         return queryService.require(proposalId);
     }
 
@@ -88,7 +88,7 @@ public class ChangeIntelligenceController {
             @PathVariable UUID proposalId
     ) {
         authorizer.bindRequestPermission(permission);
-        authorizer.requireView();
+        authorizer.requireViewOrReview();
         return queryService.evidence(proposalId);
     }
 

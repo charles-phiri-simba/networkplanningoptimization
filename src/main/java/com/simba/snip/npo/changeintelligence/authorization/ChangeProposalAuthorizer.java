@@ -53,6 +53,21 @@ public class ChangeProposalAuthorizer {
         require(PERMISSION_REVIEW, ChangeProposalFailureCode.PROPOSAL_REVIEW_FORBIDDEN);
     }
 
+    /**
+     * Governance review read access: {@link #PERMISSION_REVIEW} or ordinary {@link #PERMISSION_VIEW}.
+     * REVIEW does not grant approve/reject authority.
+     */
+    public void requireViewOrReview() {
+        String permission = current();
+        if (PERMISSION_VIEW.equals(permission) || PERMISSION_REVIEW.equals(permission)) {
+            return;
+        }
+        throw new ChangeProposalException(
+                ChangeProposalFailureCode.PROPOSAL_REVIEW_FORBIDDEN,
+                PERMISSION_VIEW + " or " + PERMISSION_REVIEW + " is required"
+        );
+    }
+
     public void requireApprove() {
         require(PERMISSION_APPROVE, ChangeProposalFailureCode.PROPOSAL_APPROVAL_FORBIDDEN);
     }
