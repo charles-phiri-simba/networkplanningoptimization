@@ -533,6 +533,15 @@ class ChangeIntelligenceApiTest extends AbstractPostgresIT {
 
     private void runTrustedBaseline() {
         scenarios.use(SimulatorEnmScenario.FULL_SUCCESS);
+        jdbc.update("DELETE FROM network_import_lease");
+        jdbc.update(
+                "UPDATE synchronization_checkpoint SET status = 'VALID' WHERE status = 'RECOVERY_REQUIRED'");
+        jdbc.update(
+                """
+                UPDATE synchronization_source_state
+                SET consecutive_failures = 0
+                WHERE source_system = 'ERICSSON_ENM_SIMULATOR'
+                """);
         vendorImportAuthorizer.runWith(VendorImportAuthorizer.PERMISSION, () ->
                 controlPlane.triggerManual(ConnectorDefinition.ERICSSON_ENM_SIMULATOR_INT_INVENTORY_READER));
     }

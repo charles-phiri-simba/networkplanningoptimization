@@ -5,6 +5,7 @@ import com.simba.snip.npo.config.IntegrationRuntimeProperties;
 import com.simba.snip.npo.config.SnipProperties;
 import com.simba.snip.npo.config.ConnectorSecurityProperties;
 import com.simba.snip.npo.changeintelligence.config.ChangeIntelligenceProperties;
+import com.simba.snip.npo.changeexecution.config.ChangeExecutionProperties;
 import com.simba.snip.npo.changeplanning.config.ChangePlanningProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -21,6 +22,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
         com.simba.snip.npo.config.SynchronizationProperties.class,
         ChangeIntelligenceProperties.class,
         ChangePlanningProperties.class,
+        ChangeExecutionProperties.class,
         com.simba.snip.npo.changeplanning.config.ChangePlanningProperties.class
 })
 public class NpoApplication {

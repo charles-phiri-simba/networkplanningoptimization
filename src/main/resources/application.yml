@@ -45,6 +45,22 @@ snip:
     require-rollback: true
     require-current-value-match: true
     require-high-or-medium-knowledge: true
+  change-execution:
+    enabled: false
+    maximum-operation-count: 1
+    maximum-forward-attempts: 1
+    permitted-target-types:
+      - SIMULATOR
+    require-execution-review: true
+    require-execution-authorization: true
+    require-current-value-match: true
+    require-verification: true
+    require-rollback-review: true
+    require-rollback-authorization: true
+    automatic-rollback-enabled: false
+    lease-duration: 30s
+    execution-window-duration: PT1H
+    instance-id: local
   integration:
     lease-duration: 30s
     heartbeat-interval: 5s

@@ -17,6 +17,9 @@ public abstract class AbstractPostgresIT {
         registry.add("spring.datasource.url", POSTGRES::getJdbcUrl);
         registry.add("spring.datasource.username", POSTGRES::getUsername);
         registry.add("spring.datasource.password", POSTGRES::getPassword);
+        // Keep pooled connections small so many SpringBootTest contexts do not exhaust Postgres.
+        registry.add("spring.datasource.hikari.maximum-pool-size", () -> "4");
+        registry.add("spring.datasource.hikari.minimum-idle", () -> "0");
         registry.add("snip.integration.sync.scheduler-enabled", () -> "false");
     }
 }
