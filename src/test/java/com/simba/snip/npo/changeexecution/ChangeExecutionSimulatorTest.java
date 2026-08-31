@@ -507,7 +507,8 @@ class ChangeExecutionSimulatorTest extends AbstractPostgresIT {
     }
 
     private void seedTelemetry() {
-        Instant t0 = Instant.parse("2026-08-25T08:00:00Z");
+        // Must stay inside snip.recent-kpi-hours (168h) relative to Instant.now().
+        Instant t0 = Instant.now().minusSeconds(3_600);
         for (int i = 0; i < 4; i++) {
             Instant ts = t0.plusSeconds(i * 300L);
             String prefix = "p15-sim-" + UUID.randomUUID();

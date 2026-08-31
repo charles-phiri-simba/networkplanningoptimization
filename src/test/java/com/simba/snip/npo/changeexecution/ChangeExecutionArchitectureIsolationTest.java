@@ -169,6 +169,24 @@ class ChangeExecutionArchitectureIsolationTest {
         assertTrue(SimulatorExecutionAdapter.TARGET_ID.equals(ExecutionTargetRegistry.SIMULATOR_TARGET_ID));
     }
 
+    @Test
+    void executionTargetDescriptorSourceIsPresentAndNotGitignored() throws Exception {
+        Path descriptor = Path.of(
+                "src/main/java/com/simba/snip/npo/changeexecution/domain/target/ExecutionTargetDescriptor.java");
+        assertTrue(Files.exists(descriptor), "ExecutionTargetDescriptor.java must exist in source tree");
+        assertTrue(
+                Class.forName("com.simba.snip.npo.changeexecution.domain.target.ExecutionTargetDescriptor")
+                        .isRecord());
+        Process checkIgnore = new ProcessBuilder(
+                        "git", "check-ignore", "-v", descriptor.toString().replace('\\', '/'))
+                .redirectErrorStream(true)
+                .start();
+        String output = new String(checkIgnore.getInputStream().readAllBytes(), java.nio.charset.StandardCharsets.UTF_8);
+        int exit = checkIgnore.waitFor();
+        assertTrue(exit != 0, "ExecutionTargetDescriptor must not be matched by .gitignore; was: " + output);
+        assertTrue(output.isBlank(), output);
+    }
+
     private static void assertNoForbiddenImport(String root) throws IOException {
         try (Stream<Path> files = Files.walk(Path.of(root))) {
             boolean offender = files.filter(p -> p.toString().endsWith(".java")).anyMatch(path -> {

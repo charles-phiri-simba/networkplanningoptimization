@@ -50,16 +50,18 @@ Real Ericsson/Nokia production writes remain **NOT AUTHORIZED**. No production w
 ## 3. Verification results
 
 ```text
-PHASE 15 TARGETED TESTS: 307 (22 API + 13 isolation + 14 contract + 6 fingerprint + 11 simulator/failure-injection + 241 matrix)
+PHASE 15 TARGETED TESTS: 308 (22 API + 14 isolation + 14 contract + 6 fingerprint + 11 simulator/failure-injection + 241 matrix)
 PHASE 15 TARGETED RESULT: Failures: 0, Errors: 0, Skipped: 0
 TARGETED COMMAND: mvn -B clean test "-Dtest=ChangeExecution*"
-FULL MAVEN: Tests run: 975, Failures: 0, Errors: 0, Skipped: 0
+FULL MAVEN: Tests run: 976, Failures: 0, Errors: 0, Skipped: 0
 FULL COMMAND: mvn -B clean test
 GO TEST: PASS (go test ./...; asserted by ChangeExecutionContractTest)
 GO BUILD: PASS (go build ./cmd/simulator; asserted by ChangeExecutionContractTest)
 ```
 
 Shared Testcontainer isolation: Phase 15 cleanup restores Phase 12 sync/knowledge and simulator state. Phase 14/13 trusted-baseline helpers were hardened against `RECOVERY_REQUIRED` leftover state. Hikari test pool capped at 4 to avoid Postgres “too many clients” under many SpringBootTest contexts.
+
+Post-correction note: full Maven is **976** (prior 975 + one Phase 15 isolation regression test).
 
 ---
 
@@ -121,19 +123,80 @@ PHASE 11 ENM TRANSPORT: READ-ONLY / UNCHANGED
 
 ## 8. Remaining closure actions
 
-1. Exact-SHA CI on a future implementation candidate commit (not created here).
+1. Exact-SHA CI on a future correction candidate commit (not created here).
 2. Optional `CONTROLLED_SANDBOX` remains unregistered and fail-closed.
 3. Stronger recommended follow-ups (non-blocking B): forced outer-transaction failure integration for durability; runtime agent/MCP deny paths beyond structural scans.
 
 ---
 
-## 9. Working tree / Git
+## 9. Failed implementation baseline candidate
+
+```text
+FAILED IMPLEMENTATION BASELINE CANDIDATE:
+0cb1223e41ced5462ad552f993e6001a028ddb96
+
+CI WORKFLOW: ci
+CI RUN NUMBER: 20
+CI RUN ID: 33388770789
+CI EVENT: push
+CI BRANCH: main
+CI HEAD SHA: 0cb1223e41ced5462ad552f993e6001a028ddb96
+CI GO TEST: SUCCESS
+CI MAVEN: FAILURE
+```
+
+**FAILURE:**
+
+Maven compile failed because `ExecutionTargetDescriptor.java` lived under
+`src/main/java/.../changeexecution/domain/target/` and was excluded from the
+candidate commit by the repository `.gitignore` rule `target/` (intended for
+Maven build output). CI therefore checked out a tree missing that production
+class while dependent services still imported it (`cannot find symbol` /
+`package ...domain.target does not exist`). Local verification had falsely
+passed because the ignored file remained on disk.
+
+**CORRECTION:**
+
+1. Narrow `.gitignore` from `target/` to `/target/` so only the root Maven
+   build directory is ignored.
+2. Track `domain/target/ExecutionTargetDescriptor.java`.
+3. Add regression test
+   `ChangeExecutionArchitectureIsolationTest.executionTargetDescriptorSourceIsPresentAndNotGitignored`
+   asserting the source exists, the class loads, and `git check-ignore` does
+   not match the path.
+4. Secondary (post-compile CI readiness): replace absolute `2026-08-24`
+   telemetry fixtures that feed assurance detection / recent-KPI history with
+   `Instant.now()`-relative timestamps in:
+   `AssuranceDetectionTest`, `AssuranceApiTest`, `TelemetryProjectionServiceTest`,
+   `GovernedActionApiTest`, `AgentOrchestrationApiTest`,
+   `AgentSpecialistFailureApiTest`, `DigitalTwinApiTest`, and Phase 13/14/15
+   `seedTelemetry()` helpers (`ChangeIntelligenceApiTest`,
+   `ChangePlanningApiTest`, `ChangeExecutionApiTest`,
+   `ChangeExecutionSimulatorTest`).
+   Those fixtures (and twin-staleness “later than sync” timestamps) fell
+   outside valid relative windows after 2026-08-31 and would fail CI after
+   compile was restored. No production assurance/telemetry/twin semantics changed.
+
+**REGRESSION EVIDENCE:**
+
+`ChangeExecutionArchitectureIsolationTest.executionTargetDescriptorSourceIsPresentAndNotGitignored`
+
+Local reproduction of CI compile failure: removing the descriptor yields
+`package ...domain.target does not exist` / `cannot find symbol ExecutionTargetDescriptor`.
+
+The failed candidate SHA remains intact historical evidence. No amend / rebase /
+force-push of `0cb1223…`.
+
+---
+
+## 10. Working tree / Git
 
 ```text
 IMPLEMENTATION BASELINE: NOT ESTABLISHED
-GIT COMMIT: NONE
-GIT PUSH: NONE
+FAILED CANDIDATE SHA: 0cb1223e41ced5462ad552f993e6001a028ddb96
+CORRECTION COMMIT: NONE YET (STOP before commit pending authorization)
+GIT PUSH: NONE AFTER FAILED CANDIDATE
 PHASE 16: NOT STARTED
 ```
 
-**PHASE 15 IMPLEMENTATION: CONFORMANCE COMPLETE — READY FOR GIT BASELINE AUTHORIZATION**
+**PHASE 15 IMPLEMENTATION: FAILED CANDIDATE DIAGNOSED AND CORRECTED LOCALLY — AWAITING CORRECTION COMMIT AUTHORIZATION**

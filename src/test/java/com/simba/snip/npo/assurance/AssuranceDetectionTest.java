@@ -66,7 +66,7 @@ class AssuranceDetectionTest extends AbstractPostgresIT {
 
     @Test
     void healthyStableDoesNotCreateDegradingCase() {
-        Instant t0 = Instant.parse("2026-08-24T12:00:00Z");
+        Instant t0 = Instant.now().minusSeconds(3_600);
         for (int i = 0; i < 4; i++) {
             Instant ts = t0.plusSeconds(i * 300L);
             assertEquals(ProjectionOutcome.PROJECTED, projectionService.project(event(
@@ -83,7 +83,8 @@ class AssuranceDetectionTest extends AbstractPostgresIT {
     }
 
     private void projectHighBler(String prefix) {
-        Instant t0 = Instant.parse("2026-08-24T11:00:00Z");
+        // Must stay inside snip.recent-kpi-hours (168h) relative to Instant.now().
+        Instant t0 = Instant.now().minusSeconds(3_600);
         double[] bler = {0.04, 0.06, 0.09, 0.12};
         double[] prb = {0.60, 0.68, 0.77, 0.84};
         for (int i = 0; i < 4; i++) {

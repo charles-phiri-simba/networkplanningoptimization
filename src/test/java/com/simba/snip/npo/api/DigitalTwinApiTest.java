@@ -53,7 +53,8 @@ class DigitalTwinApiTest extends AbstractPostgresIT {
     @BeforeEach
     void fixtures() {
         if (assuranceCaseService.listForCell("CELL-001").isEmpty()) {
-            Instant t0 = Instant.parse("2026-08-25T08:00:00Z");
+            // Must stay inside snip.recent-kpi-hours (168h) relative to Instant.now().
+            Instant t0 = Instant.now().minusSeconds(3_600);
             double[] bler = {0.04, 0.06, 0.09, 0.12};
             double[] prb = {0.60, 0.68, 0.77, 0.84};
             for (int i = 0; i < 4; i++) {
@@ -178,7 +179,8 @@ class DigitalTwinApiTest extends AbstractPostgresIT {
         TwinDetailDto twin = synchronize("CELL-001");
         int versionOne = twin.latestVersion();
         ScenarioDetailDto scenario = createScenario(twin.id(), "stale", 46.0, 44.0);
-        Instant later = Instant.parse("2026-08-25T18:00:00Z");
+        // Telemetry newer than the just-synchronized twin must be after Instant.now().
+        Instant later = Instant.now().plusSeconds(60);
         projectionService.project(event("p6-stale-" + UUID.randomUUID(), "CELL-001", "BLER_DL", 0.13, later));
         TwinDetailDto stale = http.getForObject("/api/v1/twins/" + twin.id(), TwinDetailDto.class);
         assertEquals("STALE", stale.freshness());

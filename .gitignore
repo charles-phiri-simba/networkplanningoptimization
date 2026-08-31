@@ -1,5 +1,5 @@
-# Build
-target/
+# Build (root Maven output only — do not ignore source packages named "target")
+/target/
 *.class
 *.jar
 *.war

@@ -59,7 +59,8 @@ class AssuranceApiTest extends AbstractPostgresIT {
 
     @Test
     void highBlerLoadExposesCaseAndAssessment() throws Exception {
-        Instant t0 = Instant.parse("2026-08-24T11:30:00Z");
+        // Must stay inside snip.recent-kpi-hours (168h) relative to Instant.now().
+        Instant t0 = Instant.now().minusSeconds(3_600);
         double[] bler = {0.04, 0.06, 0.09, 0.12};
         double[] prb = {0.60, 0.68, 0.77, 0.84};
         for (int i = 0; i < 4; i++) {
