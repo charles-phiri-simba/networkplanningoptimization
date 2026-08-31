@@ -2,7 +2,7 @@
 
 **Repository:** networkplanningoptimization  
 **Platform role:** SNIP domain application / first vertical slice  
-**Updated:** 2026-08-30 (Phase 14 architecture accepted)
+**Updated:** 2026-08-31 (Phase 15 architecture accepted and frozen)
 
 ```text
 PHASE 13 ARCHITECTURE STATUS: ACCEPTED
@@ -17,7 +17,10 @@ PHASE 14 ARCHITECTURE STATUS: ACCEPTED
 PHASE 14 IMPLEMENTATION STATUS: COMPLETE
 PHASE 14 IMPLEMENTATION SPECIFICATION: AUTHORIZED
 PHASE 14 GIT BASELINE: NOT YET ESTABLISHED
-PHASE 15 STATUS: NOT STARTED
+PHASE 14 IMPLEMENTATION BASELINE CANDIDATE: 043c5ad98b8a12fb8073ba40364a2e287d2cc65a
+PHASE 15 ARCHITECTURE STATUS: ACCEPTED AND FROZEN
+PHASE 15 IMPLEMENTATION STATUS: NOT STARTED
+PHASE 16 STATUS: NOT STARTED
 PHASE 12 ARCHITECTURE STATUS: ACCEPTED
 PHASE 12 IMPLEMENTATION STATUS: COMPLETE
 PHASE 12 GIT BASELINE: NOT YET ESTABLISHED
@@ -33,11 +36,12 @@ PHASE 11 GIT BASELINE: 78e699380be37109cfdd2111dd0f29c7052709c3
 | Field | Value |
 |-------|--------|
 | Frozen prior phase | **13 — Network Change Intelligence, Optimization Proposals & Governed Recommendations** (architecturally accepted — frozen at `5e9400005626fb93d5e61f96be680bea5540df31`; CI verified) |
-| Accepted next phase | **14 — Governed Change Planning, Execution Readiness & Safety Control** (architecture **ACCEPTED**; implementation **COMPLETE** — conformance review pending) |
+| Accepted next phase | **15 — Governed Network Change Execution, Verification & Recovery** (architecture **ACCEPTED AND FROZEN**; implementation **NOT STARTED**; specification **NOT YET ISSUED**) |
 | Accepted architecture | `docs/architecture/SNIP-PHASE-14-GOVERNED-CHANGE-PLANNING-EXECUTION-READINESS-SAFETY-CONTROL-ARCHITECTURE.md` |
-| Authorised | Phase 13 frozen. Phase 14 implementation **COMPLETE** (specification authorized). Phase 14 Git baseline **NOT YET ESTABLISHED**. Phase 15 **NOT STARTED** |
-| Baseline | Architecture baseline `6cc29ba8b70b1fbae65fdb70a958cb6c4fb32423`; Phase 13 frozen at `5e9400005626fb93d5e61f96be680bea5540df31` |
-| Next step | Phase 14 architectural conformance review; establish Phase 14 Git baseline when authorized |
+| Phase 15 architecture | `docs/architecture/SNIP-PHASE-15-GOVERNED-NETWORK-CHANGE-EXECUTION-VERIFICATION-RECOVERY-ARCHITECTURE.md` (ACCEPTED AND FROZEN) |
+| Authorised | Phase 13 frozen. Phase 14 implementation **COMPLETE** (candidate `043c5ad`, CI verified). Phase 14 Git baseline **NOT YET ESTABLISHED**. Phase 15 architecture **ACCEPTED AND FROZEN**. Phase 15 implementation **NOT STARTED**. Phase 15 specification **NOT YET ISSUED**. Phase 16 **NOT STARTED** |
+| Baseline | Phase 14 immutable implementation baseline `043c5ad98b8a12fb8073ba40364a2e287d2cc65a`; Phase 13 frozen at `5e9400005626fb93d5e61f96be680bea5540df31` |
+| Next step | Phase 15 architecture baseline candidate CI verification; implementation specification issuance when authorized |
 
 ---
 
@@ -61,14 +65,15 @@ PHASE 11 GIT BASELINE: 78e699380be37109cfdd2111dd0f29c7052709c3
 | 11 | First Real Vendor Connector & Production Read-Only Integration | Architecture **ACCEPTED**. Implementation **COMPLETE — ARCHITECTURALLY ACCEPTED**. Git baseline `78e699380be37109cfdd2111dd0f29c7052709c3` |
 | 12 | Continuous Synchronization, Drift & Network Knowledge Confidence | Architecture **ACCEPTED**. Implementation **COMPLETE**. Git baseline **NOT YET ESTABLISHED** |
 | 13 | Network Change Intelligence, Optimization Proposals & Governed Recommendations | Architecture **ACCEPTED**. Implementation **COMPLETE**. Git baseline `5e9400005626fb93d5e61f96be680bea5540df31`. CI **SUCCESS — EXACT BASELINE SHA VERIFIED** — see completion report |
-| 14 | Governed Change Planning, Execution Readiness & Safety Control | Architecture **ACCEPTED**. Implementation **COMPLETE** — see `SNIP-PHASE-14-GOVERNED-CHANGE-PLANNING-EXECUTION-READINESS-SAFETY-CONTROL-COMPLETION-REPORT.md`. Git baseline **NOT YET ESTABLISHED** |
-| 15 | (not started) | Not started |
+| 14 | Governed Change Planning, Execution Readiness & Safety Control | Architecture **ACCEPTED**. Implementation **COMPLETE** — see completion report. Candidate `043c5ad98b8a12fb8073ba40364a2e287d2cc65a`. Git baseline **NOT YET ESTABLISHED** |
+| 15 | Governed Network Change Execution, Verification & Recovery | Architecture **ACCEPTED AND FROZEN** — see `docs/architecture/SNIP-PHASE-15-GOVERNED-NETWORK-CHANGE-EXECUTION-VERIFICATION-RECOVERY-ARCHITECTURE.md`. Implementation **NOT STARTED**. Specification **NOT YET ISSUED** |
+| 16 | (not started) | Not started |
 
 ---
 
 ## Explicitly out of scope (do not start)
 
-Agent Factory, dynamic Agent creation, self-modifying Agents, persistent conversational memory, long-running autonomous Agents, continuous background Agents, freeform Agent-to-Agent mesh, automatic remediation, direct Agent-to-MCP execution, Agent approval authority, policy override, live network writes, real Ericsson ENM production connectivity, real Nokia NetAct connectivity, OSS/NMS/EMS write integration, vendor REST/SFTP/SNMP/NETCONF/gNMI as guessed production ENM transports, vendor telemetry adapters, automatic Twin synchronization, automatic conflict resolution, AI reconciliation, Vendor Integration Agent, Integration Operations Agent, field-level provenance, mastership policy engine, raw payload archive, production vendor credentials in Git, dynamic connector admin UI, secret rotation watcher, connector worker microservice split, Terraform-managed secret values, RL, remote third-party MCP, vendor MCP adapters, production RF simulation, electricalTilt simulation, automatic optimization, Kafka-triggered Twin synchronization, whole-network Twin, network rollback, Schema Registry, Avro, Flink/Spark/Kafka Streams, dedicated time-series DB, Phase 14 implementation (until architecture accepted and specification issued), Phase 15.
+Agent Factory, dynamic Agent creation, self-modifying Agents, persistent conversational memory, long-running autonomous Agents, continuous background Agents, freeform Agent-to-Agent mesh, automatic remediation, direct Agent-to-MCP execution, Agent approval authority, policy override, live network writes, real Ericsson ENM production connectivity, real Nokia NetAct connectivity, OSS/NMS/EMS write integration, vendor REST/SFTP/SNMP/NETCONF/gNMI as guessed production ENM transports, vendor telemetry adapters, automatic Twin synchronization, automatic conflict resolution, AI reconciliation, Vendor Integration Agent, Integration Operations Agent, field-level provenance, mastership policy engine, raw payload archive, production vendor credentials in Git, dynamic connector admin UI, secret rotation watcher, connector worker microservice split, Terraform-managed secret values, RL, remote third-party MCP, vendor MCP adapters, production RF simulation, electricalTilt simulation, automatic optimization, Kafka-triggered Twin synchronization, whole-network Twin, network rollback, Schema Registry, Avro, Flink/Spark/Kafka Streams, dedicated time-series DB, Phase 15 implementation (until architecture accepted and specification issued), Phase 16, production ENM/NetAct write adapters, automatic execution scheduling, agent/MCP network change execution.
 
 ---
 
@@ -76,7 +81,9 @@ Agent Factory, dynamic Agent creation, self-modifying Agents, persistent convers
 
 Phase 13 is architecturally accepted and frozen at `5e9400005626fb93d5e61f96be680bea5540df31`. Do not add Phase 13 functionality, resolve deferred technical debt, or perform unrelated refactoring. Do not amend the Phase 13 Git baseline.
 
-Phase 14 architecture is **ACCEPTED** and implementation is **COMPLETE** (2026-08-30). Phase 14 provides planning and readiness only — no vendor execution, no canonical mutation, no ProposedAction conversion. Phase 14 Git baseline is **NOT YET ESTABLISHED** without explicit authorization. Do not start Phase 15.
+Phase 14 architecture is **ACCEPTED** and implementation is **COMPLETE** (2026-08-30). Phase 14 provides planning and readiness only — no vendor execution, no canonical mutation, no ProposedAction conversion. Implementation baseline candidate `043c5ad98b8a12fb8073ba40364a2e287d2cc65a` (CI verified). Phase 14 Git baseline is **NOT YET ESTABLISHED** without explicit authorization.
+
+Phase 15 architecture is **ACCEPTED AND FROZEN** (2026-08-31). Do not implement Phase 15 application code, V16 migration, or execution APIs until a separate implementation specification is issued and authorized. Do not start Phase 16.
 
 Phase 12 architecture is **ACCEPTED** and implementation is **COMPLETE**. Do not add Phase 12 functionality. Phase 12 Git baseline is **NOT YET ESTABLISHED** without explicit authorization.
 
