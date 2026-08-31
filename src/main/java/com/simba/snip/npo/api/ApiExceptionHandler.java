@@ -70,4 +70,21 @@ public class ApiExceptionHandler {
         };
         return ResponseEntity.status(status).body(body);
     }
+
+    @ExceptionHandler(com.simba.snip.npo.changeplanning.ChangePlanException.class)
+    public ResponseEntity<Map<String, String>> changePlan(com.simba.snip.npo.changeplanning.ChangePlanException ex) {
+        Map<String, String> body = new LinkedHashMap<>();
+        body.put("error", ex.getMessage());
+        body.put("failureCode", ex.failureCode().name());
+        HttpStatus status = switch (ex.failureCode()) {
+            case PLAN_CREATION_FORBIDDEN, PLAN_REVIEW_FORBIDDEN, PLAN_AUTHORIZATION_FORBIDDEN,
+                 PLAN_CANCELLATION_FORBIDDEN, PLAN_READINESS_FORBIDDEN, CHANGE_PLANNING_DISABLED -> HttpStatus.FORBIDDEN;
+            case CONCURRENT_PLAN_CONFLICT, ACTIVE_PLAN_EXISTS, PLAN_CURRENT_VALUE_MISMATCH, PLAN_NETWORK_KNOWLEDGE_LOW,
+                 PLAN_NETWORK_KNOWLEDGE_UNKNOWN, PLAN_RELEVANT_DRIFT_PRESENT, PLAN_EXPIRED,
+                 PLAN_FINGERPRINT_MISMATCH, PLAN_AUTHORIZATION_STALE, PLAN_AUTHORIZATION_MISSING,
+                 PLAN_PROPOSAL_INVALID, PLAN_PROPOSAL_NOT_APPROVED, INVALID_PLAN_STATE -> HttpStatus.CONFLICT;
+            default -> HttpStatus.BAD_REQUEST;
+        };
+        return ResponseEntity.status(status).body(body);
+    }
 }

@@ -11,7 +11,8 @@ Read before changing code:
 
 - `docs/implementation/SNIP-IMPLEMENTATION-CONTEXT.md` (section 0 is authoritative for scope)
 - `docs/implementation/SNIP-IMPLEMENTATION-STATUS.md`
-- `docs/architecture/SNIP-PHASE-14-GOVERNED-CHANGE-PLANNING-EXECUTION-READINESS-SAFETY-CONTROL-ARCHITECTURE.md` (ACCEPTED; implementation NOT STARTED; specification NOT YET ISSUED)
+- `docs/architecture/SNIP-PHASE-14-GOVERNED-CHANGE-PLANNING-EXECUTION-READINESS-SAFETY-CONTROL-ARCHITECTURE.md` (ACCEPTED; implementation COMPLETE — conformance review pending)
+- `docs/implementation/SNIP-PHASE-14-GOVERNED-CHANGE-PLANNING-EXECUTION-READINESS-SAFETY-CONTROL-SPECIFICATION.md` (AUTHORIZED)
 - `docs/architecture/SNIP-PHASE-13-NETWORK-CHANGE-INTELLIGENCE-OPTIMIZATION-PROPOSALS-GOVERNED-RECOMMENDATIONS-ARCHITECTURE.md` (ACCEPTED; implementation complete — frozen at 5e94000)
 - `docs/architecture/SNIP-PHASE-12-CONTINUOUS-SYNCHRONIZATION-DRIFT-NETWORK-KNOWLEDGE-CONFIDENCE-ARCHITECTURE.md` (ACCEPTED; implementation complete — architecturally accepted)
 - `docs/architecture/SNIP-PHASE-11-FIRST-REAL-VENDOR-CONNECTOR-PRODUCTION-READ-ONLY-INTEGRATION-ARCHITECTURE.md` (ACCEPTED; implementation complete — architecturally accepted)
@@ -33,7 +34,7 @@ Phase 7 architecture/specification remain the frozen reconciliation contract.
 Phase 8 architecture/specification remain the frozen import runtime contract.
 Phase 9 architecture/specification remain the frozen connector security contract.
 Phase 10 architecture/specification remain the frozen production secret / Workload Identity contract.
-Phase 11 architecture is **ACCEPTED**. Phase 11 implementation is **COMPLETE — ARCHITECTURALLY ACCEPTED**. Simulator/contract is **VERIFIED**. Real vendor E2E is **NOT YET VERIFIED**. Phase 11 Git baseline is `78e699380be37109cfdd2111dd0f29c7052709c3`. Phase 12 architecture is **ACCEPTED**. Phase 12 implementation is **COMPLETE** (architecturally accepted). Simulator/contract for Phase 12 is **VERIFIED** (not real Ericsson verification). Real vendor continuous synchronization is **NOT YET VERIFIED**. Production ENM transport is **NOT CONFIGURED**. Phase 12 Git baseline is **NOT YET ESTABLISHED**. Phase 13 architecture is **ACCEPTED**. Phase 13 implementation is **COMPLETE** (frozen at `5e9400005626fb93d5e61f96be680bea5540df31`; CI verified). Phase 14 architecture is **ACCEPTED**. Phase 14 implementation is **NOT STARTED**. Phase 14 implementation specification is **NOT YET ISSUED**. Phase 15 is **NOT STARTED**.
+Phase 11 architecture is **ACCEPTED**. Phase 11 implementation is **COMPLETE — ARCHITECTURALLY ACCEPTED**. Simulator/contract is **VERIFIED**. Real vendor E2E is **NOT YET VERIFIED**. Phase 11 Git baseline is `78e699380be37109cfdd2111dd0f29c7052709c3`. Phase 12 architecture is **ACCEPTED**. Phase 12 implementation is **COMPLETE** (architecturally accepted). Simulator/contract for Phase 12 is **VERIFIED** (not real Ericsson verification). Real vendor continuous synchronization is **NOT YET VERIFIED**. Production ENM transport is **NOT CONFIGURED**. Phase 12 Git baseline is **NOT YET ESTABLISHED**. Phase 13 architecture is **ACCEPTED**. Phase 13 implementation is **COMPLETE** (frozen at `5e9400005626fb93d5e61f96be680bea5540df31`; CI verified). Phase 14 architecture is **ACCEPTED**. Phase 14 implementation is **COMPLETE** (conformance review pending). Phase 14 implementation specification is **AUTHORIZED**. Phase 14 Git baseline is **NOT YET ESTABLISHED**. Phase 15 is **NOT STARTED**.
 
 ```text
 PHASE 13 ARCHITECTURE STATUS: ACCEPTED
@@ -45,8 +46,9 @@ CLOSED-LOOP OPTIMIZATION: NOT AUTHORIZED
 PRODUCTION ENM TRANSPORT: NOT CONFIGURED
 REAL VENDOR CONTINUOUS SYNCHRONIZATION: NOT YET VERIFIED
 PHASE 14 ARCHITECTURE STATUS: ACCEPTED
-PHASE 14 IMPLEMENTATION STATUS: NOT STARTED
-PHASE 14 IMPLEMENTATION SPECIFICATION: NOT YET ISSUED
+PHASE 14 IMPLEMENTATION STATUS: COMPLETE
+PHASE 14 IMPLEMENTATION SPECIFICATION: AUTHORIZED
+PHASE 14 GIT BASELINE: NOT YET ESTABLISHED
 PHASE 15 STATUS: NOT STARTED
 PHASE 12 ARCHITECTURE STATUS: ACCEPTED
 PHASE 12 IMPLEMENTATION STATUS: COMPLETE

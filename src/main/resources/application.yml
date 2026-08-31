@@ -38,6 +38,13 @@ snip:
     max-delta: 4
     max-candidates: 5
     validity-hours: 24
+  change-planning:
+    enabled: true
+    validity-duration: PT24H
+    maximum-operation-count: 1
+    require-rollback: true
+    require-current-value-match: true
+    require-high-or-medium-knowledge: true
   integration:
     lease-duration: 30s
     heartbeat-interval: 5s

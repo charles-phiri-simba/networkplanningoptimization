@@ -14,8 +14,9 @@ CLOSED-LOOP OPTIMIZATION: NOT AUTHORIZED
 PRODUCTION ENM TRANSPORT: NOT CONFIGURED
 REAL VENDOR CONTINUOUS SYNCHRONIZATION: NOT YET VERIFIED
 PHASE 14 ARCHITECTURE STATUS: ACCEPTED
-PHASE 14 IMPLEMENTATION STATUS: NOT STARTED
-PHASE 14 IMPLEMENTATION SPECIFICATION: NOT YET ISSUED
+PHASE 14 IMPLEMENTATION STATUS: COMPLETE
+PHASE 14 IMPLEMENTATION SPECIFICATION: AUTHORIZED
+PHASE 14 GIT BASELINE: NOT YET ESTABLISHED
 PHASE 15 STATUS: NOT STARTED
 PHASE 12 ARCHITECTURE STATUS: ACCEPTED
 PHASE 12 IMPLEMENTATION STATUS: COMPLETE
@@ -32,11 +33,11 @@ PHASE 11 GIT BASELINE: 78e699380be37109cfdd2111dd0f29c7052709c3
 | Field | Value |
 |-------|--------|
 | Frozen prior phase | **13 — Network Change Intelligence, Optimization Proposals & Governed Recommendations** (architecturally accepted — frozen at `5e9400005626fb93d5e61f96be680bea5540df31`; CI verified) |
-| Accepted next phase | **14 — Governed Change Planning, Execution Readiness & Safety Control** (architecture **ACCEPTED** — 2026-08-30) |
+| Accepted next phase | **14 — Governed Change Planning, Execution Readiness & Safety Control** (architecture **ACCEPTED**; implementation **COMPLETE** — conformance review pending) |
 | Accepted architecture | `docs/architecture/SNIP-PHASE-14-GOVERNED-CHANGE-PLANNING-EXECUTION-READINESS-SAFETY-CONTROL-ARCHITECTURE.md` |
-| Authorised | Phase 13 frozen. Phase 14 architecture **ACCEPTED**. **No Phase 14 implementation is authorized** until a separate implementation specification is issued. Phase 15 **NOT STARTED** |
-| Baseline | `5e9400005626fb93d5e61f96be680bea5540df31` on `main` (Phase 13) |
-| Next step | Issue Phase 14 implementation specification |
+| Authorised | Phase 13 frozen. Phase 14 implementation **COMPLETE** (specification authorized). Phase 14 Git baseline **NOT YET ESTABLISHED**. Phase 15 **NOT STARTED** |
+| Baseline | Architecture baseline `6cc29ba8b70b1fbae65fdb70a958cb6c4fb32423`; Phase 13 frozen at `5e9400005626fb93d5e61f96be680bea5540df31` |
+| Next step | Phase 14 architectural conformance review; establish Phase 14 Git baseline when authorized |
 
 ---
 
@@ -60,7 +61,7 @@ PHASE 11 GIT BASELINE: 78e699380be37109cfdd2111dd0f29c7052709c3
 | 11 | First Real Vendor Connector & Production Read-Only Integration | Architecture **ACCEPTED**. Implementation **COMPLETE — ARCHITECTURALLY ACCEPTED**. Git baseline `78e699380be37109cfdd2111dd0f29c7052709c3` |
 | 12 | Continuous Synchronization, Drift & Network Knowledge Confidence | Architecture **ACCEPTED**. Implementation **COMPLETE**. Git baseline **NOT YET ESTABLISHED** |
 | 13 | Network Change Intelligence, Optimization Proposals & Governed Recommendations | Architecture **ACCEPTED**. Implementation **COMPLETE**. Git baseline `5e9400005626fb93d5e61f96be680bea5540df31`. CI **SUCCESS — EXACT BASELINE SHA VERIFIED** — see completion report |
-| 14 | Governed Change Planning, Execution Readiness & Safety Control | Architecture **ACCEPTED**. Implementation **NOT STARTED**. Implementation specification **NOT YET ISSUED** |
+| 14 | Governed Change Planning, Execution Readiness & Safety Control | Architecture **ACCEPTED**. Implementation **COMPLETE** — see `SNIP-PHASE-14-GOVERNED-CHANGE-PLANNING-EXECUTION-READINESS-SAFETY-CONTROL-COMPLETION-REPORT.md`. Git baseline **NOT YET ESTABLISHED** |
 | 15 | (not started) | Not started |
 
 ---
@@ -75,7 +76,7 @@ Agent Factory, dynamic Agent creation, self-modifying Agents, persistent convers
 
 Phase 13 is architecturally accepted and frozen at `5e9400005626fb93d5e61f96be680bea5540df31`. Do not add Phase 13 functionality, resolve deferred technical debt, or perform unrelated refactoring. Do not amend the Phase 13 Git baseline.
 
-Phase 14 architecture is **ACCEPTED** (2026-08-30). **No Phase 14 implementation is authorized** until a separate implementation specification is issued. Do not create `com.simba.snip.npo.changeplanning` production code, V15 migration, or Phase 14 APIs until the specification is issued. Phase 14 must not introduce vendor writes, execution endpoints, MCP execution paths, credential resolution, or canonical mutation. Phase 15 is **NOT STARTED**.
+Phase 14 architecture is **ACCEPTED** and implementation is **COMPLETE** (2026-08-30). Phase 14 provides planning and readiness only — no vendor execution, no canonical mutation, no ProposedAction conversion. Phase 14 Git baseline is **NOT YET ESTABLISHED** without explicit authorization. Do not start Phase 15.
 
 Phase 12 architecture is **ACCEPTED** and implementation is **COMPLETE**. Do not add Phase 12 functionality. Phase 12 Git baseline is **NOT YET ESTABLISHED** without explicit authorization.
 

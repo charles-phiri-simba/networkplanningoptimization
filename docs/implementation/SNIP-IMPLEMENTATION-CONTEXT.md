@@ -7,7 +7,7 @@ This file is the architecture library. The binding below is **authoritative for 
 **Platform:** SNIP — Simba Network Intelligence Platform  
 **This repository:** first SNIP **domain application** (Network Planning & Optimisation), not the entire enterprise platform.  
 **Phase 0:** complete — see `SNIP-PHASE-0-DISCOVERY-REPORT.md`  
-**Current authorised phase:** Phase 13 is **architecturally accepted and frozen** at `5e9400005626fb93d5e61f96be680bea5540df31` (CI success — exact baseline SHA verified). Phase 14 architecture is **ACCEPTED**. Phase 14 implementation is **NOT STARTED**. Phase 14 implementation specification is **NOT YET ISSUED**. Phase 15 is **NOT STARTED**.
+**Current authorised phase:** Phase 13 is **architecturally accepted and frozen** at `5e9400005626fb93d5e61f96be680bea5540df31`. Phase 14 architecture is **ACCEPTED**. Phase 14 implementation is **COMPLETE** (conformance review pending). Phase 14 implementation specification is **AUTHORIZED**. Phase 14 Git baseline is **NOT YET ESTABLISHED**. Phase 15 is **NOT STARTED**.
 **Architecture:** `docs/architecture/SNIP-PHASE-14-GOVERNED-CHANGE-PLANNING-EXECUTION-READINESS-SAFETY-CONTROL-ARCHITECTURE.md` (ACCEPTED)
 **Frozen Phase 13 architecture:** `docs/architecture/SNIP-PHASE-13-NETWORK-CHANGE-INTELLIGENCE-OPTIMIZATION-PROPOSALS-GOVERNED-RECOMMENDATIONS-ARCHITECTURE.md`
 **Phase 13 completion report:** `docs/implementation/SNIP-PHASE-13-NETWORK-CHANGE-INTELLIGENCE-OPTIMIZATION-PROPOSALS-GOVERNED-RECOMMENDATIONS-COMPLETION-REPORT.md`
@@ -24,7 +24,9 @@ This file is the architecture library. The binding below is **authoritative for 
 **Phase 11:** architecture accepted; implementation complete — architecturally accepted. Simulator/contract verified. Real vendor E2E not yet verified. Git baseline `78e699380be37109cfdd2111dd0f29c7052709c3`.
 **Phase 12:** architecture **ACCEPTED**. Implementation **COMPLETE** — architecturally accepted 2026-08-28 (see completion report). Simulator/contract **VERIFIED** (not real Ericsson verification). Real vendor continuous synchronization **NOT YET VERIFIED**. Production ENM transport **NOT CONFIGURED**. Phase 12 Git baseline **NOT YET ESTABLISHED**.
 **Phase 13:** architecture **ACCEPTED**. Implementation **COMPLETE** — architecturally accepted. Git baseline `5e9400005626fb93d5e61f96be680bea5540df31`. CI **SUCCESS — EXACT BASELINE SHA VERIFIED**. Real vendor write capability **NOT AUTHORIZED**. Closed-loop optimization **NOT AUTHORIZED**.
-**Phase 14:** architecture **ACCEPTED** (2026-08-30). Implementation **NOT STARTED**. Implementation specification **NOT YET ISSUED**. No implementation is authorized until a separate Phase 14 implementation specification is issued.
+**Phase 14:** architecture **ACCEPTED**. Implementation **COMPLETE** (2026-08-30). Specification **AUTHORIZED**. Package `com.simba.snip.npo.changeplanning.*`. V15 migration. Planning/readiness only — stops at `READY_FOR_EXECUTION`. Git baseline **NOT YET ESTABLISHED**.
+**Phase 14 completion report:** `docs/implementation/SNIP-PHASE-14-GOVERNED-CHANGE-PLANNING-EXECUTION-READINESS-SAFETY-CONTROL-COMPLETION-REPORT.md`
+**Phase 14 specification:** `docs/implementation/SNIP-PHASE-14-GOVERNED-CHANGE-PLANNING-EXECUTION-READINESS-SAFETY-CONTROL-SPECIFICATION.md`
 **Status:** `SNIP-IMPLEMENTATION-STATUS.md`
 
 ```text
@@ -37,8 +39,9 @@ CLOSED-LOOP OPTIMIZATION: NOT AUTHORIZED
 PRODUCTION ENM TRANSPORT: NOT CONFIGURED
 REAL VENDOR CONTINUOUS SYNCHRONIZATION: NOT YET VERIFIED
 PHASE 14 ARCHITECTURE STATUS: ACCEPTED
-PHASE 14 IMPLEMENTATION STATUS: NOT STARTED
-PHASE 14 IMPLEMENTATION SPECIFICATION: NOT YET ISSUED
+PHASE 14 IMPLEMENTATION STATUS: COMPLETE
+PHASE 14 IMPLEMENTATION SPECIFICATION: AUTHORIZED
+PHASE 14 GIT BASELINE: NOT YET ESTABLISHED
 PHASE 15 STATUS: NOT STARTED
 PHASE 12 ARCHITECTURE STATUS: ACCEPTED
 PHASE 12 IMPLEMENTATION STATUS: COMPLETE

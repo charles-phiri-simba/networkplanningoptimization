@@ -1,0 +1,18 @@
+package com.simba.snip.npo.changeplanning.model;
+
+public enum ChangePlanAuditEventType {
+    PLAN_CREATED,
+    PLAN_VALIDATION_STARTED,
+    PLAN_VALIDATED,
+    PLAN_BLOCKED,
+    PLAN_SAFETY_EVALUATED,
+    PLAN_REVIEWED,
+    PLAN_AUTHORIZED,
+    PLAN_READINESS_EVALUATED,
+    PLAN_READY,
+    PLAN_NOT_READY,
+    PLAN_INVALIDATED,
+    PLAN_EXPIRED,
+    PLAN_CANCELLED,
+    PLAN_SUPERSEDED
+}
