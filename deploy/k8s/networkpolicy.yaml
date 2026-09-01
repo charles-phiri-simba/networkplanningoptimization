@@ -51,7 +51,7 @@ spec:
           port: 8443
     # Cilium toFQDNs is present, but this AKS Cilium datapath did not attach DNS
     # proxy (FQDN cache empty; bpf policy PROXY PORT NONE on :53). Allow the
-    # observed Azure data-plane /32s instead of 0.0.0.0/0.
+    # observed Azure data-plane /32s instead of wildcard internet.
     - to:
         - ipBlock: { cidr: 102.133.0.0/16 }
         - ipBlock: { cidr: 20.190.0.0/16 }
@@ -60,7 +60,7 @@ spec:
         - protocol: TCP
           port: 443
 # Key Vault and Azure AD token exchange require FQDN-aware policy (Cilium below).
-# Standard NetworkPolicy cannot name *.vault.azure.net. Do not open 0.0.0.0/0 to compensate.
+# Standard NetworkPolicy cannot name *.vault.azure.net. Do not open wildcard internet to compensate.
 ---
 apiVersion: cilium.io/v2
 kind: CiliumNetworkPolicy

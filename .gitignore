@@ -1,5 +1,8 @@
-# Build (root Maven output only — do not ignore source packages named "target")
+# Build (root and module Maven output only — do not ignore a source package named "target")
 /target/
+snip-npo-app/target/
+production-change-protocol/target/
+production-write-gateway/target/
 *.class
 *.jar
 *.war

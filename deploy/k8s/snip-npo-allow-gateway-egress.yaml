@@ -1,0 +1,21 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: snip-npo-allow-gateway-egress
+  namespace: snip
+spec:
+  podSelector:
+    matchLabels:
+      app: snip-npo
+  policyTypes:
+    - Egress
+  egress:
+    - to:
+        - podSelector:
+            matchLabels:
+              app: production-write-gateway
+      ports:
+        - protocol: TCP
+          port: 8081
+# App may reach the production-write-gateway service port only.
+# This document does not grant ENM write egress to snip-npo.

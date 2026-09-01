@@ -1,0 +1,28 @@
+spring:
+  config:
+    activate:
+      on-profile: test
+  flyway:
+    enabled: true
+  jpa:
+    hibernate:
+      ddl-auto: none
+  jackson:
+    deserialization:
+      fail-on-unknown-properties: true
+
+snip:
+  production-change:
+    enabled: true
+    global-execution-enabled: true
+    test-transport-enabled: true
+    failure-injection:
+      enabled: false
+    ssl:
+      hostname-verification: true
+      trust-all: false
+    credentials:
+      enabled: true
+  integration:
+    security:
+      production-runtime: false

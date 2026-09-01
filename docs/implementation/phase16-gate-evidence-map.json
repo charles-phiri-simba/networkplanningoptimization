@@ -1,0 +1,2307 @@
+[
+  {
+    "gate": "G16-001",
+    "requirement": "Parent Phase 15 immutable baseline pinned exactly (ae9c13d…).",
+    "section": "§2–§3",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E045"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E045 exercises the architecture requirement with BEHAVIORAL proof: Parent Phase 15 immutable baseline pinned exactly (ae9c13d…).",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-002",
+    "requirement": "Failed historical Phase 15 candidate preserved (0cb1223…); history not rewritten.",
+    "section": "§2–§3",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E115"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E115 exercises the architecture requirement with STRUCTURAL proof: Failed historical Phase 15 candidate preserved (0cb1223…); history not rewritten.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-003",
+    "requirement": "Separate Production Write Gateway runtime required.",
+    "section": "§2–§3",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E013",
+      "P16-E014"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E013, P16-E014 exercises the architecture requirement with STRUCTURAL proof: Separate Production Write Gateway runtime required.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-004",
+    "requirement": "Ordinary SNIP application process must not implement production vendor writes.",
+    "section": "§2–§3",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E001",
+      "P16-E002",
+      "P16-E003",
+      "P16-E004",
+      "P16-E005",
+      "P16-E006",
+      "P16-E007",
+      "P16-E008",
+      "P16-E009",
+      "P16-E010",
+      "P16-E011",
+      "P16-E012"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E001, P16-E002, P16-E003, P16-E004, P16-E005, P16-E006, P16-E007, P16-E008, P16-E009, P16-E010, P16-E011, P16-E012 exercises the architecture requirement with STRUCTURAL proof: Ordinary SNIP application process must not implement production vendor writes.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-005",
+    "requirement": "Ordinary SNIP application must not possess vendor-write workload identity.",
+    "section": "§2–§3",
+    "component": "ProductionWriteGateway",
+    "evidenceIds": [
+      "P16-E021",
+      "P16-E088",
+      "P16-E102"
+    ],
+    "evidenceTypes": [
+      "EXTERNAL_CERTIFICATION",
+      "INFRASTRUCTURE",
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E021, P16-E088, P16-E102 exercises the architecture requirement with EXTERNAL_CERTIFICATION/INFRASTRUCTURE/STRUCTURAL proof: Ordinary SNIP application must not possess vendor-write workload identity.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-006",
+    "requirement": "Write gateway is a security boundary, not merely an in-process service class.",
+    "section": "§2–§3",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E001",
+      "P16-E002",
+      "P16-E003",
+      "P16-E004",
+      "P16-E005",
+      "P16-E006",
+      "P16-E007",
+      "P16-E008",
+      "P16-E009",
+      "P16-E010",
+      "P16-E011",
+      "P16-E012",
+      "P16-E013",
+      "P16-E014"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E001, P16-E002, P16-E003, P16-E004, P16-E005, P16-E006, P16-E007, P16-E008, P16-E009, P16-E010, P16-E011, P16-E012, P16-E013, P16-E014 exercises the architecture requirement with STRUCTURAL proof: Write gateway is a security boundary, not merely an in-process service class.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-007",
+    "requirement": "Distinct SNIP application / read / production-write identities.",
+    "section": "§2–§3",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E087",
+      "P16-E100"
+    ],
+    "evidenceTypes": [
+      "EXTERNAL_CERTIFICATION",
+      "INFRASTRUCTURE"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E087, P16-E100 exercises the architecture requirement with EXTERNAL_CERTIFICATION/INFRASTRUCTURE proof: Distinct SNIP application / read / production-write identities.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-008",
+    "requirement": "Production write credentials resolvable only by write-gateway identity.",
+    "section": "§2–§3",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E015",
+      "P16-E021",
+      "P16-E022",
+      "P16-E072",
+      "P16-E100",
+      "P16-E101"
+    ],
+    "evidenceTypes": [
+      "EXTERNAL_CERTIFICATION",
+      "INTEGRATION",
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E015, P16-E021, P16-E022, P16-E072, P16-E100, P16-E101 exercises the architecture requirement with EXTERNAL_CERTIFICATION/INTEGRATION/STRUCTURAL proof: Production write credentials resolvable only by write-gateway identity.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-009",
+    "requirement": "Phase 10 WI + Key Vault principles reused; no long-lived secret cache.",
+    "section": "§2–§3",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E015",
+      "P16-E074"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION",
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E015, P16-E074 exercises the architecture requirement with INTEGRATION/STRUCTURAL proof: Phase 10 WI + Key Vault principles reused; no long-lived secret cache.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-010",
+    "requirement": "Phase 11 EnmTransport remains read-only; no write methods added.",
+    "section": "§2–§3",
+    "component": "ProductionWriteGateway",
+    "evidenceIds": [
+      "P16-E016"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E016 exercises the architecture requirement with STRUCTURAL proof: Phase 11 EnmTransport remains read-only; no write methods added.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-011",
+    "requirement": "Separate write-side SPI (VendorNetworkWriteAdapter / EricssonEnmWriteAdapter / EricssonWriteTransport).",
+    "section": "§8–§16",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E116"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E116 exercises the architecture requirement with STRUCTURAL proof: Separate write-side SPI (VendorNetworkWriteAdapter / EricssonEnmWriteAdapter / EricssonWriteTransport).",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-012",
+    "requirement": "Ericsson production write protocol explicitly UNRESOLVED until evidence.",
+    "section": "§8–§16",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E099"
+    ],
+    "evidenceTypes": [
+      "EXTERNAL_CERTIFICATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E099 exercises the architecture requirement with EXTERNAL_CERTIFICATION proof: Ericsson production write protocol explicitly UNRESOLVED until evidence.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-013",
+    "requirement": "Production Ericsson write transport NOT CONFIGURED and fail-closed by default.",
+    "section": "§8–§16",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E135"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E135 exercises the architecture requirement with BEHAVIORAL proof: Production Ericsson write transport NOT CONFIGURED and fail-closed by default.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-014",
+    "requirement": "No dual-purpose read/write transport conflation.",
+    "section": "§8–§16",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E016"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E016 exercises the architecture requirement with STRUCTURAL proof: No dual-purpose read/write transport conflation.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-015",
+    "requirement": "No arbitrary / generic vendor command interface.",
+    "section": "§8–§16",
+    "component": "ProductionWriteGateway",
+    "evidenceIds": [
+      "P16-E136"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E136 exercises the architecture requirement with BEHAVIORAL proof: No arbitrary / generic vendor command interface.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-016",
+    "requirement": "Typed mutation only (CELL / txPower / expected / desired).",
+    "section": "§8–§16",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E117"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E117 exercises the architecture requirement with BEHAVIORAL proof: Typed mutation only (CELL / txPower / expected / desired).",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-017",
+    "requirement": "Initial scope hard-limited to Ericsson ENM CELL txPower.",
+    "section": "§8–§16",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E047",
+      "P16-E117"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E047, P16-E117 exercises the architecture requirement with BEHAVIORAL proof: Initial scope hard-limited to Ericsson ENM CELL txPower.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-018",
+    "requirement": "Max cells per execution = 1.",
+    "section": "§8–§16",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E047"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E047 exercises the architecture requirement with BEHAVIORAL proof: Max cells per execution = 1.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-019",
+    "requirement": "Max parameters per execution = 1.",
+    "section": "§8–§16",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E118"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E118 exercises the architecture requirement with BEHAVIORAL proof: Max parameters per execution = 1.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-020",
+    "requirement": "Max forward mutation operations = 1.",
+    "section": "§8–§16",
+    "component": "ProductionWriteGateway",
+    "evidenceIds": [
+      "P16-E119"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E119 exercises the architecture requirement with BEHAVIORAL proof: Max forward mutation operations = 1.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-021",
+    "requirement": "ProductionNetworkTarget model defined with required fields.",
+    "section": "§8–§16",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E120"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E120 exercises the architecture requirement with STRUCTURAL proof: ProductionNetworkTarget model defined with required fields.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-022",
+    "requirement": "Target states include ACTIVE / SUSPENDED / DISABLED.",
+    "section": "§8–§16",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E121"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E121 exercises the architecture requirement with BEHAVIORAL proof: Target states include ACTIVE / SUSPENDED / DISABLED.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-023",
+    "requirement": "Target records store credential profile references only.",
+    "section": "§8–§16",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E122"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E122 exercises the architecture requirement with STRUCTURAL proof: Target records store credential profile references only.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-024",
+    "requirement": "ProductionNetworkChange aggregate distinct from Phase 15 execution.",
+    "section": "§8–§16",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E123"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E123 exercises the architecture requirement with STRUCTURAL proof: ProductionNetworkChange aggregate distinct from Phase 15 execution.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-025",
+    "requirement": "Create request accepts only phase15ExecutionId, productionTargetId, changeControlReference.",
+    "section": "§8–§16",
+    "component": "ProductionWriteGateway",
+    "evidenceIds": [
+      "P16-E137"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E137 exercises the architecture requirement with BEHAVIORAL proof: Create request accepts only phase15ExecutionId, productionTargetId, changeControlReference.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-026",
+    "requirement": "API rejects caller-controlled mutation fields.",
+    "section": "§8–§16",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E026",
+      "P16-E027"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E026, P16-E027 exercises the architecture requirement with BEHAVIORAL proof: API rejects caller-controlled mutation fields.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-027",
+    "requirement": "Mutation details derive from governed Phase 14/15 state only.",
+    "section": "§8–§16",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E124"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E124 exercises the architecture requirement with BEHAVIORAL proof: Mutation details derive from governed Phase 14/15 state only.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-028",
+    "requirement": "Phase 13 ≠ 14 ≠ 15 ≠ 16 authorization independence.",
+    "section": "§8–§16",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E138"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E138 exercises the architecture requirement with INTEGRATION proof: Phase 13 ≠ 14 ≠ 15 ≠ 16 authorization independence.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-029",
+    "requirement": "Production authorization not inferred from upstream approvals.",
+    "section": "§8–§16",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E138"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E138 exercises the architecture requirement with INTEGRATION proof: Production authorization not inferred from upstream approvals.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-030",
+    "requirement": "Requester must not be Production Authorizer.",
+    "section": "§8–§16",
+    "component": "ProductionWriteGateway",
+    "evidenceIds": [
+      "P16-E023",
+      "P16-E112"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "EXTERNAL_CERTIFICATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E023, P16-E112 exercises the architecture requirement with BEHAVIORAL/EXTERNAL_CERTIFICATION proof: Requester must not be Production Authorizer.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-031",
+    "requirement": "Production Authorizer must not be Executor.",
+    "section": "§8–§16",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E024",
+      "P16-E112"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "EXTERNAL_CERTIFICATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E024, P16-E112 exercises the architecture requirement with BEHAVIORAL/EXTERNAL_CERTIFICATION proof: Production Authorizer must not be Executor.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-032",
+    "requirement": "Reviewer and Authorizer permissions distinct.",
+    "section": "§8–§16",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E140"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E140 exercises the architecture requirement with BEHAVIORAL proof: Reviewer and Authorizer permissions distinct.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-033",
+    "requirement": "Agents hold no production review/auth/execute/rollback permissions.",
+    "section": "§8–§16",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E017",
+      "P16-E043"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E017, P16-E043 exercises the architecture requirement with BEHAVIORAL/STRUCTURAL proof: Agents hold no production review/auth/execute/rollback permissions.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-034",
+    "requirement": "MCP holds no production mutation permissions.",
+    "section": "§8–§16",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E018",
+      "P16-E044"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E018, P16-E044 exercises the architecture requirement with BEHAVIORAL/STRUCTURAL proof: MCP holds no production mutation permissions.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-035",
+    "requirement": "Permission set includes VIEW/REQUEST/REVIEW/AUTHORIZE/EXECUTE and rollback counterparts.",
+    "section": "§8–§16",
+    "component": "ProductionWriteGateway",
+    "evidenceIds": [
+      "P16-E125"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E125 exercises the architecture requirement with STRUCTURAL proof: Permission set includes VIEW/REQUEST/REVIEW/AUTHORIZE/EXECUTE and rollback counterparts.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-036",
+    "requirement": "Deterministic SHA-256 production fingerprint defined.",
+    "section": "§8–§16",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E051",
+      "P16-E080"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E051, P16-E080 exercises the architecture requirement with INTEGRATION proof: Deterministic SHA-256 production fingerprint defined.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-037",
+    "requirement": "Fingerprint binds Phase15/14/target/cell/parameter/values/profiles/window/policies/change-control/auth generation.",
+    "section": "§8–§16",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E080"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E080 exercises the architecture requirement with INTEGRATION proof: Fingerprint binds Phase15/14/target/cell/parameter/values/profiles/window/policies/change-control/auth generation.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-038",
+    "requirement": "Material binding change makes authorization STALE.",
+    "section": "§8–§16",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E028"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E028 exercises the architecture requirement with BEHAVIORAL proof: Material binding change makes authorization STALE.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-039",
+    "requirement": "No silent fingerprint regeneration or silent reauthorization.",
+    "section": "§8–§16",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E126"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E126 exercises the architecture requirement with BEHAVIORAL proof: No silent fingerprint regeneration or silent reauthorization.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-040",
+    "requirement": "ChangeControlReference required; not itself authorization.",
+    "section": "§8–§16",
+    "component": "ProductionWriteGateway",
+    "evidenceIds": [
+      "P16-E127"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E127 exercises the architecture requirement with BEHAVIORAL proof: ChangeControlReference required; not itself authorization.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-041",
+    "requirement": "Initial change-control system MANUAL; ServiceNow deferred.",
+    "section": "§8–§16",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E128"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E128 exercises the architecture requirement with STRUCTURAL proof: Initial change-control system MANUAL; ServiceNow deferred.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-042",
+    "requirement": "ProductionExecutionGrant distinct from vendor credential.",
+    "section": "§8–§16",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E129"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E129 exercises the architecture requirement with STRUCTURAL proof: ProductionExecutionGrant distinct from vendor credential.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-043",
+    "requirement": "Grant short-lived, single-use, fingerprint-bound, target-bound, fencing-bound.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E042",
+      "P16-E083"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E042, P16-E083 exercises the architecture requirement with BEHAVIORAL/INTEGRATION proof: Grant short-lived, single-use, fingerprint-bound, target-bound, fencing-bound.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-044",
+    "requirement": "Grant statuses include ISSUED / CONSUMED / EXPIRED / REVOKED.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E130"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E130 exercises the architecture requirement with STRUCTURAL proof: Grant statuses include ISSUED / CONSUMED / EXPIRED / REVOKED.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-045",
+    "requirement": "No valid consumable grant ⇒ gateway deny.",
+    "section": "§17–§34",
+    "component": "ProductionWriteGateway",
+    "evidenceIds": [
+      "P16-E131"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E131 exercises the architecture requirement with BEHAVIORAL proof: No valid consumable grant ⇒ gateway deny.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-046",
+    "requirement": "Consumed grant not reusable.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E060",
+      "P16-E081"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E060, P16-E081 exercises the architecture requirement with INTEGRATION proof: Consumed grant not reusable.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-047",
+    "requirement": "Ambiguous outcome does not auto-issue another grant.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E132"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E132 exercises the architecture requirement with BEHAVIORAL proof: Ambiguous outcome does not auto-issue another grant.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-048",
+    "requirement": "Production lease scope = productionTargetId + cellId + parameter.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E055",
+      "P16-E082"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E055, P16-E082 exercises the architecture requirement with INTEGRATION proof: Production lease scope = productionTargetId + cellId + parameter.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-049",
+    "requirement": "Lease acquired before grant issuance / application pre-grant completion.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E133"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E133 exercises the architecture requirement with INTEGRATION proof: Lease acquired before grant issuance / application pre-grant completion.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-050",
+    "requirement": "Fencing protects SNIP pre-send authority only; does not cancel external accepted write.",
+    "section": "§17–§34",
+    "component": "ProductionWriteGateway",
+    "evidenceIds": [
+      "P16-E082"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E082 exercises the architecture requirement with INTEGRATION proof: Fencing protects SNIP pre-send authority only; does not cancel external accepted write.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-051",
+    "requirement": "No exact-once external network mutation claim.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E170"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E170 exercises the architecture requirement with BEHAVIORAL proof: No exact-once external network mutation claim.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-052",
+    "requirement": "No distributed ACID claim with vendor.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E171"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E171 exercises the architecture requirement with BEHAVIORAL proof: No distributed ACID claim with vendor.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-053",
+    "requirement": "Application pre-grant preflight checklist mandatory; UNKNOWN ⇒ DENY (no grant).",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E149"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E149 exercises the architecture requirement with INTEGRATION proof: Application pre-grant preflight checklist mandatory; UNKNOWN ⇒ DENY (no grant).",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-054",
+    "requirement": "Direct vendor expected-state observation mandatory before mutation.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E150"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E150 exercises the architecture requirement with INTEGRATION proof: Direct vendor expected-state observation mandatory before mutation.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-055",
+    "requirement": "Expected-state mismatch ⇒ zero mutation.",
+    "section": "§17–§34",
+    "component": "ProductionWriteGateway",
+    "evidenceIds": [
+      "P16-E033"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E033 exercises the architecture requirement with BEHAVIORAL proof: Expected-state mismatch ⇒ zero mutation.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-056",
+    "requirement": "Expected-state unknown/stale/unavailable/timeout ⇒ zero mutation.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E034"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E034 exercises the architecture requirement with BEHAVIORAL proof: Expected-state unknown/stale/unavailable/timeout ⇒ zero mutation.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-057",
+    "requirement": "ExpectedStateGuardStrength distinguishes ATOMIC vs READ_THEN_WRITE.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E035"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E035 exercises the architecture requirement with BEHAVIORAL proof: ExpectedStateGuardStrength distinguishes ATOMIC vs READ_THEN_WRITE.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-058",
+    "requirement": "No false atomicity claim without protocol support.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E035"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E035 exercises the architecture requirement with BEHAVIORAL proof: No false atomicity claim without protocol support.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-059",
+    "requirement": "Residual TOCTOU acknowledged for READ_THEN_WRITE.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E036"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E036 exercises the architecture requirement with BEHAVIORAL proof: Residual TOCTOU acknowledged for READ_THEN_WRITE.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-060",
+    "requirement": "Mutation outcomes distinguish NOT_SENT / REJECTED / VENDOR_ACCEPTED / OUTCOME_UNKNOWN.",
+    "section": "§17–§34",
+    "component": "ProductionWriteGateway",
+    "evidenceIds": [
+      "P16-E151"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E151 exercises the architecture requirement with INTEGRATION proof: Mutation outcomes distinguish NOT_SENT / REJECTED / VENDOR_ACCEPTED / OUTCOME_UNKNOWN.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-061",
+    "requirement": "Vendor accepted ≠ verified.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E070",
+      "P16-E152"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E070, P16-E152 exercises the architecture requirement with INTEGRATION proof: Vendor accepted ≠ verified.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-062",
+    "requirement": "Independent post-mutation vendor readback mandatory.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E070",
+      "P16-E110",
+      "P16-E152"
+    ],
+    "evidenceTypes": [
+      "EXTERNAL_CERTIFICATION",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E070, P16-E110, P16-E152 exercises the architecture requirement with EXTERNAL_CERTIFICATION/INTEGRATION proof: Independent post-mutation vendor readback mandatory.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-063",
+    "requirement": "Only fresh observation matching desired may yield VERIFIED.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E070",
+      "P16-E076"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E070, P16-E076 exercises the architecture requirement with INTEGRATION proof: Only fresh observation matching desired may yield VERIFIED.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-064",
+    "requirement": "PRODUCTION_VERIFIED distinct from CANONICAL_RECONCILED.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E046",
+      "P16-E084"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E046, P16-E084 exercises the architecture requirement with INTEGRATION proof: PRODUCTION_VERIFIED distinct from CANONICAL_RECONCILED.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-065",
+    "requirement": "Phase 16 must not directly mutate canonical radio_configuration.",
+    "section": "§17–§34",
+    "component": "ProductionWriteGateway",
+    "evidenceIds": [
+      "P16-E046"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E046 exercises the architecture requirement with INTEGRATION proof: Phase 16 must not directly mutate canonical radio_configuration.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-066",
+    "requirement": "May emit NETWORK_SYNCHRONIZATION_REQUIRED after verified production change.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E084"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E084 exercises the architecture requirement with INTEGRATION proof: May emit NETWORK_SYNCHRONIZATION_REQUIRED after verified production change.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-067",
+    "requirement": "Phase 12 remains reconciliation authority.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E046",
+      "P16-E084"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E046, P16-E084 exercises the architecture requirement with INTEGRATION proof: Phase 12 remains reconciliation authority.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-068",
+    "requirement": "Ambiguous desired observation path defined (VERIFIED).",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E069"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E069 exercises the architecture requirement with INTEGRATION proof: Ambiguous desired observation path defined (VERIFIED).",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-069",
+    "requirement": "Ambiguous expected observation ⇒ safe stop; no blind retry; new auth required.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E153"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E153 exercises the architecture requirement with INTEGRATION proof: Ambiguous expected observation ⇒ safe stop; no blind retry; new auth required.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-070",
+    "requirement": "Ambiguous third-state ⇒ MANUAL_INTERVENTION_REQUIRED.",
+    "section": "§17–§34",
+    "component": "ProductionWriteGateway",
+    "evidenceIds": [
+      "P16-E154"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E154 exercises the architecture requirement with INTEGRATION proof: Ambiguous third-state ⇒ MANUAL_INTERVENTION_REQUIRED.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-071",
+    "requirement": "Unavailable observation ⇒ PRODUCTION_OUTCOME_UNRESOLVED; no retry.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E155"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E155 exercises the architecture requirement with INTEGRATION proof: Unavailable observation ⇒ PRODUCTION_OUTCOME_UNRESOLVED; no retry.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-072",
+    "requirement": "No blind forward mutation retry after MAY_HAVE_SENT.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E037",
+      "P16-E069",
+      "P16-E085"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E037, P16-E069, P16-E085 exercises the architecture requirement with BEHAVIORAL/INTEGRATION proof: No blind forward mutation retry after MAY_HAVE_SENT.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-073",
+    "requirement": "One forward attempt unless separately authorized new execution.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E060",
+      "P16-E064",
+      "P16-E081"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E060, P16-E064, P16-E081 exercises the architecture requirement with INTEGRATION proof: One forward attempt unless separately authorized new execution.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-074",
+    "requirement": "Verification failure ⇒ RECOVERY_REQUIRED, not automatic rollback.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E156"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E156 exercises the architecture requirement with INTEGRATION proof: Verification failure ⇒ RECOVERY_REQUIRED, not automatic rollback.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-075",
+    "requirement": "Automatic rollback prohibited.",
+    "section": "§17–§34",
+    "component": "ProductionWriteGateway",
+    "evidenceIds": [
+      "P16-E156",
+      "P16-E157"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E156, P16-E157 exercises the architecture requirement with BEHAVIORAL/INTEGRATION proof: Automatic rollback prohibited.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-076",
+    "requirement": "Rollback requires request/review/authorize/execute separation.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E077",
+      "P16-E109"
+    ],
+    "evidenceTypes": [
+      "EXTERNAL_CERTIFICATION",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E077, P16-E109 exercises the architecture requirement with EXTERNAL_CERTIFICATION/INTEGRATION proof: Rollback requires request/review/authorize/execute separation.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-077",
+    "requirement": "Rollback fingerprint required.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E077"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E077 exercises the architecture requirement with INTEGRATION proof: Rollback fingerprint required.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-078",
+    "requirement": "Rollback expected-state guard mandatory.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E079"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E079 exercises the architecture requirement with INTEGRATION proof: Rollback expected-state guard mandatory.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-079",
+    "requirement": "Rollback value from persisted Phase 14 state only.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E077"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E077 exercises the architecture requirement with INTEGRATION proof: Rollback value from persisted Phase 14 state only.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-080",
+    "requirement": "Rollback ambiguous outcome policy defined; no blind rollback retry.",
+    "section": "§17–§34",
+    "component": "ProductionWriteGateway",
+    "evidenceIds": [
+      "P16-E077",
+      "P16-E173"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E077, P16-E173 exercises the architecture requirement with INTEGRATION proof: Rollback ambiguous outcome policy defined; no blind rollback retry.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-081",
+    "requirement": "No emergency governance bypass in Phase 16.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E157"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E157 exercises the architecture requirement with BEHAVIORAL proof: No emergency governance bypass in Phase 16.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-082",
+    "requirement": "Cancellation before mutation only; no false cancel after MAY_HAVE_SENT.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E142"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E142 exercises the architecture requirement with BEHAVIORAL proof: Cancellation before mutation only; no false cancel after MAY_HAVE_SENT.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-083",
+    "requirement": "Window permits but does not trigger execution.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E139"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E139 exercises the architecture requirement with BEHAVIORAL proof: Window permits but does not trigger execution.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-084",
+    "requirement": "Application and gateway preflights re-check window.",
+    "section": "§17–§34",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E032",
+      "P16-E158"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E032, P16-E158 exercises the architecture requirement with BEHAVIORAL/INTEGRATION proof: Application and gateway preflights re-check window.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-085",
+    "requirement": "No scheduler-driven production execution.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E019"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E019 exercises the architecture requirement with STRUCTURAL proof: No scheduler-driven production execution.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-086",
+    "requirement": "No event-driven production execution.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E020"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E020 exercises the architecture requirement with STRUCTURAL proof: No event-driven production execution.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-087",
+    "requirement": "Creation/authorization/window-open do not execute.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E139"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E139 exercises the architecture requirement with BEHAVIORAL proof: Creation/authorization/window-open do not execute.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-088",
+    "requirement": "Only explicit execute endpoints may cross mutation boundary.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E076"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E076 exercises the architecture requirement with INTEGRATION proof: Only explicit execute endpoints may cross mutation boundary.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-089",
+    "requirement": "ProductionBlastRadiusPolicy hard limits = 1/1/1.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E064",
+      "P16-E085",
+      "P16-E119",
+      "P16-E143"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E064, P16-E085, P16-E119, P16-E143 exercises the architecture requirement with BEHAVIORAL/INTEGRATION proof: ProductionBlastRadiusPolicy hard limits = 1/1/1.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-090",
+    "requirement": "Rate / unknown / verification failure suspension thresholds required.",
+    "section": "§18–§35",
+    "component": "ProductionWriteGateway",
+    "evidenceIds": [
+      "P16-E144"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E144 exercises the architecture requirement with BEHAVIORAL proof: Rate / unknown / verification failure suspension thresholds required.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-091",
+    "requirement": "Automatic safety suspension allowed; automatic resume forbidden.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E106",
+      "P16-E121",
+      "P16-E144",
+      "P16-E145"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "EXTERNAL_CERTIFICATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E106, P16-E121, P16-E144, P16-E145 exercises the architecture requirement with BEHAVIORAL/EXTERNAL_CERTIFICATION proof: Automatic safety suspension allowed; automatic resume forbidden.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-092",
+    "requirement": "Global kill switch multi-gate; no single boolean enable.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E030",
+      "P16-E105"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "EXTERNAL_CERTIFICATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E030, P16-E105 exercises the architecture requirement with BEHAVIORAL/EXTERNAL_CERTIFICATION proof: Global kill switch multi-gate; no single boolean enable.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-093",
+    "requirement": "Target kill switch / disable / suspend deny execution.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E030",
+      "P16-E031"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E030, P16-E031 exercises the architecture requirement with BEHAVIORAL proof: Target kill switch / disable / suspend deny execution.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-094",
+    "requirement": "Credential lifecycle late resolution; secrets never persisted.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E072",
+      "P16-E073"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E072, P16-E073 exercises the architecture requirement with INTEGRATION proof: Credential lifecycle late resolution; secrets never persisted.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-095",
+    "requirement": "Network egress restriction to approved ENM endpoints; no 0.0.0.0/0 write egress.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E088",
+      "P16-E089",
+      "P16-E103"
+    ],
+    "evidenceTypes": [
+      "EXTERNAL_CERTIFICATION",
+      "INFRASTRUCTURE"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E088, P16-E089, P16-E103 exercises the architecture requirement with EXTERNAL_CERTIFICATION/INFRASTRUCTURE proof: Network egress restriction to approved ENM endpoints; no 0.0.0.0/0 write egress.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-096",
+    "requirement": "TLS mandatory; hostname verification; trust-all forbidden.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E090",
+      "P16-E091",
+      "P16-E104"
+    ],
+    "evidenceTypes": [
+      "EXTERNAL_CERTIFICATION",
+      "INFRASTRUCTURE"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E090, P16-E091, P16-E104 exercises the architecture requirement with EXTERNAL_CERTIFICATION/INFRASTRUCTURE proof: TLS mandatory; hostname verification; trust-all forbidden.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-097",
+    "requirement": "mTLS private keys only via secure credential mechanism when required.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E091",
+      "P16-E104"
+    ],
+    "evidenceTypes": [
+      "EXTERNAL_CERTIFICATION",
+      "INFRASTRUCTURE"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E091, P16-E104 exercises the architecture requirement with EXTERNAL_CERTIFICATION/INFRASTRUCTURE proof: mTLS private keys only via secure credential mechanism when required.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-098",
+    "requirement": "Durable audit with actorPrincipalId/fingerprint/target/outcome coverage; no secrets.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E049",
+      "P16-E066"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E049, P16-E066 exercises the architecture requirement with BEHAVIORAL/INTEGRATION proof: Durable audit with actorPrincipalId/fingerprint/target/outcome coverage; no secrets.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-099",
+    "requirement": "Tamper-evident previousEventHash / eventHash chain with defined scope.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E066",
+      "P16-E067",
+      "P16-E108"
+    ],
+    "evidenceTypes": [
+      "EXTERNAL_CERTIFICATION",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E066, P16-E067, P16-E108 exercises the architecture requirement with EXTERNAL_CERTIFICATION/INTEGRATION proof: Tamper-evident previousEventHash / eventHash chain with defined scope.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-100",
+    "requirement": "Critical outcome evidence survives outer failure via independent persistence.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E071",
+      "P16-E168"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E071, P16-E168 exercises the architecture requirement with INTEGRATION proof: Critical outcome evidence survives outer failure via independent persistence.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-101",
+    "requirement": "Failure taxonomy non-generic; no catch-and-retry.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E159"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E159 exercises the architecture requirement with BEHAVIORAL proof: Failure taxonomy non-generic; no catch-and-retry.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-102",
+    "requirement": "Low-cardinality metrics only; forbidden high-cardinality labels.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E050"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E050 exercises the architecture requirement with BEHAVIORAL proof: Low-cardinality metrics only; forbidden high-cardinality labels.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-103",
+    "requirement": "Target health separate from application readiness.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E121"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E121 exercises the architecture requirement with BEHAVIORAL proof: Target health separate from application readiness.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-104",
+    "requirement": "Agent execution not authorized.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E017",
+      "P16-E043"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E017, P16-E043 exercises the architecture requirement with BEHAVIORAL/STRUCTURAL proof: Agent execution not authorized.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-105",
+    "requirement": "MCP execution not authorized.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E018",
+      "P16-E044"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E018, P16-E044 exercises the architecture requirement with BEHAVIORAL/STRUCTURAL proof: MCP execution not authorized.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-106",
+    "requirement": "Closed-loop optimization not authorized.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E160"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E160 exercises the architecture requirement with BEHAVIORAL proof: Closed-loop optimization not authorized.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-107",
+    "requirement": "Nokia write deferred / not implemented.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E146"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E146 exercises the architecture requirement with BEHAVIORAL proof: Nokia write deferred / not implemented.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-108",
+    "requirement": "Default CI Azure/vendor/credential independent.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E147"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E147 exercises the architecture requirement with BEHAVIORAL proof: Default CI Azure/vendor/credential independent.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-109",
+    "requirement": "Certification levels 0–4 defined; code ≠ Level 4.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E096",
+      "P16-E097",
+      "P16-E172"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "EXTERNAL_CERTIFICATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E096, P16-E097, P16-E172 exercises the architecture requirement with BEHAVIORAL/EXTERNAL_CERTIFICATION proof: Certification levels 0–4 defined; code ≠ Level 4.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-110",
+    "requirement": "V17 proposed only; not created by architecture authoring.",
+    "section": "§18–§35",
+    "component": "ProductionWriteGateway",
+    "evidenceIds": [
+      "P16-E134"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E134 exercises the architecture requirement with BEHAVIORAL proof: V17 proposed only; not created by architecture authoring.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-111",
+    "requirement": "Phase 16 implementation not started by this document.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E161"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E161 exercises the architecture requirement with STRUCTURAL proof: Phase 16 implementation not started by this document.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-112",
+    "requirement": "Future evidence catalog concrete and gate-mapped in implementation specification.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E093",
+      "P16-E094",
+      "P16-E148"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INFRASTRUCTURE"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E093, P16-E094, P16-E148 exercises the architecture requirement with BEHAVIORAL/INFRASTRUCTURE proof: Future evidence catalog concrete and gate-mapped in implementation specification.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-113",
+    "requirement": "High-risk gates require behavioral/integration evidence, not docs-only.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E093",
+      "P16-E148"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INFRASTRUCTURE"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E093, P16-E148 exercises the architecture requirement with BEHAVIORAL/INFRASTRUCTURE proof: High-risk gates require behavioral/integration evidence, not docs-only.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-114",
+    "requirement": "Threat model covers session theft through gateway compromise and grant/rate/kill races (T01–T48).",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E148"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E148 exercises the architecture requirement with BEHAVIORAL proof: Threat model covers session theft through gateway compromise and grant/rate/kill races (T01–T48).",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-115",
+    "requirement": "Write gateway returns sanitized structured evidence only.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E049"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E049 exercises the architecture requirement with BEHAVIORAL proof: Write gateway returns sanitized structured evidence only.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-116",
+    "requirement": "ProductionExecutionEvidence excludes credentials and secret-bearing payloads.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E049"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E049 exercises the architecture requirement with BEHAVIORAL proof: ProductionExecutionEvidence excludes credentials and secret-bearing payloads.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-117",
+    "requirement": "Authoritative durable production grant store required.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E051",
+      "P16-E130"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION",
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E051, P16-E130 exercises the architecture requirement with INTEGRATION/STRUCTURAL proof: Authoritative durable production grant store required.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-118",
+    "requirement": "Gateway must not trust caller-supplied self-contained grant as sole authority.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E162"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E162 exercises the architecture requirement with INTEGRATION proof: Gateway must not trust caller-supplied self-contained grant as sole authority.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-119",
+    "requirement": "App→gateway request carries grantId/correlation only; no mutation payload authority.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E163"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E163 exercises the architecture requirement with INTEGRATION proof: App→gateway request carries grantId/correlation only; no mutation payload authority.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-120",
+    "requirement": "Atomic conditional ISSUED→CONSUMED before vendor send.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E051",
+      "P16-E052",
+      "P16-E053",
+      "P16-E054",
+      "P16-E055",
+      "P16-E056",
+      "P16-E057",
+      "P16-E058",
+      "P16-E059"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E051, P16-E052, P16-E053, P16-E054, P16-E055, P16-E056, P16-E057, P16-E058, P16-E059 exercises the architecture requirement with INTEGRATION proof: Atomic conditional ISSUED→CONSUMED before vendor send.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-121",
+    "requirement": "Concurrent grant consume: exactly one success; others deny.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E051",
+      "P16-E060",
+      "P16-E064",
+      "P16-E078"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E051, P16-E060, P16-E064, P16-E078 exercises the architecture requirement with INTEGRATION proof: Concurrent grant consume: exactly one success; others deny.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-122",
+    "requirement": "Consumed grant never automatically resets to ISSUED.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E062"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E062 exercises the architecture requirement with INTEGRATION proof: Consumed grant never automatically resets to ISSUED.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-123",
+    "requirement": "Grant timeout/crash matrix defined and normative.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E062",
+      "P16-E063",
+      "P16-E141"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E062, P16-E063, P16-E141 exercises the architecture requirement with INTEGRATION proof: Grant timeout/crash matrix defined and normative.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-124",
+    "requirement": "Consume-before-send ordering mandatory.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E061",
+      "P16-E062"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E061, P16-E062 exercises the architecture requirement with INTEGRATION proof: Consume-before-send ordering mandatory.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-125",
+    "requirement": "Application vs gateway preflight split defined.",
+    "section": "§18–§35",
+    "component": "ProductionWriteGateway",
+    "evidenceIds": [
+      "P16-E164"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E164 exercises the architecture requirement with INTEGRATION proof: Application vs gateway preflight split defined.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-126",
+    "requirement": "Gateway final pre-mutation preflight mandatory and independent.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E165"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E165 exercises the architecture requirement with INTEGRATION proof: Gateway final pre-mutation preflight mandatory and independent.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-127",
+    "requirement": "Gateway independently enforces global kill switch before mutation.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E030"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E030 exercises the architecture requirement with BEHAVIORAL proof: Gateway independently enforces global kill switch before mutation.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-128",
+    "requirement": "Gateway denies if target suspended/disabled after grant issuance.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E031"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E031 exercises the architecture requirement with BEHAVIORAL proof: Gateway denies if target suspended/disabled after grant issuance.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-129",
+    "requirement": "Gateway/shared durable rate and blast-radius enforcement required.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E041",
+      "P16-E065",
+      "P16-E107"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "EXTERNAL_CERTIFICATION",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E041, P16-E065, P16-E107 exercises the architecture requirement with BEHAVIORAL/EXTERNAL_CERTIFICATION/INTEGRATION proof: Gateway/shared durable rate and blast-radius enforcement required.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-130",
+    "requirement": "Unknown limiter state denies.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E065"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E065 exercises the architecture requirement with INTEGRATION proof: Unknown limiter state denies.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-131",
+    "requirement": "Gateway revalidates change-control at consume/pre-send.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E032",
+      "P16-E111"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "EXTERNAL_CERTIFICATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E032, P16-E111 exercises the architecture requirement with BEHAVIORAL/EXTERNAL_CERTIFICATION proof: Gateway revalidates change-control at consume/pre-send.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-132",
+    "requirement": "Invalid/expired/unknown change-control after grant ⇒ zero mutation.",
+    "section": "§18–§35",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E032"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E032 exercises the architecture requirement with BEHAVIORAL proof: Invalid/expired/unknown change-control after grant ⇒ zero mutation.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-133",
+    "requirement": "Execution state ownership (app vs shared durable protocol) defined.",
+    "section": "§37–§51",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E166"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E166 exercises the architecture requirement with INTEGRATION proof: Execution state ownership (app vs shared durable protocol) defined.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-134",
+    "requirement": "Durable ProductionGatewayAttempt / ProductionGatewayEvidence (or equivalent) required.",
+    "section": "§37–§51",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E061",
+      "P16-E063"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E061, P16-E063 exercises the architecture requirement with INTEGRATION proof: Durable ProductionGatewayAttempt / ProductionGatewayEvidence (or equivalent) required.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-135",
+    "requirement": "Application must not fabricate VENDOR_ACCEPTED / VERIFIED / ROLLED_BACK without durable gateway evidence.",
+    "section": "§37–§51",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E039"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E039 exercises the architecture requirement with BEHAVIORAL proof: Application must not fabricate VENDOR_ACCEPTED / VERIFIED / ROLLED_BACK without durable gateway evidence.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-136",
+    "requirement": "Vendor I/O persistence ordering defined without distributed ACID claim.",
+    "section": "§37–§51",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E071"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E071 exercises the architecture requirement with INTEGRATION proof: Vendor I/O persistence ordering defined without distributed ACID claim.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-137",
+    "requirement": "Distributed failure table defined; no blind second mutation.",
+    "section": "§37–§51",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E037",
+      "P16-E085"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E037, P16-E085 exercises the architecture requirement with BEHAVIORAL/INTEGRATION proof: Distributed failure table defined; no blind second mutation.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-138",
+    "requirement": "Stable actorPrincipalId required for SoD comparisons.",
+    "section": "§37–§51",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E025"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E025 exercises the architecture requirement with BEHAVIORAL proof: Stable actorPrincipalId required for SoD comparisons.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-139",
+    "requirement": "Display names not authoritative SoD keys.",
+    "section": "§37–§51",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E025"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E025 exercises the architecture requirement with BEHAVIORAL proof: Display names not authoritative SoD keys.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-140",
+    "requirement": "Target administration via privileged ADMINISTER_PRODUCTION_TARGET (or equivalent).",
+    "section": "§37–§51",
+    "component": "ProductionWriteGateway",
+    "evidenceIds": [
+      "P16-E167"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E167 exercises the architecture requirement with BEHAVIORAL proof: Target administration via privileged ADMINISTER_PRODUCTION_TARGET (or equivalent).",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-141",
+    "requirement": "Execution-significant target change invalidates/stales auth and unconsumed grants.",
+    "section": "§37–§51",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E029"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E029 exercises the architecture requirement with BEHAVIORAL proof: Execution-significant target change invalidates/stales auth and unconsumed grants.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-142",
+    "requirement": "Write credential current-version resolution; no old-version fallback.",
+    "section": "§37–§51",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E022",
+      "P16-E074"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION",
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E022, P16-E074 exercises the architecture requirement with INTEGRATION/STRUCTURAL proof: Write credential current-version resolution; no old-version fallback.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-143",
+    "requirement": "Write credentials never reuse read credentials.",
+    "section": "§37–§51",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E074",
+      "P16-E075"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E074, P16-E075 exercises the architecture requirement with INTEGRATION proof: Write credentials never reuse read credentials.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-144",
+    "requirement": "Level-4 explicit external evidence checklist required; target/profile-specific.",
+    "section": "§37–§51",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E098",
+      "P16-E172"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "EXTERNAL_CERTIFICATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E098, P16-E172 exercises the architecture requirement with BEHAVIORAL/EXTERNAL_CERTIFICATION proof: Level-4 explicit external evidence checklist required; target/profile-specific.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-145",
+    "requirement": "First real Ericsson integration MUST be vendor lab/test.",
+    "section": "§37–§51",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E095"
+    ],
+    "evidenceTypes": [
+      "EXTERNAL_CERTIFICATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E095 exercises the architecture requirement with EXTERNAL_CERTIFICATION proof: First real Ericsson integration MUST be vendor lab/test.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-146",
+    "requirement": "Audit-chain genesis, deterministic serialization, concurrency serialization defined.",
+    "section": "§37–§51",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E066"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E066 exercises the architecture requirement with INTEGRATION proof: Audit-chain genesis, deterministic serialization, concurrency serialization defined.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-147",
+    "requirement": "Audit gap/mismatch marks INVALID, alerts, and blocks new mutation as policy requires.",
+    "section": "§37–§51",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E067",
+      "P16-E068"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E067, P16-E068 exercises the architecture requirement with INTEGRATION proof: Audit gap/mismatch marks INVALID, alerts, and blocks new mutation as policy requires.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-148",
+    "requirement": "Critical mutation evidence survives audit subsystem failure after MAY_HAVE_SENT.",
+    "section": "§37–§51",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E168"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E168 exercises the architecture requirement with INTEGRATION proof: Critical mutation evidence survives audit subsystem failure after MAY_HAVE_SENT.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-149",
+    "requirement": "Strict PRE-SEND vs MAY_HAVE_SENT definitions.",
+    "section": "§37–§51",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E037",
+      "P16-E038"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E037, P16-E038 exercises the architecture requirement with BEHAVIORAL proof: Strict PRE-SEND vs MAY_HAVE_SENT definitions.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-150",
+    "requirement": "Gateway compromise residual risk acknowledged; defense-in-depth required.",
+    "section": "§37–§51",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E114"
+    ],
+    "evidenceTypes": [
+      "EXTERNAL_CERTIFICATION"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E114 exercises the architecture requirement with EXTERNAL_CERTIFICATION proof: Gateway compromise residual risk acknowledged; defense-in-depth required.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-151",
+    "requirement": "Fresh deployment fail-closed to zero production mutation capability.",
+    "section": "§37–§51",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E048",
+      "P16-E092"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INFRASTRUCTURE"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E048, P16-E092 exercises the architecture requirement with BEHAVIORAL/INFRASTRUCTURE proof: Fresh deployment fail-closed to zero production mutation capability.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-152",
+    "requirement": "Phase 16 infra deliverables scoped; production secrets/endpoints/transport/Level-4 not defaulted by code.",
+    "section": "§37–§51",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E086",
+      "P16-E087",
+      "P16-E113"
+    ],
+    "evidenceTypes": [
+      "EXTERNAL_CERTIFICATION",
+      "INFRASTRUCTURE"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E086, P16-E087, P16-E113 exercises the architecture requirement with EXTERNAL_CERTIFICATION/INFRASTRUCTURE proof: Phase 16 infra deliverables scoped; production secrets/endpoints/transport/Level-4 not defaulted by code.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-153",
+    "requirement": "MANUAL change-control validatedByPrincipalId and requester self-validation restriction defined.",
+    "section": "§37–§51",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E169"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E169 exercises the architecture requirement with BEHAVIORAL proof: MANUAL change-control validatedByPrincipalId and requester self-validation restriction defined.",
+    "expectedResult": "PASS"
+  },
+  {
+    "gate": "G16-154",
+    "requirement": "HTTP response is convenience; durable evidence is authority.",
+    "section": "§37–§51",
+    "component": "ProductionChangeService",
+    "evidenceIds": [
+      "P16-E040"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "Evidence P16-E040 exercises the architecture requirement with BEHAVIORAL proof: HTTP response is convenience; durable evidence is authority.",
+    "expectedResult": "PASS"
+  }
+]

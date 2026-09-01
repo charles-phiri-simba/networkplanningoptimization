@@ -1,0 +1,86 @@
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: production-write-gateway-default-deny
+  namespace: snip
+spec:
+  podSelector:
+    matchLabels:
+      app: production-write-gateway
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress: []
+  egress: []
+---
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: production-write-gateway-allow-required
+  namespace: snip
+spec:
+  podSelector:
+    matchLabels:
+      app: production-write-gateway
+  policyTypes:
+    - Ingress
+    - Egress
+  ingress:
+    - from:
+        - podSelector:
+            matchLabels:
+              app: snip-npo
+      ports:
+        - protocol: TCP
+          port: 8081
+  egress:
+    - to:
+        - namespaceSelector: {}
+          podSelector:
+            matchLabels:
+              k8s-app: kube-dns
+      ports:
+        - protocol: UDP
+          port: 53
+        - protocol: TCP
+          port: 53
+    - to:
+        - podSelector:
+            matchLabels:
+              app: postgres
+      ports:
+        - protocol: TCP
+          port: 5432
+# Standard NetworkPolicy cannot name FQDNs. Cilium below allowlists the ENM placeholder only.
+# Do not open wildcard internet egress. Do not allow broad vendor CIDRs.
+---
+apiVersion: cilium.io/v2
+kind: CiliumNetworkPolicy
+metadata:
+  name: production-write-gateway-enm-placeholder-egress
+  namespace: snip
+spec:
+  endpointSelector:
+    matchLabels:
+      app: production-write-gateway
+  egress:
+    - toEndpoints:
+        - matchLabels:
+            k8s:io.kubernetes.pod.namespace: kube-system
+            k8s:k8s-app: kube-dns
+      toPorts:
+        - ports:
+            - port: "53"
+              protocol: ANY
+          rules:
+            dns:
+              - matchPattern: "*"
+    - toFQDNs:
+        - matchName: enm.example.invalid
+      toPorts:
+        - ports:
+            - port: "443"
+              protocol: TCP
+# Cilium FQDN-cache/CIDR lab limitation is documented; do not broaden egress to compensate.
+# IMDS 169.254.169.254 and arbitrary internet destinations are not allowed.
+# Comments may mention 0.0.0.0/0 or ::/0; they do not authorize those CIDRs.
