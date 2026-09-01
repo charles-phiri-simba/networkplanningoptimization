@@ -1,5 +1,5 @@
 ---
-description: SNIP architecture, Phase 11–15 freeze bounds
+description: SNIP architecture, Phase 11–16 freeze bounds
 alwaysApply: true
 ---
 
@@ -13,7 +13,8 @@ Read before changing code:
 - `docs/implementation/SNIP-IMPLEMENTATION-STATUS.md`
 - `docs/architecture/SNIP-PHASE-14-GOVERNED-CHANGE-PLANNING-EXECUTION-READINESS-SAFETY-CONTROL-ARCHITECTURE.md` (ACCEPTED; implementation COMPLETE — candidate 043c5ad)
 - `docs/implementation/SNIP-PHASE-14-GOVERNED-CHANGE-PLANNING-EXECUTION-READINESS-SAFETY-CONTROL-SPECIFICATION.md` (AUTHORIZED)
-- `docs/architecture/SNIP-PHASE-15-GOVERNED-NETWORK-CHANGE-EXECUTION-VERIFICATION-RECOVERY-ARCHITECTURE.md` (ACCEPTED AND FROZEN; specification AUTHORIZED; implementation COMPLETE FOR LOCAL VERIFICATION — evidence closure pending)
+- `docs/architecture/SNIP-PHASE-15-GOVERNED-NETWORK-CHANGE-EXECUTION-VERIFICATION-RECOVERY-ARCHITECTURE.md` (ACCEPTED AND FROZEN; implementation IMMUTABLE at ae9c13d…)
+- `docs/architecture/SNIP-PHASE-16-VENDOR-WRITE-INTEGRATION-SECURITY-PRODUCTION-CHANGE-CONTROL-CONTROLLED-REAL-NETWORK-EXECUTION-ARCHITECTURE.md` (ARCHITECTURALLY ACCEPTED AND FROZEN; SHA-256 dfb4f477…; implementation NOT STARTED; specification NOT YET STARTED)
 - `docs/architecture/SNIP-PHASE-13-NETWORK-CHANGE-INTELLIGENCE-OPTIMIZATION-PROPOSALS-GOVERNED-RECOMMENDATIONS-ARCHITECTURE.md` (ACCEPTED; implementation complete — frozen at 5e94000)
 - `docs/architecture/SNIP-PHASE-12-CONTINUOUS-SYNCHRONIZATION-DRIFT-NETWORK-KNOWLEDGE-CONFIDENCE-ARCHITECTURE.md` (ACCEPTED; implementation complete — architecturally accepted)
 - `docs/architecture/SNIP-PHASE-11-FIRST-REAL-VENDOR-CONNECTOR-PRODUCTION-READ-ONLY-INTEGRATION-ARCHITECTURE.md` (ACCEPTED; implementation complete — architecturally accepted)
@@ -24,6 +25,7 @@ Read before changing code:
 
 Root copies also exist under `docs/root-copies/` (mirrors of selected architecture/specification files):
 
+- `docs/root-copies/SNIP-PHASE-16-VENDOR-WRITE-INTEGRATION-SECURITY-PRODUCTION-CHANGE-CONTROL-CONTROLLED-REAL-NETWORK-EXECUTION-ARCHITECTURE.md`
 - `docs/root-copies/SNIP-PHASE-15-GOVERNED-NETWORK-CHANGE-EXECUTION-VERIFICATION-RECOVERY-ARCHITECTURE.md`
 - `docs/root-copies/SNIP-PHASE-14-GOVERNED-CHANGE-PLANNING-EXECUTION-READINESS-SAFETY-CONTROL-ARCHITECTURE.md`
 - `docs/root-copies/SNIP-PHASE-13-NETWORK-CHANGE-INTELLIGENCE-OPTIMIZATION-PROPOSALS-GOVERNED-RECOMMENDATIONS-ARCHITECTURE.md`
@@ -36,7 +38,7 @@ Phase 7 architecture/specification remain the frozen reconciliation contract.
 Phase 8 architecture/specification remain the frozen import runtime contract.
 Phase 9 architecture/specification remain the frozen connector security contract.
 Phase 10 architecture/specification remain the frozen production secret / Workload Identity contract.
-Phase 11 architecture is **ACCEPTED**. Phase 11 implementation is **COMPLETE — ARCHITECTURALLY ACCEPTED**. Simulator/contract is **VERIFIED**. Real vendor E2E is **NOT YET VERIFIED**. Phase 11 Git baseline is `78e699380be37109cfdd2111dd0f29c7052709c3`. Phase 12 architecture is **ACCEPTED**. Phase 12 implementation is **COMPLETE** (architecturally accepted). Simulator/contract for Phase 12 is **VERIFIED** (not real Ericsson verification). Real vendor continuous synchronization is **NOT YET VERIFIED**. Production ENM transport is **NOT CONFIGURED**. Phase 12 Git baseline is **NOT YET ESTABLISHED**. Phase 13 architecture is **ACCEPTED**. Phase 13 implementation is **COMPLETE** (frozen at `5e9400005626fb93d5e61f96be680bea5540df31`; CI verified). Phase 14 architecture is **ACCEPTED**. Phase 14 implementation is **COMPLETE** (implementation baseline candidate `043c5ad98b8a12fb8073ba40364a2e287d2cc65a`, CI verified). Phase 14 implementation specification is **AUTHORIZED**. Phase 14 Git baseline is **NOT YET ESTABLISHED**. Phase 15 architecture is **ACCEPTED AND FROZEN**. Phase 15 implementation specification is **AUTHORIZED**. Phase 15 implementation is **COMPLETE FOR LOCAL VERIFICATION** (evidence closure pending). Phase 16 is **NOT STARTED**.
+Phase 11 architecture is **ACCEPTED**. Phase 11 implementation is **COMPLETE — ARCHITECTURALLY ACCEPTED**. Simulator/contract is **VERIFIED**. Real vendor E2E is **NOT YET VERIFIED**. Phase 11 Git baseline is `78e699380be37109cfdd2111dd0f29c7052709c3`. Phase 12 architecture is **ACCEPTED**. Phase 12 implementation is **COMPLETE** (architecturally accepted). Simulator/contract for Phase 12 is **VERIFIED** (not real Ericsson verification). Real vendor continuous synchronization is **NOT YET VERIFIED**. Production ENM transport is **NOT CONFIGURED**. Phase 12 Git baseline is **NOT YET ESTABLISHED**. Phase 13 architecture is **ACCEPTED**. Phase 13 implementation is **COMPLETE** (frozen at `5e9400005626fb93d5e61f96be680bea5540df31`; CI verified). Phase 14 architecture is **ACCEPTED**. Phase 14 implementation is **COMPLETE** (implementation baseline candidate `043c5ad98b8a12fb8073ba40364a2e287d2cc65a`, CI verified). Phase 14 implementation specification is **AUTHORIZED**. Phase 14 Git baseline is **NOT YET ESTABLISHED**. Phase 15 architecture is **ACCEPTED AND FROZEN**. Phase 15 implementation is **ARCHITECTURALLY ACCEPTED** and **IMMUTABLE** at `ae9c13d55b444fa50090813495b32b82f97c2ec3` (failed historical candidate `0cb1223e41ced5462ad552f993e6001a028ddb96` preserved). Phase 16 architecture is **ARCHITECTURALLY ACCEPTED** and **FROZEN** (architecture document SHA-256 `dfb4f477e813161843036482d3a6aafc7e19528c91cba1dbdecf2adfb5a5a3b0`; 154/154 gates PASS). Phase 16 implementation is **NOT STARTED**. Phase 16 implementation specification is **NOT YET STARTED**. Phase 17 is **NOT STARTED**.
 
 ```text
 PHASE 13 ARCHITECTURE STATUS: ACCEPTED
@@ -53,10 +55,21 @@ PHASE 14 IMPLEMENTATION SPECIFICATION: AUTHORIZED
 PHASE 14 GIT BASELINE: NOT YET ESTABLISHED
 PHASE 14 IMPLEMENTATION BASELINE CANDIDATE: 043c5ad98b8a12fb8073ba40364a2e287d2cc65a
 PHASE 15 ARCHITECTURE STATUS: ACCEPTED AND FROZEN
-PHASE 15 IMPLEMENTATION STATUS: COMPLETE FOR LOCAL VERIFICATION — EVIDENCE CLOSURE PENDING
+PHASE 15 IMPLEMENTATION STATUS: ARCHITECTURALLY ACCEPTED — IMMUTABLE
 PHASE 15 IMPLEMENTATION SPECIFICATION: AUTHORIZED
-PHASE 15 GIT BASELINE: NOT ESTABLISHED
-PHASE 16 STATUS: NOT STARTED
+PHASE 15 IMPLEMENTATION BASELINE: ae9c13d55b444fa50090813495b32b82f97c2ec3
+PHASE 15 FAILED HISTORICAL CANDIDATE: 0cb1223e41ced5462ad552f993e6001a028ddb96
+PHASE 16 ARCHITECTURE STATUS: ARCHITECTURALLY ACCEPTED — FROZEN
+PHASE 16 ARCHITECTURE SHA-256: dfb4f477e813161843036482d3a6aafc7e19528c91cba1dbdecf2adfb5a5a3b0
+PHASE 16 ARCHITECTURE GATES: 154 / 154 PASS
+PHASE 16 FINAL REVIEW: A16=4 B16=0 C16=0 D16=0
+PHASE 16 IMPLEMENTATION STATUS: NOT STARTED
+PHASE 16 IMPLEMENTATION SPECIFICATION: NOT YET STARTED
+REAL PRODUCTION EXECUTION: NOT AUTHORIZED
+ERICSSON PRODUCTION WRITE TRANSPORT: UNRESOLVED / NOT CONFIGURED
+NOKIA WRITE: DEFERRED
+CLOSED-LOOP OPTIMIZATION: NOT AUTHORIZED
+PHASE 17 STATUS: NOT STARTED
 PHASE 12 ARCHITECTURE STATUS: ACCEPTED
 PHASE 12 IMPLEMENTATION STATUS: COMPLETE
 PHASE 12 GIT BASELINE: NOT YET ESTABLISHED
@@ -73,7 +86,9 @@ Phase **12** is architecturally accepted and implementation complete (2026-08-28
 
 Phase **13** is architecturally accepted and frozen at `5e9400005626fb93d5e61f96be680bea5540df31`. Do not add Phase 13 functionality, resolve deferred technical debt, or refactor for its own sake. Do not amend the Phase 13 Git baseline. Approval has no execution side effect. Real vendor write capability remains **NOT AUTHORIZED**. Closed-loop optimization remains **NOT AUTHORIZED**.
 
-Phase **14** architecture is **ACCEPTED** and implementation is **COMPLETE**. Plans may reach `READY_FOR_EXECUTION` but Phase 14 provides no real-network execution mechanism. Do not amend Phase 14 without authorization. Phase **15** architecture is **ACCEPTED AND FROZEN**. Implementation specification is **AUTHORIZED**. Implementation is **COMPLETE FOR LOCAL VERIFICATION** with mandatory matrix evidence **240 / 240 VERIFIED PASS**; full-suite cross-test isolation closure remains pending. Do not establish an implementation Git baseline until conformance review. Do not start Phase 16.
+Phase **14** architecture is **ACCEPTED** and implementation is **COMPLETE**. Plans may reach `READY_FOR_EXECUTION` but Phase 14 provides no real-network execution mechanism. Do not amend Phase 14 without authorization. Phase **15** architecture is **ACCEPTED AND FROZEN**. Implementation is **ARCHITECTURALLY ACCEPTED** and **IMMUTABLE** at `ae9c13d55b444fa50090813495b32b82f97c2ec3`. Do not amend Phase 15. Do not rewrite Phase 15 history (`0cb1223…` preserved). Phase **16** architecture is **ARCHITECTURALLY ACCEPTED** and **FROZEN** (SHA-256 `dfb4f477e813161843036482d3a6aafc7e19528c91cba1dbdecf2adfb5a5a3b0`; 154/154 gates PASS). Do not amend the frozen Phase 16 architecture. Do not implement Phase 16 until the implementation specification is authorized. Do not create V17. Do not start Phase 17. Real production execution remains **NOT AUTHORIZED**. Ericsson production write transport remains **UNRESOLVED / NOT CONFIGURED**. Nokia write remains **DEFERRED**. Closed-loop optimization remains **NOT AUTHORIZED**.
+
+Phase 16 non-blocking A16 observations (mandatory for the future implementation specification): A16-01 exact audit-chain scope; A16-02 distinct grant vs attempt-state terminology; A16-03 exact persistence writer per shared durable transition; A16-04 ISSUED-grant spam / DoS controls.
 
 Preserve Phase 1A/1A.1/1B/2/3/4/5/6/7/8/9/10/11/12/13. Kafka remains off by default. Do not vectorize operational telemetry, imported operational records, Assurance Case state, credentials, trust material, connector sessions, security audit, Azure tokens, or Key Vault secret values. Detection remains deterministic. The LLM explains and prioritises investigation; it does not decide thresholds, severity, confidence, risk, policy, numeric simulation results, or reconciliation outcomes. AI may propose. Deterministic policy decides. Humans approve where required. MCP invokes only registered capabilities.
 
@@ -101,7 +116,7 @@ Governance POST APIs mutate SNIP workflow state only. They must never write to t
 
 ## Do not implement
 
-Agent Factory, dynamic Agent creation, self-modifying Agents, persistent conversational memory, long-running or continuous background Agents, freeform Agent-to-Agent mesh, automatic remediation, Agent approval authority, policy override, production Agent identity federation, different physical models per Agent, automatic model routing, live OSS/NMS/EMS integrations, live gNB/network writes, real Ericsson ENM production connectivity, Nokia NetAct connectivity or writes, incident-management / ITSM, Schema Registry, Avro, Protobuf, Flink, Spark, Kafka Streams, dedicated time-series DB, Kong, ALB, ALICE, RL, ML anomaly detection, adaptive thresholds, forecasting, billing, Ionic, AWS lock-in, production IAM/OIDC for humans, remote third-party MCP, vendor MCP adapters, production RF simulation, ray tracing, vendor-calibrated radio models, electricalTilt simulation, arbitrary parameter simulation, automatic optimization, best-parameter search, whole-network Twin, core-network Twin, transport Twin, remote vendor Digital Twin, Kafka-triggered automatic Twin synchronization, graph database, 3D GIS Twin, mobility simulation, traffic forecasting, network rollback, vendor REST/SFTP/SNMP/NETCONF/gNMI/Bulk CM, vendor telemetry streaming, automatic conflict resolution, AI reconciliation, dynamic adapter plugins, raw payload DB archive, field-level provenance, mastership policy engine, OAuth vendor token flow, production vendor credentials, dynamic connector admin UI, secret rotation watcher, connector worker microservice split, general-purpose Key Vault admin, secret creation/update API, Terraform-managed secret values, production PKI automation, Vendor Integration Agent, Integration Operations Agent, Phase 15 implementation (until implementation specification issued and authorized), Phase 16, vendor write endpoints, production ENM/NetAct write adapters, automatic execution scheduling, automatic rollback execution, agent/MCP-triggered network change execution, change-plan execute/apply against real network, NetworkChangeExecution against production targets, automatic proposal-to-plan conversion, NetworkChangePlan execution against real network.
+Agent Factory, dynamic Agent creation, self-modifying Agents, persistent conversational memory, long-running or continuous background Agents, freeform Agent-to-Agent mesh, automatic remediation, Agent approval authority, policy override, production Agent identity federation, different physical models per Agent, automatic model routing, live OSS/NMS/EMS integrations, live gNB/network writes, real Ericsson ENM production connectivity, Nokia NetAct connectivity or writes, incident-management / ITSM, Schema Registry, Avro, Protobuf, Flink, Spark, Kafka Streams, dedicated time-series DB, Kong, ALB, ALICE, RL, ML anomaly detection, adaptive thresholds, forecasting, billing, Ionic, AWS lock-in, production IAM/OIDC for humans, remote third-party MCP, vendor MCP adapters, production RF simulation, ray tracing, vendor-calibrated radio models, electricalTilt simulation, arbitrary parameter simulation, automatic optimization, best-parameter search, whole-network Twin, core-network Twin, transport Twin, remote vendor Digital Twin, Kafka-triggered automatic Twin synchronization, graph database, 3D GIS Twin, mobility simulation, traffic forecasting, network rollback, vendor REST/SFTP/SNMP/NETCONF/gNMI/Bulk CM, vendor telemetry streaming, automatic conflict resolution, AI reconciliation, dynamic adapter plugins, raw payload DB archive, field-level provenance, mastership policy engine, OAuth vendor token flow, production vendor credentials, dynamic connector admin UI, secret rotation watcher, connector worker microservice split, general-purpose Key Vault admin, secret creation/update API, Terraform-managed secret values, production PKI automation, Vendor Integration Agent, Integration Operations Agent, Phase 16 implementation (until implementation specification authorized), Phase 17, V17 before Phase 16 implementation authorization, vendor write endpoints in the ordinary SNIP application process, production ENM/NetAct write adapters without separate write gateway, automatic execution scheduling, automatic rollback execution, agent/MCP-triggered network change execution, change-plan execute/apply against real network, NetworkChangeExecution against production targets without Phase 16 controls, automatic proposal-to-plan conversion, NetworkChangePlan execution against real network, extending Phase 11 EnmTransport with write methods.
 
 ## Rules
 
@@ -110,5 +125,5 @@ Agent Factory, dynamic Agent creation, self-modifying Agents, persistent convers
 - If retrieval is empty, do not fabricate citations or specialist evidence.
 - Ordinary CI must not download large models. PostgreSQL via Testcontainers remains required. Kafka Testcontainers remains allowed. CI must not require Azure, ENM, or NetAct.
 - Implementation markdown lives under `docs/implementation/`. ADRs under `docs/architecture/adr/`.
-- Architecture document has architectural authority. Implementation specification is the authorised execution scope. Phase 13 architecture is **ACCEPTED** and implementation is **COMPLETE**; Git baseline is `5e9400005626fb93d5e61f96be680bea5540df31`. Phase 14 architecture is **ACCEPTED**; implementation is **COMPLETE**; implementation specification is **AUTHORIZED**. Phase 15 architecture is **ACCEPTED AND FROZEN**; implementation specification is **AUTHORIZED**; implementation is **COMPLETE FOR LOCAL VERIFICATION** (evidence closure pending); Git baseline is **NOT ESTABLISHED**.
-- Do not amend the Phase 10, Phase 11, or Phase 13 Git baselines. Do not add Phase 12 or Phase 13 functionality. Do not commit/push a Phase 12 Git baseline without explicit authorization. Do not establish a Phase 15 implementation Git baseline until architectural conformance review and matrix evidence closure are authorized. Do not start Phase 16.
+- Architecture document has architectural authority. Implementation specification is the authorised execution scope. Phase 13 architecture is **ACCEPTED** and implementation is **COMPLETE**; Git baseline is `5e9400005626fb93d5e61f96be680bea5540df31`. Phase 14 architecture is **ACCEPTED**; implementation is **COMPLETE**; implementation specification is **AUTHORIZED**. Phase 15 architecture is **ACCEPTED AND FROZEN**; implementation is **IMMUTABLE** at `ae9c13d55b444fa50090813495b32b82f97c2ec3`. Phase 16 architecture is **ARCHITECTURALLY ACCEPTED** and **FROZEN** (SHA-256 `dfb4f477e813161843036482d3a6aafc7e19528c91cba1dbdecf2adfb5a5a3b0`); implementation is **NOT STARTED**; implementation specification is **NOT YET STARTED**.
+- Do not amend the Phase 10, Phase 11, Phase 13, Phase 15, or Phase 16 immutable baselines. Do not add Phase 12 or Phase 13 functionality. Do not commit/push a Phase 12 Git baseline without explicit authorization. Do not implement Phase 16 until the implementation specification is authorized. Do not create V17. Do not start Phase 17.
