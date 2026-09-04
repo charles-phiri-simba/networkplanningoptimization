@@ -7,9 +7,11 @@ import com.simba.snip.npo.persist.AssuranceCaseRepository;
 import com.simba.snip.npo.telemetry.ProjectionOutcome;
 import com.simba.snip.npo.telemetry.TelemetryEvent;
 import com.simba.snip.npo.telemetry.TelemetryProjectionService;
+import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
@@ -35,6 +37,15 @@ class AssuranceDetectionTest extends AbstractPostgresIT {
 
     @Autowired
     private AssuranceDetectionService detectionService;
+
+    @Autowired
+    private JdbcTemplate jdbc;
+
+    @BeforeEach
+    void isolateSyntheticAssuranceState() {
+        SyntheticAssuranceFixtureCleanup.deleteAndAssertSyntheticDegradingCases(jdbc, "CELL-001");
+        SyntheticAssuranceFixtureCleanup.deleteAndAssertSyntheticDegradingCases(jdbc, "CELL-002");
+    }
 
     @Test
     void highBlerLoadCreatesOneCaseAndRepeatedEventsUpdateIt() {

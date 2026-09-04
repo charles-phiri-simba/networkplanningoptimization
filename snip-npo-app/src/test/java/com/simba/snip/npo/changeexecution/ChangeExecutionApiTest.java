@@ -3,6 +3,7 @@ package com.simba.snip.npo.changeexecution;
 import com.simba.snip.npo.AbstractPostgresIT;
 import com.simba.snip.npo.NpoApplication;
 import com.simba.snip.npo.assurance.AssuranceCaseService;
+import com.simba.snip.npo.assurance.SyntheticAssuranceFixtureCleanup;
 import com.simba.snip.npo.changeexecution.adapter.simulator.SimulatorExecutionAdapter;
 import com.simba.snip.npo.changeexecution.api.AuthorizeExecutionRequest;
 import com.simba.snip.npo.changeexecution.api.CancelExecutionRequest;
@@ -103,6 +104,7 @@ class ChangeExecutionApiTest extends AbstractPostgresIT {
         cleanupPhase15();
         cleanupPhase14();
         cleanupPhase13();
+        SyntheticAssuranceFixtureCleanup.deleteAndAssertSyntheticDegradingCases(jdbc, CELL);
         jdbc.update("DELETE FROM network_drift_observation WHERE summary = 'phase14-test-drift'");
         restoreSharedPriorPhaseState();
     }
