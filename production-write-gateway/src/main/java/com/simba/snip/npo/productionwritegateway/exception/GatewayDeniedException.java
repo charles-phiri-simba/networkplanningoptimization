@@ -2,6 +2,8 @@ package com.simba.snip.npo.productionwritegateway.exception;
 
 import com.simba.snip.npo.productionchange.protocol.GatewayAttemptStatus;
 import com.simba.snip.npo.productionchange.protocol.MutationOutcome;
+import com.simba.snip.npo.productionchange.protocol.Phase17DenialCode;
+import com.simba.snip.npo.productionchange.protocol.ProductionChangeStatus;
 import com.simba.snip.npo.productionchange.protocol.ProductionReasonCode;
 
 import java.util.UUID;
@@ -15,6 +17,7 @@ public class GatewayDeniedException extends RuntimeException {
     private final UUID grantId;
     private final UUID productionChangeId;
     private final String productionChangeStatus;
+    private final Phase17DenialCode phase17DenialCode;
 
     public GatewayDeniedException(
             ProductionReasonCode reasonCode,
@@ -25,7 +28,21 @@ public class GatewayDeniedException extends RuntimeException {
             UUID productionChangeId,
             String productionChangeStatus
     ) {
-        super(reasonCode.name());
+        this(reasonCode, mutationOutcome, attemptStatus, attemptId, grantId, productionChangeId,
+                productionChangeStatus, null);
+    }
+
+    public GatewayDeniedException(
+            ProductionReasonCode reasonCode,
+            MutationOutcome mutationOutcome,
+            GatewayAttemptStatus attemptStatus,
+            UUID attemptId,
+            UUID grantId,
+            UUID productionChangeId,
+            String productionChangeStatus,
+            Phase17DenialCode phase17DenialCode
+    ) {
+        super(phase17DenialCode == null ? reasonCode.name() : phase17DenialCode.name());
         this.reasonCode = reasonCode;
         this.mutationOutcome = mutationOutcome;
         this.attemptStatus = attemptStatus;
@@ -33,6 +50,24 @@ public class GatewayDeniedException extends RuntimeException {
         this.grantId = grantId;
         this.productionChangeId = productionChangeId;
         this.productionChangeStatus = productionChangeStatus;
+        this.phase17DenialCode = phase17DenialCode;
+    }
+
+    public static GatewayDeniedException denyPhase17(
+            Phase17DenialCode denialCode,
+            UUID grantId,
+            UUID productionChangeId
+    ) {
+        return new GatewayDeniedException(
+                ProductionReasonCode.PRODUCTION_PREFLIGHT_DENIED,
+                MutationOutcome.NOT_SENT,
+                GatewayAttemptStatus.PRE_SEND,
+                null,
+                grantId,
+                productionChangeId,
+                ProductionChangeStatus.PREFLIGHT_DENIED.name(),
+                denialCode
+        );
     }
 
     public static GatewayDeniedException deny(
@@ -77,5 +112,9 @@ public class GatewayDeniedException extends RuntimeException {
 
     public String productionChangeStatus() {
         return productionChangeStatus;
+    }
+
+    public Phase17DenialCode phase17DenialCode() {
+        return phase17DenialCode;
     }
 }

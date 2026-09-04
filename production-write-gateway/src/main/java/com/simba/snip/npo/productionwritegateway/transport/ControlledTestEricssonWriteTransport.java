@@ -4,12 +4,15 @@ import com.simba.snip.npo.productionchange.protocol.ProductionReasonCode;
 import com.simba.snip.npo.productionwritegateway.adapter.ObservationStatus;
 import com.simba.snip.npo.productionwritegateway.adapter.PostMutationObservation;
 import com.simba.snip.npo.productionwritegateway.adapter.VendorMutationResult;
+import com.simba.snip.npo.productionwritegateway.vendortransport.DestinationTrustValidator;
+import com.simba.snip.npo.productionwritegateway.vendortransport.ObservedVendorSessionIdentityProvider;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnExpression;
 import org.springframework.context.annotation.Primary;
 import org.springframework.stereotype.Component;
 
 import java.math.BigDecimal;
 import java.time.Instant;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -20,11 +23,12 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Component
 @Primary
 @ConditionalOnExpression("'${snip.production-change.test-transport-enabled:false}'=='true' && '${snip.integration.security.production-runtime:false}'!='true'")
-public class ControlledTestEricssonWriteTransport implements EricssonWriteTransport {
+public class ControlledTestEricssonWriteTransport implements EricssonWriteTransport, ObservedVendorSessionIdentityProvider {
 
     public enum FailureMode {
         NONE,
         TIMEOUT_AFTER_APPLY,
+        CONNECTION_LOST_AFTER_APPLY,
         APPLY_WRONG_VALUE,
         REJECT,
         RESPONSE_LOST,
@@ -43,6 +47,9 @@ public class ControlledTestEricssonWriteTransport implements EricssonWriteTransp
     private volatile FailureMode observeMode = FailureMode.NONE;
     private volatile int observeCalls;
     private volatile boolean atomicSupported;
+    private volatile DestinationTrustValidator.ObservedDestination observedDestination =
+            new DestinationTrustValidator.ObservedDestination(
+                    "enm.lab.invalid", 443, "enm.lab.invalid", true, true, "LAB", "zone-a");
 
     public AtomicInteger getMutationInvocationCounter() {
         return mutationInvocationCounter;
@@ -69,6 +76,17 @@ public class ControlledTestEricssonWriteTransport implements EricssonWriteTransp
         observeMode = FailureMode.NONE;
         observeCalls = 0;
         atomicSupported = false;
+        observedDestination = new DestinationTrustValidator.ObservedDestination(
+                "enm.lab.invalid", 443, "enm.lab.invalid", true, true, "LAB", "zone-a");
+    }
+
+    public void setObservedDestination(DestinationTrustValidator.ObservedDestination observedDestination) {
+        this.observedDestination = observedDestination;
+    }
+
+    @Override
+    public Optional<DestinationTrustValidator.ObservedDestination> currentObserved() {
+        return Optional.ofNullable(observedDestination);
     }
 
     @Override
@@ -81,7 +99,7 @@ public class ControlledTestEricssonWriteTransport implements EricssonWriteTransp
                 cellTxPower.put(request.cellId(), request.desiredValue().add(BigDecimal.ONE));
                 yield VendorMutationResult.accepted();
             }
-            case TIMEOUT_AFTER_APPLY, RESPONSE_LOST -> {
+            case TIMEOUT_AFTER_APPLY, CONNECTION_LOST_AFTER_APPLY, RESPONSE_LOST -> {
                 cellTxPower.put(request.cellId(), request.desiredValue());
                 yield VendorMutationResult.unknown(ProductionReasonCode.PRODUCTION_OUTCOME_UNKNOWN, true);
             }

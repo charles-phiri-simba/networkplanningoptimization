@@ -5,13 +5,11 @@ import com.simba.snip.npo.productionchange.domain.ActorPrincipal;
 import com.simba.snip.npo.productionchange.domain.AuthorizationRecordStatus;
 import com.simba.snip.npo.productionchange.domain.ProductionAuditEventType;
 import com.simba.snip.npo.productionchange.entity.ProductionChangeAuthorizationEntity;
-import com.simba.snip.npo.productionchange.entity.ProductionExecutionGrantEntity;
 import com.simba.snip.npo.productionchange.entity.ProductionNetworkChangeEntity;
 import com.simba.snip.npo.productionchange.entity.ProductionNetworkTargetEntity;
 import com.simba.snip.npo.productionchange.exception.ProductionChangeException;
 import com.simba.snip.npo.productionchange.metrics.ProductionChangeMetrics;
 import com.simba.snip.npo.productionchange.policy.ProductionSeparationOfDutiesPolicy;
-import com.simba.snip.npo.productionchange.protocol.GrantStatus;
 import com.simba.snip.npo.productionchange.protocol.ProductionChangeStatus;
 import com.simba.snip.npo.productionchange.protocol.ProductionReasonCode;
 import com.simba.snip.npo.productionchange.repository.ProductionChangeAuthorizationRepository;
@@ -130,16 +128,15 @@ public class ProductionAuthorizationService {
                 authorizationRepository.findByProductionChangeIdAndStatus(change.getProductionChangeId(), AuthorizationRecordStatus.ACTIVE.name())) {
             authorization.setStatus(AuthorizationRecordStatus.STALE.name());
         }
-        for (ProductionExecutionGrantEntity grant :
-                grantRepository.findByProductionChangeIdAndStatus(change.getProductionChangeId(), GrantStatus.ISSUED.name())) {
-            grant.setStatus(GrantStatus.REVOKED.name());
+        int revoked = grantRepository.revokeIssuedWhereIssued(change.getProductionChangeId());
+        if (revoked > 0) {
             metrics.incrementGrantRevoked();
             auditService.append(
                     change.getProductionChangeId(),
                     ProductionAuditEventType.PRODUCTION_GRANT_REVOKED,
                     actor.actorPrincipalId(),
                     List.of(ProductionReasonCode.PRODUCTION_GRANT_REVOKED.name()),
-                    Map.of()
+                    Map.of("revokedCount", String.valueOf(revoked))
             );
         }
         change.setStatus(ProductionChangeStatus.AUTHORIZATION_STALE.name());

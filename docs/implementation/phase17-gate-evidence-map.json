@@ -1,0 +1,3179 @@
+[
+  {
+    "gate": "G17-001",
+    "requirement": "Phase 16 governance unreplaced",
+    "section": "\u00a734",
+    "component": "ProductionChangeService + Invalidation",
+    "evidenceIds": [
+      "T17-STR-001",
+      "T17-INT-016",
+      "T17-INT-017",
+      "T17-INT-018",
+      "T17-INT-019"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-001, T17-INT-016, T17-INT-017, T17-INT-018, T17-INT-019 exercise the architecture requirement with BEHAVIORAL, INTEGRATION proof: Phase 16 governance unreplaced",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-002",
+    "requirement": "App no write creds / mutation",
+    "section": "\u00a734",
+    "component": "App isolation",
+    "evidenceIds": [
+      "T17-STR-027",
+      "T17-SEC-020"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL",
+      "SECURITY"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-027, T17-SEC-020 exercise the architecture requirement with STRUCTURAL, SECURITY proof: App no write creds / mutation",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-003",
+    "requirement": "Separate gateway",
+    "section": "\u00a734",
+    "component": "production-write-gateway",
+    "evidenceIds": [
+      "T17-STR-002",
+      "T17-STR-009",
+      "T17-INF-001"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL",
+      "INFRASTRUCTURE"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-002, T17-STR-009, T17-INF-001 exercise the architecture requirement with STRUCTURAL, INFRASTRUCTURE proof: Separate gateway",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-004",
+    "requirement": "Durable cert authority",
+    "section": "\u00a734",
+    "component": "ProductionCertificationAuthority",
+    "evidenceIds": [
+      "T17-IMPL-037",
+      "T17-IMPL-038",
+      "T17-INT-001"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-037, T17-IMPL-038, T17-INT-001 exercise the architecture requirement with BEHAVIORAL, INTEGRATION proof: Durable cert authority",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-005",
+    "requirement": "No protocol guessing",
+    "section": "\u00a734",
+    "component": "Spec + structural scan",
+    "evidenceIds": [
+      "T17-STR-003",
+      "T17-STR-024"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-003, T17-STR-024 exercise the architecture requirement with STRUCTURAL proof: No protocol guessing",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-006",
+    "requirement": "EricssonWriteTransport unresolved",
+    "section": "\u00a734",
+    "component": "Transport SPI",
+    "evidenceIds": [
+      "T17-STR-005",
+      "T17-INT-002"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-005, T17-INT-002 exercise the architecture requirement with STRUCTURAL, INTEGRATION proof: EricssonWriteTransport unresolved",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-007",
+    "requirement": "Authoritative interface required",
+    "section": "\u00a734",
+    "component": "VendorInterfaceDefinitionService",
+    "evidenceIds": [
+      "T17-IMPL-007",
+      "EXT17-L1-001"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "EXTERNAL_CERTIFICATION"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-007, EXT17-L1-001 exercise the architecture requirement with BEHAVIORAL, EXTERNAL_CERTIFICATION proof: Authoritative interface required",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "EXT NOT EXECUTED"
+  },
+  {
+    "gate": "G17-008",
+    "requirement": "Interface fields complete",
+    "section": "\u00a734",
+    "component": "VendorInterfaceDefinition",
+    "evidenceIds": [
+      "T17-DB-002",
+      "T17-STR-024"
+    ],
+    "evidenceTypes": [
+      "DATABASE",
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-DB-002, T17-STR-024 exercise the architecture requirement with DATABASE, BEHAVIORAL proof: Interface fields complete",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-009",
+    "requirement": "Docs are metadata only",
+    "section": "\u00a734",
+    "component": "Schema",
+    "evidenceIds": [
+      "T17-STR-023",
+      "T17-DB-001"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL",
+      "DATABASE"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-023, T17-DB-001 exercise the architecture requirement with STRUCTURAL, DATABASE proof: Docs are metadata only",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-010",
+    "requirement": "No invented protocol fields",
+    "section": "\u00a734",
+    "component": "Structural scan",
+    "evidenceIds": [
+      "T17-STR-024"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-024 exercise the architecture requirement with STRUCTURAL proof: No invented protocol fields",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-011",
+    "requirement": "Selected type UNRESOLVED",
+    "section": "\u00a734",
+    "component": "Interface type category",
+    "evidenceIds": [
+      "T17-STR-024",
+      "T17-IMPL-007"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL",
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-024, T17-IMPL-007 exercise the architecture requirement with STRUCTURAL, BEHAVIORAL proof: Selected type UNRESOLVED",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-012",
+    "requirement": "EnmTransport read-only",
+    "section": "\u00a734",
+    "component": "EnmTransport",
+    "evidenceIds": [
+      "T17-STR-004"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-004 exercise the architecture requirement with STRUCTURAL proof: EnmTransport read-only",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-013",
+    "requirement": "Transport profile bindings",
+    "section": "\u00a734",
+    "component": "VendorWriteTransportProfile",
+    "evidenceIds": [
+      "T17-DB-010"
+    ],
+    "evidenceTypes": [
+      "DATABASE"
+    ],
+    "whyEvidenceProvesGate": "T17-DB-010 exercise the architecture requirement with DATABASE proof: Transport profile bindings",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-014",
+    "requirement": "Certified profiles immutable",
+    "section": "\u00a734",
+    "component": "Profile service",
+    "evidenceIds": [
+      "T17-IMPL-014",
+      "T17-DB-004"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "DATABASE"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-014, T17-DB-004 exercise the architecture requirement with BEHAVIORAL, DATABASE proof: Certified profiles immutable",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-015",
+    "requirement": "Gateway resolves certified only",
+    "section": "\u00a734",
+    "component": "CertifiedTransportResolver",
+    "evidenceIds": [
+      "T17-INT-001",
+      "T17-INT-002"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-INT-001, T17-INT-002 exercise the architecture requirement with INTEGRATION proof: Gateway resolves certified only",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-016",
+    "requirement": "No dynamic plugin load",
+    "section": "\u00a734",
+    "component": "Structural",
+    "evidenceIds": [
+      "T17-STR-010"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-010 exercise the architecture requirement with STRUCTURAL proof: No dynamic plugin load",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-017",
+    "requirement": "Unconfigured production path",
+    "section": "\u00a734",
+    "component": "UnconfiguredProductionEricssonWriteTransport",
+    "evidenceIds": [
+      "T17-STR-005",
+      "T17-INT-002"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-005, T17-INT-002 exercise the architecture requirement with STRUCTURAL, INTEGRATION proof: Unconfigured production path",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-018",
+    "requirement": "SPI layering preserved",
+    "section": "\u00a734",
+    "component": "Adapters",
+    "evidenceIds": [
+      "T17-STR-016"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-016 exercise the architecture requirement with STRUCTURAL proof: SPI layering preserved",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-019",
+    "requirement": "Registries/services defined",
+    "section": "\u00a734",
+    "component": "\u00a77 services",
+    "evidenceIds": [
+      "T17-STR-008",
+      "T17-IMPL-001"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL",
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-008, T17-IMPL-001 exercise the architecture requirement with STRUCTURAL, BEHAVIORAL proof: Registries/services defined",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-020",
+    "requirement": "Lifecycle states defined",
+    "section": "\u00a734",
+    "component": "TransportCertificationState",
+    "evidenceIds": [
+      "T17-IMPL-001",
+      "T17-IMPL-002"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-001, T17-IMPL-002 exercise the architecture requirement with BEHAVIORAL proof: Lifecycle states defined",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-021",
+    "requirement": "PRODUCTION_REGISTERED \u2260 execute",
+    "section": "\u00a734",
+    "component": "Lifecycle + preflight",
+    "evidenceIds": [
+      "T17-IMPL-006",
+      "CS17-A"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-006, CS17-A exercise the architecture requirement with BEHAVIORAL, INTEGRATION proof: PRODUCTION_REGISTERED \u2260 execute",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-022",
+    "requirement": "Auto safety only; no auto re-enable",
+    "section": "\u00a734",
+    "component": "Lifecycle",
+    "evidenceIds": [
+      "T17-IMPL-003",
+      "T17-IMPL-005"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-003, T17-IMPL-005 exercise the architecture requirement with BEHAVIORAL proof: Auto safety only; no auto re-enable",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-023",
+    "requirement": "L0 local only",
+    "section": "\u00a734",
+    "component": "CI plan",
+    "evidenceIds": [
+      "T17-INT-002",
+      "T17-STR-029"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-INT-002, T17-STR-029 exercise the architecture requirement with INTEGRATION proof: L0 local only",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-024",
+    "requirement": "L1 lab requirements",
+    "section": "\u00a734",
+    "component": "External catalogue",
+    "evidenceIds": [
+      "EXT17-L1-001",
+      "EXT17-L1-002",
+      "EXT17-L1-003",
+      "EXT17-L1-004",
+      "EXT17-L1-005",
+      "EXT17-L1-006",
+      "EXT17-L1-007",
+      "EXT17-L1-008",
+      "EXT17-L1-009",
+      "EXT17-L1-010",
+      "EXT17-L1-011",
+      "EXT17-L1-012",
+      "EXT17-L1-013",
+      "EXT17-L1-014",
+      "EXT17-L1-015",
+      "EXT17-L1-016",
+      "EXT17-L1-017",
+      "EXT17-L1-018",
+      "EXT17-L1-019",
+      "EXT17-L1-020",
+      "EXT17-L1-021",
+      "EXT17-L1-022"
+    ],
+    "evidenceTypes": [
+      "EXTERNAL_CERTIFICATION"
+    ],
+    "whyEvidenceProvesGate": "EXT17-L1-001, EXT17-L1-002, EXT17-L1-003, EXT17-L1-004, EXT17-L1-005, EXT17-L1-006, EXT17-L1-007, EXT17-L1-008, EXT17-L1-009, EXT17-L1-010, EXT17-L1-011, EXT17-L1-012, EXT17-L1-013, EXT17-L1-014, EXT17-L1-015, EXT17-L1-016, EXT17-L1-017, EXT17-L1-018, EXT17-L1-019, EXT17-L1-020, EXT17-L1-021, EXT17-L1-022 exercise the architecture requirement with EXTERNAL_CERTIFICATION proof: L1 lab requirements",
+    "expectedResult": "PASS",
+    "ciLevel": "EXT",
+    "externalDependency": "YES",
+    "statusAtSpecificationFreeze": "NOT EXECUTED"
+  },
+  {
+    "gate": "G17-025",
+    "requirement": "First real integration is L1",
+    "section": "\u00a734",
+    "component": "External plan",
+    "evidenceIds": [
+      "EXT17-L1-009"
+    ],
+    "evidenceTypes": [
+      "EXTERNAL_CERTIFICATION"
+    ],
+    "whyEvidenceProvesGate": "EXT17-L1-009 exercise the architecture requirement with EXTERNAL_CERTIFICATION proof: First real integration is L1",
+    "expectedResult": "PASS",
+    "ciLevel": "EXT",
+    "externalDependency": "YES",
+    "statusAtSpecificationFreeze": "NOT EXECUTED"
+  },
+  {
+    "gate": "G17-026",
+    "requirement": "L2 production-equivalence",
+    "section": "\u00a734",
+    "component": "External catalogue",
+    "evidenceIds": [
+      "EXT17-L2-001",
+      "EXT17-L2-002",
+      "EXT17-L2-003",
+      "EXT17-L2-004",
+      "EXT17-L2-005",
+      "EXT17-L2-006",
+      "EXT17-L2-007",
+      "EXT17-L2-008",
+      "EXT17-L2-009",
+      "EXT17-L2-010",
+      "EXT17-L2-011",
+      "EXT17-L2-012",
+      "EXT17-L2-013",
+      "EXT17-L2-014",
+      "EXT17-L2-015"
+    ],
+    "evidenceTypes": [
+      "EXTERNAL_CERTIFICATION"
+    ],
+    "whyEvidenceProvesGate": "EXT17-L2-001, EXT17-L2-002, EXT17-L2-003, EXT17-L2-004, EXT17-L2-005, EXT17-L2-006, EXT17-L2-007, EXT17-L2-008, EXT17-L2-009, EXT17-L2-010, EXT17-L2-011, EXT17-L2-012, EXT17-L2-013, EXT17-L2-014, EXT17-L2-015 exercise the architecture requirement with EXTERNAL_CERTIFICATION proof: L2 production-equivalence",
+    "expectedResult": "PASS",
+    "ciLevel": "EXT",
+    "externalDependency": "YES",
+    "statusAtSpecificationFreeze": "NOT EXECUTED"
+  },
+  {
+    "gate": "G17-027",
+    "requirement": "L3 zero mutation",
+    "section": "\u00a734",
+    "component": "Onboarding",
+    "evidenceIds": [
+      "T17-IMPL-006",
+      "EXT17-L3-001",
+      "EXT17-L3-002",
+      "EXT17-L3-003",
+      "EXT17-L3-004",
+      "EXT17-L3-005",
+      "EXT17-L3-006",
+      "EXT17-L3-007",
+      "EXT17-L3-008",
+      "EXT17-L3-009",
+      "EXT17-L3-010",
+      "EXT17-L3-011",
+      "EXT17-L3-012",
+      "EXT17-L3-013",
+      "EXT17-L3-014",
+      "EXT17-L3-015",
+      "EXT17-L3-016"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "EXTERNAL_CERTIFICATION"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-006, EXT17-L3-001, EXT17-L3-002, EXT17-L3-003, EXT17-L3-004, EXT17-L3-005, EXT17-L3-006, EXT17-L3-007, EXT17-L3-008, EXT17-L3-009, EXT17-L3-010, EXT17-L3-011, EXT17-L3-012, EXT17-L3-013, EXT17-L3-014, EXT17-L3-015, EXT17-L3-016 exercise the architecture requirement with BEHAVIORAL, EXTERNAL_CERTIFICATION proof: L3 zero mutation",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "L3 NOT SATISFIED"
+  },
+  {
+    "gate": "G17-028",
+    "requirement": "L4 = current P16 auth + P17 certs",
+    "section": "\u00a734",
+    "component": "Level4Satisfied",
+    "evidenceIds": [
+      "T17-IMPL-034",
+      "T17-IMPL-035",
+      "T17-IMPL-036",
+      "CS17-A",
+      "CS17-B"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-034, T17-IMPL-035, T17-IMPL-036, CS17-A, CS17-B exercise the architecture requirement with BEHAVIORAL, INTEGRATION proof: L4 = current P16 auth + P17 certs",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-029",
+    "requirement": "L3 \u2260 L4",
+    "section": "\u00a734",
+    "component": "Preflight",
+    "evidenceIds": [
+      "T17-IMPL-035",
+      "CS17-A"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-035, CS17-A exercise the architecture requirement with BEHAVIORAL proof: L3 \u2260 L4",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-030",
+    "requirement": "Architecture \u2260 L4",
+    "section": "\u00a734",
+    "component": "Spec status",
+    "evidenceIds": [
+      "T17-STR-014"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-014 exercise the architecture requirement with STRUCTURAL proof: Architecture \u2260 L4",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-031",
+    "requirement": "Code/CI \u2260 L4",
+    "section": "\u00a734",
+    "component": "Defaults",
+    "evidenceIds": [
+      "T17-STR-029",
+      "T17-STR-030",
+      "T17-INT-030"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-029, T17-STR-030, T17-INT-030 exercise the architecture requirement with STRUCTURAL, INTEGRATION proof: Code/CI \u2260 L4",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-032",
+    "requirement": "ProductionNetworkTarget authoritative",
+    "section": "\u00a734",
+    "component": "Onboarding",
+    "evidenceIds": [
+      "T17-INT-021"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-INT-021 exercise the architecture requirement with INTEGRATION proof: ProductionNetworkTarget authoritative",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-033",
+    "requirement": "Onboarding not second mutation authority",
+    "section": "\u00a734",
+    "component": "Onboarding + gateway",
+    "evidenceIds": [
+      "T17-INT-021"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-INT-021 exercise the architecture requirement with INTEGRATION proof: Onboarding not second mutation authority",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-034",
+    "requirement": "Onboarding bindings",
+    "section": "\u00a734",
+    "component": "Onboarding version",
+    "evidenceIds": [
+      "T17-DB-001",
+      "T17-DB-018"
+    ],
+    "evidenceTypes": [
+      "DATABASE"
+    ],
+    "whyEvidenceProvesGate": "T17-DB-001, T17-DB-018 exercise the architecture requirement with DATABASE proof: Onboarding bindings",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-035",
+    "requirement": "No caller endpoint/credential",
+    "section": "\u00a734",
+    "component": "APIs",
+    "evidenceIds": [
+      "T17-SEC-001",
+      "T17-SEC-002",
+      "T17-INT-009",
+      "T17-INT-010"
+    ],
+    "evidenceTypes": [
+      "SECURITY",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-SEC-001, T17-SEC-002, T17-INT-009, T17-INT-010 exercise the architecture requirement with SECURITY, INTEGRATION proof: No caller endpoint/credential",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-036",
+    "requirement": "No Agent/MCP/proposal endpoint",
+    "section": "\u00a734",
+    "component": "APIs",
+    "evidenceIds": [
+      "T17-SEC-001",
+      "T17-SEC-003",
+      "T17-SEC-004"
+    ],
+    "evidenceTypes": [
+      "SECURITY"
+    ],
+    "whyEvidenceProvesGate": "T17-SEC-001, T17-SEC-003, T17-SEC-004 exercise the architecture requirement with SECURITY proof: No Agent/MCP/proposal endpoint",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-037",
+    "requirement": "Endpoint is infra data",
+    "section": "\u00a734",
+    "component": "Endpoint profile",
+    "evidenceIds": [
+      "T17-STR-007",
+      "T17-DB-012"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL",
+      "DATABASE"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-007, T17-DB-012 exercise the architecture requirement with STRUCTURAL, DATABASE proof: Endpoint is infra data",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-038",
+    "requirement": "Endpoint \u2260 credential",
+    "section": "\u00a734",
+    "component": "Schema",
+    "evidenceIds": [
+      "T17-STR-023",
+      "T17-DB-011"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL",
+      "DATABASE"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-023, T17-DB-011 exercise the architecture requirement with STRUCTURAL, DATABASE proof: Endpoint \u2260 credential",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-039",
+    "requirement": "Endpoint change cascade",
+    "section": "\u00a734",
+    "component": "Invalidation",
+    "evidenceIds": [
+      "T17-IMPL-040",
+      "FI17-009",
+      "CS17-D"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-040, FI17-009, CS17-D exercise the architecture requirement with BEHAVIORAL, INTEGRATION proof: Endpoint change cascade",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-040",
+    "requirement": "Phase 10 secret authority",
+    "section": "\u00a734",
+    "component": "Credential binder",
+    "evidenceIds": [
+      "T17-STR-025",
+      "T17-SEC-019"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL",
+      "SECURITY"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-025, T17-SEC-019 exercise the architecture requirement with STRUCTURAL, SECURITY proof: Phase 10 secret authority",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-041",
+    "requirement": "Read/write identity separate",
+    "section": "\u00a734",
+    "component": "Infra/security",
+    "evidenceIds": [
+      "T17-STR-026",
+      "T17-INF-002"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL",
+      "INFRASTRUCTURE"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-026, T17-INF-002 exercise the architecture requirement with STRUCTURAL, INFRASTRUCTURE proof: Read/write identity separate",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-042",
+    "requirement": "Only gateway resolves write creds",
+    "section": "\u00a734",
+    "component": "Isolation",
+    "evidenceIds": [
+      "T17-STR-027",
+      "T17-SEC-020"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL",
+      "SECURITY"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-027, T17-SEC-020 exercise the architecture requirement with STRUCTURAL, SECURITY proof: Only gateway resolves write creds",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-043",
+    "requirement": "No secrets in DB",
+    "section": "\u00a734",
+    "component": "V18",
+    "evidenceIds": [
+      "T17-STR-023",
+      "T17-DB-011"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL",
+      "DATABASE"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-023, T17-DB-011 exercise the architecture requirement with STRUCTURAL, DATABASE proof: No secrets in DB",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-044",
+    "requirement": "Credential change cascade",
+    "section": "\u00a734",
+    "component": "Invalidation",
+    "evidenceIds": [
+      "T17-IMPL-041",
+      "FI17-007",
+      "CS17-F"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-041, FI17-007, CS17-F exercise the architecture requirement with BEHAVIORAL, INTEGRATION proof: Credential change cascade",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-045",
+    "requirement": "Secret fail-closed",
+    "section": "\u00a734",
+    "component": "Credential binder",
+    "evidenceIds": [
+      "T17-SEC-019"
+    ],
+    "evidenceTypes": [
+      "SECURITY"
+    ],
+    "whyEvidenceProvesGate": "T17-SEC-019 exercise the architecture requirement with SECURITY proof: Secret fail-closed",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-046",
+    "requirement": "No secret fallback/cache",
+    "section": "\u00a734",
+    "component": "Credential binder",
+    "evidenceIds": [
+      "T17-SEC-019"
+    ],
+    "evidenceTypes": [
+      "SECURITY"
+    ],
+    "whyEvidenceProvesGate": "T17-SEC-019 exercise the architecture requirement with SECURITY proof: No secret fallback/cache",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-047",
+    "requirement": "TLS hostname verification",
+    "section": "\u00a734",
+    "component": "TLS profile",
+    "evidenceIds": [
+      "T17-DB-022",
+      "T17-SEC-014",
+      "T17-IMPL-062",
+      "T17-INT-035"
+    ],
+    "evidenceTypes": [
+      "DATABASE",
+      "SECURITY",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-DB-022, T17-SEC-014, T17-IMPL-062, T17-INT-035 exercise the architecture requirement with DATABASE, SECURITY, INTEGRATION proof: TLS hostname verification",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-048",
+    "requirement": "Trusted CA; no trust-all",
+    "section": "\u00a734",
+    "component": "TLS profile",
+    "evidenceIds": [
+      "T17-IMPL-044",
+      "T17-SEC-014"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "SECURITY"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-044, T17-SEC-014 exercise the architecture requirement with BEHAVIORAL, SECURITY proof: Trusted CA; no trust-all",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-049",
+    "requirement": "Hostname-verify disable prohibited",
+    "section": "\u00a734",
+    "component": "TLS CHECK",
+    "evidenceIds": [
+      "T17-DB-022",
+      "T17-IMPL-043"
+    ],
+    "evidenceTypes": [
+      "DATABASE",
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-DB-022, T17-IMPL-043 exercise the architecture requirement with DATABASE, BEHAVIORAL proof: Hostname-verify disable prohibited",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-050",
+    "requirement": "No insecure TLS fallback",
+    "section": "\u00a734",
+    "component": "TLS profile",
+    "evidenceIds": [
+      "T17-IMPL-043",
+      "T17-IMPL-044"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-043, T17-IMPL-044 exercise the architecture requirement with BEHAVIORAL proof: No insecure TLS fallback",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-051",
+    "requirement": "Security-profile change invalidates",
+    "section": "\u00a734",
+    "component": "Invalidation",
+    "evidenceIds": [
+      "T17-IMPL-013",
+      "FI17-008"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-013, FI17-008 exercise the architecture requirement with BEHAVIORAL proof: Security-profile change invalidates",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-052",
+    "requirement": "mTLS keys via secure mechanism",
+    "section": "\u00a734",
+    "component": "Credential refs",
+    "evidenceIds": [
+      "T17-STR-023",
+      "T17-SEC-018"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL",
+      "SECURITY"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-023, T17-SEC-018 exercise the architecture requirement with STRUCTURAL, SECURITY proof: mTLS keys via secure mechanism",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-053",
+    "requirement": "Explicit version predicate",
+    "section": "\u00a734",
+    "component": "Compatibility",
+    "evidenceIds": [
+      "T17-IMPL-028",
+      "T17-IMPL-029"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-028, T17-IMPL-029 exercise the architecture requirement with BEHAVIORAL proof: Explicit version predicate",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-054",
+    "requirement": "Out-of-range suspend",
+    "section": "\u00a734",
+    "component": "Compatibility",
+    "evidenceIds": [
+      "T17-IMPL-030",
+      "CS17-K"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-030, CS17-K exercise the architecture requirement with BEHAVIORAL proof: Out-of-range suspend",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-055",
+    "requirement": "No auto-expand predicate",
+    "section": "\u00a734",
+    "component": "Compatibility",
+    "evidenceIds": [
+      "T17-IMPL-029"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-029 exercise the architecture requirement with BEHAVIORAL proof: No auto-expand predicate",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-056",
+    "requirement": "Unknown version denies",
+    "section": "\u00a734",
+    "component": "Preflight",
+    "evidenceIds": [
+      "T17-IMPL-028",
+      "T17-SEC-016"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-028, T17-SEC-016 exercise the architecture requirement with BEHAVIORAL proof: Unknown version denies",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-057",
+    "requirement": "CELL/txPower only",
+    "section": "\u00a734",
+    "component": "Capability",
+    "evidenceIds": [
+      "T17-IMPL-024"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-024 exercise the architecture requirement with BEHAVIORAL proof: CELL/txPower only",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-058",
+    "requirement": "Cardinality 1/1/1",
+    "section": "\u00a734",
+    "component": "Capability + P16",
+    "evidenceIds": [
+      "T17-IMPL-025"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-025 exercise the architecture requirement with BEHAVIORAL proof: Cardinality 1/1/1",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-059",
+    "requirement": "Capability metadata complete",
+    "section": "\u00a734",
+    "component": "Capability table",
+    "evidenceIds": [
+      "T17-DB-002"
+    ],
+    "evidenceTypes": [
+      "DATABASE"
+    ],
+    "whyEvidenceProvesGate": "T17-DB-002 exercise the architecture requirement with DATABASE proof: Capability metadata complete",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-060",
+    "requirement": "Capability version-specific",
+    "section": "\u00a734",
+    "component": "Capability",
+    "evidenceIds": [
+      "T17-IMPL-024",
+      "CS17-L"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-024, CS17-L exercise the architecture requirement with BEHAVIORAL proof: Capability version-specific",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-061",
+    "requirement": "No generic commands",
+    "section": "\u00a734",
+    "component": "SPI",
+    "evidenceIds": [
+      "T17-STR-016",
+      "T17-IMPL-025"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL",
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-016, T17-IMPL-025 exercise the architecture requirement with STRUCTURAL, BEHAVIORAL proof: No generic commands",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-062",
+    "requirement": "ATOMIC only if CAS proven",
+    "section": "\u00a734",
+    "component": "Expected-state",
+    "evidenceIds": [
+      "T17-IMPL-026",
+      "CS17-M"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-026, CS17-M exercise the architecture requirement with BEHAVIORAL proof: ATOMIC only if CAS proven",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-063",
+    "requirement": "Else READ_THEN_WRITE",
+    "section": "\u00a734",
+    "component": "Expected-state",
+    "evidenceIds": [
+      "T17-IMPL-027"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-027 exercise the architecture requirement with BEHAVIORAL proof: Else READ_THEN_WRITE",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-064",
+    "requirement": "No ATOMIC from lab timing",
+    "section": "\u00a734",
+    "component": "Expected-state",
+    "evidenceIds": [
+      "T17-IMPL-026"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-026 exercise the architecture requirement with BEHAVIORAL proof: No ATOMIC from lab timing",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-065",
+    "requirement": "Direct vendor observe before mutate",
+    "section": "\u00a734",
+    "component": "Phase16 preflight",
+    "evidenceIds": [
+      "T17-INT-007"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-INT-007 exercise the architecture requirement with INTEGRATION proof: Direct vendor observe before mutate",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-066",
+    "requirement": "Ack meaning certified",
+    "section": "\u00a734",
+    "component": "External",
+    "evidenceIds": [
+      "EXT17-L1-010"
+    ],
+    "evidenceTypes": [
+      "EXTERNAL_CERTIFICATION"
+    ],
+    "whyEvidenceProvesGate": "EXT17-L1-010 exercise the architecture requirement with EXTERNAL_CERTIFICATION proof: Ack meaning certified",
+    "expectedResult": "PASS",
+    "ciLevel": "EXT",
+    "externalDependency": "YES",
+    "statusAtSpecificationFreeze": "NOT EXECUTED"
+  },
+  {
+    "gate": "G17-067",
+    "requirement": "Ack \u2260 applied",
+    "section": "\u00a734",
+    "component": "Readback",
+    "evidenceIds": [
+      "T17-INT-007",
+      "EXT17-L1-010"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION",
+      "EXTERNAL_CERTIFICATION"
+    ],
+    "whyEvidenceProvesGate": "T17-INT-007, EXT17-L1-010 exercise the architecture requirement with INTEGRATION, EXTERNAL_CERTIFICATION proof: Ack \u2260 applied",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED+NOT EXECUTED"
+  },
+  {
+    "gate": "G17-068",
+    "requirement": "Exception \u2260 not-applied",
+    "section": "\u00a734",
+    "component": "Send class",
+    "evidenceIds": [
+      "T17-IMPL-049"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-049 exercise the architecture requirement with BEHAVIORAL proof: Exception \u2260 not-applied",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-069",
+    "requirement": "Every failure classified",
+    "section": "\u00a734",
+    "component": "Send class",
+    "evidenceIds": [
+      "T17-IMPL-048",
+      "T17-IMPL-049"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-048, T17-IMPL-049 exercise the architecture requirement with BEHAVIORAL proof: Every failure classified",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-070",
+    "requirement": "No retry after MAY_HAVE_SENT",
+    "section": "\u00a734",
+    "component": "Attempt state",
+    "evidenceIds": [
+      "T17-IMPL-049",
+      "T17-IMPL-066",
+      "FI17-017",
+      "FI17-018",
+      "FI17-019",
+      "FI17-020",
+      "CS17-N"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-049, T17-IMPL-066, FI17-017, FI17-018, FI17-019, FI17-020, CS17-N exercise the architecture requirement with BEHAVIORAL, INTEGRATION proof: No retry after MAY_HAVE_SENT",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-071",
+    "requirement": "HTTP method \u2260 retry authority",
+    "section": "\u00a734",
+    "component": "Send class",
+    "evidenceIds": [
+      "T17-IMPL-050"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-050 exercise the architecture requirement with BEHAVIORAL proof: HTTP method \u2260 retry authority",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-072",
+    "requirement": "Bounded retry only POSITIVE_NOT_SENT",
+    "section": "\u00a734",
+    "component": "Send class",
+    "evidenceIds": [
+      "T17-IMPL-048"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-048 exercise the architecture requirement with BEHAVIORAL proof: Bounded retry only POSITIVE_NOT_SENT",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-073",
+    "requirement": "Vendor IDs correlation only",
+    "section": "\u00a734",
+    "component": "Protocol DTO",
+    "evidenceIds": [
+      "T17-STR-023",
+      "T17-IMPL-050"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL",
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-023, T17-IMPL-050 exercise the architecture requirement with STRUCTURAL, BEHAVIORAL proof: Vendor IDs correlation only",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-074",
+    "requirement": "Independent readback certified",
+    "section": "\u00a734",
+    "component": "Readback",
+    "evidenceIds": [
+      "T17-INT-007",
+      "EXT17-L1-011"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION",
+      "EXTERNAL_CERTIFICATION"
+    ],
+    "whyEvidenceProvesGate": "T17-INT-007, EXT17-L1-011 exercise the architecture requirement with INTEGRATION, EXTERNAL_CERTIFICATION proof: Independent readback certified",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED+NOT EXECUTED"
+  },
+  {
+    "gate": "G17-075",
+    "requirement": "Fresh desired-state only VERIFIED",
+    "section": "\u00a734",
+    "component": "Verification",
+    "evidenceIds": [
+      "T17-INT-003",
+      "T17-INT-007"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-INT-003, T17-INT-007 exercise the architecture requirement with INTEGRATION proof: Fresh desired-state only VERIFIED",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-076",
+    "requirement": "No canonical radio_configuration write",
+    "section": "\u00a734",
+    "component": "Isolation",
+    "evidenceIds": [
+      "T17-STR-008"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-008 exercise the architecture requirement with STRUCTURAL proof: No canonical radio_configuration write",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-077",
+    "requirement": "Rollback = Phase14 value",
+    "section": "\u00a734",
+    "component": "Rollback cert",
+    "evidenceIds": [
+      "T17-INT-008"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-INT-008 exercise the architecture requirement with INTEGRATION proof: Rollback = Phase14 value",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-078",
+    "requirement": "Separate rollback governance",
+    "section": "\u00a734",
+    "component": "Phase16 rollback",
+    "evidenceIds": [
+      "T17-INT-008"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-INT-008 exercise the architecture requirement with INTEGRATION proof: Separate rollback governance",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-079",
+    "requirement": "Transport rollback \u2260 auto rollback",
+    "section": "\u00a734",
+    "component": "Policy",
+    "evidenceIds": [
+      "T17-IMPL-047"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-047 exercise the architecture requirement with BEHAVIORAL proof: Transport rollback \u2260 auto rollback",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-080",
+    "requirement": "Named failures at cert level",
+    "section": "\u00a734",
+    "component": "FI + EXT",
+    "evidenceIds": [
+      "FI17-017",
+      "FI17-018",
+      "FI17-019",
+      "EXT17-L1-013",
+      "EXT17-L1-014",
+      "EXT17-L1-015",
+      "EXT17-L1-016"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION",
+      "EXTERNAL_CERTIFICATION"
+    ],
+    "whyEvidenceProvesGate": "FI17-017, FI17-018, FI17-019, EXT17-L1-013, EXT17-L1-014, EXT17-L1-015, EXT17-L1-016 exercise the architecture requirement with INTEGRATION, EXTERNAL_CERTIFICATION proof: Named failures at cert level",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED+NOT EXECUTED"
+  },
+  {
+    "gate": "G17-081",
+    "requirement": "Ambiguous four-way table",
+    "section": "\u00a734",
+    "component": "Controlled transport",
+    "evidenceIds": [
+      "T17-INT-003",
+      "T17-INT-004",
+      "T17-INT-005",
+      "T17-INT-006",
+      "CS17-O",
+      "CS17-P",
+      "CS17-Q",
+      "CS17-R"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-INT-003, T17-INT-004, T17-INT-005, T17-INT-006, CS17-O, CS17-P, CS17-Q, CS17-R exercise the architecture requirement with INTEGRATION proof: Ambiguous four-way table",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-082",
+    "requirement": "Desired/expected/third/unavailable",
+    "section": "\u00a734",
+    "component": "Controlled transport",
+    "evidenceIds": [
+      "CS17-O",
+      "CS17-P",
+      "CS17-Q",
+      "CS17-R"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "CS17-O, CS17-P, CS17-Q, CS17-R exercise the architecture requirement with INTEGRATION proof: Desired/expected/third/unavailable",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-083",
+    "requirement": "Health states defined",
+    "section": "\u00a734",
+    "component": "TransportHealthState",
+    "evidenceIds": [
+      "T17-IMPL-031",
+      "T17-IMPL-032",
+      "T17-IMPL-033"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-031, T17-IMPL-032, T17-IMPL-033 exercise the architecture requirement with BEHAVIORAL proof: Health states defined",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-084",
+    "requirement": "Non-healthy blocks",
+    "section": "\u00a734",
+    "component": "Health composer",
+    "evidenceIds": [
+      "T17-IMPL-032",
+      "T17-IMPL-033",
+      "FI17-014"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-032, T17-IMPL-033, FI17-014 exercise the architecture requirement with BEHAVIORAL proof: Non-healthy blocks",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-085",
+    "requirement": "No auto re-enable after security/capability",
+    "section": "\u00a734",
+    "component": "Lifecycle",
+    "evidenceIds": [
+      "T17-IMPL-005"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-005 exercise the architecture requirement with BEHAVIORAL proof: No auto re-enable after security/capability",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-086",
+    "requirement": "Evidence metadata defined",
+    "section": "\u00a734",
+    "component": "Evidence table",
+    "evidenceIds": [
+      "T17-DB-009"
+    ],
+    "evidenceTypes": [
+      "DATABASE"
+    ],
+    "whyEvidenceProvesGate": "T17-DB-009 exercise the architecture requirement with DATABASE proof: Evidence metadata defined",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-087",
+    "requirement": "No false immutable-store claim",
+    "section": "\u00a734",
+    "component": "Spec",
+    "evidenceIds": [
+      "T17-STR-023"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-023 exercise the architecture requirement with STRUCTURAL proof: No false immutable-store claim",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-088",
+    "requirement": "Bundle bindings complete",
+    "section": "\u00a734",
+    "component": "Bundle",
+    "evidenceIds": [
+      "T17-DB-010",
+      "T17-DB-018"
+    ],
+    "evidenceTypes": [
+      "DATABASE"
+    ],
+    "whyEvidenceProvesGate": "T17-DB-010, T17-DB-018 exercise the architecture requirement with DATABASE proof: Bundle bindings complete",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-089",
+    "requirement": "Component change invalidates bundle",
+    "section": "\u00a734",
+    "component": "Invalidation",
+    "evidenceIds": [
+      "T17-IMPL-013"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-013 exercise the architecture requirement with BEHAVIORAL proof: Component change invalidates bundle",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-090",
+    "requirement": "Authoritative artifact identity",
+    "section": "\u00a734",
+    "component": "Artifact",
+    "evidenceIds": [
+      "T17-IMPL-039",
+      "T17-IMPL-063",
+      "T17-IMPL-064",
+      "T17-IMPL-065",
+      "T17-INT-013",
+      "T17-INT-036",
+      "T17-INT-037",
+      "T17-SEC-029"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INTEGRATION",
+      "SECURITY"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-039, T17-IMPL-063, T17-IMPL-064, T17-IMPL-065, T17-INT-013, T17-INT-036, T17-INT-037, T17-SEC-029 exercise the architecture requirement with BEHAVIORAL, INTEGRATION, SECURITY proof: Authoritative artifact identity",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-091",
+    "requirement": "No false SBOM/provenance claim",
+    "section": "\u00a734",
+    "component": "Artifact",
+    "evidenceIds": [
+      "T17-STR-023"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-023 exercise the architecture requirement with STRUCTURAL proof: No false SBOM/provenance claim",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-092",
+    "requirement": "Deployed vs certified compare",
+    "section": "\u00a734",
+    "component": "Preflight",
+    "evidenceIds": [
+      "T17-IMPL-039",
+      "FI17-011",
+      "CS17-X"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-039, FI17-011, CS17-X exercise the architecture requirement with BEHAVIORAL, INTEGRATION proof: Deployed vs certified compare",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-093",
+    "requirement": "Certifier \u2260 requester/authorizer/executor",
+    "section": "\u00a734",
+    "component": "SoD",
+    "evidenceIds": [
+      "T17-IMPL-020",
+      "T17-IMPL-021",
+      "T17-IMPL-022",
+      "T17-SEC-005"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "SECURITY"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-020, T17-IMPL-021, T17-IMPL-022, T17-SEC-005 exercise the architecture requirement with BEHAVIORAL, SECURITY proof: Certifier \u2260 requester/authorizer/executor",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-094",
+    "requirement": "Permissions + accepted combos",
+    "section": "\u00a734",
+    "component": "SoD",
+    "evidenceIds": [
+      "T17-IMPL-018",
+      "T17-IMPL-019",
+      "T17-IMPL-023",
+      "T17-IMPL-061",
+      "T17-SEC-021",
+      "T17-SEC-022",
+      "T17-SEC-023",
+      "T17-SEC-024",
+      "T17-SEC-025",
+      "T17-SEC-026",
+      "T17-SEC-027",
+      "T17-SEC-028"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "SECURITY"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-018, T17-IMPL-019, T17-IMPL-023, T17-IMPL-061, T17-SEC-021, T17-SEC-022, T17-SEC-023, T17-SEC-024, T17-SEC-025, T17-SEC-026, T17-SEC-027, T17-SEC-028 exercise the architecture requirement with BEHAVIORAL, SECURITY proof: Permissions + accepted combos",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-095",
+    "requirement": "Agents/MCP no certify",
+    "section": "\u00a734",
+    "component": "Guards",
+    "evidenceIds": [
+      "T17-SEC-003",
+      "T17-SEC-004",
+      "T17-INT-022",
+      "T17-INT-023"
+    ],
+    "evidenceTypes": [
+      "SECURITY",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-SEC-003, T17-SEC-004, T17-INT-022, T17-INT-023 exercise the architecture requirement with SECURITY, INTEGRATION proof: Agents/MCP no certify",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-096",
+    "requirement": "Expiry/revocation block mutation",
+    "section": "\u00a734",
+    "component": "Preflight",
+    "evidenceIds": [
+      "CS17-V",
+      "T17-IMPL-011"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "CS17-V, T17-IMPL-011 exercise the architecture requirement with BEHAVIORAL proof: Expiry/revocation block mutation",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-097",
+    "requirement": "Named expiry/revoke triggers",
+    "section": "\u00a734",
+    "component": "Invalidation",
+    "evidenceIds": [
+      "T17-IMPL-007",
+      "T17-IMPL-008",
+      "T17-IMPL-009",
+      "T17-IMPL-010",
+      "T17-IMPL-011",
+      "T17-IMPL-012",
+      "T17-IMPL-013",
+      "FI17-004",
+      "FI17-005",
+      "FI17-006",
+      "FI17-007",
+      "FI17-008",
+      "FI17-009",
+      "FI17-010",
+      "FI17-011",
+      "FI17-012",
+      "FI17-013",
+      "FI17-014",
+      "FI17-015"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-007, T17-IMPL-008, T17-IMPL-009, T17-IMPL-010, T17-IMPL-011, T17-IMPL-012, T17-IMPL-013, FI17-004, FI17-005, FI17-006, FI17-007, FI17-008, FI17-009, FI17-010, FI17-011, FI17-012, FI17-013, FI17-014, FI17-015 exercise the architecture requirement with BEHAVIORAL proof: Named expiry/revoke triggers",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-098",
+    "requirement": "Gateway proves full cert set + L4",
+    "section": "\u00a734",
+    "component": "Preflight",
+    "evidenceIds": [
+      "T17-INT-001",
+      "CS17-A"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-INT-001, CS17-A exercise the architecture requirement with INTEGRATION proof: Gateway proves full cert set + L4",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-099",
+    "requirement": "Unknown cert denies",
+    "section": "\u00a734",
+    "component": "Authority",
+    "evidenceIds": [
+      "T17-IMPL-038",
+      "CS17-H"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-038, CS17-H exercise the architecture requirement with BEHAVIORAL proof: Unknown cert denies",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-100",
+    "requirement": "Phase16 checks remain",
+    "section": "\u00a734",
+    "component": "Gateway",
+    "evidenceIds": [
+      "T17-INT-016",
+      "T17-INT-017",
+      "T17-INT-018",
+      "T17-INT-019"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-INT-016, T17-INT-017, T17-INT-018, T17-INT-019 exercise the architecture requirement with INTEGRATION proof: Phase16 checks remain",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-101",
+    "requirement": "First prod mutation not silent",
+    "section": "\u00a734",
+    "component": "Defaults",
+    "evidenceIds": [
+      "T17-STR-029",
+      "T17-IMPL-006"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL",
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-029, T17-IMPL-006 exercise the architecture requirement with STRUCTURAL, BEHAVIORAL proof: First prod mutation not silent",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-102",
+    "requirement": "Future L4 exercise constraints",
+    "section": "\u00a734",
+    "component": "Spec",
+    "evidenceIds": [
+      "T17-STR-014",
+      "EXT17-L3-016"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL",
+      "EXTERNAL_CERTIFICATION"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-014, EXT17-L3-016 exercise the architecture requirement with STRUCTURAL, EXTERNAL_CERTIFICATION proof: Future L4 exercise constraints",
+    "expectedResult": "PASS",
+    "ciLevel": "EXT",
+    "externalDependency": "YES",
+    "statusAtSpecificationFreeze": "L4 NOT SATISFIED"
+  },
+  {
+    "gate": "G17-103",
+    "requirement": "This spec does not authorize L4",
+    "section": "\u00a734",
+    "component": "Status",
+    "evidenceIds": [
+      "T17-STR-014"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-014 exercise the architecture requirement with STRUCTURAL proof: This spec does not authorize L4",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-104",
+    "requirement": "Metrics exclude secrets/high-card",
+    "section": "\u00a734",
+    "component": "Metrics",
+    "evidenceIds": [
+      "T17-INT-029"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-INT-029 exercise the architecture requirement with INTEGRATION proof: Metrics exclude secrets/high-card",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-105",
+    "requirement": "High-priority alerts listed",
+    "section": "\u00a734",
+    "component": "Alerts",
+    "evidenceIds": [
+      "T17-INF-008",
+      "T17-INT-028"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-INF-008, T17-INT-028 exercise the architecture requirement with STRUCTURAL, INTEGRATION proof: High-priority alerts listed",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-106",
+    "requirement": "Certification audit separate",
+    "section": "\u00a734",
+    "component": "Phase17 audit",
+    "evidenceIds": [
+      "T17-INT-028"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-INT-028 exercise the architecture requirement with BEHAVIORAL, INTEGRATION proof: Certification audit separate",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-107",
+    "requirement": "Audit no secrets/payloads",
+    "section": "\u00a734",
+    "component": "Audit",
+    "evidenceIds": [
+      "T17-INT-028",
+      "T17-SEC-018"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION",
+      "SECURITY"
+    ],
+    "whyEvidenceProvesGate": "T17-INT-028, T17-SEC-018 exercise the architecture requirement with INTEGRATION, SECURITY proof: Audit no secrets/payloads",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-108",
+    "requirement": "Vendor-neutral above adapter",
+    "section": "\u00a734",
+    "component": "SPI",
+    "evidenceIds": [
+      "T17-STR-016"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-016 exercise the architecture requirement with STRUCTURAL proof: Vendor-neutral above adapter",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-109",
+    "requirement": "Nokia deferred",
+    "section": "\u00a734",
+    "component": "Structural",
+    "evidenceIds": [
+      "T17-STR-011"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-011 exercise the architecture requirement with STRUCTURAL proof: Nokia deferred",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-110",
+    "requirement": "V18 specified only at authoring",
+    "section": "\u00a734",
+    "component": "This task",
+    "evidenceIds": [
+      "T17-STR-006"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-006 exercise the architecture requirement with STRUCTURAL proof: V18 specified only at authoring",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-111",
+    "requirement": "V1\u2013V17 unchanged",
+    "section": "\u00a734",
+    "component": "Flyway",
+    "evidenceIds": [
+      "T17-STR-006"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-006 exercise the architecture requirement with STRUCTURAL proof: V1\u2013V17 unchanged",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-112",
+    "requirement": "Cert in app; resolve in gateway",
+    "section": "\u00a734",
+    "component": "Packages",
+    "evidenceIds": [
+      "T17-STR-008",
+      "T17-STR-009"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-008, T17-STR-009 exercise the architecture requirement with STRUCTURAL proof: Cert in app; resolve in gateway",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-113",
+    "requirement": "Transport not in app",
+    "section": "\u00a734",
+    "component": "Isolation",
+    "evidenceIds": [
+      "T17-STR-003",
+      "T17-STR-009"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-003, T17-STR-009 exercise the architecture requirement with STRUCTURAL proof: Transport not in app",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-114",
+    "requirement": "Dependency direction 13\u2192\u2026\u2192interface",
+    "section": "\u00a734",
+    "component": "Packages",
+    "evidenceIds": [
+      "T17-STR-001",
+      "T17-STR-016"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-001, T17-STR-016 exercise the architecture requirement with STRUCTURAL proof: Dependency direction 13\u2192\u2026\u2192interface",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-115",
+    "requirement": "Agent execute unauthorized",
+    "section": "\u00a734",
+    "component": "Guards",
+    "evidenceIds": [
+      "T17-SEC-003",
+      "T17-STR-019"
+    ],
+    "evidenceTypes": [
+      "SECURITY"
+    ],
+    "whyEvidenceProvesGate": "T17-SEC-003, T17-STR-019 exercise the architecture requirement with SECURITY proof: Agent execute unauthorized",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-116",
+    "requirement": "MCP execute unauthorized",
+    "section": "\u00a734",
+    "component": "Guards",
+    "evidenceIds": [
+      "T17-SEC-004",
+      "T17-STR-018"
+    ],
+    "evidenceTypes": [
+      "SECURITY"
+    ],
+    "whyEvidenceProvesGate": "T17-SEC-004, T17-STR-018 exercise the architecture requirement with SECURITY proof: MCP execute unauthorized",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-117",
+    "requirement": "Scheduled execute unauthorized",
+    "section": "\u00a734",
+    "component": "Isolation",
+    "evidenceIds": [
+      "T17-IMPL-045",
+      "T17-STR-017"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-045, T17-STR-017 exercise the architecture requirement with BEHAVIORAL, STRUCTURAL proof: Scheduled execute unauthorized",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-118",
+    "requirement": "Event execute unauthorized",
+    "section": "\u00a734",
+    "component": "Isolation",
+    "evidenceIds": [
+      "T17-IMPL-046"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-046 exercise the architecture requirement with BEHAVIORAL proof: Event execute unauthorized",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-119",
+    "requirement": "Auto rollback unauthorized",
+    "section": "\u00a734",
+    "component": "Policy",
+    "evidenceIds": [
+      "T17-IMPL-047"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-047 exercise the architecture requirement with BEHAVIORAL proof: Auto rollback unauthorized",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-120",
+    "requirement": "Closed loop unauthorized",
+    "section": "\u00a734",
+    "component": "Isolation",
+    "evidenceIds": [
+      "T17-STR-017",
+      "T17-IMPL-045"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL",
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-017, T17-IMPL-045 exercise the architecture requirement with STRUCTURAL, BEHAVIORAL proof: Closed loop unauthorized",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-121",
+    "requirement": "Default CI independent",
+    "section": "\u00a734",
+    "component": "CI",
+    "evidenceIds": [
+      "T17-INT-002"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-INT-002 exercise the architecture requirement with INTEGRATION proof: Default CI independent",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-122",
+    "requirement": "CI \u2260 vendor certification",
+    "section": "\u00a734",
+    "component": "Spec",
+    "evidenceIds": [
+      "T17-STR-030"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-030 exercise the architecture requirement with STRUCTURAL proof: CI \u2260 vendor certification",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-123",
+    "requirement": "L1\u2013L4 evidence layers distinct",
+    "section": "\u00a734",
+    "component": "Catalogues",
+    "evidenceIds": [
+      "EXT17-L1-001",
+      "EXT17-L1-002",
+      "EXT17-L1-003",
+      "EXT17-L1-004",
+      "EXT17-L1-005",
+      "EXT17-L1-006",
+      "EXT17-L1-007",
+      "EXT17-L1-008",
+      "EXT17-L1-009",
+      "EXT17-L1-010",
+      "EXT17-L1-011",
+      "EXT17-L1-012",
+      "EXT17-L1-013",
+      "EXT17-L1-014",
+      "EXT17-L1-015",
+      "EXT17-L1-016",
+      "EXT17-L1-017",
+      "EXT17-L1-018",
+      "EXT17-L1-019",
+      "EXT17-L1-020",
+      "EXT17-L1-021",
+      "EXT17-L1-022",
+      "EXT17-L2-001",
+      "EXT17-L2-002",
+      "EXT17-L2-003",
+      "EXT17-L2-004",
+      "EXT17-L2-005",
+      "EXT17-L2-006",
+      "EXT17-L2-007",
+      "EXT17-L2-008",
+      "EXT17-L2-009",
+      "EXT17-L2-010",
+      "EXT17-L2-011",
+      "EXT17-L2-012",
+      "EXT17-L2-013",
+      "EXT17-L2-014",
+      "EXT17-L2-015",
+      "EXT17-L3-001",
+      "EXT17-L3-002",
+      "EXT17-L3-003",
+      "EXT17-L3-004",
+      "EXT17-L3-005",
+      "EXT17-L3-006",
+      "EXT17-L3-007",
+      "EXT17-L3-008",
+      "EXT17-L3-009",
+      "EXT17-L3-010",
+      "EXT17-L3-011",
+      "EXT17-L3-012",
+      "EXT17-L3-013",
+      "EXT17-L3-014",
+      "EXT17-L3-015",
+      "EXT17-L3-016"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL",
+      "EXTERNAL_CERTIFICATION"
+    ],
+    "whyEvidenceProvesGate": "EXT17-L1-001, EXT17-L1-002, EXT17-L1-003, EXT17-L1-004, EXT17-L1-005, EXT17-L1-006, EXT17-L1-007, EXT17-L1-008, EXT17-L1-009, EXT17-L1-010, EXT17-L1-011, EXT17-L1-012, EXT17-L1-013, EXT17-L1-014, EXT17-L1-015, EXT17-L1-016, EXT17-L1-017, EXT17-L1-018, EXT17-L1-019, EXT17-L1-020, EXT17-L1-021, EXT17-L1-022, EXT17-L2-001, EXT17-L2-002, EXT17-L2-003, EXT17-L2-004, EXT17-L2-005, EXT17-L2-006, EXT17-L2-007, EXT17-L2-008, EXT17-L2-009, EXT17-L2-010, EXT17-L2-011, EXT17-L2-012, EXT17-L2-013, EXT17-L2-014, EXT17-L2-015, EXT17-L3-001, EXT17-L3-002, EXT17-L3-003, EXT17-L3-004, EXT17-L3-005, EXT17-L3-006, EXT17-L3-007, EXT17-L3-008, EXT17-L3-009, EXT17-L3-010, EXT17-L3-011, EXT17-L3-012, EXT17-L3-013, EXT17-L3-014, EXT17-L3-015, EXT17-L3-016 exercise the architecture requirement with STRUCTURAL, EXTERNAL_CERTIFICATION proof: L1\u2013L4 evidence layers distinct",
+    "expectedResult": "PASS",
+    "ciLevel": "EXT",
+    "externalDependency": "YES",
+    "statusAtSpecificationFreeze": "DISTINCT / NOT EXECUTED"
+  },
+  {
+    "gate": "G17-124",
+    "requirement": "Infra described not implemented now",
+    "section": "\u00a734",
+    "component": "Infra",
+    "evidenceIds": [
+      "T17-INF-001",
+      "T17-INF-002",
+      "T17-INF-003",
+      "T17-INF-004",
+      "T17-INF-005",
+      "T17-INF-006",
+      "T17-INF-007",
+      "T17-INF-008"
+    ],
+    "evidenceTypes": [
+      "INFRASTRUCTURE"
+    ],
+    "whyEvidenceProvesGate": "T17-INF-001, T17-INF-002, T17-INF-003, T17-INF-004, T17-INF-005, T17-INF-006, T17-INF-007, T17-INF-008 exercise the architecture requirement with INFRASTRUCTURE proof: Infra described not implemented now",
+    "expectedResult": "PASS",
+    "ciLevel": "review",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-125",
+    "requirement": "No real endpoint in spec",
+    "section": "\u00a734",
+    "component": "Spec/tests",
+    "evidenceIds": [
+      "T17-STR-007"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-007 exercise the architecture requirement with STRUCTURAL proof: No real endpoint in spec",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-126",
+    "requirement": "No real credential in spec",
+    "section": "\u00a734",
+    "component": "Spec/tests",
+    "evidenceIds": [
+      "T17-STR-007",
+      "T17-SEC-018"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL",
+      "SECURITY"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-007, T17-SEC-018 exercise the architecture requirement with STRUCTURAL, SECURITY proof: No real credential in spec",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-127",
+    "requirement": "Production default disabled",
+    "section": "\u00a734",
+    "component": "Config",
+    "evidenceIds": [
+      "T17-STR-029",
+      "T17-INT-002"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-029, T17-INT-002 exercise the architecture requirement with STRUCTURAL, INTEGRATION proof: Production default disabled",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-128",
+    "requirement": "Empty cert cannot mutate",
+    "section": "\u00a734",
+    "component": "Preflight",
+    "evidenceIds": [
+      "T17-INT-030",
+      "T17-STR-030"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-INT-030, T17-STR-030 exercise the architecture requirement with INTEGRATION proof: Empty cert cannot mutate",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-129",
+    "requirement": "Threats T17-01\u201333 present",
+    "section": "\u00a734",
+    "component": "\u00a733",
+    "evidenceIds": [
+      "T17-STR-022"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-022 exercise the architecture requirement with STRUCTURAL proof: Threats T17-01\u201333 present",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-130",
+    "requirement": "Impl/spec/P18 not started by architecture",
+    "section": "\u00a734",
+    "component": "Status",
+    "evidenceIds": [
+      "T17-STR-012"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-012 exercise the architecture requirement with STRUCTURAL proof: Impl/spec/P18 not started by architecture",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-131",
+    "requirement": "Auth method UNRESOLVED",
+    "section": "\u00a734",
+    "component": "Spec",
+    "evidenceIds": [
+      "T17-STR-024"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-024 exercise the architecture requirement with STRUCTURAL proof: Auth method UNRESOLVED",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-132",
+    "requirement": "L1/L2/L3/L4 unsatisfied/not executed",
+    "section": "\u00a734",
+    "component": "Status",
+    "evidenceIds": [
+      "EXT17-L1-001",
+      "EXT17-L1-002",
+      "EXT17-L1-003",
+      "EXT17-L1-004",
+      "EXT17-L1-005",
+      "EXT17-L1-006",
+      "EXT17-L1-007",
+      "EXT17-L1-008",
+      "EXT17-L1-009",
+      "EXT17-L1-010",
+      "EXT17-L1-011",
+      "EXT17-L1-012",
+      "EXT17-L1-013",
+      "EXT17-L1-014",
+      "EXT17-L1-015",
+      "EXT17-L1-016",
+      "EXT17-L1-017",
+      "EXT17-L1-018",
+      "EXT17-L1-019",
+      "EXT17-L1-020",
+      "EXT17-L1-021",
+      "EXT17-L1-022",
+      "EXT17-L2-001",
+      "EXT17-L2-002",
+      "EXT17-L2-003",
+      "EXT17-L2-004",
+      "EXT17-L2-005",
+      "EXT17-L2-006",
+      "EXT17-L2-007",
+      "EXT17-L2-008",
+      "EXT17-L2-009",
+      "EXT17-L2-010",
+      "EXT17-L2-011",
+      "EXT17-L2-012",
+      "EXT17-L2-013",
+      "EXT17-L2-014",
+      "EXT17-L2-015",
+      "EXT17-L3-001",
+      "EXT17-L3-002",
+      "EXT17-L3-003",
+      "EXT17-L3-004",
+      "EXT17-L3-005",
+      "EXT17-L3-006",
+      "EXT17-L3-007",
+      "EXT17-L3-008",
+      "EXT17-L3-009",
+      "EXT17-L3-010",
+      "EXT17-L3-011",
+      "EXT17-L3-012",
+      "EXT17-L3-013",
+      "EXT17-L3-014",
+      "EXT17-L3-015",
+      "EXT17-L3-016"
+    ],
+    "evidenceTypes": [
+      "EXTERNAL_CERTIFICATION"
+    ],
+    "whyEvidenceProvesGate": "EXT17-L1-001, EXT17-L1-002, EXT17-L1-003, EXT17-L1-004, EXT17-L1-005, EXT17-L1-006, EXT17-L1-007, EXT17-L1-008, EXT17-L1-009, EXT17-L1-010, EXT17-L1-011, EXT17-L1-012, EXT17-L1-013, EXT17-L1-014, EXT17-L1-015, EXT17-L1-016, EXT17-L1-017, EXT17-L1-018, EXT17-L1-019, EXT17-L1-020, EXT17-L1-021, EXT17-L1-022, EXT17-L2-001, EXT17-L2-002, EXT17-L2-003, EXT17-L2-004, EXT17-L2-005, EXT17-L2-006, EXT17-L2-007, EXT17-L2-008, EXT17-L2-009, EXT17-L2-010, EXT17-L2-011, EXT17-L2-012, EXT17-L2-013, EXT17-L2-014, EXT17-L2-015, EXT17-L3-001, EXT17-L3-002, EXT17-L3-003, EXT17-L3-004, EXT17-L3-005, EXT17-L3-006, EXT17-L3-007, EXT17-L3-008, EXT17-L3-009, EXT17-L3-010, EXT17-L3-011, EXT17-L3-012, EXT17-L3-013, EXT17-L3-014, EXT17-L3-015, EXT17-L3-016 exercise the architecture requirement with EXTERNAL_CERTIFICATION proof: L1/L2/L3/L4 unsatisfied/not executed",
+    "expectedResult": "PASS",
+    "ciLevel": "EXT",
+    "externalDependency": "YES",
+    "statusAtSpecificationFreeze": "NOT EXECUTED / NOT SATISFIED"
+  },
+  {
+    "gate": "G17-133",
+    "requirement": "Real production execution NOT AUTHORIZED",
+    "section": "\u00a734",
+    "component": "Status",
+    "evidenceIds": [
+      "T17-STR-029"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-029 exercise the architecture requirement with STRUCTURAL proof: Real production execution NOT AUTHORIZED",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-134",
+    "requirement": "Interface revoke cascade",
+    "section": "\u00a734",
+    "component": "Invalidation",
+    "evidenceIds": [
+      "T17-IMPL-007",
+      "T17-IMPL-051",
+      "T17-IMPL-052",
+      "T17-IMPL-053",
+      "T17-IMPL-054",
+      "T17-IMPL-055",
+      "T17-INT-031",
+      "T17-INT-032",
+      "FI17-005",
+      "CS17-C",
+      "T17-DB-031"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INTEGRATION",
+      "DATABASE"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-007, T17-IMPL-051, T17-IMPL-052, T17-IMPL-053, T17-IMPL-054, T17-IMPL-055, T17-INT-031, T17-INT-032, FI17-005, CS17-C, T17-DB-031 exercise the architecture requirement with BEHAVIORAL, INTEGRATION, DATABASE proof: Interface revoke cascade",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-135",
+    "requirement": "Documentation cascade",
+    "section": "\u00a734",
+    "component": "Invalidation",
+    "evidenceIds": [
+      "T17-IMPL-008",
+      "CS17-Z"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-008, CS17-Z exercise the architecture requirement with BEHAVIORAL, INTEGRATION proof: Documentation cascade",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-136",
+    "requirement": "Consumed grants not reset; no resend",
+    "section": "\u00a734",
+    "component": "Invalidation",
+    "evidenceIds": [
+      "T17-IMPL-010",
+      "T17-IMPL-051",
+      "T17-IMPL-052",
+      "T17-IMPL-053",
+      "T17-IMPL-054",
+      "T17-IMPL-055",
+      "T17-IMPL-056",
+      "T17-INT-031",
+      "T17-INT-032",
+      "FI17-017",
+      "CS17-N"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-010, T17-IMPL-051, T17-IMPL-052, T17-IMPL-053, T17-IMPL-054, T17-IMPL-055, T17-IMPL-056, T17-INT-031, T17-INT-032, FI17-017, CS17-N exercise the architecture requirement with BEHAVIORAL, INTEGRATION proof: Consumed grants not reset; no resend",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-137",
+    "requirement": "Durable currentness at boundary",
+    "section": "\u00a734",
+    "component": "Authority",
+    "evidenceIds": [
+      "T17-INT-001",
+      "T17-IMPL-037"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-INT-001, T17-IMPL-037 exercise the architecture requirement with BEHAVIORAL, INTEGRATION proof: Durable currentness at boundary",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-138",
+    "requirement": "Send-boundary recheck",
+    "section": "\u00a734",
+    "component": "Preflight",
+    "evidenceIds": [
+      "T17-INT-001",
+      "FI17-004",
+      "FI17-005",
+      "FI17-006",
+      "FI17-007",
+      "FI17-008",
+      "FI17-009",
+      "FI17-010",
+      "FI17-011",
+      "FI17-012",
+      "FI17-013",
+      "FI17-014",
+      "FI17-015",
+      "FI17-016"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-INT-001, FI17-004, FI17-005, FI17-006, FI17-007, FI17-008, FI17-009, FI17-010, FI17-011, FI17-012, FI17-013, FI17-014, FI17-015, FI17-016 exercise the architecture requirement with INTEGRATION proof: Send-boundary recheck",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-139",
+    "requirement": "Cache not permission",
+    "section": "\u00a734",
+    "component": "Cache policy",
+    "evidenceIds": [
+      "T17-IMPL-037",
+      "FI17-003",
+      "CS17-I"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-037, FI17-003, CS17-I exercise the architecture requirement with BEHAVIORAL, INTEGRATION proof: Cache not permission",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-140",
+    "requirement": "Replica fail-closed",
+    "section": "\u00a734",
+    "component": "Authority",
+    "evidenceIds": [
+      "T17-INT-012",
+      "FI17-012",
+      "CS17-J"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-INT-012, FI17-012, CS17-J exercise the architecture requirement with INTEGRATION proof: Replica fail-closed",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-141",
+    "requirement": "Startup artifact identity",
+    "section": "\u00a734",
+    "component": "Identity provider",
+    "evidenceIds": [
+      "T17-INT-013"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-INT-013 exercise the architecture requirement with INTEGRATION proof: Startup artifact identity",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-142",
+    "requirement": "Pre-mutation artifact compare",
+    "section": "\u00a734",
+    "component": "Preflight",
+    "evidenceIds": [
+      "T17-IMPL-039",
+      "FI17-011",
+      "CS17-X"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-039, FI17-011, CS17-X exercise the architecture requirement with BEHAVIORAL, INTEGRATION proof: Pre-mutation artifact compare",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-143",
+    "requirement": "Transition table enforced",
+    "section": "\u00a734",
+    "component": "Lifecycle",
+    "evidenceIds": [
+      "T17-IMPL-001",
+      "T17-IMPL-002",
+      "T17-IMPL-003",
+      "T17-IMPL-004",
+      "T17-IMPL-005"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-001, T17-IMPL-002, T17-IMPL-003, T17-IMPL-004, T17-IMPL-005 exercise the architecture requirement with BEHAVIORAL proof: Transition table enforced",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-144",
+    "requirement": "Certification SoD",
+    "section": "\u00a734",
+    "component": "SoD policy",
+    "evidenceIds": [
+      "T17-IMPL-019",
+      "T17-IMPL-020",
+      "T17-IMPL-021",
+      "T17-IMPL-022",
+      "T17-IMPL-023",
+      "T17-SEC-006"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "SECURITY"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-019, T17-IMPL-020, T17-IMPL-021, T17-IMPL-022, T17-IMPL-023, T17-SEC-006 exercise the architecture requirement with BEHAVIORAL, SECURITY proof: Certification SoD",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-145",
+    "requirement": "Onboarding SoD + executor ban",
+    "section": "\u00a734",
+    "component": "Onboarding",
+    "evidenceIds": [
+      "T17-IMPL-018",
+      "T17-IMPL-020",
+      "T17-SEC-005",
+      "CS17-S"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "SECURITY"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-018, T17-IMPL-020, T17-SEC-005, CS17-S exercise the architecture requirement with BEHAVIORAL, SECURITY proof: Onboarding SoD + executor ban",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-146",
+    "requirement": "Endpoint identity tuple",
+    "section": "\u00a734",
+    "component": "Endpoint profile",
+    "evidenceIds": [
+      "T17-DB-012",
+      "T17-INT-014"
+    ],
+    "evidenceTypes": [
+      "DATABASE",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-DB-012, T17-INT-014 exercise the architecture requirement with DATABASE, INTEGRATION proof: Endpoint identity tuple",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-147",
+    "requirement": "DNS not vendor proof",
+    "section": "\u00a734",
+    "component": "DestinationTrustValidator",
+    "evidenceIds": [
+      "T17-INT-014",
+      "T17-SEC-001"
+    ],
+    "evidenceTypes": [
+      "INTEGRATION",
+      "SECURITY"
+    ],
+    "whyEvidenceProvesGate": "T17-INT-014, T17-SEC-001 exercise the architecture requirement with INTEGRATION, SECURITY proof: DNS not vendor proof",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-148",
+    "requirement": "Target-bound credential resolve",
+    "section": "\u00a734",
+    "component": "Credential binder",
+    "evidenceIds": [
+      "T17-IMPL-041",
+      "T17-IMPL-042",
+      "T17-SEC-007",
+      "T17-SEC-008"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "SECURITY"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-041, T17-IMPL-042, T17-SEC-007, T17-SEC-008 exercise the architecture requirement with BEHAVIORAL, SECURITY proof: Target-bound credential resolve",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-149",
+    "requirement": "POSITIVE_NOT_SENT needs proof",
+    "section": "\u00a734",
+    "component": "Send class",
+    "evidenceIds": [
+      "T17-IMPL-048",
+      "T17-IMPL-049"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-048, T17-IMPL-049 exercise the architecture requirement with BEHAVIORAL proof: POSITIVE_NOT_SENT needs proof",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-150",
+    "requirement": "Health AND composition",
+    "section": "\u00a734",
+    "component": "Health composer",
+    "evidenceIds": [
+      "T17-IMPL-031",
+      "CS17-Y"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-031, CS17-Y exercise the architecture requirement with BEHAVIORAL, INTEGRATION proof: Health AND composition",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-151",
+    "requirement": "Trusted evidence requirements",
+    "section": "\u00a734",
+    "component": "Evidence service",
+    "evidenceIds": [
+      "T17-IMPL-015"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-015 exercise the architecture requirement with BEHAVIORAL proof: Trusted evidence requirements",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-152",
+    "requirement": "Evidence supersession",
+    "section": "\u00a734",
+    "component": "Evidence service",
+    "evidenceIds": [
+      "T17-IMPL-016",
+      "T17-IMPL-017"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-016, T17-IMPL-017 exercise the architecture requirement with BEHAVIORAL proof: Evidence supersession",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-153",
+    "requirement": "Immutable versioned snapshots",
+    "section": "\u00a734",
+    "component": "Schema + service",
+    "evidenceIds": [
+      "T17-DB-004",
+      "T17-IMPL-014"
+    ],
+    "evidenceTypes": [
+      "DATABASE",
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-DB-004, T17-IMPL-014 exercise the architecture requirement with DATABASE, BEHAVIORAL proof: Immutable versioned snapshots",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-154",
+    "requirement": "\u00a736A matrix implemented",
+    "section": "\u00a734",
+    "component": "Invalidation",
+    "evidenceIds": [
+      "T17-IMPL-007",
+      "T17-IMPL-008",
+      "T17-IMPL-009",
+      "T17-IMPL-010",
+      "T17-IMPL-011",
+      "T17-IMPL-012",
+      "T17-IMPL-013",
+      "T17-IMPL-051",
+      "T17-IMPL-052",
+      "T17-IMPL-053",
+      "T17-IMPL-054",
+      "T17-IMPL-055",
+      "T17-IMPL-056",
+      "T17-IMPL-057",
+      "T17-IMPL-058",
+      "T17-IMPL-059",
+      "T17-INT-031",
+      "T17-INT-032",
+      "T17-INT-033",
+      "T17-INT-034",
+      "T17-DB-029",
+      "T17-DB-031",
+      "FI17-004",
+      "FI17-005",
+      "FI17-006",
+      "FI17-007",
+      "FI17-008",
+      "FI17-009",
+      "FI17-010",
+      "FI17-011",
+      "FI17-012",
+      "FI17-013",
+      "FI17-014",
+      "FI17-015",
+      "FI17-016"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INTEGRATION",
+      "DATABASE"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-007, T17-IMPL-008, T17-IMPL-009, T17-IMPL-010, T17-IMPL-011, T17-IMPL-012, T17-IMPL-013, T17-IMPL-051, T17-IMPL-052, T17-IMPL-053, T17-IMPL-054, T17-IMPL-055, T17-IMPL-056, T17-IMPL-057, T17-IMPL-058, T17-IMPL-059, T17-INT-031, T17-INT-032, T17-INT-033, T17-INT-034, T17-DB-029, T17-DB-031, FI17-004, FI17-005, FI17-006, FI17-007, FI17-008, FI17-009, FI17-010, FI17-011, FI17-012, FI17-013, FI17-014, FI17-015, FI17-016 exercise the architecture requirement with BEHAVIORAL, INTEGRATION, DATABASE proof: \u00a736A matrix implemented",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-155",
+    "requirement": "L4 send currentness",
+    "section": "\u00a734",
+    "component": "Level4Satisfied",
+    "evidenceIds": [
+      "T17-IMPL-034",
+      "T17-IMPL-035",
+      "T17-IMPL-036",
+      "FI17-015",
+      "CS17-A",
+      "CS17-B"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL",
+      "INTEGRATION"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-034, T17-IMPL-035, T17-IMPL-036, FI17-015, CS17-A, CS17-B exercise the architecture requirement with BEHAVIORAL, INTEGRATION proof: L4 send currentness",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-156",
+    "requirement": "No inferred idempotency",
+    "section": "\u00a734",
+    "component": "Send class",
+    "evidenceIds": [
+      "T17-IMPL-050"
+    ],
+    "evidenceTypes": [
+      "BEHAVIORAL"
+    ],
+    "whyEvidenceProvesGate": "T17-IMPL-050 exercise the architecture requirement with BEHAVIORAL proof: No inferred idempotency",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-157",
+    "requirement": "Bundle binds TLS + network versions",
+    "section": "\u00a734",
+    "component": "Bundle",
+    "evidenceIds": [
+      "T17-DB-010",
+      "T17-DB-030",
+      "T17-IMPL-069",
+      "T17-IMPL-070"
+    ],
+    "evidenceTypes": [
+      "DATABASE"
+    ],
+    "whyEvidenceProvesGate": "T17-DB-010, T17-DB-030, T17-IMPL-069, T17-IMPL-070 exercise the architecture requirement with DATABASE proof: Bundle binds TLS + network versions",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  },
+  {
+    "gate": "G17-158",
+    "requirement": "Change-control abstract; MANUAL ok",
+    "section": "\u00a734",
+    "component": "Onboarding policy",
+    "evidenceIds": [
+      "T17-STR-020"
+    ],
+    "evidenceTypes": [
+      "STRUCTURAL"
+    ],
+    "whyEvidenceProvesGate": "T17-STR-020 exercise the architecture requirement with STRUCTURAL proof: Change-control abstract; MANUAL ok",
+    "expectedResult": "PASS",
+    "ciLevel": "L0",
+    "externalDependency": "NO",
+    "statusAtSpecificationFreeze": "SPECIFIED"
+  }
+]

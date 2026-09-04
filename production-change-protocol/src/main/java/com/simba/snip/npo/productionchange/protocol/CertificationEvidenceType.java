@@ -1,0 +1,21 @@
+package com.simba.snip.npo.productionchange.protocol;
+
+public enum CertificationEvidenceType {
+    INTERFACE_DOCUMENTATION,
+    SECURITY,
+    CONNECTIVITY,
+    CAPABILITY,
+    MUTATION,
+    EXPECTED_STATE,
+    VERIFICATION,
+    ROLLBACK,
+    AMBIGUOUS_OUTCOME,
+    FAILURE_INJECTION,
+    PERFORMANCE,
+    OPERATIONS,
+    AUDIT,
+    MONITORING,
+    ARTIFACT_INTEGRITY,
+    TARGET_ONBOARDING,
+    VERSION_COMPATIBILITY
+}

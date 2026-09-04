@@ -26,6 +26,8 @@ import com.simba.snip.npo.productionwritegateway.repository.ProductionExecutionG
 import com.simba.snip.npo.productionwritegateway.repository.ProductionExecutionRecoveryRepository;
 import com.simba.snip.npo.productionwritegateway.repository.ProductionNetworkChangeRepository;
 import com.simba.snip.npo.productionwritegateway.security.WriteCredentialHandle;
+import com.simba.snip.npo.productionwritegateway.vendortransport.CertificationSendBoundaryPreflight;
+import com.simba.snip.npo.productionwritegateway.vendortransport.Phase17SendDeniedException;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -55,6 +57,7 @@ public class GatewayExecutionOrchestrator {
     private final ProductionTargetHealthService healthService;
     private final ProductionGatewayMetrics metrics;
     private final EricssonEnmWriteAdapter writeAdapter;
+    private final CertificationSendBoundaryPreflight phase17Preflight;
     private final AtomicInteger mutationInvocationCounter;
 
     public GatewayExecutionOrchestrator(
@@ -75,6 +78,7 @@ public class GatewayExecutionOrchestrator {
             ProductionTargetHealthService healthService,
             ProductionGatewayMetrics metrics,
             EricssonEnmWriteAdapter writeAdapter,
+            CertificationSendBoundaryPreflight phase17Preflight,
             org.springframework.beans.factory.ObjectProvider<AtomicInteger> mutationCounterProvider
     ) {
         this.admissionService = admissionService;
@@ -94,6 +98,7 @@ public class GatewayExecutionOrchestrator {
         this.healthService = healthService;
         this.metrics = metrics;
         this.writeAdapter = writeAdapter;
+        this.phase17Preflight = phase17Preflight;
         this.mutationInvocationCounter = mutationCounterProvider.getIfAvailable(() -> new AtomicInteger(0));
     }
 
@@ -183,6 +188,16 @@ public class GatewayExecutionOrchestrator {
                     : FailureInjectionPoint.AFTER_ATTEMPT_BEFORE_PREFLIGHT);
             ProductionGatewayPreflightService.PreflightSnapshot snapshot =
                     preflightService.run(consumed, grantType, attempt.getAttemptId());
+            try {
+                phase17Preflight.evaluate(
+                        consumed,
+                        snapshot.change(),
+                        snapshot.target()
+                );
+            } catch (Phase17SendDeniedException ex) {
+                throw GatewayDeniedException.denyPhase17(
+                        ex.denialCode(), grant.getGrantId(), grant.getProductionChangeId());
+            }
             failureInjector.inject(grantType == GrantType.ROLLBACK
                     ? FailureInjectionPoint.RB_BEFORE_CREDENTIAL
                     : FailureInjectionPoint.BEFORE_CREDENTIAL);

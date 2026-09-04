@@ -17,6 +17,8 @@ public interface ProductionNetworkChangeRepository extends JpaRepository<Product
 
     List<ProductionNetworkChangeEntity> findAllByOrderByCreatedAtDesc();
 
+    List<ProductionNetworkChangeEntity> findByProductionTargetIdOrderByCreatedAtDesc(String productionTargetId);
+
     Optional<ProductionNetworkChangeEntity> findFirstByPhase15ExecutionIdAndProductionTargetIdAndChangeControlReferenceOrderByCreatedAtDesc(
             UUID phase15ExecutionId,
             String productionTargetId,

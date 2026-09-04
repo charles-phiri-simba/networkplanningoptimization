@@ -132,17 +132,50 @@ public class ProductionExecutionGrantService {
 
     @Transactional(propagation = Propagation.REQUIRES_NEW)
     public void revokeIssued(UUID productionChangeId, ActorPrincipal actor) {
-        for (ProductionExecutionGrantEntity grant :
-                grantRepository.findByProductionChangeIdAndStatus(productionChangeId, GrantStatus.ISSUED.name())) {
-            grant.setStatus(GrantStatus.REVOKED.name());
+        revokeIssuedWithPredicate(productionChangeId, actor);
+    }
+
+    /**
+     * Joins the caller's transaction. Used by Phase 17 CertificationInvalidationService.
+     * Frozen ISSUED→REVOKED semantics; CONSUMED excluded by durable predicate.
+     */
+    @Transactional(propagation = Propagation.MANDATORY)
+    public int revokeIssuedInCurrentTransaction(UUID productionChangeId, ActorPrincipal actor) {
+        return revokeIssuedWithPredicate(productionChangeId, actor);
+    }
+
+    @Transactional(propagation = Propagation.MANDATORY)
+    public int revokeIssuedByTargetId(String targetId, ActorPrincipal actor) {
+        int updated = grantRepository.revokeIssuedByTargetIdWhereIssued(targetId);
+        if (updated > 0) {
+            metrics.incrementGrantRevoked();
+            List<ProductionExecutionGrantEntity> revoked =
+                    grantRepository.findByTargetIdAndStatus(targetId, GrantStatus.REVOKED.name());
+            if (!revoked.isEmpty()) {
+                auditService.append(
+                        revoked.get(0).getProductionChangeId(),
+                        ProductionAuditEventType.PRODUCTION_GRANT_REVOKED,
+                        actor.actorPrincipalId(),
+                        List.of(ProductionReasonCode.PRODUCTION_GRANT_REVOKED.name()),
+                        Map.of("targetId", targetId, "revokedCount", String.valueOf(updated))
+                );
+            }
+        }
+        return updated;
+    }
+
+    private int revokeIssuedWithPredicate(UUID productionChangeId, ActorPrincipal actor) {
+        int updated = grantRepository.revokeIssuedWhereIssued(productionChangeId);
+        if (updated > 0) {
             metrics.incrementGrantRevoked();
             auditService.append(
                     productionChangeId,
                     ProductionAuditEventType.PRODUCTION_GRANT_REVOKED,
                     actor.actorPrincipalId(),
                     List.of(ProductionReasonCode.PRODUCTION_GRANT_REVOKED.name()),
-                    Map.of("grantType", grant.getGrantType())
+                    Map.of("revokedCount", String.valueOf(updated))
             );
         }
+        return updated;
     }
 }

@@ -1,0 +1,5068 @@
+{
+  "catalog": "frozen-local-253",
+  "catalogIndexOnlyCountedAsProof": 0,
+  "realized": 253,
+  "notRealized": 0,
+  "level4DenialCodeObservation": "ACCEPTABLE_ALIAS",
+  "level4DenialCodeRationale": "P17_LEVEL3_NOT_LEVEL4 is used when current Phase16 authorization is absent. Standing historical L4 state is forbidden (T17-STR-014). P17_LEVEL4_NOT_CURRENT remains the residual conjunction check after other currentness predicates. Fail-closed deny is identical.",
+  "realizationTypeCounts": {
+    "BATCHED_STRUCTURAL_PROOF": 30,
+    "BATCHED_DATABASE_PROOF": 32,
+    "NAMED_TEST": 120,
+    "BATCHED_SECURITY_PROOF": 6,
+    "PARAMETERIZED_TEST_CASE": 57,
+    "INFRASTRUCTURE_ARTIFACT": 8
+  },
+  "frozenCategoryCounts": {
+    "STRUCTURAL": 30,
+    "DATABASE": 31,
+    "BEHAVIORAL": 70,
+    "INTEGRATION": 84,
+    "SECURITY": 30,
+    "INFRASTRUCTURE": 8
+  },
+  "batchedIntegrationIds": 38,
+  "gateClassificationCounts": {
+    "LOCAL_IMPLEMENTATION": 143,
+    "MIXED_LOCAL_EXTERNAL": 8,
+    "EXTERNAL_L1": 3,
+    "EXTERNAL_L2": 1,
+    "RUNTIME_L4": 3
+  },
+  "threatsRequiringExternalCertification": [
+    "T17-01",
+    "T17-05",
+    "T17-15",
+    "T17-16",
+    "T17-29"
+  ],
+  "gateClassifications": [
+    {
+      "gateId": "G17-001",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-002",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-003",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-004",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-005",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-006",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-007",
+      "gateClass": "MIXED_LOCAL_EXTERNAL",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "NOT EXECUTED",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-008",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-009",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-010",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-011",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-012",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-013",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-014",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-015",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-016",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-017",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-018",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-019",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-020",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-021",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-022",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-023",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-024",
+      "gateClass": "EXTERNAL_L1",
+      "localImplementationStatus": "N/A_EXTERNAL_SCAFFOLDING",
+      "externalStatus": "NOT EXECUTED",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-025",
+      "gateClass": "EXTERNAL_L1",
+      "localImplementationStatus": "N/A_EXTERNAL_SCAFFOLDING",
+      "externalStatus": "NOT EXECUTED",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-026",
+      "gateClass": "EXTERNAL_L2",
+      "localImplementationStatus": "N/A_EXTERNAL_SCAFFOLDING",
+      "externalStatus": "NOT EXECUTED",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-027",
+      "gateClass": "MIXED_LOCAL_EXTERNAL",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "NOT SATISFIED",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-028",
+      "gateClass": "RUNTIME_L4",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "CURRENT L4 NOT SATISFIED",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-029",
+      "gateClass": "RUNTIME_L4",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "CURRENT L4 NOT SATISFIED",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-030",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-031",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-032",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-033",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-034",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-035",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-036",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-037",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-038",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-039",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-040",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-041",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-042",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-043",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-044",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-045",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-046",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-047",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-048",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-049",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-050",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-051",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-052",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-053",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-054",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-055",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-056",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-057",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-058",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-059",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-060",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-061",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-062",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-063",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-064",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-065",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-066",
+      "gateClass": "EXTERNAL_L1",
+      "localImplementationStatus": "N/A_EXTERNAL_SCAFFOLDING",
+      "externalStatus": "NOT EXECUTED",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-067",
+      "gateClass": "MIXED_LOCAL_EXTERNAL",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "NOT EXECUTED",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-068",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-069",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-070",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-071",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-072",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-073",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-074",
+      "gateClass": "MIXED_LOCAL_EXTERNAL",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "NOT EXECUTED",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-075",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-076",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-077",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-078",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-079",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-080",
+      "gateClass": "MIXED_LOCAL_EXTERNAL",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "NOT EXECUTED",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-081",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-082",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-083",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-084",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-085",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-086",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-087",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-088",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-089",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-090",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-091",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-092",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-093",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-094",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-095",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-096",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-097",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-098",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-099",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-100",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-101",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-102",
+      "gateClass": "MIXED_LOCAL_EXTERNAL",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "NOT SATISFIED",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-103",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-104",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-105",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-106",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-107",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-108",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-109",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-110",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-111",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-112",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-113",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-114",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-115",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-116",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-117",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-118",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-119",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-120",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-121",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-122",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-123",
+      "gateClass": "MIXED_LOCAL_EXTERNAL",
+      "localImplementationStatus": "N/A_EXTERNAL_SCAFFOLDING",
+      "externalStatus": "NOT EXECUTED",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-124",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-125",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-126",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-127",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-128",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-129",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-130",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-131",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-132",
+      "gateClass": "MIXED_LOCAL_EXTERNAL",
+      "localImplementationStatus": "N/A_EXTERNAL_SCAFFOLDING",
+      "externalStatus": "NOT EXECUTED",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-133",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-134",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-135",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-136",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-137",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-138",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-139",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-140",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-141",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-142",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-143",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-144",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-145",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-146",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-147",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-148",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-149",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-150",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-151",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-152",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-153",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-154",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-155",
+      "gateClass": "RUNTIME_L4",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "CURRENT L4 NOT SATISFIED",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-156",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-157",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    },
+    {
+      "gateId": "G17-158",
+      "gateClass": "LOCAL_IMPLEMENTATION",
+      "localImplementationStatus": "PASS",
+      "externalStatus": "N/A",
+      "overallSoftwareConformance": "PASS FOR IMPLEMENTATION BASELINE"
+    }
+  ],
+  "entries": [
+    {
+      "evidenceId": "T17-STR-001",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [
+        "G17-001",
+        "G17-114"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-001 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-002",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [
+        "G17-003"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-002 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-003",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [
+        "G17-005",
+        "G17-113"
+      ],
+      "threats": [
+        "T17-02"
+      ],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-003 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-004",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [
+        "G17-012"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-004 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-005",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [
+        "G17-006",
+        "G17-017"
+      ],
+      "threats": [
+        "T17-02"
+      ],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-005 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-006",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [
+        "G17-110",
+        "G17-111"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-006 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-007",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [
+        "G17-037",
+        "G17-125",
+        "G17-126"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-007 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-008",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [
+        "G17-019",
+        "G17-076",
+        "G17-112"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-008 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-009",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [
+        "G17-003",
+        "G17-112",
+        "G17-113"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-009 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-010",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [
+        "G17-016"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-010 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-011",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [
+        "G17-109"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-011 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-012",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [
+        "G17-130"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-012 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-013",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-013 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-014",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [
+        "G17-030",
+        "G17-102",
+        "G17-103"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-014 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-015",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-015 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-016",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [
+        "G17-018",
+        "G17-061",
+        "G17-108",
+        "G17-114"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-016 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-017",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [
+        "G17-117",
+        "G17-120"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-017 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-018",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [
+        "G17-116"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-018 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-019",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [
+        "G17-115"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-019 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-020",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [
+        "G17-158"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-020 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-021",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-021 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-022",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [
+        "G17-129"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-022 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-023",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [
+        "G17-009",
+        "G17-038",
+        "G17-043",
+        "G17-052",
+        "G17-073",
+        "G17-087",
+        "G17-091"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-023 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-024",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [
+        "G17-005",
+        "G17-008",
+        "G17-010",
+        "G17-011",
+        "G17-131"
+      ],
+      "threats": [
+        "T17-01",
+        "T17-02"
+      ],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-024 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-025",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [
+        "G17-040"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-025 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-026",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [
+        "G17-041"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-026 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-027",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [
+        "G17-002",
+        "G17-042"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-027 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-028",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-028 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-029",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [
+        "G17-023",
+        "G17-031",
+        "G17-101",
+        "G17-127",
+        "G17-133"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-029 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-STR-030",
+      "frozenCategory": "STRUCTURAL",
+      "architectureGates": [
+        "G17-031",
+        "G17-122",
+        "G17-128"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_STRUCTURAL_PROOF",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "Parameterized case T17-STR-030 asserts the individual structural requirement.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-001",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [
+        "G17-009",
+        "G17-034"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-001 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-002",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [
+        "G17-008",
+        "G17-059"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-002 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-003",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-003 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-004",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [
+        "G17-014",
+        "G17-153"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-004 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-005",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-005 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-006",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-006 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-007",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-007 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-008",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-008 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-009",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [
+        "G17-086"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-009 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-010",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [
+        "G17-013",
+        "G17-088",
+        "G17-157"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-010 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-011",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [
+        "G17-038",
+        "G17-043"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-011 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-012",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [
+        "G17-037",
+        "G17-146"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-012 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-013",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-013 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-014",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-014 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-015",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-015 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-016",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-016 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-017",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-017 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-018",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [
+        "G17-034",
+        "G17-088"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-018 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-019",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-019 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-020",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-020 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-021",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-021 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-022",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [
+        "G17-047",
+        "G17-049"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-022 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-023",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-023 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-024",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-024 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-025",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-025 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-026",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-026 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-027",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-027 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-028",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-028 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-029",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-029 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-030",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [
+        "G17-157"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-030 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-DB-031",
+      "frozenCategory": "DATABASE",
+      "architectureGates": [
+        "G17-134",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "Runtime JDBC assertion covering T17-DB-031 (FK/unique/CHECK/immutability/index/idempotency).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-001",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-019",
+        "G17-020",
+        "G17-143"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17LifecycleTest",
+      "testMethod": "unknownAndRevokedTransitionsDenied",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17LifecycleTest.java",
+      "proofDescription": "Legal/unknown/revoked/expired/suspended transitions plus LAB_CERTIFIED permission set.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-002",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-020",
+        "G17-143"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17LifecycleTest",
+      "testMethod": "unknownAndRevokedTransitionsDenied",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17LifecycleTest.java",
+      "proofDescription": "Legal/unknown/revoked/expired/suspended transitions plus LAB_CERTIFIED permission set.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-003",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-022",
+        "G17-143"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17LifecycleTest",
+      "testMethod": "unknownAndRevokedTransitionsDenied",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17LifecycleTest.java",
+      "proofDescription": "Legal/unknown/revoked/expired/suspended transitions plus LAB_CERTIFIED permission set.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-004",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-143"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17LifecycleTest",
+      "testMethod": "unknownAndRevokedTransitionsDenied",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17LifecycleTest.java",
+      "proofDescription": "Legal/unknown/revoked/expired/suspended transitions plus LAB_CERTIFIED permission set.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-005",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-022",
+        "G17-085",
+        "G17-143"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17LifecycleTest",
+      "testMethod": "unknownAndRevokedTransitionsDenied",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17LifecycleTest.java",
+      "proofDescription": "Legal/unknown/revoked/expired/suspended transitions plus LAB_CERTIFIED permission set.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-006",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-021",
+        "G17-027",
+        "G17-101"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "CertificationSendBoundaryPreflightTest",
+      "testMethod": "cs17ALevel3NotLevel4",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/CertificationSendBoundaryPreflightTest.java",
+      "proofDescription": "PRODUCTION_REGISTERED is not execute permission.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-007",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-007",
+        "G17-011",
+        "G17-097",
+        "G17-134",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "c17i01CrossTargetInvalidationIsolation",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "Scoped invalidation cascade for interface/docs/approval/profile/grant.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-008",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-097",
+        "G17-135",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "c17i01CrossTargetInvalidationIsolation",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "Scoped invalidation cascade for interface/docs/approval/profile/grant.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-009",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-097",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "c17i01CrossTargetInvalidationIsolation",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "Scoped invalidation cascade for interface/docs/approval/profile/grant.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-010",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-097",
+        "G17-136",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "c17i01CrossTargetInvalidationIsolation",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "Scoped invalidation cascade for interface/docs/approval/profile/grant.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-011",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-096",
+        "G17-097",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "c17i01CrossTargetInvalidationIsolation",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "Scoped invalidation cascade for interface/docs/approval/profile/grant.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-012",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-097",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "c17i01CrossTargetInvalidationIsolation",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "Scoped invalidation cascade for interface/docs/approval/profile/grant.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-013",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-051",
+        "G17-089",
+        "G17-097",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "c17i01CrossTargetInvalidationIsolation",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "Scoped invalidation cascade for interface/docs/approval/profile/grant.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-014",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-014",
+        "G17-153"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "b17i05CertifiedImmutabilityRejected",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "Certified content_digest rewrite rejected.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-015",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-151"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17EvidenceSupersessionIT",
+      "testMethod": "t17Impl015016017HashOnlyAndSupersession",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17EvidenceSupersessionIT.java",
+      "proofDescription": "Hash-only rejected; supersession hides old PASS; failed recertify does not fallback.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-016",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-152"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17EvidenceSupersessionIT",
+      "testMethod": "t17Impl015016017HashOnlyAndSupersession",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17EvidenceSupersessionIT.java",
+      "proofDescription": "Hash-only rejected; supersession hides old PASS; failed recertify does not fallback.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-017",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-152"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17EvidenceSupersessionIT",
+      "testMethod": "t17Impl015016017HashOnlyAndSupersession",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17EvidenceSupersessionIT.java",
+      "proofDescription": "Hash-only rejected; supersession hides old PASS; failed recertify does not fallback.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-018",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-094",
+        "G17-145"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_SECURITY_PROOF",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "t17Impl018020OnboardingSoD",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "SoD create/review/approve/executor plus standing-L4 deny.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-019",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-094",
+        "G17-144"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_SECURITY_PROOF",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "t17Impl018020OnboardingSoD",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "SoD create/review/approve/executor plus standing-L4 deny.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-020",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-093",
+        "G17-144",
+        "G17-145"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_SECURITY_PROOF",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "t17Impl018020OnboardingSoD",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "SoD create/review/approve/executor plus standing-L4 deny.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-021",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-093",
+        "G17-144"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_SECURITY_PROOF",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "t17Impl018020OnboardingSoD",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "SoD create/review/approve/executor plus standing-L4 deny.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-022",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-093",
+        "G17-144"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_SECURITY_PROOF",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "t17Impl018020OnboardingSoD",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "SoD create/review/approve/executor plus standing-L4 deny.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-023",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-094",
+        "G17-144"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_SECURITY_PROOF",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "t17Impl018020OnboardingSoD",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "SoD create/review/approve/executor plus standing-L4 deny.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-024",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-057",
+        "G17-060"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "t17Impl024025CapabilityCellTxPowerOnly",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "Capability only CELL/txPower.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-025",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-058",
+        "G17-061"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "t17Impl024025CapabilityCellTxPowerOnly",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "Capability only CELL/txPower.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-026",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-062",
+        "G17-064"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "CertificationSendBoundaryPreflightTest",
+      "testMethod": "cs17MAtomicNotCertified",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/CertificationSendBoundaryPreflightTest.java",
+      "proofDescription": "ATOMIC denied unless certified; READ_THEN_WRITE default.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-027",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-063"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "CertificationSendBoundaryPreflightTest",
+      "testMethod": "cs17MAtomicNotCertified",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/CertificationSendBoundaryPreflightTest.java",
+      "proofDescription": "ATOMIC denied unless certified; READ_THEN_WRITE default.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-028",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-053",
+        "G17-056"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "t17Impl028029030VendorVersionPredicate",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "Unknown/auto-expand/out-of-range vendor version denied.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-029",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-053",
+        "G17-055"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "t17Impl028029030VendorVersionPredicate",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "Unknown/auto-expand/out-of-range vendor version denied.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-030",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-054"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "t17Impl028029030VendorVersionPredicate",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "Unknown/auto-expand/out-of-range vendor version denied.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-031",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-083",
+        "G17-150"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "CertificationSendBoundaryPreflightTest",
+      "testMethod": "cs17YHealthBlocking",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/CertificationSendBoundaryPreflightTest.java",
+      "proofDescription": "Health AND composition: P16 suspend/DEGRADED/unknown deny.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-032",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-083",
+        "G17-084"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "CertificationSendBoundaryPreflightTest",
+      "testMethod": "cs17YHealthBlocking",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/CertificationSendBoundaryPreflightTest.java",
+      "proofDescription": "Health AND composition: P16 suspend/DEGRADED/unknown deny.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-033",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-083",
+        "G17-084"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "CertificationSendBoundaryPreflightTest",
+      "testMethod": "cs17YHealthBlocking",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/CertificationSendBoundaryPreflightTest.java",
+      "proofDescription": "Health AND composition: P16 suspend/DEGRADED/unknown deny.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-034",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-028",
+        "G17-155"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "denyBeforeSendMutationExactlyZero",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "Level4Satisfied is a function of current P16 auth + P17 certs; stale auth mutationCount==0.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-035",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-028",
+        "G17-029",
+        "G17-155"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "denyBeforeSendMutationExactlyZero",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "Level4Satisfied is a function of current P16 auth + P17 certs; stale auth mutationCount==0.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-036",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-028",
+        "G17-155"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "denyBeforeSendMutationExactlyZero",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "Level4Satisfied is a function of current P16 auth + P17 certs; stale auth mutationCount==0.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-037",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-004",
+        "G17-137",
+        "G17-139"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "CertificationSendBoundaryPreflightTest",
+      "testMethod": "cs17HAuthorityUnavailable",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/CertificationSendBoundaryPreflightTest.java",
+      "proofDescription": "Cache is not permission; authority timeout/unavailable denies.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-038",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-004",
+        "G17-099"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "CertificationSendBoundaryPreflightTest",
+      "testMethod": "cs17HAuthorityUnavailable",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/CertificationSendBoundaryPreflightTest.java",
+      "proofDescription": "Cache is not permission; authority timeout/unavailable denies.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-039",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-090",
+        "G17-092",
+        "G17-142"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "denyBeforeSendMutationExactlyZero",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "Artifact/endpoint/credential/generic credential deny with mutationCount==0.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-040",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-039"
+      ],
+      "threats": [
+        "T17-03"
+      ],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "denyBeforeSendMutationExactlyZero",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "Artifact/endpoint/credential/generic credential deny with mutationCount==0.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-041",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-044",
+        "G17-148"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "denyBeforeSendMutationExactlyZero",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "Artifact/endpoint/credential/generic credential deny with mutationCount==0.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-042",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-148"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "denyBeforeSendMutationExactlyZero",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "Artifact/endpoint/credential/generic credential deny with mutationCount==0.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-043",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-049",
+        "G17-050"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "DestinationTrustValidatorTest",
+      "testMethod": "t17Int035DestinationHarness",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/DestinationTrustValidatorTest.java",
+      "proofDescription": "Hostname verification / trust-all rejected via destination harness.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-044",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-048",
+        "G17-050"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "DestinationTrustValidatorTest",
+      "testMethod": "t17Int035DestinationHarness",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/DestinationTrustValidatorTest.java",
+      "proofDescription": "Hostname verification / trust-all rejected via destination harness.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-045",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-117",
+        "G17-120"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "SchedulerProductionMutationIsolationTest",
+      "testMethod": "noProductionExecuteScheduled",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/productionchange/SchedulerProductionMutationIsolationTest.java",
+      "proofDescription": "Scheduler/event/auto-rollback do not execute production mutation.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-046",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-118"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "SchedulerProductionMutationIsolationTest",
+      "testMethod": "noProductionExecuteScheduled",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/productionchange/SchedulerProductionMutationIsolationTest.java",
+      "proofDescription": "Scheduler/event/auto-rollback do not execute production mutation.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-047",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-079",
+        "G17-119"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "SchedulerProductionMutationIsolationTest",
+      "testMethod": "noProductionExecuteScheduled",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/productionchange/SchedulerProductionMutationIsolationTest.java",
+      "proofDescription": "Scheduler/event/auto-rollback do not execute production mutation.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-048",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-069",
+        "G17-072",
+        "G17-149"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "AttemptSendClassifierTest",
+      "testMethod": "timeoutConnectionLossResponseLossAreMayHaveSent",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/AttemptSendClassifierTest.java",
+      "proofDescription": "POSITIVE_NOT_SENT requires proof; timeout/loss are MAY_HAVE_SENT.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-049",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-068",
+        "G17-069",
+        "G17-070",
+        "G17-149"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "AttemptSendClassifierTest",
+      "testMethod": "timeoutConnectionLossResponseLossAreMayHaveSent",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/AttemptSendClassifierTest.java",
+      "proofDescription": "POSITIVE_NOT_SENT requires proof; timeout/loss are MAY_HAVE_SENT.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-050",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-071",
+        "G17-073",
+        "G17-156"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "AttemptSendClassifierTest",
+      "testMethod": "timeoutConnectionLossResponseLossAreMayHaveSent",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/AttemptSendClassifierTest.java",
+      "proofDescription": "POSITIVE_NOT_SENT requires proof; timeout/loss are MAY_HAVE_SENT.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-051",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-134",
+        "G17-136",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "c17i03InvalidationWinsConsumeRejected",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "ISSUED-only revoke, CONSUMED/EXPIRED/REVOKED/unrelated preservation, rollback, lock order, idempotency.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-052",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-134",
+        "G17-136",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "c17i03InvalidationWinsConsumeRejected",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "ISSUED-only revoke, CONSUMED/EXPIRED/REVOKED/unrelated preservation, rollback, lock order, idempotency.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-053",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-134",
+        "G17-136",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "c17i03InvalidationWinsConsumeRejected",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "ISSUED-only revoke, CONSUMED/EXPIRED/REVOKED/unrelated preservation, rollback, lock order, idempotency.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-054",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-134",
+        "G17-136",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "c17i03InvalidationWinsConsumeRejected",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "ISSUED-only revoke, CONSUMED/EXPIRED/REVOKED/unrelated preservation, rollback, lock order, idempotency.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-055",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-134",
+        "G17-136",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "c17i03InvalidationWinsConsumeRejected",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "ISSUED-only revoke, CONSUMED/EXPIRED/REVOKED/unrelated preservation, rollback, lock order, idempotency.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-056",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-136",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "c17i03InvalidationWinsConsumeRejected",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "ISSUED-only revoke, CONSUMED/EXPIRED/REVOKED/unrelated preservation, rollback, lock order, idempotency.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-057",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "c17i03InvalidationWinsConsumeRejected",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "ISSUED-only revoke, CONSUMED/EXPIRED/REVOKED/unrelated preservation, rollback, lock order, idempotency.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-058",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "c17i03InvalidationWinsConsumeRejected",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "ISSUED-only revoke, CONSUMED/EXPIRED/REVOKED/unrelated preservation, rollback, lock order, idempotency.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-059",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "c17i03InvalidationWinsConsumeRejected",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "ISSUED-only revoke, CONSUMED/EXPIRED/REVOKED/unrelated preservation, rollback, lock order, idempotency.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-060",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "t17Impl027060ReadThenWriteDefaultAndGuardReuse",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "ExpectedStateStrength type absent; ExpectedStateGuardStrength reused.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-061",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-094"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17LifecycleTest",
+      "testMethod": "unknownAndRevokedTransitionsDenied",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17LifecycleTest.java",
+      "proofDescription": "LAB_CERTIFIED requires TRANSPORT+CAPABILITY+SECURITY_CERTIFY.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-062",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-047"
+      ],
+      "threats": [],
+      "realizationType": "BATCHED_DATABASE_PROOF",
+      "testClass": "Phase17DatabaseConstraintIT",
+      "testMethod": "t17Db001To031RuntimeConstraints",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DatabaseConstraintIT.java",
+      "proofDescription": "hostname_verification_required enforced for non-DRAFT.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-063",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-090"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "PackagedRuntimeTransportArtifactIdentityProviderTest",
+      "testMethod": "packagedAMatchesPackagedA",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/PackagedRuntimeTransportArtifactIdentityProviderTest.java",
+      "proofDescription": "Packaged digest vs certified; missing/malformed/claim mismatch deny.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-064",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-090"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "PackagedRuntimeTransportArtifactIdentityProviderTest",
+      "testMethod": "packagedAMatchesPackagedA",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/PackagedRuntimeTransportArtifactIdentityProviderTest.java",
+      "proofDescription": "Packaged digest vs certified; missing/malformed/claim mismatch deny.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-065",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-090"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "PackagedRuntimeTransportArtifactIdentityProviderTest",
+      "testMethod": "packagedAMatchesPackagedA",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/PackagedRuntimeTransportArtifactIdentityProviderTest.java",
+      "proofDescription": "Packaged digest vs certified; missing/malformed/claim mismatch deny.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-066",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-070"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17MutationRetryDisabledTest",
+      "testMethod": "t17Impl066MutationPathRetriesDisabled",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/Phase17MutationRetryDisabledTest.java",
+      "proofDescription": "Mutation-path retries disabled; PRE-SEND only before dispatch.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-067",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17MutationRetryDisabledTest",
+      "testMethod": "t17Impl066MutationPathRetriesDisabled",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/Phase17MutationRetryDisabledTest.java",
+      "proofDescription": "Mutation-path retries disabled; PRE-SEND only before dispatch.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-068",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17BundleDigestAndSoDTest",
+      "testMethod": "t17Impl068UppercaseDigestRejected",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17BundleDigestAndSoDTest.java",
+      "proofDescription": "Uppercase digest reject; bundle canonicalization; null vs empty distinct.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-069",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-157"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17BundleDigestAndSoDTest",
+      "testMethod": "t17Impl068UppercaseDigestRejected",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17BundleDigestAndSoDTest.java",
+      "proofDescription": "Uppercase digest reject; bundle canonicalization; null vs empty distinct.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-IMPL-070",
+      "frozenCategory": "BEHAVIORAL",
+      "architectureGates": [
+        "G17-157"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17BundleDigestAndSoDTest",
+      "testMethod": "t17Impl068UppercaseDigestRejected",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17BundleDigestAndSoDTest.java",
+      "proofDescription": "Uppercase digest reject; bundle canonicalization; null vs empty distinct.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-001",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-004",
+        "G17-015",
+        "G17-098",
+        "G17-137",
+        "G17-138"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "denyBeforeSendMutationExactlyZero",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "Gateway preflight after consume; unconfigured/production class deny.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-002",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-006",
+        "G17-015",
+        "G17-017",
+        "G17-023",
+        "G17-121",
+        "G17-127"
+      ],
+      "threats": [
+        "T17-02"
+      ],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "denyBeforeSendMutationExactlyZero",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "Gateway preflight after consume; unconfigured/production class deny.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-003",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-075",
+        "G17-081"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "cs17ODesiredObservedVerifiedMutationOne",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "Ambiguous-outcome table mutationCount==1.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-004",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-081"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "cs17ODesiredObservedVerifiedMutationOne",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "Ambiguous-outcome table mutationCount==1.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-005",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-081"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "cs17ODesiredObservedVerifiedMutationOne",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "Ambiguous-outcome table mutationCount==1.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-006",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-081"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "cs17ODesiredObservedVerifiedMutationOne",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "Ambiguous-outcome table mutationCount==1.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-007",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-065",
+        "G17-067",
+        "G17-074",
+        "G17-075"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "cs17ODesiredObservedVerifiedMutationOne",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "Independent readback / rollback remains Phase16-governed; no second send.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-008",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-077",
+        "G17-078"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "cs17ODesiredObservedVerifiedMutationOne",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "Independent readback / rollback remains Phase16-governed; no second send.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-009",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-035"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17OnboardingDurabilityIT",
+      "testMethod": "callersCannotAssignApprovedOrL4",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17OnboardingDurabilityIT.java",
+      "proofDescription": "App API cannot pass endpoint or credential.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-010",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-035"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17OnboardingDurabilityIT",
+      "testMethod": "callersCannotAssignApprovedOrL4",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17OnboardingDurabilityIT.java",
+      "proofDescription": "App API cannot pass endpoint or credential.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-011",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "c17i03InvalidationWinsConsumeRejected",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "Grant consume then cert revoke; multi-replica stale cache fail-closed.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-012",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-140"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "c17i03InvalidationWinsConsumeRejected",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "Grant consume then cert revoke; multi-replica stale cache fail-closed.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-013",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-090",
+        "G17-141"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "PackagedRuntimeTransportArtifactIdentityProviderTest",
+      "testMethod": "claimedEnvOverrideMismatchDenied",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/PackagedRuntimeTransportArtifactIdentityProviderTest.java",
+      "proofDescription": "Startup packaged identity; destination/credential binder arguments.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-014",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-146",
+        "G17-147"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "PackagedRuntimeTransportArtifactIdentityProviderTest",
+      "testMethod": "claimedEnvOverrideMismatchDenied",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/PackagedRuntimeTransportArtifactIdentityProviderTest.java",
+      "proofDescription": "Startup packaged identity; destination/credential binder arguments.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-015",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "PackagedRuntimeTransportArtifactIdentityProviderTest",
+      "testMethod": "claimedEnvOverrideMismatchDenied",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/PackagedRuntimeTransportArtifactIdentityProviderTest.java",
+      "proofDescription": "Startup packaged identity; destination/credential binder arguments.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-016",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-001",
+        "G17-100"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "fi17_016KillSwitch",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "Kill switch/lease/rate/window still win; mutationCount==0.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-017",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-001",
+        "G17-100"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "fi17_016KillSwitch",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "Kill switch/lease/rate/window still win; mutationCount==0.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-018",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-001",
+        "G17-100"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "fi17_016KillSwitch",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "Kill switch/lease/rate/window still win; mutationCount==0.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-019",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-001",
+        "G17-100"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "fi17_016KillSwitch",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "Kill switch/lease/rate/window still win; mutationCount==0.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-020",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "cs17TAgentDenied",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "Uncertified L0 path unchanged; onboarding cannot bypass consume; agent/MCP 403.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-021",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-032",
+        "G17-033"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "cs17TAgentDenied",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "Uncertified L0 path unchanged; onboarding cannot bypass consume; agent/MCP 403.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-022",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-095"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "cs17TAgentDenied",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "Uncertified L0 path unchanged; onboarding cannot bypass consume; agent/MCP 403.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-023",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-095"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "cs17TAgentDenied",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "Uncertified L0 path unchanged; onboarding cannot bypass consume; agent/MCP 403.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-024",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "b17i01ConcurrentInvalidationsDoNotDeadlock",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "Concurrent revoke/suspend/endpoint vs preflight; duplicate onboard approve.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-025",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "b17i01ConcurrentInvalidationsDoNotDeadlock",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "Concurrent revoke/suspend/endpoint vs preflight; duplicate onboard approve.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-026",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "b17i01ConcurrentInvalidationsDoNotDeadlock",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "Concurrent revoke/suspend/endpoint vs preflight; duplicate onboard approve.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-027",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "b17i01ConcurrentInvalidationsDoNotDeadlock",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "Concurrent revoke/suspend/endpoint vs preflight; duplicate onboard approve.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-028",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-105",
+        "G17-106",
+        "G17-107"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "t17Int028AuditPayloadHasNoSecretColumns",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "Audit/metrics exclude secrets/cell labels; empty cert cannot mutate.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-029",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-104"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "t17Int028AuditPayloadHasNoSecretColumns",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "Audit/metrics exclude secrets/cell labels; empty cert cannot mutate.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-030",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-031",
+        "G17-128"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "t17Int028AuditPayloadHasNoSecretColumns",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "Audit/metrics exclude secrets/cell labels; empty cert cannot mutate.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-031",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-134",
+        "G17-136",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "c17i03ConsumeWinsGrantStaysConsumed",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "Consume vs revoke Case A/B; invalidate before/after dispatch.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-032",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-134",
+        "G17-136",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "c17i03ConsumeWinsGrantStaysConsumed",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "Consume vs revoke Case A/B; invalidate before/after dispatch.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-033",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "c17i03ConsumeWinsGrantStaysConsumed",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "Consume vs revoke Case A/B; invalidate before/after dispatch.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-034",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17InvalidationConformanceIT",
+      "testMethod": "c17i03ConsumeWinsGrantStaysConsumed",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17InvalidationConformanceIT.java",
+      "proofDescription": "Consume vs revoke Case A/B; invalidate before/after dispatch.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-035",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-047"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "DestinationTrustValidatorTest",
+      "testMethod": "t17Int035DestinationHarness",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/DestinationTrustValidatorTest.java",
+      "proofDescription": "Destination harness; packaged A vs claim B; certified A+runtime A; outbox not eligibility.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-036",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-090"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "DestinationTrustValidatorTest",
+      "testMethod": "t17Int035DestinationHarness",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/DestinationTrustValidatorTest.java",
+      "proofDescription": "Destination harness; packaged A vs claim B; certified A+runtime A; outbox not eligibility.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-037",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-090"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "DestinationTrustValidatorTest",
+      "testMethod": "t17Int035DestinationHarness",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/DestinationTrustValidatorTest.java",
+      "proofDescription": "Destination harness; packaged A vs claim B; certified A+runtime A; outbox not eligibility.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INT-038",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "DestinationTrustValidatorTest",
+      "testMethod": "t17Int035DestinationHarness",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/DestinationTrustValidatorTest.java",
+      "proofDescription": "Destination harness; packaged A vs claim B; certified A+runtime A; outbox not eligibility.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-001",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [
+        "G17-035",
+        "G17-036",
+        "G17-147"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17OnboardingDurabilityIT",
+      "testMethod": "callersCannotInjectEndpointOrCredential",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17OnboardingDurabilityIT.java",
+      "proofDescription": "Caller endpointOverride rejected at onboarding API.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-002",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [
+        "G17-035"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17OnboardingDurabilityIT",
+      "testMethod": "callersCannotInjectEndpointOrCredential",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17OnboardingDurabilityIT.java",
+      "proofDescription": "Caller credentialValue rejected at onboarding API.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-003",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [
+        "G17-036",
+        "G17-095",
+        "G17-115"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17BundleDigestAndSoDTest",
+      "testMethod": "t17Sec003004AgentMcpDenied",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17BundleDigestAndSoDTest.java",
+      "proofDescription": "Agent certification denied at policy.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-004",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [
+        "G17-036",
+        "G17-095",
+        "G17-116"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17BundleDigestAndSoDTest",
+      "testMethod": "t17Sec003004AgentMcpDenied",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17BundleDigestAndSoDTest.java",
+      "proofDescription": "MCP certification denied at policy.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-005",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [
+        "G17-093",
+        "G17-145"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "cs17SOnboardingExecutorEqualsCreatorDenied",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "Executor cannot self-onboard.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-006",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [
+        "G17-144"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "t17Impl018020OnboardingSoD",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "Invalid SoD combination denied at policy.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-007",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [
+        "G17-148"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "denyBeforeSendMutationExactlyZero",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "Generic/cross-target credential deny; mutationCount==0 (CS17_F).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-008",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [
+        "G17-148"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "denyBeforeSendMutationExactlyZero",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "Target-mismatch credential deny; mutationCount==0 (CS17_F).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-009",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "denyBeforeSendMutationExactlyZero",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "Unapproved artifact deny; mutationCount==0 (CS17_E).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-010",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "denyBeforeSendMutationExactlyZero",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "Expired cert deny; mutationCount==0 (CS17_V).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-011",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "denyBeforeSendMutationExactlyZero",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "Revoked cert deny; mutationCount==0 (CS17_B).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-012",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "denyBeforeSendMutationExactlyZero",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "Superseded interface deny; mutationCount==0 (CS17_W).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-013",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "denyBeforeSendMutationExactlyZero",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "Withdrawn documentation/approval deny; mutationCount==0 (CS17_Z).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-014",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [
+        "G17-047",
+        "G17-048"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "denyBeforeSendMutationExactlyZero",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "TLS identity mismatch deny; mutationCount==0 (FI17_008_TLS).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-015",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "CertificationSendBoundaryPreflightTest",
+      "testMethod": "t17Sec015NetworkProfileInactive",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/CertificationSendBoundaryPreflightTest.java",
+      "proofDescription": "Inactive network profile denies with P17_NETWORK_POLICY_INACTIVE.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-016",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [
+        "G17-056"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "denyBeforeSendMutationExactlyZero",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "Unknown/suspended vendor version deny; mutationCount==0 (CS17_K).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-017",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "CertificationSendBoundaryPreflightTest",
+      "testMethod": "cs17LCapability",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/CertificationSendBoundaryPreflightTest.java",
+      "proofDescription": "Capability not CELL/txPower denied at preflight.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-018",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [
+        "G17-052",
+        "G17-107",
+        "G17-126"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "t17Int028AuditPayloadHasNoSecretColumns",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "Secret values absent from audit/API/exception paths.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-019",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [
+        "G17-040",
+        "G17-045",
+        "G17-046"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "t17Inf005To008LocalInfraOnly",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "No secret-value cache / no older-version fallback in gateway defaults.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-020",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [
+        "G17-002",
+        "G17-042"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17StructuralRealizationTest",
+      "testMethod": "batchedStructuralProof",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17StructuralRealizationTest.java",
+      "proofDescription": "WriteCredentialHandle absent from ordinary app process (T17-STR-027).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-021",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [
+        "G17-094"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "nullBlankPrincipalsDenied",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "Null/blank principal deny for T17-SEC-021 at policy/service (no HTTP).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-022",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [
+        "G17-094"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "nullBlankPrincipalsDenied",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "Null/blank principal deny for T17-SEC-022 at policy/service (no HTTP).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-023",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [
+        "G17-094"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "nullBlankPrincipalsDenied",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "Null/blank principal deny for T17-SEC-023 at policy/service (no HTTP).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-024",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [
+        "G17-094"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "nullBlankPrincipalsDenied",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "Null/blank principal deny for T17-SEC-024 at policy/service (no HTTP).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-025",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [
+        "G17-094"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "nullBlankPrincipalsDenied",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "Null/blank principal deny for T17-SEC-025 at policy/service (no HTTP).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-026",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [
+        "G17-094"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "nullBlankPrincipalsDenied",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "Null/blank principal deny for T17-SEC-026 at policy/service (no HTTP).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-027",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [
+        "G17-094"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "nullBlankPrincipalsDenied",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "Null/blank principal deny for T17-SEC-027 at policy/service (no HTTP).",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-028",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [
+        "G17-094"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "t17Sec028SamePrincipalForbidden",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "Same principal forbidden by SoD policy.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-029",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [
+        "G17-090"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "t17Sec029EnvDigestNotAuthenticity",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "Environment digest is not artifact authenticity.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-SEC-030",
+      "frozenCategory": "SECURITY",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17MutationRetryDisabledTest",
+      "testMethod": "t17Impl066MutationPathRetriesDisabled",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/Phase17MutationRetryDisabledTest.java",
+      "proofDescription": "Mutation-path retry interceptors absent.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INF-001",
+      "frozenCategory": "INFRASTRUCTURE",
+      "architectureGates": [
+        "G17-003",
+        "G17-124"
+      ],
+      "threats": [],
+      "realizationType": "INFRASTRUCTURE_ARTIFACT",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "infrastructureArtifactsPresent",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "Gateway deployment manifest present.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INF-002",
+      "frozenCategory": "INFRASTRUCTURE",
+      "architectureGates": [
+        "G17-041",
+        "G17-124"
+      ],
+      "threats": [],
+      "realizationType": "INFRASTRUCTURE_ARTIFACT",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "infrastructureArtifactsPresent",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "Gateway service-account manifest present.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INF-003",
+      "frozenCategory": "INFRASTRUCTURE",
+      "architectureGates": [
+        "G17-124"
+      ],
+      "threats": [],
+      "realizationType": "INFRASTRUCTURE_ARTIFACT",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "t17Inf003NoOpenEgressInV18",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "V18 forbids 0.0.0.0/0 egress as a permitted scope.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INF-004",
+      "frozenCategory": "INFRASTRUCTURE",
+      "architectureGates": [
+        "G17-124"
+      ],
+      "threats": [],
+      "realizationType": "INFRASTRUCTURE_ARTIFACT",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "infrastructureArtifactsPresent",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "Packaged transport-artifact manifest present.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INF-005",
+      "frozenCategory": "INFRASTRUCTURE",
+      "architectureGates": [
+        "G17-124"
+      ],
+      "threats": [],
+      "realizationType": "INFRASTRUCTURE_ARTIFACT",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "t17Inf005To008LocalInfraOnly",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "Local deploy tree / fail-closed defaults.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INF-006",
+      "frozenCategory": "INFRASTRUCTURE",
+      "architectureGates": [
+        "G17-124"
+      ],
+      "threats": [],
+      "realizationType": "INFRASTRUCTURE_ARTIFACT",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "t17Inf005To008LocalInfraOnly",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "No secret-value cache in gateway defaults.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INF-007",
+      "frozenCategory": "INFRASTRUCTURE",
+      "architectureGates": [
+        "G17-124"
+      ],
+      "threats": [],
+      "realizationType": "INFRASTRUCTURE_ARTIFACT",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "t17Inf005To008LocalInfraOnly",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "Packaged identity provider class present.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "T17-INF-008",
+      "frozenCategory": "INFRASTRUCTURE",
+      "architectureGates": [
+        "G17-105",
+        "G17-124"
+      ],
+      "threats": [],
+      "realizationType": "INFRASTRUCTURE_ARTIFACT",
+      "testClass": "Phase17RemainingLocalEvidenceTest",
+      "testMethod": "t17Inf005To008LocalInfraOnly",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17RemainingLocalEvidenceTest.java",
+      "proofDescription": "Alert/infra placeholders remain local-only.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "CS17-A",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-021",
+        "G17-028",
+        "G17-029",
+        "G17-098",
+        "G17-155"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_A_P16_STALE",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "CS17-A behavioral/integration proof.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "CS17-B",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-028",
+        "G17-155"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_B_CERT_REVOKED",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "CS17-B behavioral/integration proof.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "CS17-C",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-134"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_C_INTERFACE_REVOKED",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "CS17-C behavioral/integration proof.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "CS17-D",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-039"
+      ],
+      "threats": [
+        "T17-03"
+      ],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_D_DEST_FQDN",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "CS17-D behavioral/integration proof.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "CS17-E",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_E_ARTIFACT",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "CS17-E behavioral/integration proof.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "CS17-F",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-044"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_F_CREDENTIAL_CROSS",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "CS17-F behavioral/integration proof.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "CS17-G",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_G_TARGET_SUSPENDED",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "CS17-G behavioral/integration proof.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "CS17-H",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-099"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_H_AUTHORITY_UNAVAILABLE",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "CS17-H behavioral/integration proof.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "CS17-I",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-139"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_I_DURABLE_REVOKE",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "CS17-I behavioral/integration proof.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "CS17-J",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-140"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_H_AUTHORITY_UNAVAILABLE",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "CS17-J behavioral/integration proof.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "CS17-K",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-054"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_K_VENDOR_VERSION",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "CS17-K behavioral/integration proof.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "CS17-L",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-060"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "CertificationSendBoundaryPreflightTest",
+      "testMethod": "cs17LCapability",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/CertificationSendBoundaryPreflightTest.java",
+      "proofDescription": "CS17-L behavioral/integration proof.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "CS17-M",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-062"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_M_ATOMIC",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "CS17-M behavioral/integration proof.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "CS17-N",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-070",
+        "G17-136"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "cs17NAndFi17ResponseLossMutationExactlyOne",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "CS17-N behavioral/integration proof.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "CS17-O",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-081",
+        "G17-082"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "cs17ODesiredObservedVerifiedMutationOne",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "CS17-O behavioral/integration proof.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "CS17-P",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-081",
+        "G17-082"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "cs17PExpectedObservedStopMutationOne",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "CS17-P behavioral/integration proof.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "CS17-Q",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-081",
+        "G17-082"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "cs17QThirdValueManualMutationOne",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "CS17-Q behavioral/integration proof.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "CS17-R",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-081",
+        "G17-082"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "cs17RReadbackUnavailableMutationOne",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "CS17-R behavioral/integration proof.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "CS17-S",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-145"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "cs17SOnboardingExecutorEqualsCreatorDenied",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "CS17-S behavioral/integration proof.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "CS17-T",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "cs17TAgentDenied",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "CS17-T behavioral/integration proof.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "CS17-U",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "cs17UMcpDenied",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "CS17-U behavioral/integration proof.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "CS17-V",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-096"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_V_EXPIRED",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "CS17-V behavioral/integration proof.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "CS17-W",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_W_SUPERSEDED",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "CS17-W behavioral/integration proof.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "CS17-X",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-092",
+        "G17-142"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_E_ARTIFACT",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "CS17-X behavioral/integration proof.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "CS17-Y",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-150"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_Y_HEALTH",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "CS17-Y behavioral/integration proof.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "CS17-Z",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-135"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_Z_DOCUMENTATION",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "CS17-Z behavioral/integration proof.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "FI17-001",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_H_AUTHORITY_UNAVAILABLE",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "FI17-001 fault injected at send/invalidation boundary.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "FI17-002",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "CertificationSendBoundaryPreflightTest",
+      "testMethod": "fi17_002AuthorityTimeout",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/CertificationSendBoundaryPreflightTest.java",
+      "proofDescription": "FI17-002 fault injected at send/invalidation boundary.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "FI17-003",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-139"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "CertificationSendBoundaryPreflightTest",
+      "testMethod": "cs17IDurableRevokedWinsOverStalePositive",
+      "artifactPath": "production-write-gateway/src/test/java/com/simba/snip/npo/productionwritegateway/vendortransport/CertificationSendBoundaryPreflightTest.java",
+      "proofDescription": "FI17-003 fault injected at send/invalidation boundary.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "FI17-004",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-097",
+        "G17-138",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_B_CERT_REVOKED",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "FI17-004 fault injected at send/invalidation boundary.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "FI17-005",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-097",
+        "G17-134",
+        "G17-138",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_C_INTERFACE_REVOKED",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "FI17-005 fault injected at send/invalidation boundary.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "FI17-006",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-097",
+        "G17-138",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_G_TARGET_SUSPENDED",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "FI17-006 fault injected at send/invalidation boundary.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "FI17-007",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-044",
+        "G17-097",
+        "G17-138",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_F_CREDENTIAL_CROSS",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "FI17-007 fault injected at send/invalidation boundary.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "FI17-008",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-051",
+        "G17-097",
+        "G17-138",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "FI17_008_TLS",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "FI17-008 fault injected at send/invalidation boundary.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "FI17-009",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-039",
+        "G17-097",
+        "G17-138",
+        "G17-154"
+      ],
+      "threats": [
+        "T17-03"
+      ],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_D_DEST_FQDN",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "FI17-009 fault injected at send/invalidation boundary.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "FI17-010",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-097",
+        "G17-138",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_K_VENDOR_VERSION",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "FI17-010 fault injected at send/invalidation boundary.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "FI17-011",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-092",
+        "G17-097",
+        "G17-138",
+        "G17-142",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_E_ARTIFACT",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "FI17-011 fault injected at send/invalidation boundary.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "FI17-012",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-097",
+        "G17-138",
+        "G17-140",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_H_AUTHORITY_UNAVAILABLE",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "FI17-012 fault injected at send/invalidation boundary.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "FI17-013",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-097",
+        "G17-138",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "FI17_013_BUNDLE_INVALID",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "FI17-013 fault injected at send/invalidation boundary.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "FI17-014",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-084",
+        "G17-097",
+        "G17-138",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_Y_HEALTH",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "FI17-014 fault injected at send/invalidation boundary.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "FI17-015",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-097",
+        "G17-138",
+        "G17-154",
+        "G17-155"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "CS17_A_P16_STALE",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "FI17-015 fault injected at send/invalidation boundary.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "FI17-016",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-138",
+        "G17-154"
+      ],
+      "threats": [],
+      "realizationType": "PARAMETERIZED_TEST_CASE",
+      "testClass": "Phase17DenyPathMutationCountIT",
+      "testMethod": "FI17_016_KILL_SWITCH",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17DenyPathMutationCountIT.java",
+      "proofDescription": "FI17-016 fault injected at send/invalidation boundary.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "FI17-017",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-070",
+        "G17-080",
+        "G17-136"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "cs17NAndFi17ResponseLossMutationExactlyOne",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "FI17-017 fault injected at send/invalidation boundary.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "FI17-018",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-070",
+        "G17-080"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "fi17_018TimeoutAfterDispatchMutationOneNoResend",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "FI17-018 fault injected at send/invalidation boundary.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "FI17-019",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-070",
+        "G17-080"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "fi17_019ConnectionLossAfterDispatchMutationOneNoResend",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "FI17-019 fault injected at send/invalidation boundary.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    },
+    {
+      "evidenceId": "FI17-020",
+      "frozenCategory": "INTEGRATION",
+      "architectureGates": [
+        "G17-070"
+      ],
+      "threats": [],
+      "realizationType": "NAMED_TEST",
+      "testClass": "Phase17CriticalAndFailureIT",
+      "testMethod": "fi17_020DuplicateConsumeSecondMutationZero",
+      "artifactPath": "snip-npo-app/src/test/java/com/simba/snip/npo/vendorcertification/Phase17CriticalAndFailureIT.java",
+      "proofDescription": "FI17-020 fault injected at send/invalidation boundary.",
+      "executionMode": "DEFAULT_CI",
+      "status": "REALIZED"
+    }
+  ]
+}

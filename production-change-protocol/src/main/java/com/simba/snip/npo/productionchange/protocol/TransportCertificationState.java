@@ -1,0 +1,15 @@
+package com.simba.snip.npo.productionchange.protocol;
+
+public enum TransportCertificationState {
+    DRAFT,
+    INTERFACE_VERIFIED,
+    LAB_CERTIFICATION_PENDING,
+    LAB_CERTIFIED,
+    PREPROD_CERTIFICATION_PENDING,
+    PREPROD_CERTIFIED,
+    PRODUCTION_REGISTRATION_PENDING,
+    PRODUCTION_REGISTERED,
+    SUSPENDED,
+    EXPIRED,
+    REVOKED
+}
