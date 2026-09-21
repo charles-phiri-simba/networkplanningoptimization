@@ -38,6 +38,7 @@ public class ProductionGatewayPreflightService {
     private final ProductionGatewayRateLimitEnforcementService rateLimits;
     private final ProductionChangeGatewayProperties properties;
     private final EricssonWriteTransport transport;
+    private final CampaignOriginGatewayPreflightService campaignOriginPreflight;
 
     public ProductionGatewayPreflightService(
             ProductionNetworkChangeRepository changeRepository,
@@ -47,7 +48,8 @@ public class ProductionGatewayPreflightService {
             ProductionKillSwitchEnforcementService killSwitch,
             ProductionGatewayRateLimitEnforcementService rateLimits,
             ProductionChangeGatewayProperties properties,
-            EricssonWriteTransport transport
+            EricssonWriteTransport transport,
+            CampaignOriginGatewayPreflightService campaignOriginPreflight
     ) {
         this.changeRepository = changeRepository;
         this.targetRepository = targetRepository;
@@ -57,6 +59,7 @@ public class ProductionGatewayPreflightService {
         this.rateLimits = rateLimits;
         this.properties = properties;
         this.transport = transport;
+        this.campaignOriginPreflight = campaignOriginPreflight;
     }
 
     public PreflightSnapshot run(
@@ -73,6 +76,7 @@ public class ProductionGatewayPreflightService {
 
         ProductionNetworkChangeEntity change = changeRepository.findById(changeId)
                 .orElseThrow(() -> deny(ProductionReasonCode.PRODUCTION_INVALID_REQUEST, grantId, changeId));
+        campaignOriginPreflight.validate(change, grantId);
         if ("INVALID".equals(change.getAuditChainIntegrity())) {
             throw deny(ProductionReasonCode.PRODUCTION_AUDIT_CHAIN_INVALID, grantId, changeId);
         }
@@ -161,6 +165,10 @@ public class ProductionGatewayPreflightService {
         rateLimits.enforce(target.getTargetId(), change.getCellId(), grantId, changeId);
 
         return new PreflightSnapshot(change, target, grantType, attemptId);
+    }
+
+    public void recordCampaignMayHaveSent(ProductionNetworkChangeEntity change) {
+        campaignOriginPreflight.recordMayHaveSent(change);
     }
 
     private void assertChangeWindowOpen(

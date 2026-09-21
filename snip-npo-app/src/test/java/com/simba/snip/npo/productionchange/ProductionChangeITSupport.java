@@ -31,6 +31,7 @@ import com.simba.snip.npo.productionchange.api.ProductionChangeDto;
 import com.simba.snip.npo.productionchange.domain.ProductionChangePermission;
 import com.simba.snip.npo.productionchange.security.ProductionChangeAuthorizer;
 import com.simba.snip.npo.productionchange.service.ProductionTargetRegistry;
+import com.simba.snip.npo.vendorcertification.Phase17GraphCleanup;
 import com.simba.snip.npo.productionwritegateway.ProductionWriteGatewayApplication;
 import com.simba.snip.npo.productionwritegateway.config.ProductionChangeGatewayProperties;
 import com.simba.snip.npo.productionwritegateway.service.FailureInjectionPoint;
@@ -554,6 +555,7 @@ public abstract class ProductionChangeITSupport extends AbstractPostgresIT {
         jdbc.update("DELETE FROM production_rate_limit_state");
         jdbc.update("DELETE FROM production_target_health");
         jdbc.update("DELETE FROM production_network_change");
+        Phase17GraphCleanup.deleteAll(jdbc);
         jdbc.update("DELETE FROM production_network_target");
     }
 

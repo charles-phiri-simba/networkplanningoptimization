@@ -80,6 +80,12 @@ public class ProductionNetworkChangeEntity {
     @Column(name = "audit_chain_integrity", nullable = false, length = 16)
     private String auditChainIntegrity;
 
+    @Column(name = "execution_origin", nullable = false, length = 32)
+    private String executionOrigin = "STANDALONE";
+
+    @Column(name = "campaign_handoff_id", length = 64)
+    private String campaignHandoffId;
+
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
@@ -195,6 +201,19 @@ public class ProductionNetworkChangeEntity {
 
     public String getAuditChainIntegrity() {
         return auditChainIntegrity;
+    }
+
+    public String getExecutionOrigin() {
+        return executionOrigin;
+    }
+
+    void bindPersistedOrigin(String origin, String campaignHandoffId) {
+        this.executionOrigin = origin;
+        this.campaignHandoffId = campaignHandoffId;
+    }
+
+    public String getCampaignHandoffId() {
+        return campaignHandoffId;
     }
 
     public void setAuditChainIntegrity(String auditChainIntegrity) {

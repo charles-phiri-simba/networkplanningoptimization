@@ -1,5 +1,6 @@
 package com.simba.snip.npo.vendorcertification.service;
 
+import com.simba.snip.npo.productioncampaign.service.CampaignP17InvalidationCascade;
 import com.simba.snip.npo.productionchange.domain.ActorPrincipal;
 import com.simba.snip.npo.productionchange.entity.ProductionNetworkChangeEntity;
 import com.simba.snip.npo.productionchange.protocol.ProductionReasonCode;
@@ -62,6 +63,7 @@ public class CertificationInvalidationService {
     private final ProductionNetworkChangeRepository changeRepository;
     private final Phase17CertificationAuditService auditService;
     private final ObjectProvider<InvalidationTransactionHook> hookProvider;
+    private final ObjectProvider<CampaignP17InvalidationCascade> campaignCascade;
     private final Clock clock;
 
     public CertificationInvalidationService(
@@ -71,6 +73,7 @@ public class CertificationInvalidationService {
             ProductionNetworkChangeRepository changeRepository,
             Phase17CertificationAuditService auditService,
             ObjectProvider<InvalidationTransactionHook> hookProvider,
+            ObjectProvider<CampaignP17InvalidationCascade> campaignCascade,
             Clock clock
     ) {
         this.jdbc = jdbc;
@@ -79,6 +82,7 @@ public class CertificationInvalidationService {
         this.changeRepository = changeRepository;
         this.auditService = auditService;
         this.hookProvider = hookProvider;
+        this.campaignCascade = campaignCascade;
         this.clock = clock;
     }
 
@@ -160,6 +164,13 @@ public class CertificationInvalidationService {
         appendAudit(command, graph, actor);
         if (hook != null) {
             hook.afterRequiredWrites();
+        }
+        if (command.triggerType() != TriggerType.KILL_SWITCH_DISABLED
+                && command.productionTargetId() != null) {
+            CampaignP17InvalidationCascade cascade = campaignCascade.getIfAvailable();
+            if (cascade != null) {
+                cascade.cascadeForTarget(command.productionTargetId());
+            }
         }
 
         jdbc.update(

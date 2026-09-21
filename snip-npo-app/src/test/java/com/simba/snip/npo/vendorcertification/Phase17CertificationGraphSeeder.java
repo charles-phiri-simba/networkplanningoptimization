@@ -8,7 +8,7 @@ import java.sql.Timestamp;
 import java.time.Instant;
 import java.util.UUID;
 
-final class Phase17CertificationGraphSeeder {
+public final class Phase17CertificationGraphSeeder {
 
     static final String PACKAGED_DIGEST =
             new PackagedRuntimeTransportArtifactIdentityProvider().currentIdentity().artifactDigest();
@@ -17,7 +17,7 @@ final class Phase17CertificationGraphSeeder {
     private Phase17CertificationGraphSeeder() {
     }
 
-    record Graph(
+    public record Graph(
             String targetId,
             UUID interfaceId,
             UUID interfaceVersionId,
@@ -33,7 +33,7 @@ final class Phase17CertificationGraphSeeder {
     ) {
     }
 
-    static Graph seed(JdbcTemplate jdbc, String targetId, String key) {
+    public static Graph seed(JdbcTemplate jdbc, String targetId, String key) {
         Instant now = Instant.now();
         Timestamp ts = Timestamp.from(now);
         Timestamp exp = Timestamp.from(now.plusSeconds(86400L * 30));

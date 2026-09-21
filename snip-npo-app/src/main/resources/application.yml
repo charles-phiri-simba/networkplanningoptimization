@@ -89,6 +89,14 @@ snip:
     permitted-platforms:
       - ENM
     minimum-certification-level-for-execution: L0
+  production-campaign:
+    trusted-ingress-guarantee: false
+    trusted-authentication-sources: []
+    configured-policy-maximum: 25
+    automatic-progression-enabled: false
+    automatic-resume-enabled: false
+    automatic-rollback-enabled: false
+    automatic-cohort-release-enabled: false
   integration:
     lease-duration: 30s
     heartbeat-interval: 5s

@@ -81,6 +81,12 @@ public class ProductionNetworkChangeEntity {
     @Column(name = "audit_chain_integrity", nullable = false, length = 16)
     private String auditChainIntegrity;
 
+    @Column(name = "execution_origin", nullable = false, length = 32)
+    private String executionOrigin;
+
+    @Column(name = "campaign_handoff_id", length = 64)
+    private String campaignHandoffId;
+
     @Column(name = "created_at", nullable = false)
     private Instant createdAt;
 
@@ -128,8 +134,52 @@ public class ProductionNetworkChangeEntity {
         entity.rollbackDesiredValue = rollbackDesiredValue;
         entity.requesterPrincipalId = requesterPrincipalId;
         entity.auditChainIntegrity = "VALID";
+        entity.executionOrigin = "STANDALONE";
+        entity.campaignHandoffId = null;
         entity.createdAt = now;
         entity.updatedAt = now;
+        return entity;
+    }
+
+    public static ProductionNetworkChangeEntity createCampaignOriginated(
+            UUID productionChangeId,
+            UUID phase15ExecutionId,
+            String productionTargetId,
+            String changeControlReference,
+            UUID phase14PlanId,
+            String phase14PlanFingerprint,
+            String phase15ExecutionFingerprint,
+            String cellId,
+            String parameter,
+            BigDecimal expectedValue,
+            BigDecimal desiredValue,
+            BigDecimal rollbackExpectedValue,
+            BigDecimal rollbackDesiredValue,
+            String requesterPrincipalId,
+            String productionFingerprint,
+            String campaignHandoffId,
+            Instant now
+    ) {
+        ProductionNetworkChangeEntity entity = createRequested(
+                productionChangeId,
+                phase15ExecutionId,
+                productionTargetId,
+                changeControlReference,
+                phase14PlanId,
+                phase14PlanFingerprint,
+                phase15ExecutionFingerprint,
+                cellId,
+                parameter,
+                expectedValue,
+                desiredValue,
+                rollbackExpectedValue,
+                rollbackDesiredValue,
+                requesterPrincipalId,
+                productionFingerprint,
+                now
+        );
+        entity.executionOrigin = "PRODUCTION_CAMPAIGN";
+        entity.campaignHandoffId = campaignHandoffId;
         return entity;
     }
 
@@ -155,6 +205,8 @@ public class ProductionNetworkChangeEntity {
     public String getExecutorPrincipalId() { return executorPrincipalId; }
     public String getReasonCode() { return reasonCode; }
     public String getAuditChainIntegrity() { return auditChainIntegrity; }
+    public String getExecutionOrigin() { return executionOrigin; }
+    public String getCampaignHandoffId() { return campaignHandoffId; }
     public Instant getCreatedAt() { return createdAt; }
     public Instant getUpdatedAt() { return updatedAt; }
     public long getVersion() { return version; }

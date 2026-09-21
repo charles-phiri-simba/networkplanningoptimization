@@ -12,6 +12,7 @@ import com.simba.snip.npo.productionchange.metrics.ProductionChangeMetrics;
 import com.simba.snip.npo.productionchange.protocol.GrantStatus;
 import com.simba.snip.npo.productionchange.protocol.GrantType;
 import com.simba.snip.npo.productionchange.protocol.ProductionReasonCode;
+import com.simba.snip.npo.productioncampaign.service.CampaignOriginProductionGuard;
 import com.simba.snip.npo.productionchange.repository.ProductionExecutionGrantRepository;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.stereotype.Service;
@@ -34,6 +35,7 @@ public class ProductionExecutionGrantService {
     private final ProductionRateLimitService rateLimitService;
     private final ProductionChangeAuditService auditService;
     private final ProductionChangeMetrics metrics;
+    private final CampaignOriginProductionGuard campaignOriginGuard;
     private final Clock clock;
 
     public ProductionExecutionGrantService(
@@ -43,6 +45,7 @@ public class ProductionExecutionGrantService {
             ProductionRateLimitService rateLimitService,
             ProductionChangeAuditService auditService,
             ProductionChangeMetrics metrics,
+            CampaignOriginProductionGuard campaignOriginGuard,
             Clock clock
     ) {
         this.grantRepository = grantRepository;
@@ -51,6 +54,7 @@ public class ProductionExecutionGrantService {
         this.rateLimitService = rateLimitService;
         this.auditService = auditService;
         this.metrics = metrics;
+        this.campaignOriginGuard = campaignOriginGuard;
         this.clock = clock;
     }
 
@@ -62,6 +66,7 @@ public class ProductionExecutionGrantService {
             ActorPrincipal actor
     ) {
         auditService.requireMutable(change);
+        campaignOriginGuard.assertGrantIssuePermitted(change, grantType);
         Instant now = clock.instant();
         if (grantRepository.findFirstByProductionChangeIdAndGrantTypeAndStatus(
                 change.getProductionChangeId(),

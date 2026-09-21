@@ -2,12 +2,12 @@ package com.simba.snip.npo.vendorcertification;
 
 import org.springframework.jdbc.core.JdbcTemplate;
 
-final class Phase17GraphCleanup {
+public final class Phase17GraphCleanup {
 
     private Phase17GraphCleanup() {
     }
 
-    static void deleteAll(JdbcTemplate jdbc) {
+    public static void deleteAll(JdbcTemplate jdbc) {
         jdbc.update("DELETE FROM phase17_invalidation_outbox");
         jdbc.update("DELETE FROM phase17_invalidation_event");
         jdbc.update("DELETE FROM phase17_certification_audit_event");

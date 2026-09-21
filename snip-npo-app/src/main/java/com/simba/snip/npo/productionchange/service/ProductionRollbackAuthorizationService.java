@@ -9,6 +9,7 @@ import com.simba.snip.npo.productionchange.exception.ProductionChangeException;
 import com.simba.snip.npo.productionchange.policy.ProductionSeparationOfDutiesPolicy;
 import com.simba.snip.npo.productionchange.protocol.ProductionChangeStatus;
 import com.simba.snip.npo.productionchange.protocol.ProductionReasonCode;
+import com.simba.snip.npo.productioncampaign.service.CampaignOriginProductionGuard;
 import com.simba.snip.npo.productionchange.repository.ProductionExecutionRollbackRepository;
 import com.simba.snip.npo.productionchange.repository.ProductionNetworkChangeRepository;
 import org.springframework.stereotype.Service;
@@ -27,6 +28,7 @@ public class ProductionRollbackAuthorizationService {
     private final ProductionExecutionRollbackRepository rollbackRepository;
     private final ProductionSeparationOfDutiesPolicy sodPolicy;
     private final ProductionChangeAuditService auditService;
+    private final CampaignOriginProductionGuard campaignOriginGuard;
     private final Clock clock;
 
     public ProductionRollbackAuthorizationService(
@@ -34,12 +36,14 @@ public class ProductionRollbackAuthorizationService {
             ProductionExecutionRollbackRepository rollbackRepository,
             ProductionSeparationOfDutiesPolicy sodPolicy,
             ProductionChangeAuditService auditService,
+            CampaignOriginProductionGuard campaignOriginGuard,
             Clock clock
     ) {
         this.changeRepository = changeRepository;
         this.rollbackRepository = rollbackRepository;
         this.sodPolicy = sodPolicy;
         this.auditService = auditService;
+        this.campaignOriginGuard = campaignOriginGuard;
         this.clock = clock;
     }
 
@@ -64,6 +68,7 @@ public class ProductionRollbackAuthorizationService {
                         ProductionReasonCode.PRODUCTION_ROLLBACK_AUTHORIZATION_MISSING,
                         "rollback request not found"
                 ));
+        campaignOriginGuard.assertRollbackAuthorizationPermitted(change);
         sodPolicy.requesterMustNotAuthorize(rollback.getRequesterPrincipalId(), authorizer.actorPrincipalId());
         sodPolicy.reviewerMustNotAuthorize(rollback.getReviewerPrincipalId(), authorizer.actorPrincipalId());
         int generation = rollback.getAuthorizationGeneration() == null ? 1 : rollback.getAuthorizationGeneration() + 1;

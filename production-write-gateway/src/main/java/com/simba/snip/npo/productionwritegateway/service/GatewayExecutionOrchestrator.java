@@ -235,6 +235,7 @@ public class GatewayExecutionOrchestrator {
                     SendPhase.MAY_HAVE_SENT,
                     MutationOutcome.OUTCOME_UNKNOWN
             );
+            preflightService.recordCampaignMayHaveSent(snapshot.change());
             failureInjector.inject(grantType == GrantType.ROLLBACK
                     ? FailureInjectionPoint.MUTATION_INVOKE_START
                     : FailureInjectionPoint.MUTATION_INVOKE_START);

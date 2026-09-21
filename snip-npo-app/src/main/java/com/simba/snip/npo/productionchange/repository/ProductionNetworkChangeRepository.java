@@ -17,6 +17,8 @@ public interface ProductionNetworkChangeRepository extends JpaRepository<Product
 
     List<ProductionNetworkChangeEntity> findAllByOrderByCreatedAtDesc();
 
+    Optional<ProductionNetworkChangeEntity> findByCampaignHandoffId(String campaignHandoffId);
+
     List<ProductionNetworkChangeEntity> findByProductionTargetIdOrderByCreatedAtDesc(String productionTargetId);
 
     Optional<ProductionNetworkChangeEntity> findFirstByPhase15ExecutionIdAndProductionTargetIdAndChangeControlReferenceOrderByCreatedAtDesc(

@@ -71,6 +71,33 @@ public class ProductionAdmissionService {
             ProductionChangeControlService.ChangeControlReference changeControl,
             ActorPrincipal requester
     ) {
+        return admit(phase15ExecutionId, productionTargetId, changeControl, requester, null);
+    }
+
+    @Transactional
+    public ProductionNetworkChangeEntity admitCampaignOriginated(
+            UUID phase15ExecutionId,
+            String productionTargetId,
+            ProductionChangeControlService.ChangeControlReference changeControl,
+            ActorPrincipal requester,
+            String campaignHandoffId
+    ) {
+        if (campaignHandoffId == null || !campaignHandoffId.matches("^[0-9a-f]{64}$")) {
+            throw new ProductionChangeException(
+                    ProductionReasonCode.PRODUCTION_INVALID_REQUEST,
+                    "campaign-originated admission requires CampaignHandoffId"
+            );
+        }
+        return admit(phase15ExecutionId, productionTargetId, changeControl, requester, campaignHandoffId);
+    }
+
+    private ProductionNetworkChangeEntity admit(
+            UUID phase15ExecutionId,
+            String productionTargetId,
+            ProductionChangeControlService.ChangeControlReference changeControl,
+            ActorPrincipal requester,
+            String originHandoffId
+    ) {
         if (!properties.isEnabled()) {
             throw new ProductionChangeException(
                     ProductionReasonCode.PRODUCTION_DISABLED,
@@ -99,7 +126,8 @@ public class ProductionAdmissionService {
                 changeControl.reference(),
                 0
         ));
-        ProductionNetworkChangeEntity change = ProductionNetworkChangeEntity.createRequested(
+        ProductionNetworkChangeEntity change = originHandoffId == null
+                ? ProductionNetworkChangeEntity.createRequested(
                 UUID.randomUUID(),
                 execution.getId(),
                 target.getTargetId(),
@@ -115,6 +143,25 @@ public class ProductionAdmissionService {
                 bindingAssembler.parseDecimal(binding.rollback().getDesiredValue()),
                 requester.actorPrincipalId(),
                 fingerprint,
+                now
+        )
+                : ProductionNetworkChangeEntity.createCampaignOriginated(
+                UUID.randomUUID(),
+                execution.getId(),
+                target.getTargetId(),
+                changeControl.reference(),
+                plan.getId(),
+                plan.getFingerprint(),
+                execution.getExecutionFingerprint(),
+                binding.operation().getTargetEntityId(),
+                binding.operation().getParameterName(),
+                bindingAssembler.parseDecimal(binding.operation().getExpectedCurrentValue()),
+                bindingAssembler.parseDecimal(binding.operation().getDesiredValue()),
+                bindingAssembler.parseDecimal(binding.rollback().getExpectedCurrentValue()),
+                bindingAssembler.parseDecimal(binding.rollback().getDesiredValue()),
+                requester.actorPrincipalId(),
+                fingerprint,
+                originHandoffId,
                 now
         );
         change = changeRepository.save(change);

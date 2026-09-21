@@ -7,6 +7,7 @@ import com.simba.snip.npo.config.ConnectorSecurityProperties;
 import com.simba.snip.npo.changeintelligence.config.ChangeIntelligenceProperties;
 import com.simba.snip.npo.changeexecution.config.ChangeExecutionProperties;
 import com.simba.snip.npo.changeplanning.config.ChangePlanningProperties;
+import com.simba.snip.npo.productioncampaign.config.ProductionCampaignProperties;
 import com.simba.snip.npo.productionchange.config.ProductionChangeProperties;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
@@ -28,6 +29,7 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
         "com.simba.snip.npo.changeplanning.persist",
         "com.simba.snip.npo.changeexecution.entity",
         "com.simba.snip.npo.productionchange.entity",
+        "com.simba.snip.npo.productioncampaign.entity",
         "com.simba.snip.npo.integration"
 })
 @EnableJpaRepositories(basePackages = {
@@ -36,7 +38,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
         "com.simba.snip.npo.changeintelligence.repository",
         "com.simba.snip.npo.changeplanning.repository",
         "com.simba.snip.npo.changeexecution.repository",
-        "com.simba.snip.npo.productionchange.repository"
+        "com.simba.snip.npo.productionchange.repository",
+        "com.simba.snip.npo.productioncampaign.repository"
 })
 @EnableScheduling
 @EnableConfigurationProperties({
@@ -49,7 +52,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
         ChangePlanningProperties.class,
         ChangeExecutionProperties.class,
         com.simba.snip.npo.changeplanning.config.ChangePlanningProperties.class,
-        ProductionChangeProperties.class
+        ProductionChangeProperties.class,
+        ProductionCampaignProperties.class
 })
 public class NpoApplication {
 
