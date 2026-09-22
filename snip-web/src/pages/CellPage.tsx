@@ -1,0 +1,126 @@
+import { useEffect, useState } from 'react'
+import { Link, useParams } from 'react-router-dom'
+import { snipApi } from '../api/snipApi'
+import { ErrorState } from '../components/ErrorState'
+import { LoadingState } from '../components/LoadingState'
+import { StatusBadge } from '../components/StatusBadge'
+import { AskSnip } from '../features/ai/AskSnip'
+import { AssuranceList } from '../features/assurance/AssuranceList'
+import { ConfigurationPanel } from '../features/cell/ConfigurationPanel'
+import { KpiPanel } from '../features/telemetry/KpiPanel'
+import type { AssuranceCaseDto } from '../types/assurance'
+import type { CellContextDto } from '../types/network'
+
+export function CellPage() {
+  const { cellId = '' } = useParams()
+  const [context, setContext] = useState<CellContextDto | null>(null)
+  const [cases, setCases] = useState<AssuranceCaseDto[] | null>(null)
+  const [error, setError] = useState<unknown>(null)
+
+  function load() {
+    setError(null)
+    Promise.all([snipApi.getCellContext(cellId), snipApi.getAssuranceForCell(cellId)])
+      .then(([nextContext, nextCases]) => {
+        setContext(nextContext)
+        setCases(nextCases)
+      })
+      .catch(setError)
+  }
+
+  useEffect(() => {
+    load()
+  }, [cellId])
+
+  if (error) {
+    return <ErrorState error={error} onRetry={load} />
+  }
+  if (!context || !cases) {
+    return <LoadingState label="Loading cell workspace…" />
+  }
+
+  const { cell, gnb, site, provenance } = context
+
+  return (
+    <div className="page">
+      <p className="crumb">
+        <Link to="/network">Network</Link> /{' '}
+        <Link to={`/network/sites/${encodeURIComponent(site.siteId)}`}>{site.siteId}</Link> / {cell.cellId}
+      </p>
+      <header className="page-header">
+        <div>
+          <h1>{cell.name}</h1>
+          <p className="muted">
+            {cell.cellId} · {site.name} · {gnb.name}
+          </p>
+        </div>
+        <StatusBadge status={cell.status} />
+      </header>
+      {provenance.synthetic ? (
+        <p className="banner-demo">This cell context is synthetic / demo data ({provenance.source}).</p>
+      ) : null}
+
+      <dl className="kv">
+        <div>
+          <dt>Site</dt>
+          <dd>{site.siteId}</dd>
+        </div>
+        <div>
+          <dt>gNB</dt>
+          <dd>{gnb.gnbId}</dd>
+        </div>
+        <div>
+          <dt>Vendor</dt>
+          <dd>{gnb.vendor}</dd>
+        </div>
+        <div>
+          <dt>Model</dt>
+          <dd>{gnb.model}</dd>
+        </div>
+        <div>
+          <dt>Technology</dt>
+          <dd>{cell.technology}</dd>
+        </div>
+        <div>
+          <dt>Band</dt>
+          <dd>{cell.band}</dd>
+        </div>
+        <div>
+          <dt>ARFCN</dt>
+          <dd>{cell.arfcn ?? '—'}</dd>
+        </div>
+        <div>
+          <dt>PCI</dt>
+          <dd>{cell.pci ?? '—'}</dd>
+        </div>
+        <div>
+          <dt>Duplex</dt>
+          <dd>{cell.duplexMode}</dd>
+        </div>
+        <div>
+          <dt>Bandwidth</dt>
+          <dd>{cell.bandwidthMhz ?? '—'} MHz</dd>
+        </div>
+        <div>
+          <dt>Provenance</dt>
+          <dd>
+            {provenance.source}
+            {provenance.synthetic ? ' · synthetic/demo' : ''}
+          </dd>
+        </div>
+      </dl>
+
+      <ConfigurationPanel parameters={context.radioConfiguration} provenance={provenance} />
+      <KpiPanel kpis={context.kpis} telemetry={context.telemetry} />
+
+      <section className="panel" aria-labelledby="cell-assurance-heading">
+        <header className="panel-header">
+          <h2 id="cell-assurance-heading">Assurance</h2>
+          <p className="muted">Findings for this cell. Recommended checks are not automatic actions.</p>
+        </header>
+        <AssuranceList cases={cases} />
+      </section>
+
+      <AskSnip cellId={cell.cellId} />
+    </div>
+  )
+}

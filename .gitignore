@@ -50,3 +50,7 @@ infra/phase10/lab-out/
 simulator/simulator
 simulator/simulator.exe
 simulator/vendor/
+
+# Frontend Increment 1A
+snip-web/node_modules/
+snip-web/dist/
