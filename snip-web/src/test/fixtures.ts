@@ -53,7 +53,7 @@ export const contextFixture: CellContextDto = {
       synthetic: true,
     },
   ],
-  neighbours: [],
+  neighbours: [{ targetCellId: 'CELL-002', relationType: 'INTRA_FREQ', status: 'ACTIVE' }],
   telemetry: [
     {
       metric: 'BLER_DL',
@@ -109,7 +109,7 @@ export const assessmentFixture: DecisionAssessmentDto = {
   summary: 'Downlink BLER is above the critical threshold.',
   likelyContributors: ['High txPower', 'Interference'],
   recommendedChecks: ['Review neighbours', 'Inspect PRB utilisation'],
-  missingEvidence: [],
+  missingEvidence: ['PRB utilisation time series is incomplete'],
   urgency: 'HIGH',
   humanReviewRequired: true,
   severity: 'CRITICAL',

@@ -3,27 +3,22 @@ import { divIcon } from 'leaflet'
 import { Link } from 'react-router-dom'
 import type { SiteDto } from '../../types/network'
 import { formatCoordinate, formatStatusLabel } from '../../utils/format'
+import { locatedSites, mapCenter } from './locatedSites'
 
 interface SiteMapProps {
   sites: SiteDto[]
 }
 
 export function SiteMap({ sites }: SiteMapProps) {
-  const located = sites.filter(
-    (site) => site.latitude !== null && site.longitude !== null,
-  )
-  if (located.length === 0) {
+  const located = locatedSites(sites)
+  const center = mapCenter(sites)
+  if (located.length === 0 || !center) {
     return (
       <div className="map-empty" role="status">
         No site coordinates are available.
       </div>
     )
   }
-
-  const center: [number, number] = [
-    located.reduce((sum, site) => sum + (site.latitude ?? 0), 0) / located.length,
-    located.reduce((sum, site) => sum + (site.longitude ?? 0), 0) / located.length,
-  ]
 
   return (
     <MapContainer

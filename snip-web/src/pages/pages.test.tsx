@@ -100,6 +100,9 @@ describe('Increment 1A pages', () => {
     expect(screen.getAllByText('BLER_DL').length).toBeGreaterThan(0)
     expect(screen.getByText('DEGRADING_RADIO_QUALITY')).toBeInTheDocument()
     expect(screen.getByText(/synthetic \/ demo data/i)).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Neighbours' })).toBeInTheDocument()
+    expect(screen.getByText('CELL-002')).toBeInTheDocument()
+    expect(screen.getByText('INTRA_FREQ')).toBeInTheDocument()
   })
 
   it('renders an assurance case and assessment', async () => {
@@ -108,6 +111,9 @@ describe('Increment 1A pages', () => {
     expect(screen.getByText('RULE_DEGRADING_RADIO_QUALITY_BLER_DL_V1')).toBeInTheDocument()
     expect(screen.getByText(/Downlink BLER is above the critical threshold/)).toBeInTheDocument()
     expect(screen.getByText('Review neighbours')).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Available operational evidence' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Missing evidence' })).toBeInTheDocument()
+    expect(screen.getByText('PRB utilisation time series is incomplete')).toBeInTheDocument()
   })
 
   it('requests an AI explanation and shows the response', async () => {
@@ -120,4 +126,50 @@ describe('Increment 1A pages', () => {
     ).toBeInTheDocument()
     expect(screen.getByText(/does not execute network changes/i)).toBeInTheDocument()
   })
+
+  it('shows a page-not-found experience for unknown routes', async () => {
+    signedIn('/does-not-exist')
+    expect(await screen.findByRole('heading', { name: 'Page not found' })).toBeInTheDocument()
+    expect(screen.getByRole('link', { name: 'Back to Network' })).toHaveAttribute('href', '/network')
+  })
+
+  it('still renders the cell workspace when assurance fails', async () => {
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (input: RequestInfo) => {
+        const url = String(input)
+        if (url === '/api/v1/cells/CELL-001/context') return mockJson(contextFixture)
+        if (url === '/api/v1/cells/CELL-001/assurance') {
+          return mockJson({ error: 'assurance unavailable' }, 500)
+        }
+        return mockJson({ error: 'not mocked ' + url }, 404)
+      }),
+    )
+    signedIn('/network/cells/CELL-001')
+    expect(await screen.findByRole('heading', { name: 'n78-1 high-BLER demo' })).toBeInTheDocument()
+    expect(screen.getByText('txPower')).toBeInTheDocument()
+    expect(screen.getByText('assurance unavailable')).toBeInTheDocument()
+    expect(screen.queryByText('DEGRADING_RADIO_QUALITY')).not.toBeInTheDocument()
+  })
+
+  it('clears a previous Ask SNIP answer when the AI page cell changes', async () => {
+    const cellTwo = { ...cellFixture, cellId: 'CELL-002', name: 'n78-2 healthier demo' }
+    vi.stubGlobal(
+      'fetch',
+      vi.fn(async (input: RequestInfo) => {
+        const url = String(input)
+        if (url === '/api/v1/cells') return mockJson([cellFixture, cellTwo])
+        if (url === '/api/v1/recommendations') return mockJson(recommendationFixture)
+        return mockJson({ error: 'not mocked ' + url }, 404)
+      }),
+    )
+    const user = userEvent.setup()
+    signedIn('/ai')
+    expect(await screen.findByRole('heading', { name: 'Ask SNIP' })).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Explain this cell' }))
+    expect(await screen.findByText(/Investigate downlink BLER on CELL-001/)).toBeInTheDocument()
+    await user.selectOptions(screen.getByLabelText('Cell'), 'CELL-002')
+    expect(screen.queryByText(/Investigate downlink BLER on CELL-001/)).not.toBeInTheDocument()
+  })
 })
+

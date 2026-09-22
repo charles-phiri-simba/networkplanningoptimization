@@ -53,7 +53,7 @@ export function AiPage() {
           ))}
         </select>
       </label>
-      {cellId ? <AskSnip cellId={cellId} /> : <p className="muted">No cells available.</p>}
+      {cellId ? <AskSnip key={cellId} cellId={cellId} /> : <p className="muted">No cells available.</p>}
     </div>
   )
 }

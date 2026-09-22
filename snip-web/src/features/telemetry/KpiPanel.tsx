@@ -2,6 +2,7 @@ import type { KpiObservationDto, KpiSeriesDto } from '../../types/network'
 import { EmptyState } from '../../components/EmptyState'
 import { formatNumber, formatTimestamp } from '../../utils/format'
 import { TelemetryChart } from './TelemetryChart'
+import { telemetryChartPoints } from './telemetrySeries'
 
 export function KpiPanel({
   kpis,
@@ -18,7 +19,7 @@ export function KpiPanel({
           <p className="muted">Latest observations returned by the backend.</p>
         </header>
         {kpis.length === 0 ? (
-          <EmptyState title="No KPI observations" detail="GET /api/v1/cells/{cellId}/kpis returned no rows." />
+          <EmptyState title="No KPI observations" detail="No latest observations are available for this cell." />
         ) : (
           <table className="data-table">
             <thead>
@@ -51,7 +52,7 @@ export function KpiPanel({
       <section className="panel" aria-labelledby="telemetry-heading">
         <header className="panel-header">
           <h2 id="telemetry-heading">Telemetry</h2>
-          <p className="muted">Latest value, bounded history, and trend from GET /telemetry.</p>
+          <p className="muted">Latest value, bounded history, and trend for this cell.</p>
         </header>
         {telemetry.length === 0 ? (
           <EmptyState title="No telemetry series" />
@@ -67,10 +68,7 @@ export function KpiPanel({
                   Trend {series.trend} · {formatTimestamp(series.current.observedAt)}
                   {series.current.synthetic ? ' · synthetic' : ''}
                 </p>
-                <TelemetryChart
-                  metric={series.metric}
-                  points={[...series.history, series.current]}
-                />
+                <TelemetryChart metric={series.metric} points={telemetryChartPoints(series)} />
               </article>
             ))}
           </div>

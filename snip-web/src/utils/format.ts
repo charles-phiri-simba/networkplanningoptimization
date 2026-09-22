@@ -29,3 +29,10 @@ export function formatStatusLabel(status: string | null | undefined): string {
   }
   return status.replaceAll('_', ' ')
 }
+
+export function formatBandwidthMhz(value: number | null | undefined): string {
+  if (value === null || value === undefined || Number.isNaN(value)) {
+    return '—'
+  }
+  return `${value} MHz`
+}

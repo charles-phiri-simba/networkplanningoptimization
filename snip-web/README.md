@@ -1,4 +1,4 @@
-# SNIP Web — Product Increment 1A
+# SNIP Web — Product Increment 1A / 1B
 
 Read-only browser application for the first SNIP network-intelligence vertical slice.
 
@@ -6,7 +6,7 @@ This is **not** production authentication, **not** Phase 19, and **not** a produ
 
 ## What it shows
 
-Demo persona → application shell → network map → site → cell workspace (configuration, KPI/telemetry, assurance) → AI explanation.
+Demo persona → application shell → network map → site → cell workspace (configuration, KPI/telemetry, neighbours, assurance) → AI explanation.
 
 All data comes from existing SNIP application APIs (`/api/v1/...`) against the seeded/canonical/simulator network. Real Ericsson or Nokia connectivity is **not required**.
 
@@ -14,18 +14,24 @@ All data comes from existing SNIP application APIs (`/api/v1/...`) against the s
 
 - Node.js 20+ (developed with Node 24)
 - npm
-- SNIP backend running locally on `http://127.0.0.1:8080` (PostgreSQL + Flyway demo seed)
+- SNIP backend running locally (PostgreSQL + Flyway demo seed)
 
 ## Install
 
 ```bash
 cd snip-web
-npm install
+npm ci
 ```
 
 ## Run backend
 
-From the repository root, start the SNIP application as you normally would (for example the `snip-npo-app` Spring Boot process listening on `127.0.0.1:8080`).
+From the repository root, start `snip-npo-app` with its existing demo/local configuration.
+
+If port 8080 is already in use, start the backend on another localhost port at runtime only, for example:
+
+```bash
+java -jar snip-npo-app/target/network-planning-optimisation-0.1.0-SNAPSHOT.jar --server.port=8081 --server.address=127.0.0.1
+```
 
 The demo network is created by `V2__seed_demo_network.sql` (`SITE-001`, `CELL-001`, and related objects). Kafka, Azure, and vendor production transports are not required.
 
@@ -36,36 +42,37 @@ cd snip-web
 npm run dev
 ```
 
-Open the Vite URL (default `http://127.0.0.1:5173`).
+Open `http://127.0.0.1:5173`.
 
 ### Development proxy
 
-Vite proxies:
+Vite proxies only:
 
-- `/api` → `http://127.0.0.1:8080`
-- `/health` → `http://127.0.0.1:8080`
+- `/api`
+- `/health`
 
-The browser therefore calls same-origin `/api/*` paths. This increment does **not** open backend CORS. `/mcp` and the Production Write Gateway are **not** proxied.
+Default target: `http://127.0.0.1:8080`.
+
+To point the development server at a backend on 8081 without changing source:
+
+```bash
+# Windows PowerShell
+$env:SNIP_API_TARGET='http://127.0.0.1:8081'
+npm run dev
+```
+
+```bash
+# Unix
+SNIP_API_TARGET=http://127.0.0.1:8081 npm run dev
+```
+
+`SNIP_API_TARGET` is read by the Vite development server only. It is not a production client setting and must not contain secrets. See `.env.example`. Do not commit `.env.local`.
+
+The Vite proxy is a local convenience, not a security boundary. `/mcp`, the Production Write Gateway, and vendor endpoints are not proxied.
 
 ## Demo identity
 
-The login screen is labelled **SNIP demo login**. It stores a frontend-only persona in `sessionStorage`:
-
-- `actorId`
-- `displayName`
-- `role`
-- `profile`
-
-There are no passwords and no secrets. This is **not** production authentication and can later be replaced by OIDC without rewriting screens.
-
-Increment 1A read APIs do not require backend authorization headers.
-
-## Build
-
-```bash
-cd snip-web
-npm run build
-```
+The login screen is labelled **SNIP demo login**. It stores a frontend-only persona in `sessionStorage`. There are no passwords and no secrets. This is **not** production authentication.
 
 ## Test
 
@@ -74,7 +81,12 @@ cd snip-web
 npm test
 ```
 
-HTTP is mocked at the `fetch` boundary. These tests do not replace SNIP backend integration tests.
+## Build
+
+```bash
+cd snip-web
+npm run build
+```
 
 ## Security boundary
 
@@ -86,7 +98,7 @@ The frontend must not call:
 - vendor systems directly
 - SYSTEM-only campaign transitions
 
-Production network mutation remains disabled in the backend.
+Production network mutation remains **disabled** in the backend. This UI does not authorise live-network execution.
 
 ## Known product limits
 

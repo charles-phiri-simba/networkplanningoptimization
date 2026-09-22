@@ -7,34 +7,40 @@ import { StatusBadge } from '../components/StatusBadge'
 import { AskSnip } from '../features/ai/AskSnip'
 import { AssuranceList } from '../features/assurance/AssuranceList'
 import { ConfigurationPanel } from '../features/cell/ConfigurationPanel'
+import { NeighbourPanel } from '../features/cell/NeighbourPanel'
 import { KpiPanel } from '../features/telemetry/KpiPanel'
 import type { AssuranceCaseDto } from '../types/assurance'
 import type { CellContextDto } from '../types/network'
+import { formatBandwidthMhz } from '../utils/format'
 
 export function CellPage() {
   const { cellId = '' } = useParams()
   const [context, setContext] = useState<CellContextDto | null>(null)
   const [cases, setCases] = useState<AssuranceCaseDto[] | null>(null)
-  const [error, setError] = useState<unknown>(null)
+  const [contextError, setContextError] = useState<unknown>(null)
+  const [assuranceError, setAssuranceError] = useState<unknown>(null)
 
-  function load() {
-    setError(null)
-    Promise.all([snipApi.getCellContext(cellId), snipApi.getAssuranceForCell(cellId)])
-      .then(([nextContext, nextCases]) => {
-        setContext(nextContext)
-        setCases(nextCases)
-      })
-      .catch(setError)
+  function loadContext() {
+    setContextError(null)
+    setContext(null)
+    snipApi.getCellContext(cellId).then(setContext).catch(setContextError)
+  }
+
+  function loadAssurance() {
+    setAssuranceError(null)
+    setCases(null)
+    snipApi.getAssuranceForCell(cellId).then(setCases).catch(setAssuranceError)
   }
 
   useEffect(() => {
-    load()
+    loadContext()
+    loadAssurance()
   }, [cellId])
 
-  if (error) {
-    return <ErrorState error={error} onRetry={load} />
+  if (contextError) {
+    return <ErrorState error={contextError} onRetry={loadContext} />
   }
-  if (!context || !cases) {
+  if (!context) {
     return <LoadingState label="Loading cell workspace…" />
   }
 
@@ -98,7 +104,7 @@ export function CellPage() {
         </div>
         <div>
           <dt>Bandwidth</dt>
-          <dd>{cell.bandwidthMhz ?? '—'} MHz</dd>
+          <dd>{formatBandwidthMhz(cell.bandwidthMhz)}</dd>
         </div>
         <div>
           <dt>Provenance</dt>
@@ -111,13 +117,20 @@ export function CellPage() {
 
       <ConfigurationPanel parameters={context.radioConfiguration} provenance={provenance} />
       <KpiPanel kpis={context.kpis} telemetry={context.telemetry} />
+      <NeighbourPanel neighbours={context.neighbours} />
 
       <section className="panel" aria-labelledby="cell-assurance-heading">
         <header className="panel-header">
           <h2 id="cell-assurance-heading">Assurance</h2>
           <p className="muted">Findings for this cell. Recommended checks are not automatic actions.</p>
         </header>
-        <AssuranceList cases={cases} />
+        {assuranceError ? (
+          <ErrorState error={assuranceError} onRetry={loadAssurance} />
+        ) : !cases ? (
+          <LoadingState label="Loading assurance…" />
+        ) : (
+          <AssuranceList cases={cases} />
+        )}
       </section>
 
       <AskSnip cellId={cell.cellId} />

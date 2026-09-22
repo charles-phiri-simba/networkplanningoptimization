@@ -7,6 +7,7 @@ import { AssuranceListPage } from '../pages/AssuranceListPage'
 import { CellPage } from '../pages/CellPage'
 import { LoginPage } from '../pages/LoginPage'
 import { NetworkPage } from '../pages/NetworkPage'
+import { NotFoundPage } from '../pages/NotFoundPage'
 import { SitePage } from '../pages/SitePage'
 
 export function AppRoutes() {
@@ -32,7 +33,7 @@ export function AppRoutes() {
         <Route path="/assurance/:caseId" element={<AssuranceCasePage />} />
         <Route path="/ai" element={<AiPage />} />
         <Route path="/" element={<Navigate to="/network" replace />} />
-        <Route path="*" element={<Navigate to="/network" replace />} />
+        <Route path="*" element={<NotFoundPage />} />
       </Route>
     </Routes>
   )

@@ -138,6 +138,40 @@ export function AssuranceCasePage() {
         <h3>Recommended checks</h3>
         <p className="muted">These are investigation prompts, not automatic network actions.</p>
         <List items={assessment.recommendedChecks} />
+        <h3>Available operational evidence</h3>
+        <p className="muted">Evidence the assessment used. This is not a live-network action list.</p>
+        {assessment.operationalEvidence.length === 0 ? (
+          <p className="muted">No operational evidence was returned.</p>
+        ) : (
+          <table className="data-table">
+            <thead>
+              <tr>
+                <th scope="col">Type</th>
+                <th scope="col">Metric</th>
+                <th scope="col">Value</th>
+                <th scope="col">Source</th>
+              </tr>
+            </thead>
+            <tbody>
+              {assessment.operationalEvidence.map((evidence) => (
+                <tr key={evidence.id}>
+                  <td>{evidence.evidenceType}</td>
+                  <td>{evidence.metric ?? '—'}</td>
+                  <td>
+                    {formatNumber(evidence.value)} {evidence.unit ?? ''}
+                  </td>
+                  <td>
+                    {evidence.source ?? '—'}
+                    {evidence.synthetic ? ' · synthetic' : ''}
+                  </td>
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        )}
+        <h3>Missing evidence</h3>
+        <p className="muted">Information gaps reported by the assessment. These are not fabricated facts.</p>
+        <List items={assessment.missingEvidence} empty="No missing-evidence items were returned." />
         <h3>Citations</h3>
         {assessment.citations.length === 0 ? (
           <p className="muted">No citations.</p>
@@ -156,9 +190,9 @@ export function AssuranceCasePage() {
   )
 }
 
-function List({ items }: { items: string[] }) {
+function List({ items, empty = 'None returned.' }: { items: string[]; empty?: string }) {
   if (items.length === 0) {
-    return <p className="muted">None returned.</p>
+    return <p className="muted">{empty}</p>
   }
   return (
     <ul>

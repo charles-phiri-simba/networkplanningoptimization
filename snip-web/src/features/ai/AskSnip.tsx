@@ -1,4 +1,4 @@
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { ApiError } from '../../api/client'
 import { snipApi } from '../../api/snipApi'
 import type { RecommendationResponse } from '../../types/recommendation'
@@ -17,6 +17,11 @@ export function AskSnip({ cellId }: { cellId: string }) {
   const [busy, setBusy] = useState(false)
   const [error, setError] = useState<unknown>(null)
   const [response, setResponse] = useState<RecommendationResponse | null>(null)
+
+  useEffect(() => {
+    setResponse(null)
+    setError(null)
+  }, [cellId])
 
   async function submit() {
     setBusy(true)
