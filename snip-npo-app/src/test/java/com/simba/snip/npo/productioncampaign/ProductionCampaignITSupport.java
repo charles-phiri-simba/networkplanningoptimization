@@ -46,19 +46,7 @@ public abstract class ProductionCampaignITSupport extends AbstractPostgresIT {
     @BeforeEach
     void seedTarget() {
         targetRegistry.register(ProductionTargetRegistry.TargetRegistration.l0Ericsson(TARGET_ID));
-        Integer onboarded = jdbc.queryForObject(
-                "SELECT COUNT(*) FROM production_target_onboarding WHERE production_target_id = ? AND status = 'APPROVED'",
-                Integer.class,
-                TARGET_ID
-        );
-        if (onboarded == null || onboarded < 1) {
-            jdbc.update("""
-                    INSERT INTO production_target_onboarding (
-                        onboarding_id, production_target_id, status, certification_level,
-                        created_by, reviewed_by, approved_by, created_at, updated_at)
-                    VALUES (?, ?, 'APPROVED', 'L0', 'onb-create', 'onb-review', 'onb-approve', NOW(), NOW())
-                    """, UUID.randomUUID(), TARGET_ID);
-        }
+        restoreFixtureOwnedP17State();
     }
 
     @AfterEach
@@ -117,6 +105,7 @@ public abstract class ProductionCampaignITSupport extends AbstractPostgresIT {
                  )
                 """);
         jdbc.update("DELETE FROM production_network_change WHERE execution_origin = 'PRODUCTION_CAMPAIGN'");
+        restoreFixtureOwnedP17State();
     }
 
     protected AuthenticatedActor actor(String id, CampaignPermission permission) {
@@ -127,16 +116,49 @@ public abstract class ProductionCampaignITSupport extends AbstractPostgresIT {
         return new AuthenticatedActor("SYSTEM:RESUMPTION", ActorType.SYSTEM, EnumSet.noneOf(CampaignPermission.class), SOURCE, true);
     }
 
-    protected void ensureP17Current() {
+    /**
+     * Restores fixture-owned P17 onboarding/certification for {@link #TARGET_ID} only.
+     * Conflicting leftover rows from other test classes are rewritten to the
+     * deterministic current state this fixture depends on.
+     */
+    protected void restoreFixtureOwnedP17State() {
+        jdbc.update("""
+                UPDATE production_target_onboarding
+                   SET status = 'APPROVED', updated_at = NOW()
+                 WHERE production_target_id = ?
+                   AND status IS DISTINCT FROM 'APPROVED'
+                """, TARGET_ID);
+        Integer onboarded = jdbc.queryForObject(
+                "SELECT COUNT(*) FROM production_target_onboarding WHERE production_target_id = ? AND status = 'APPROVED'",
+                Integer.class,
+                TARGET_ID
+        );
+        if (onboarded == null || onboarded < 1) {
+            jdbc.update("""
+                    INSERT INTO production_target_onboarding (
+                        onboarding_id, production_target_id, status, certification_level,
+                        created_by, reviewed_by, approved_by, created_at, updated_at)
+                    VALUES (?, ?, 'APPROVED', 'L0', 'onb-create', 'onb-review', 'onb-approve', NOW(), NOW())
+                    """, UUID.randomUUID(), TARGET_ID);
+        }
+        jdbc.update("""
+                UPDATE production_target_certification
+                   SET status = 'CURRENT'
+                 WHERE production_target_id = ?
+                   AND status IN ('REVOKED', 'EXPIRED', 'INVALID', 'SUSPENDED')
+                """, TARGET_ID);
         Integer current = jdbc.queryForObject(
                 "SELECT COUNT(*) FROM production_target_certification WHERE production_target_id = ? AND status = 'CURRENT'",
                 Integer.class,
                 TARGET_ID
         );
-        if (current != null && current > 0) {
-            return;
+        if (current == null || current < 1) {
+            Phase17CertificationGraphSeeder.seed(jdbc, TARGET_ID, "p18-" + UUID.randomUUID());
         }
-        Phase17CertificationGraphSeeder.seed(jdbc, TARGET_ID, "p18-" + UUID.randomUUID());
+    }
+
+    protected void ensureP17Current() {
+        restoreFixtureOwnedP17State();
     }
 
     protected void governResumptionToAuthorized(UUID campaignId) {

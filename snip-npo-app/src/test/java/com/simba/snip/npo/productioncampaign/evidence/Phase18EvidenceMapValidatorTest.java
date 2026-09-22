@@ -8,12 +8,15 @@ import com.simba.snip.npo.productionchange.protocol.ProductionReasonCode;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.io.TempDir;
 
+import java.io.ByteArrayOutputStream;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.List;
 
+import static org.junit.jupiter.api.Assertions.assertArrayEquals;
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
 class Phase18EvidenceMapValidatorTest {
@@ -163,18 +166,163 @@ class Phase18EvidenceMapValidatorTest {
     }
 
     @Test
+    void historicalFrozenArtifactShaIsPreservedAndDistinctFromCanonicalTextSha() throws Exception {
+        assertEquals(
+                "19865a242141c6ab4f5e9233056eebada22dbc9c9b456b68676c736a07763a32",
+                Phase18EvidenceMapValidator.HISTORICAL_FROZEN_ARTIFACT_SHA256);
+        assertEquals(
+                "08c9abaef3fec3cef4688690f2a9df2748c09229b97a9adbe56adbbf9600cad3",
+                Phase18EvidenceMapValidator.CANONICAL_TEXT_SHA256);
+        assertEquals(
+                Phase18EvidenceMapValidator.HISTORICAL_FROZEN_ARTIFACT_SHA256,
+                Phase18EvidenceMapValidator.FROZEN_ARCHITECTURE_SHA256);
+        assertNotEquals(
+                Phase18EvidenceMapValidator.HISTORICAL_FROZEN_ARTIFACT_SHA256,
+                Phase18EvidenceMapValidator.CANONICAL_TEXT_SHA256);
+        ObjectNode map = validSkeleton();
+        assertEquals(
+                Phase18EvidenceMapValidator.HISTORICAL_FROZEN_ARTIFACT_SHA256,
+                map.path("architectureContentSha256").asText());
+    }
+
+    @Test
+    void lfArchitectureRepresentationValidates() throws Exception {
+        List<String> errors = validateAgainstTempArchitecture(toLf(realArchitectureBytes()));
+        assertTrue(errors.isEmpty(), () -> String.join("\n", errors));
+    }
+
+    @Test
+    void crlfArchitectureRepresentationValidates() throws Exception {
+        List<String> errors = validateAgainstTempArchitecture(toCrlf(realArchitectureBytes()));
+        assertTrue(errors.isEmpty(), () -> String.join("\n", errors));
+    }
+
+    @Test
+    void lfAndCrlfCanonicalizeToIdenticalBytesAndHash() throws Exception {
+        byte[] original = realArchitectureBytes();
+        byte[] lf = toLf(original);
+        byte[] crlf = toCrlf(original);
+        byte[] loneCr = toLoneCr(original);
+        assertNotEquals(0, lf.length);
+        assertTrue(containsCrlf(crlf));
+        byte[] canonicalLf = Phase18EvidenceMapValidator.canonicalizeFrozenText(lf);
+        byte[] canonicalCrlf = Phase18EvidenceMapValidator.canonicalizeFrozenText(crlf);
+        byte[] canonicalLoneCr = Phase18EvidenceMapValidator.canonicalizeFrozenText(loneCr);
+        assertArrayEquals(canonicalLf, canonicalCrlf);
+        assertArrayEquals(canonicalLf, canonicalLoneCr);
+        assertEquals(
+                Phase18EvidenceMapValidator.CANONICAL_TEXT_SHA256,
+                Phase18EvidenceMapValidator.canonicalTextSha256(lf));
+        assertEquals(
+                Phase18EvidenceMapValidator.CANONICAL_TEXT_SHA256,
+                Phase18EvidenceMapValidator.canonicalTextSha256(crlf));
+        assertEquals(
+                Phase18EvidenceMapValidator.canonicalTextSha256(lf),
+                Phase18EvidenceMapValidator.canonicalTextSha256(crlf));
+    }
+
+    @Test
     void architectureByteMutationFails() throws Exception {
+        byte[] bytes = realArchitectureBytes();
+        bytes[Math.min(64, bytes.length - 1)] ^= 0x01;
+        List<String> errors = validateAgainstTempArchitecture(bytes);
+        assertTrue(errors.stream().anyMatch(e -> e.contains("architecture byte mutation")), errors.toString());
+    }
+
+    @Test
+    void architectureCharacterMutationFails() throws Exception {
+        byte[] lf = toLf(realArchitectureBytes());
+        int idx = indexOfAsciiLetter(lf);
+        lf[idx] = (byte) (lf[idx] == 'A' ? 'B' : 'A');
+        List<String> errors = validateAgainstTempArchitecture(lf);
+        assertTrue(errors.stream().anyMatch(e -> e.contains("architecture byte mutation")), errors.toString());
+        assertNotEquals(
+                Phase18EvidenceMapValidator.CANONICAL_TEXT_SHA256,
+                Phase18EvidenceMapValidator.canonicalTextSha256(lf));
+    }
+
+    @Test
+    void architectureDeletedCharacterFails() throws Exception {
+        byte[] lf = toLf(realArchitectureBytes());
+        int idx = indexOfAsciiLetter(lf);
+        byte[] deleted = new byte[lf.length - 1];
+        System.arraycopy(lf, 0, deleted, 0, idx);
+        System.arraycopy(lf, idx + 1, deleted, idx, lf.length - idx - 1);
+        List<String> errors = validateAgainstTempArchitecture(deleted);
+        assertTrue(errors.stream().anyMatch(e -> e.contains("architecture byte mutation")), errors.toString());
+    }
+
+    @Test
+    void architectureInsertedCharacterFails() throws Exception {
+        byte[] lf = toLf(realArchitectureBytes());
+        int idx = indexOfAsciiLetter(lf);
+        byte[] inserted = new byte[lf.length + 1];
+        System.arraycopy(lf, 0, inserted, 0, idx);
+        inserted[idx] = 'X';
+        System.arraycopy(lf, idx, inserted, idx + 1, lf.length - idx);
+        List<String> errors = validateAgainstTempArchitecture(inserted);
+        assertTrue(errors.stream().anyMatch(e -> e.contains("architecture byte mutation")), errors.toString());
+    }
+
+    @Test
+    void architectureWhitespaceMutationOtherThanLineEndingFails() throws Exception {
+        byte[] lf = toLf(realArchitectureBytes());
+        int idx = indexOf(lf, (byte) ' ');
+        lf[idx] = '\t';
+        List<String> errors = validateAgainstTempArchitecture(lf);
+        assertTrue(errors.stream().anyMatch(e -> e.contains("architecture byte mutation")), errors.toString());
+    }
+
+    @Test
+    void architectureAndRootCopyCanonicalHashesMatch() throws Exception {
+        Path repo = repoRoot();
+        Path architecture = repo.resolve(
+                "docs/architecture/SNIP-PHASE-18-PRODUCTION-NETWORK-CHANGE-CAMPAIGNS-PROGRESSIVE-DELIVERY-OPERATIONAL-SAFETY-GOVERNANCE-ARCHITECTURE.md");
+        Path rootCopy = repo.resolve(
+                "docs/root-copies/SNIP-PHASE-18-PRODUCTION-NETWORK-CHANGE-CAMPAIGNS-PROGRESSIVE-DELIVERY-OPERATIONAL-SAFETY-GOVERNANCE-ARCHITECTURE.md");
+        assertTrue(Files.exists(architecture));
+        assertTrue(Files.exists(rootCopy));
+        String architectureHash = Phase18EvidenceMapValidator.canonicalTextSha256(Files.readAllBytes(architecture));
+        String rootCopyHash = Phase18EvidenceMapValidator.canonicalTextSha256(Files.readAllBytes(rootCopy));
+        assertEquals(architectureHash, rootCopyHash);
+        assertEquals(Phase18EvidenceMapValidator.CANONICAL_TEXT_SHA256, architectureHash);
+        List<String> errors = validator.validate(
+                repo,
+                repo.resolve("docs/implementation/phase18-gate-evidence-map.json"),
+                architecture);
+        assertTrue(errors.isEmpty(), () -> String.join("\n", errors));
+        assertFalse(errors.stream().anyMatch(e -> e.contains("root-copy")));
+    }
+
+    @Test
+    void rootCopyLogicalDivergenceFails() throws Exception {
         Path repo = repoRoot();
         Path original = repo.resolve(
                 "docs/architecture/SNIP-PHASE-18-PRODUCTION-NETWORK-CHANGE-CAMPAIGNS-PROGRESSIVE-DELIVERY-OPERATIONAL-SAFETY-GOVERNANCE-ARCHITECTURE.md");
-        byte[] bytes = Files.readAllBytes(original);
-        bytes[Math.min(64, bytes.length - 1)] ^= 0x01;
-        Path mutated = temp.resolve("mutated-architecture.md");
-        Files.write(mutated, bytes);
-        Path mapPath = temp.resolve("map.json");
-        Files.writeString(mapPath, Files.readString(repo.resolve("docs/implementation/phase18-gate-evidence-map.json")));
-        List<String> errors = validator.validate(repo, mapPath, mutated);
-        assertTrue(errors.stream().anyMatch(e -> e.contains("architecture byte mutation")), errors.toString());
+        Path isolated = temp.resolve("isolated-repo");
+        Files.createDirectories(isolated.resolve("docs/root-copies"));
+        Files.createDirectories(isolated.resolve("docs/implementation"));
+        Files.createDirectories(isolated.resolve("docs/architecture"));
+        byte[] architecture = Files.readAllBytes(original);
+        byte[] diverged = toLf(architecture);
+        int idx = indexOfAsciiLetter(diverged);
+        diverged[idx] = (byte) (diverged[idx] == 'A' ? 'Z' : 'A');
+        Files.write(isolated.resolve(
+                "docs/architecture/SNIP-PHASE-18-PRODUCTION-NETWORK-CHANGE-CAMPAIGNS-PROGRESSIVE-DELIVERY-OPERATIONAL-SAFETY-GOVERNANCE-ARCHITECTURE.md"),
+                architecture);
+        Files.write(isolated.resolve(
+                "docs/root-copies/SNIP-PHASE-18-PRODUCTION-NETWORK-CHANGE-CAMPAIGNS-PROGRESSIVE-DELIVERY-OPERATIONAL-SAFETY-GOVERNANCE-ARCHITECTURE.md"),
+                diverged);
+        Files.copy(
+                repo.resolve("docs/implementation/phase18-gate-evidence-map.json"),
+                isolated.resolve("docs/implementation/phase18-gate-evidence-map.json"));
+        List<String> errors = validator.validate(
+                isolated,
+                isolated.resolve("docs/implementation/phase18-gate-evidence-map.json"),
+                isolated.resolve(
+                        "docs/architecture/SNIP-PHASE-18-PRODUCTION-NETWORK-CHANGE-CAMPAIGNS-PROGRESSIVE-DELIVERY-OPERATIONAL-SAFETY-GOVERNANCE-ARCHITECTURE.md"));
+        assertTrue(errors.stream().anyMatch(e -> e.contains("architecture/root-copy logical equivalence mismatch")),
+                errors.toString());
     }
 
     @Test
@@ -255,6 +403,75 @@ class Phase18EvidenceMapValidatorTest {
         ArrayNode arr = mapper.createArrayNode();
         arr.add(ev);
         return arr;
+    }
+
+    private List<String> validateAgainstTempArchitecture(byte[] architectureBytes) throws Exception {
+        Path repo = repoRoot();
+        Path architecture = temp.resolve("architecture-fixture.md");
+        Files.write(architecture, architectureBytes);
+        Path mapPath = temp.resolve("map.json");
+        Files.writeString(mapPath, Files.readString(repo.resolve("docs/implementation/phase18-gate-evidence-map.json")));
+        return validator.validate(repo, mapPath, architecture);
+    }
+
+    private static byte[] realArchitectureBytes() throws Exception {
+        return Files.readAllBytes(repoRoot().resolve(
+                "docs/architecture/SNIP-PHASE-18-PRODUCTION-NETWORK-CHANGE-CAMPAIGNS-PROGRESSIVE-DELIVERY-OPERATIONAL-SAFETY-GOVERNANCE-ARCHITECTURE.md"));
+    }
+
+    private static byte[] toLf(byte[] raw) {
+        return Phase18EvidenceMapValidator.canonicalizeFrozenText(raw);
+    }
+
+    private static byte[] toCrlf(byte[] raw) {
+        byte[] lf = toLf(raw);
+        ByteArrayOutputStream out = new ByteArrayOutputStream(lf.length + 4096);
+        for (byte b : lf) {
+            if (b == 0x0A) {
+                out.write(0x0D);
+                out.write(0x0A);
+            } else {
+                out.write(b);
+            }
+        }
+        return out.toByteArray();
+    }
+
+    private static byte[] toLoneCr(byte[] raw) {
+        byte[] lf = toLf(raw);
+        ByteArrayOutputStream out = new ByteArrayOutputStream(lf.length);
+        for (byte b : lf) {
+            out.write(b == 0x0A ? 0x0D : b);
+        }
+        return out.toByteArray();
+    }
+
+    private static boolean containsCrlf(byte[] bytes) {
+        for (int i = 0; i + 1 < bytes.length; i++) {
+            if (bytes[i] == 0x0D && bytes[i + 1] == 0x0A) {
+                return true;
+            }
+        }
+        return false;
+    }
+
+    private static int indexOfAsciiLetter(byte[] bytes) {
+        for (int i = 0; i < bytes.length; i++) {
+            byte b = bytes[i];
+            if ((b >= 'A' && b <= 'Z') || (b >= 'a' && b <= 'z')) {
+                return i;
+            }
+        }
+        throw new IllegalStateException("no ASCII letter in fixture");
+    }
+
+    private static int indexOf(byte[] bytes, byte value) {
+        for (int i = 0; i < bytes.length; i++) {
+            if (bytes[i] == value) {
+                return i;
+            }
+        }
+        throw new IllegalStateException("value not found in fixture");
     }
 
     private static Path repoRoot() {

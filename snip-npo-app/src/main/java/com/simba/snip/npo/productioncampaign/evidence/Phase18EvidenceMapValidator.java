@@ -9,6 +9,7 @@ import com.simba.snip.npo.productionchange.protocol.Sha256Hex;
 import java.nio.file.Files;
 import java.nio.file.Path;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashSet;
 import java.util.LinkedHashSet;
 import java.util.List;
@@ -21,8 +22,23 @@ import java.util.regex.Pattern;
 
 public class Phase18EvidenceMapValidator {
 
-    public static final String FROZEN_ARCHITECTURE_SHA256 =
+    /**
+     * Historical working-tree SHA-256 of the frozen architecture on a CRLF checkout.
+     * Preserved as the evidence-map {@code architectureContentSha256} identity.
+     * Not used to hash checkout bytes.
+     */
+    public static final String HISTORICAL_FROZEN_ARTIFACT_SHA256 =
             "19865a242141c6ab4f5e9233056eebada22dbc9c9b456b68676c736a07763a32";
+
+    /**
+     * SHA-256 of the frozen architecture after deterministic text canonicalization
+     * (UTF-8 bytes; CRLF and lone CR mapped to LF; no trim or rewrite).
+     */
+    public static final String CANONICAL_TEXT_SHA256 =
+            "08c9abaef3fec3cef4688690f2a9df2748c09229b97a9adbe56adbbf9600cad3";
+
+    /** Evidence-map field identity; equals {@link #HISTORICAL_FROZEN_ARTIFACT_SHA256}. */
+    public static final String FROZEN_ARCHITECTURE_SHA256 = HISTORICAL_FROZEN_ARTIFACT_SHA256;
     public static final String FROZEN_ARCHITECTURE_BASELINE = "f38a62ad0e3f80522a95830322079b1380289719";
 
     static final Set<String> STATUSES = Set.of("PASS", "FAIL", "NOT_EXECUTED", "NOT_APPLICABLE");
@@ -86,7 +102,7 @@ public class Phase18EvidenceMapValidator {
             validateCatalogue(invariants, "id", "I18-", Phase18ArchitectureCatalog.INVARIANT_COUNT, catalog.invariants(), errors, "I18");
             validateMappings(threats, catalog.threatToGates(), errors, "threat");
             validateMappings(invariants, catalog.invariantToGates(), errors, "invariant");
-            validateArchitectureBytes(architecturePath, errors);
+            validateArchitectureBytes(repoRoot, architecturePath, errors);
             validateGateEvidence(repoRoot, gates, errors);
         } catch (CampaignException ex) {
             errors.add(ex.reasonCode().name() + ": " + ex.getMessage());
@@ -259,13 +275,50 @@ public class Phase18EvidenceMapValidator {
         }
     }
 
-    private void validateArchitectureBytes(Path architecturePath, List<String> errors) {
+    /**
+     * Canonical frozen-text bytes: UTF-8 as stored, CRLF and lone CR mapped to LF.
+     * No locale transform, no whitespace trim, no Markdown rewrite.
+     */
+    public static byte[] canonicalizeFrozenText(byte[] raw) {
+        if (raw == null) {
+            throw new IllegalArgumentException("frozen text bytes required");
+        }
+        byte[] out = new byte[raw.length];
+        int n = 0;
+        for (int i = 0; i < raw.length; i++) {
+            byte b = raw[i];
+            if (b == 0x0D) {
+                out[n++] = 0x0A;
+                if (i + 1 < raw.length && raw[i + 1] == 0x0A) {
+                    i++;
+                }
+            } else {
+                out[n++] = b;
+            }
+        }
+        return n == raw.length ? out : Arrays.copyOf(out, n);
+    }
+
+    public static String canonicalTextSha256(byte[] raw) {
+        return Sha256Hex.hashBytes(canonicalizeFrozenText(raw));
+    }
+
+    private void validateArchitectureBytes(Path repoRoot, Path architecturePath, List<String> errors) {
         try {
-            byte[] bytes = Files.readAllBytes(architecturePath);
-            String actual = Sha256Hex.hashBytes(bytes);
-            if (!FROZEN_ARCHITECTURE_SHA256.equalsIgnoreCase(actual)) {
-                errors.add("architecture byte mutation / SHA mismatch expected "
-                        + FROZEN_ARCHITECTURE_SHA256 + " actual " + actual);
+            byte[] architectureBytes = Files.readAllBytes(architecturePath);
+            String actual = canonicalTextSha256(architectureBytes);
+            if (!CANONICAL_TEXT_SHA256.equalsIgnoreCase(actual)) {
+                errors.add("architecture byte mutation / SHA mismatch expected canonical "
+                        + CANONICAL_TEXT_SHA256 + " actual " + actual
+                        + " (historical frozen artifact SHA " + HISTORICAL_FROZEN_ARTIFACT_SHA256 + ")");
+            }
+            Path rootCopy = repoRoot.resolve(
+                    "docs/root-copies/" + architecturePath.getFileName());
+            if (Files.exists(rootCopy)) {
+                String copyHash = canonicalTextSha256(Files.readAllBytes(rootCopy));
+                if (!actual.equalsIgnoreCase(copyHash)) {
+                    errors.add("architecture/root-copy logical equivalence mismatch");
+                }
             }
         } catch (Exception ex) {
             errors.add("architecture bytes unreadable: " + ex.getMessage());
