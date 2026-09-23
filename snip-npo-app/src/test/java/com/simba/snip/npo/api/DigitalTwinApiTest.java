@@ -100,8 +100,9 @@ class DigitalTwinApiTest extends AbstractPostgresIT {
         ResponseEntity<String> twin = http.getForEntity("/api/v1/twins/" + UUID.randomUUID(), String.class);
         assertEquals(HttpStatus.NOT_FOUND, twin.getStatusCode());
         TwinDetailDto created = synchronize("CELL-001");
+        int absentVersion = created.latestVersion() + 1;
         ResponseEntity<String> version = http.getForEntity(
-                "/api/v1/twins/" + created.id() + "/versions/99", String.class);
+                "/api/v1/twins/" + created.id() + "/versions/" + absentVersion, String.class);
         assertEquals(HttpStatus.NOT_FOUND, version.getStatusCode());
     }
 
