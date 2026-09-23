@@ -4,11 +4,11 @@ import { useAuth } from '../features/auth/AuthContext'
 const PRIMARY = [
   { to: '/network', label: 'Network' },
   { to: '/assurance', label: 'Assurance' },
+  { to: '/optimization', label: 'Optimization' },
   { to: '/ai', label: 'AI' },
 ]
 
 const LATER = [
-  { label: 'Optimization' },
   { label: 'Changes' },
   { label: 'Campaigns' },
 ]

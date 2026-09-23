@@ -100,8 +100,29 @@ The frontend must not call:
 
 Production network mutation remains **disabled** in the backend. This UI does not authorise live-network execution.
 
+## Product Increment 2
+
+Cell workspace → Propose txPower optimization → proposal → synthetic simulation evidence → approve/reject → change plan → engineering review → authorize → readiness → sandbox execution on `snip-simulator`.
+
+Ask SNIP remains advisory. The proposed txPower is selected by the deterministic Phase 13 pipeline.
+
+The committed backend default is:
+
+```text
+snip.change-execution.enabled=false
+```
+
+Do not change that committed default. For a local sandbox demonstration only, pass a runtime override:
+
+```bash
+java -jar snip-npo-app/target/network-planning-optimisation-0.1.0-SNAPSHOT.jar --snip.change-execution.enabled=true
+```
+
+Do not enable `production-change`. Do not contact vendor systems. Phase 15 mutates simulator state only.
+
 ## Known product limits
 
 - No region/sector/azimuth/GeoJSON backend
 - Telemetry history is bounded by the backend, not a long-term historian
 - AI output is decision support, not an authorised change
+- Increment 2 sandbox execution requires the local runtime override above

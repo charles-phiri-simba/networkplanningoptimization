@@ -1,13 +1,21 @@
 export class ApiError extends Error {
   readonly status: number
   readonly correlationId: string | undefined
+  readonly failureCode: string | undefined
   readonly body: unknown
 
-  constructor(status: number, message: string, correlationId: string | undefined, body: unknown) {
+  constructor(
+    status: number,
+    message: string,
+    correlationId: string | undefined,
+    body: unknown,
+    failureCode?: string,
+  ) {
     super(message)
     this.name = 'ApiError'
     this.status = status
     this.correlationId = correlationId
+    this.failureCode = failureCode
     this.body = body
   }
 }
@@ -24,6 +32,16 @@ function messageFromBody(body: unknown, fallback: string): string {
     }
   }
   return fallback
+}
+
+function failureCodeFromBody(body: unknown): string | undefined {
+  if (body && typeof body === 'object' && 'failureCode' in body) {
+    const code = (body as { failureCode?: unknown }).failureCode
+    if (typeof code === 'string' && code.length > 0) {
+      return code
+    }
+  }
+  return undefined
 }
 
 export async function apiRequest<T>(path: string, init: RequestInit = {}): Promise<T> {
@@ -62,16 +80,26 @@ export async function apiRequest<T>(path: string, init: RequestInit = {}): Promi
         : response.status === 400
           ? 'Request was rejected'
           : `Request failed (${response.status})`
-    throw new ApiError(response.status, messageFromBody(parsed, fallback), correlationId, parsed)
+    throw new ApiError(
+      response.status,
+      messageFromBody(parsed, fallback),
+      correlationId,
+      parsed,
+      failureCodeFromBody(parsed),
+    )
   }
 
   return parsed as T
 }
 
-export function apiGet<T>(path: string): Promise<T> {
-  return apiRequest<T>(path, { method: 'GET' })
+export function apiGet<T>(path: string, headers?: HeadersInit): Promise<T> {
+  return apiRequest<T>(path, { method: 'GET', headers })
 }
 
-export function apiPost<T>(path: string, body: unknown): Promise<T> {
-  return apiRequest<T>(path, { method: 'POST', body: JSON.stringify(body) })
+export function apiPost<T>(path: string, body?: unknown, headers?: HeadersInit): Promise<T> {
+  return apiRequest<T>(path, {
+    method: 'POST',
+    headers,
+    body: body === undefined ? undefined : JSON.stringify(body),
+  })
 }

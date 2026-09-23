@@ -134,7 +134,32 @@ button { cursor: pointer; }
 .sparkline { margin: 0.4rem 0 0; color: var(--accent); }
 .recommendation { margin-top: 1rem; border-top: 1px solid var(--line); padding-top: 0.8rem; }
 
+.banner-synthetic, .banner-sandbox, .banner-ok {
+  border: 1px solid var(--line);
+  padding: 0.6rem 0.75rem;
+  margin: 0.75rem 0;
+}
+.banner-synthetic { background: #2a2418; border-color: var(--warning); }
+.banner-sandbox { background: #1a2430; border-color: var(--accent); }
+.banner-ok { background: #14261c; border-color: var(--ok); }
+.compare-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 0.75rem; }
+.compare-card { border: 1px solid var(--line); padding: 0.8rem; background: var(--surface-2); }
+.compare-proposed { border-color: var(--accent); }
+.compare-value { margin: 0.35rem 0 0; font-size: 1.15rem; font-weight: 700; }
+.row-selected { background: #1d2d3a; }
+.action-row { display: flex; flex-wrap: wrap; gap: 0.5rem; }
+.dialog-backdrop {
+  position: fixed; inset: 0; background: rgba(6, 16, 24, 0.72);
+  display: grid; place-items: center; z-index: 20;
+}
+.dialog {
+  width: min(36rem, calc(100% - 2rem));
+  background: var(--surface); border: 1px solid var(--line); padding: 1.1rem;
+}
+.dialog-actions { display: flex; justify-content: flex-end; gap: 0.5rem; margin-top: 1rem; }
+
 @media (max-width: 960px) {
   .workspace { grid-template-columns: 1fr; }
   .app-header { flex-wrap: wrap; }
+  .compare-grid { grid-template-columns: 1fr; }
 }

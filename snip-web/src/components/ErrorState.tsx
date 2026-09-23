@@ -10,14 +10,19 @@ export function ErrorState({ error, onRetry }: { error: unknown; onRetry?: () =>
       ? 'Backend unavailable'
       : status === 404
         ? 'Not found'
-        : status === 400
-          ? 'Validation error'
+      : status === 400
+        ? 'Validation error'
+        : status === 403
+          ? 'Permission required'
           : 'Request failed'
 
   return (
     <div className="state-panel state-error" role="alert">
       <p className="state-title">{heading}</p>
       <p>{message}</p>
+      {apiError?.failureCode ? (
+        <p className="muted diagnostic">failureCode {apiError.failureCode}</p>
+      ) : null}
       {apiError?.correlationId ? (
         <p className="muted diagnostic">Correlation ID {apiError.correlationId}</p>
       ) : null}

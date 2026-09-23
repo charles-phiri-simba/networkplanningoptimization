@@ -38,6 +38,20 @@ describe('api client', () => {
       correlationId: 'corr-404',
     } satisfies Partial<ApiError>)
 
+    vi.stubGlobal(
+      'fetch',
+      vi.fn().mockResolvedValue(
+        new Response(JSON.stringify({ error: 'execution disabled', failureCode: 'CHANGE_EXECUTION_DISABLED' }), {
+          status: 403,
+          headers: { 'X-Correlation-Id': 'corr-403' },
+        }),
+      ),
+    )
+    await expect(apiGet('/api/v1/change-execution/executions')).rejects.toMatchObject({
+      status: 403,
+      failureCode: 'CHANGE_EXECUTION_DISABLED',
+    })
+
     vi.stubGlobal('fetch', vi.fn().mockRejectedValue(new TypeError('Failed to fetch')))
     await expect(apiGet('/api/v1/sites')).rejects.toMatchObject({
       status: 0,

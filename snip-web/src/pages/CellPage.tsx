@@ -11,6 +11,7 @@ import { NeighbourPanel } from '../features/cell/NeighbourPanel'
 import { KpiPanel } from '../features/telemetry/KpiPanel'
 import type { AssuranceCaseDto } from '../types/assurance'
 import type { CellContextDto } from '../types/network'
+import { findTxPower } from '../features/optimization/txPower'
 import { formatBandwidthMhz } from '../utils/format'
 
 export function CellPage() {
@@ -45,6 +46,7 @@ export function CellPage() {
   }
 
   const { cell, gnb, site, provenance } = context
+  const txPower = findTxPower(context.radioConfiguration)
 
   return (
     <div className="page">
@@ -61,6 +63,17 @@ export function CellPage() {
         </div>
         <StatusBadge status={cell.status} />
       </header>
+      {txPower ? (
+        <p>
+          <Link
+            className="btn"
+            to={`/network/cells/${encodeURIComponent(cell.cellId)}/optimize`}
+          >
+            Propose txPower optimization
+            {txPower.parameterValue ? ` (${txPower.parameterValue} ${txPower.unit ?? 'dBm'})` : ''}
+          </Link>
+        </p>
+      ) : null}
       {provenance.synthetic ? (
         <p className="banner-demo">This cell context is synthetic / demo data ({provenance.source}).</p>
       ) : null}
