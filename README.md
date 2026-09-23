@@ -59,6 +59,14 @@ mvn spring-boot:run
 go run ./simulator/cmd/simulator -scenario high-bler-load -brokers 127.0.0.1:9092
 ```
 
+Default time mode is `fixed` at `2026-08-24T10:00:00Z` with legacy event IDs. For a date-independent local demo, request `now` and a Simulator Scenario Run ID (does not change production freshness semantics):
+
+```bash
+go run ./simulator/cmd/simulator -scenario high-bler-load -time-mode now -run-id demo-20260923-001 -brokers 127.0.0.1:9092
+```
+
+`-base-time` (RFC3339 with explicit offset) is valid only with `-time-mode fixed`. Broker address remains `-brokers` / `SNIP_KAFKA_BROKERS` (default `127.0.0.1:9092`).
+
 Canonical Phase 3 question (after `high-bler-load` has been projected):
 
 ```bash

@@ -16,9 +16,16 @@ func main() {
 	scenarioName := flag.String("scenario", envOr("SNIP_SCENARIO", "high-bler-load"), "scenario name")
 	brokers := flag.String("brokers", envOr("SNIP_KAFKA_BROKERS", "127.0.0.1:9092"), "comma-separated Kafka brokers")
 	topic := flag.String("topic", envOr("SNIP_TELEMETRY_TOPIC", "snip.telemetry.cell-kpi.v1"), "Kafka topic")
+	timeMode := flag.String("time-mode", envOr("SNIP_TIME_MODE", scenario.TimeModeFixed), "time mode: fixed or now")
+	baseTime := flag.String("base-time", envOr("SNIP_BASE_TIME", ""), "RFC3339 T0 for fixed mode (UTC offset required)")
+	runID := flag.String("run-id", envOr("SNIP_RUN_ID", ""), "simulator scenario run ID (required for now)")
 	flag.Parse()
 
-	events, err := scenario.Build(*scenarioName)
+	events, err := scenario.BuildWith(*scenarioName, scenario.Options{
+		TimeMode: *timeMode,
+		BaseTime: *baseTime,
+		RunID:    *runID,
+	})
 	if err != nil {
 		fmt.Fprintf(os.Stderr, "simulator: %v\n", err)
 		os.Exit(1)
