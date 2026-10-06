@@ -513,3 +513,66 @@ export const verifiedExecutionFixture: ExecutionDetailDto = {
   startedAt: '2026-01-01T00:11:00Z',
   completedAt: '2026-01-01T00:11:01Z',
 }
+
+export const unlocatedSiteFixture: SiteDto = {
+  siteId: 'SITE-002',
+  name: 'Unlocated Demo Site',
+  latitude: null,
+  longitude: null,
+  status: 'ACTIVE',
+}
+
+export const cellTwoFixture: CellDto = {
+  ...cellFixture,
+  cellId: 'CELL-002',
+  name: 'n78-2 neighbour demo',
+}
+
+export const acknowledgedCaseFixture: AssuranceCaseDto = {
+  ...caseFixture,
+  id: '33333333-3333-4333-8333-333333333333',
+  affectedEntityId: 'CELL-002',
+  severity: 'MAJOR',
+  status: 'ACKNOWLEDGED',
+  firstObservedAt: '2026-01-01T00:00:00Z',
+  lastObservedAt: '2026-01-02T00:00:00Z',
+}
+
+export const resolvedCaseFixture: AssuranceCaseDto = {
+  ...caseFixture,
+  id: '44444444-4444-4444-8444-444444444444',
+  affectedEntityId: 'CELL-001',
+  severity: 'CRITICAL',
+  status: 'RESOLVED',
+  firstObservedAt: '2025-12-01T00:00:00Z',
+  lastObservedAt: '2026-01-03T00:00:00Z',
+}
+
+export const warningCaseFixture: AssuranceCaseDto = {
+  ...caseFixture,
+  id: '55555555-5555-4555-8555-555555555555',
+  affectedEntityId: 'CELL-002',
+  severity: 'WARNING',
+  status: 'OPEN',
+  firstObservedAt: '2026-01-01T00:00:00Z',
+  lastObservedAt: '2026-01-04T00:00:00Z',
+}
+
+export const infoCaseFixture: AssuranceCaseDto = {
+  ...caseFixture,
+  id: '66666666-6666-4666-8666-666666666666',
+  affectedEntityId: 'CELL-001',
+  severity: 'INFO',
+  status: 'OPEN',
+  firstObservedAt: '2026-01-01T00:00:00Z',
+  lastObservedAt: '2026-01-05T00:00:00Z',
+}
+
+export const unknownCellCaseFixture: AssuranceCaseDto = {
+  ...caseFixture,
+  id: '77777777-7777-4777-8777-777777777777',
+  affectedEntityId: 'CELL-UNKNOWN',
+  severity: 'MAJOR',
+  status: 'OPEN',
+  lastObservedAt: '2026-01-06T00:00:00Z',
+}

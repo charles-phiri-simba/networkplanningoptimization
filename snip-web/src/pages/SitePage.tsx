@@ -5,6 +5,9 @@ import { EmptyState } from '../components/EmptyState'
 import { ErrorState } from '../components/ErrorState'
 import { LoadingState } from '../components/LoadingState'
 import { StatusBadge } from '../components/StatusBadge'
+import { issueSeverityLabel } from '../features/operations/issueLabels'
+import { attentionPhrase, siteAttention } from '../features/operations/operationsModel'
+import type { AssuranceCaseDto } from '../types/assurance'
 import type { CellDto, GnbDto, SiteDto } from '../types/network'
 import { formatCoordinate } from '../utils/format'
 
@@ -13,9 +16,11 @@ export function SitePage() {
   const [site, setSite] = useState<SiteDto | null>(null)
   const [cells, setCells] = useState<CellDto[] | null>(null)
   const [gnbs, setGnbs] = useState<GnbDto[] | null>(null)
+  const [cases, setCases] = useState<AssuranceCaseDto[] | null>(null)
+  const [casesError, setCasesError] = useState<unknown>(null)
   const [error, setError] = useState<unknown>(null)
 
-  function load() {
+  function loadInventory() {
     setError(null)
     Promise.all([snipApi.getSite(siteId), snipApi.listCells(), snipApi.listGnbs()])
       .then(([nextSite, nextCells, nextGnbs]) => {
@@ -24,6 +29,17 @@ export function SitePage() {
         setGnbs(nextGnbs)
       })
       .catch(setError)
+  }
+
+  function loadCases() {
+    setCasesError(null)
+    setCases(null)
+    snipApi.listAssuranceCases().then(setCases).catch(setCasesError)
+  }
+
+  function load() {
+    loadInventory()
+    loadCases()
   }
 
   useEffect(() => {
@@ -37,6 +53,10 @@ export function SitePage() {
   const siteGnbs = useMemo(
     () => (gnbs ?? []).filter((gnb) => gnb.siteId === siteId),
     [gnbs, siteId],
+  )
+  const attention = useMemo(
+    () => (cases ? siteAttention(siteId, siteCells, cases) : null),
+    [cases, siteCells, siteId],
   )
 
   if (error) {
@@ -68,8 +88,36 @@ export function SitePage() {
           <dd>{formatCoordinate(site.longitude)}</dd>
         </div>
         <div>
-          <dt>Status</dt>
+          <dt>Inventory status</dt>
           <dd>{site.status}</dd>
+        </div>
+        <div>
+          <dt>Cells</dt>
+          <dd>{siteCells.length}</dd>
+        </div>
+        <div>
+          <dt>Cells needing attention</dt>
+          <dd>
+            {casesError ? 'Unavailable' : attention ? attention.cellIds.length : '—'}
+          </dd>
+        </div>
+        <div>
+          <dt>Active Assurance cases</dt>
+          <dd>
+            {casesError ? 'Unavailable' : attention ? attention.activeCount : '—'}
+          </dd>
+        </div>
+        <div>
+          <dt>Highest active severity</dt>
+          <dd>
+            {casesError
+              ? 'Unavailable'
+              : attention
+                ? attention.highestSeverity
+                  ? `${attentionPhrase(attention.highestSeverity)} (${issueSeverityLabel(attention.highestSeverity)})`
+                  : attentionPhrase(null)
+                : '—'}
+          </dd>
         </div>
       </dl>
 

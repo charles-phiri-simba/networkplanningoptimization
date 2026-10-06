@@ -72,7 +72,7 @@ describe('Increment 1A pages', () => {
 
   it('renders the application shell navigation', async () => {
     signedIn('/network')
-    expect(await screen.findByRole('heading', { name: 'Network' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: 'Network operations' })).toBeInTheDocument()
     expect(screen.getByRole('navigation', { name: 'Primary' })).toHaveTextContent('Network')
     expect(screen.getByRole('navigation', { name: 'Primary' })).toHaveTextContent('Assurance')
     expect(screen.getByRole('navigation', { name: 'Primary' })).toHaveTextContent('AI')
@@ -81,8 +81,7 @@ describe('Increment 1A pages', () => {
 
   it('renders network sites from the API', async () => {
     signedIn('/network')
-    expect(await screen.findByRole('heading', { name: 'Network' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: /Midband Demo Site/i })).toBeInTheDocument()
+    expect(await screen.findByRole('link', { name: /Midband Demo Site/i })).toBeInTheDocument()
     expect(screen.getByTestId('site-map')).toHaveTextContent('Midband Demo Site')
   })
 
