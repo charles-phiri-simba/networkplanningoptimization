@@ -107,11 +107,11 @@ describe('Increment 1A pages', () => {
 
   it('renders an assurance case and assessment', async () => {
     signedIn(`/assurance/${caseFixture.id}`)
-    expect(await screen.findByRole('heading', { name: 'DEGRADING_RADIO_QUALITY' })).toBeInTheDocument()
+    expect(await screen.findByRole('heading', { name: 'Degrading radio quality' })).toBeInTheDocument()
     expect(screen.getByText('RULE_DEGRADING_RADIO_QUALITY_BLER_DL_V1')).toBeInTheDocument()
-    expect(screen.getByText(/Downlink BLER is above the critical threshold/)).toBeInTheDocument()
+    expect(await screen.findByText(/Downlink BLER is above the critical threshold/)).toBeInTheDocument()
     expect(screen.getByText('Review neighbours')).toBeInTheDocument()
-    expect(screen.getByRole('heading', { name: 'Available operational evidence' })).toBeInTheDocument()
+    expect(screen.getByRole('heading', { name: 'Observed evidence' })).toBeInTheDocument()
     expect(screen.getByRole('heading', { name: 'Missing evidence' })).toBeInTheDocument()
     expect(screen.getByText('PRB utilisation time series is incomplete')).toBeInTheDocument()
   })

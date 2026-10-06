@@ -96,8 +96,11 @@ describe('Increment 4 network operations workspace', () => {
     const user = userEvent.setup()
     signedIn('/network')
     await user.click(await screen.findByRole('link', { name: 'Open case' }))
-    expect(await screen.findByRole('heading', { name: 'DEGRADING_RADIO_QUALITY' })).toBeInTheDocument()
-    expect(screen.getByRole('link', { name: 'Open cell' })).toHaveAttribute('href', '/network/cells/CELL-001')
+    expect(await screen.findByRole('heading', { name: 'Degrading radio quality' })).toBeInTheDocument()
+    expect(screen.getAllByRole('link', { name: 'Open cell' })[0]).toHaveAttribute(
+      'href',
+      '/network/cells/CELL-001',
+    )
   })
 
   it('keeps case to cell navigation valid', async () => {
@@ -112,7 +115,7 @@ describe('Increment 4 network operations workspace', () => {
     })
     const user = userEvent.setup()
     signedIn(`/assurance/${caseFixture.id}`)
-    await user.click(await screen.findByRole('link', { name: 'Open cell' }))
+    await user.click((await screen.findAllByRole('link', { name: 'Open cell' }))[0])
     expect(await screen.findByRole('heading', { name: 'n78-1 high-BLER demo' })).toBeInTheDocument()
   })
 
