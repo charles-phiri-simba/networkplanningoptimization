@@ -24,8 +24,37 @@ function toneFor(status: string, kind: 'status' | 'severity'): string {
     if (value.includes('INFO') || value.includes('LOW')) return 'info'
     return 'neutral'
   }
-  if (value === 'ACTIVE' || value === 'OPEN' || value === 'CURRENT') return 'ok'
-  if (value === 'STALE' || value === 'DEGRADED') return 'warning'
-  if (value === 'FAILED' || value === 'DOWN' || value === 'EXPIRED') return 'critical'
+  if (
+    value === 'ACTIVE' ||
+    value === 'OPEN' ||
+    value === 'CURRENT' ||
+    value === 'HIGH' ||
+    value === 'RECOMMENDED' ||
+    value === 'APPROVED' ||
+    value === 'READY_FOR_EXECUTION' ||
+    value === 'AUTHORIZED' ||
+    value === 'VERIFIED'
+  ) {
+    return 'ok'
+  }
+  if (
+    value === 'STALE' ||
+    value === 'DEGRADED' ||
+    value === 'LOW' ||
+    value === 'EVALUATED' ||
+    value === 'RECOVERY_REQUIRED'
+  ) {
+    return 'warning'
+  }
+  if (
+    value === 'FAILED' ||
+    value === 'DOWN' ||
+    value === 'EXPIRED' ||
+    value === 'BLOCKED' ||
+    value === 'UNKNOWN' ||
+    value.includes('FAILED')
+  ) {
+    return 'critical'
+  }
   return 'neutral'
 }

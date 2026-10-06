@@ -7,6 +7,7 @@ import {
 } from '../types/execution'
 import { PLAN_PERMISSION_HEADER, PlanPermission } from '../types/plan'
 import { PROPOSAL_PERMISSION_HEADER, ProposalPermission } from '../types/proposal'
+import { VENDOR_IMPORT_PERMISSION_HEADER, VendorImportPermission } from '../types/sync'
 
 afterEach(() => {
   vi.unstubAllGlobals()
@@ -37,6 +38,14 @@ describe('Increment 2 API client', () => {
       ExecutionPermission.REQUEST,
     )
     await snipApi.executeSandboxExecution('e1', ExecutionPermission.AUTHORIZE)
+    await snipApi.listSynchronizationSources(VendorImportPermission.VIEW)
+    await snipApi.getSynchronizationSourceState('ERICSSON_ENM_SIMULATOR', 'DEFAULT', VendorImportPermission.VIEW)
+    await snipApi.recoverNetworkKnowledge(
+      'ERICSSON_ENM_SIMULATOR_INT_INVENTORY_READER',
+      VendorImportPermission.RECOVERY,
+    )
+    await snipApi.getSandboxExecutionEvidence('e1', ExecutionPermission.VIEW)
+    await snipApi.synchronizeCellTwin('CELL-001')
 
     const calls = fetchMock.mock.calls as [string, RequestInit][]
     const headerOf = (path: string) => {
@@ -71,6 +80,29 @@ describe('Increment 2 API client', () => {
     expect(headerOf('/api/v1/change-execution/executions/e1/execute').get(EXECUTION_PERMISSION_HEADER)).toBe(
       ExecutionPermission.AUTHORIZE,
     )
+    expect(headerOf('/api/v1/integration/sync/sources').get(VENDOR_IMPORT_PERMISSION_HEADER)).toBe(
+      VendorImportPermission.VIEW,
+    )
+    expect(
+      headerOf('/api/v1/integration/sync/sources/ERICSSON_ENM_SIMULATOR/DEFAULT').get(
+        VENDOR_IMPORT_PERMISSION_HEADER,
+      ),
+    ).toBe(VendorImportPermission.VIEW)
+    expect(
+      headerOf(
+        '/api/v1/integration/sync/connectors/ERICSSON_ENM_SIMULATOR_INT_INVENTORY_READER/recovery',
+      ).get(VENDOR_IMPORT_PERMISSION_HEADER),
+    ).toBe(VendorImportPermission.RECOVERY)
+    expect(headerOf('/api/v1/change-execution/executions/e1/evidence').get(EXECUTION_PERMISSION_HEADER)).toBe(
+      ExecutionPermission.VIEW,
+    )
+    const twinCall = calls.find(([url]) => url === '/api/v1/twins/cells/CELL-001/synchronize')
+    expect(twinCall).toBeTruthy()
+    expect(twinCall?.[1].method).toBe('POST')
+    expect(new Headers(twinCall?.[1].headers).get(PROPOSAL_PERMISSION_HEADER)).toBeNull()
+    expect(new Headers(twinCall?.[1].headers).get(PLAN_PERMISSION_HEADER)).toBeNull()
+    expect(new Headers(twinCall?.[1].headers).get(EXECUTION_PERMISSION_HEADER)).toBeNull()
+    expect(new Headers(twinCall?.[1].headers).get(VENDOR_IMPORT_PERMISSION_HEADER)).toBeNull()
   })
 
   it('does not reference production change or campaign endpoints', () => {

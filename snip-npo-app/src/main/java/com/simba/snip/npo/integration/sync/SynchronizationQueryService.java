@@ -6,7 +6,10 @@ import com.simba.snip.npo.persist.SynchronizationCheckpointEntity;
 import com.simba.snip.npo.persist.SynchronizationSourceStateEntity;
 import org.springframework.stereotype.Service;
 
+import org.springframework.transaction.annotation.Transactional;
+
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Optional;
@@ -35,25 +38,28 @@ public class SynchronizationQueryService {
         return policyRegistry.policies().stream().map(this::sourceSummary).toList();
     }
 
+    @Transactional(readOnly = true)
     public Map<String, Object> sourceState(String sourceSystem, String sourceScope) {
         SynchronizationPolicy policy = policyRegistry.require(sourceSystem, sourceScope);
-        SynchronizationSourceStateEntity state = sourceStateService.require(
-                sourceSystem, policy.connectorId(), sourceScope, java.time.Instant.now());
-        NetworkKnowledgeStatusEntity knowledge = sourceStateService.requireKnowledge(
-                sourceSystem, policy.connectorId(), sourceScope, java.time.Instant.now());
-        Optional<SynchronizationCheckpointEntity> checkpoint = checkpointService.find(sourceSystem, sourceScope);
-        Map<String, Object> payload = new HashMap<>();
+        Optional<SynchronizationSourceStateEntity> state = sourceStateService.find(sourceSystem, sourceScope);
+        Optional<NetworkKnowledgeStatusEntity> knowledge = sourceStateService.findKnowledge(sourceSystem, sourceScope);
+        Map<String, Object> payload = new LinkedHashMap<>();
+        payload.put("present", state.isPresent() && knowledge.isPresent());
         payload.put("sourceSystem", sourceSystem);
         payload.put("sourceScope", sourceScope);
         payload.put("connectorId", policy.connectorId());
         payload.put("enabled", policy.enabled());
-        payload.put("freshness", state.getFreshness());
-        payload.put("sourceHealth", state.getSourceHealth());
-        payload.put("recoveryRequired", state.isRecoveryRequired());
-        payload.put("knowledgeConfidence", knowledge.getConfidence());
-        payload.put("confidenceReasonCodes", knowledge.getReasonCodes());
-        payload.put("lastTrustedSnapshotId", knowledge.getLastTrustedSnapshotId());
-        payload.put("lastTrustedSynchronizationAt", knowledge.getLastTrustedSynchronizationAt());
+        if (state.isEmpty() || knowledge.isEmpty()) {
+            return payload;
+        }
+        Optional<SynchronizationCheckpointEntity> checkpoint = checkpointService.find(sourceSystem, sourceScope);
+        payload.put("freshness", state.get().getFreshness());
+        payload.put("sourceHealth", state.get().getSourceHealth());
+        payload.put("recoveryRequired", state.get().isRecoveryRequired());
+        payload.put("knowledgeConfidence", knowledge.get().getConfidence());
+        payload.put("confidenceReasonCodes", knowledge.get().getReasonCodes());
+        payload.put("lastTrustedSnapshotId", knowledge.get().getLastTrustedSnapshotId());
+        payload.put("lastTrustedSynchronizationAt", knowledge.get().getLastTrustedSynchronizationAt());
         checkpoint.ifPresent(value -> {
             payload.put("checkpointStatus", value.getStatus());
             payload.put("checkpointType", value.getCheckpointType());

@@ -66,6 +66,7 @@ describe('Increment 2 workflow', () => {
       const url = String(input)
       if (url === '/api/v1/cells/CELL-001/context') return mockJson(contextFixture)
       if (url === '/api/v1/cells/CELL-001/assurance') return mockJson([])
+      if (url === '/api/v1/integration/sync/sources') return mockJson([])
       return mockJson({ error: 'not mocked ' + url }, 404)
     })
     signedIn('/network/cells/CELL-001')
@@ -82,6 +83,7 @@ describe('Increment 2 workflow', () => {
     fetchMock.mockImplementation(async (input: RequestInfo) => {
       const url = String(input)
       if (url === '/api/v1/cells/CELL-001/context') return mockJson(contextFixture)
+      if (url === '/api/v1/integration/sync/sources') return mockJson([])
       if (url === '/api/v1/change-intelligence/proposals') return generateGate
       if (url === `/api/v1/change-intelligence/proposals/${proposalId}`) {
         return mockJson(recommendedProposalFixture)
@@ -128,7 +130,7 @@ describe('Increment 2 workflow', () => {
     expect(screen.getByText(/No real network change has occurred/i)).toBeInTheDocument()
     expect(await screen.findByText('SYNTHETIC SIMULATION')).toBeInTheDocument()
     expect(screen.getAllByText(/NOT VENDOR-CALIBRATED RF/i).length).toBeGreaterThan(0)
-    expect(screen.getByText('BLER_DL')).toBeInTheDocument()
+    expect(await screen.findByText('BLER_DL')).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Approve proposal' })).toBeInTheDocument()
     expect(screen.getByRole('button', { name: 'Reject proposal' })).toBeInTheDocument()
     expect(screen.queryByRole('button', { name: 'Create change plan' })).not.toBeInTheDocument()
@@ -236,7 +238,7 @@ describe('Increment 2 workflow', () => {
     expect(await screen.findByText(/SANDBOX ONLY/)).toBeInTheDocument()
     expect(screen.getByText(/NO REAL NETWORK CHANGE/)).toBeInTheDocument()
     expect(screen.queryByRole('textbox')).not.toBeInTheDocument()
-    expect(screen.getByText(SIMULATOR_EXECUTION_TARGET_ID)).toBeInTheDocument()
+    expect(screen.getAllByText(SIMULATOR_EXECUTION_TARGET_ID).length).toBeGreaterThan(0)
     await user.click(screen.getByRole('button', { name: 'Review sandbox execution' }))
     await user.click(await screen.findByRole('button', { name: 'Authorize sandbox execution' }))
     await user.click(within(await screen.findByRole('dialog')).getByRole('button', { name: 'Authorize sandbox execution' }))

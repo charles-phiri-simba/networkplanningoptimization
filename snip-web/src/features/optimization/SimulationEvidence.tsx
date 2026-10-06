@@ -4,6 +4,7 @@ import { ErrorState } from '../../components/ErrorState'
 import { LoadingState } from '../../components/LoadingState'
 import type { CandidateEvidenceDto } from '../../types/proposal'
 import type { SimulationDetailDto } from '../../types/simulation'
+import { metricLabel } from '../operator/operatorMessages'
 import { formatNumber } from '../../utils/format'
 
 const DISPLAY_METRICS = new Set(['txPower', 'BLER_DL', 'PRB_UTILIZATION_DL', 'THROUGHPUT_DL'])
@@ -39,7 +40,7 @@ export function SimulationEvidence({ candidates }: { candidates: CandidateEviden
     <section className="panel" aria-labelledby="sim-heading">
       <header className="panel-header">
         <h2 id="sim-heading">Synthetic simulation evidence</h2>
-        <p className="muted">Retrieved from GET /api/v1/simulations/{simulationId}. Not a live RF forecast.</p>
+        <p className="muted">Synthetic model output. Not a live RF forecast.</p>
       </header>
       <p className="banner-synthetic" role="note">
         <strong>SYNTHETIC SIMULATION</strong> · LOW CONFIDENCE · NOT VENDOR-CALIBRATED RF · NO REAL
@@ -90,7 +91,10 @@ function SimulationDetail({ simulation }: { simulation: SimulationDetailDto }) {
           <tbody>
             {metrics.map((metric) => (
               <tr key={metric.metric}>
-                <td>{metric.metric}</td>
+                <td>
+                  {metricLabel(metric.metric)}
+                  <p className="muted diagnostic">{metric.metric}</p>
+                </td>
                 <td>{formatNumber(metric.baselineValue)}</td>
                 <td>{formatNumber(metric.candidateValue)}</td>
                 <td>{formatNumber(metric.delta)}</td>

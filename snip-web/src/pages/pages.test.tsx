@@ -55,6 +55,7 @@ describe('Increment 1A pages', () => {
         if (url === '/api/v1/gnbs') return mockJson([gnbFixture])
         if (url === '/api/v1/cells/CELL-001/context') return mockJson(contextFixture)
         if (url === '/api/v1/cells/CELL-001/assurance') return mockJson([caseFixture])
+        if (url === '/api/v1/integration/sync/sources') return mockJson([])
         if (url === '/api/v1/assurance/cases') return mockJson([caseFixture])
         if (url === `/api/v1/assurance/cases/${caseFixture.id}`) return mockJson(caseFixture)
         if (url === `/api/v1/assurance/cases/${caseFixture.id}/assessment`) return mockJson(assessmentFixture)
@@ -142,6 +143,7 @@ describe('Increment 1A pages', () => {
         if (url === '/api/v1/cells/CELL-001/assurance') {
           return mockJson({ error: 'assurance unavailable' }, 500)
         }
+        if (url === '/api/v1/integration/sync/sources') return mockJson([])
         return mockJson({ error: 'not mocked ' + url }, 404)
       }),
     )

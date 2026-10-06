@@ -32,6 +32,16 @@ public class SynchronizationSourceStateService {
         this.confidenceEvaluator = confidenceEvaluator;
     }
 
+    @Transactional(readOnly = true)
+    public Optional<SynchronizationSourceStateEntity> find(String sourceSystem, String scope) {
+        return sourceStateRepository.findBySourceSystemAndSynchronizationScope(sourceSystem, scope);
+    }
+
+    @Transactional(readOnly = true)
+    public Optional<NetworkKnowledgeStatusEntity> findKnowledge(String sourceSystem, String scope) {
+        return knowledgeStatusRepository.findBySourceSystemAndSynchronizationScope(sourceSystem, scope);
+    }
+
     @Transactional
     public SynchronizationSourceStateEntity require(String sourceSystem, String connectorId, String scope, Instant now) {
         return sourceStateRepository.findBySourceSystemAndSynchronizationScope(sourceSystem, scope)

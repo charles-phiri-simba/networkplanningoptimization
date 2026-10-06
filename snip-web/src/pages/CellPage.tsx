@@ -8,6 +8,7 @@ import { AskSnip } from '../features/ai/AskSnip'
 import { AssuranceList } from '../features/assurance/AssuranceList'
 import { ConfigurationPanel } from '../features/cell/ConfigurationPanel'
 import { NeighbourPanel } from '../features/cell/NeighbourPanel'
+import { NetworkKnowledgePanel } from '../features/knowledge/NetworkKnowledgePanel'
 import { KpiPanel } from '../features/telemetry/KpiPanel'
 import type { AssuranceCaseDto } from '../types/assurance'
 import type { CellContextDto } from '../types/network'
@@ -129,6 +130,7 @@ export function CellPage() {
       </dl>
 
       <ConfigurationPanel parameters={context.radioConfiguration} provenance={provenance} />
+      <NetworkKnowledgePanel />
       <KpiPanel kpis={context.kpis} telemetry={context.telemetry} />
       <NeighbourPanel neighbours={context.neighbours} />
 

@@ -7,7 +7,9 @@ import { ErrorState } from '../components/ErrorState'
 import { LoadingState } from '../components/LoadingState'
 import { StatusBadge } from '../components/StatusBadge'
 import { useAuth } from '../features/auth/AuthContext'
+import { WorkspaceCrumb } from '../features/operator/WorkspaceCrumb'
 import { DemoPermissionBanner } from '../features/optimization/DemoPermissionBanner'
+import { findTxPower } from '../features/optimization/txPower'
 import {
   canAuthorizeExecution,
   canCancelExecution,
@@ -16,8 +18,12 @@ import {
   canVerifyExecution,
   isSimulatorReadbackVerified,
 } from '../features/sandboxExecution/executionGuards'
-import type { ExecutionDetailDto } from '../types/execution'
+import { FourWayState } from '../features/sandboxExecution/FourWayState'
+import { VerificationReadback } from '../features/sandboxExecution/VerificationReadback'
+import type { ExecutionDetailDto, ExecutionEvidenceDto } from '../types/execution'
 import { ExecutionPermission, ExecutionStatus, SIMULATOR_EXECUTION_TARGET_ID } from '../types/execution'
+import { PlanPermission } from '../types/plan'
+import { ProposalPermission } from '../types/proposal'
 import { formatTimestamp } from '../utils/format'
 
 type ConfirmKind = 'authorize' | 'execute' | null
@@ -26,14 +32,50 @@ export function SandboxExecutionPage() {
   const { executionId = '' } = useParams()
   const { identity } = useAuth()
   const [execution, setExecution] = useState<ExecutionDetailDto | null>(null)
+  const [evidence, setEvidence] = useState<ExecutionEvidenceDto | null>(null)
+  const [recommendedValue, setRecommendedValue] = useState<string | null>(null)
+  const [canonicalValue, setCanonicalValue] = useState<string | null>(null)
   const [error, setError] = useState<unknown>(null)
   const [busy, setBusy] = useState(false)
   const [actionError, setActionError] = useState<unknown>(null)
   const [confirm, setConfirm] = useState<ConfirmKind>(null)
 
+  function loadCompanion(next: ExecutionDetailDto) {
+    snipApi
+      .getSandboxExecutionEvidence(next.executionId, ExecutionPermission.VIEW)
+      .then(setEvidence)
+      .catch(() => setEvidence(null))
+    snipApi
+      .getChangePlan(next.planId, PlanPermission.VIEW)
+      .then((plan) => {
+        setRecommendedValue(plan.plan.desiredValue)
+        return snipApi.getChangeProposal(plan.plan.proposalId, ProposalPermission.VIEW)
+      })
+      .then((detail) => {
+        if (detail?.proposal.proposedValue) {
+          setRecommendedValue(detail.proposal.proposedValue)
+        }
+      })
+      .catch(() => undefined)
+    snipApi
+      .getCellContext(next.cellId)
+      .then((context) => {
+        setCanonicalValue(findTxPower(context.radioConfiguration)?.parameterValue ?? null)
+      })
+      .catch(() => undefined)
+  }
+
+  function applyExecution(next: ExecutionDetailDto) {
+    setExecution(next)
+    loadCompanion(next)
+  }
+
   function load() {
     setError(null)
-    snipApi.getSandboxExecution(executionId, ExecutionPermission.VIEW).then(setExecution).catch(setError)
+    snipApi
+      .getSandboxExecution(executionId, ExecutionPermission.VIEW)
+      .then(applyExecution)
+      .catch(setError)
   }
 
   useEffect(() => {
@@ -53,7 +95,7 @@ export function SandboxExecutionPage() {
         { reviewer: identity?.actorId ?? null, comment: 'Sandbox execution review' },
         ExecutionPermission.REVIEW,
       )
-      setExecution(next)
+      applyExecution(next)
     } catch (caught) {
       if (caught instanceof ApiError && caught.status === 409) {
         load()
@@ -76,7 +118,7 @@ export function SandboxExecutionPage() {
         { authorizer: identity?.actorId ?? null },
         ExecutionPermission.AUTHORIZE,
       )
-      setExecution(next)
+      applyExecution(next)
       setConfirm(null)
     } catch (caught) {
       if (caught instanceof ApiError && caught.status === 409) {
@@ -97,7 +139,7 @@ export function SandboxExecutionPage() {
     setActionError(null)
     try {
       const next = await snipApi.executeSandboxExecution(executionId, ExecutionPermission.AUTHORIZE)
-      setExecution(next)
+      applyExecution(next)
       setConfirm(null)
     } catch (caught) {
       if (caught instanceof ApiError && caught.status === 409) {
@@ -118,7 +160,7 @@ export function SandboxExecutionPage() {
     setActionError(null)
     try {
       const next = await snipApi.verifySandboxExecution(executionId, ExecutionPermission.VIEW)
-      setExecution(next)
+      applyExecution(next)
     } catch (caught) {
       setActionError(caught)
     } finally {
@@ -138,7 +180,7 @@ export function SandboxExecutionPage() {
         { actor: identity?.actorId ?? null, reason: 'Cancelled before mutation' },
         ExecutionPermission.CANCEL,
       )
-      setExecution(next)
+      applyExecution(next)
     } catch (caught) {
       setActionError(caught)
     } finally {
@@ -157,13 +199,17 @@ export function SandboxExecutionPage() {
 
   return (
     <div className="page">
-      <p className="crumb">
-        <Link to={`/change-plans/${execution.planId}`}>Change plan</Link> / sandbox
-      </p>
+      <WorkspaceCrumb
+        cellId={execution.cellId}
+        planId={execution.planId}
+        executionId={execution.executionId}
+      />
       <header className="page-header">
         <div>
           <h1>Sandbox execution</h1>
-          <p className="muted">Phase 15 simulator execution only. Target is fixed to {SIMULATOR_EXECUTION_TARGET_ID}.</p>
+          <p className="muted">
+            Simulator sandbox only. Target is fixed to {SIMULATOR_EXECUTION_TARGET_ID}.
+          </p>
         </div>
         <StatusBadge status={execution.status} />
       </header>
@@ -171,11 +217,49 @@ export function SandboxExecutionPage() {
         <strong>SANDBOX ONLY · SIMULATOR · NO REAL NETWORK CHANGE</strong>
       </p>
       <DemoPermissionBanner />
+      <section className="panel" aria-labelledby="sandbox-context">
+        <h2 id="sandbox-context">Sandbox context</h2>
+        <dl className="kv">
+          <div>
+            <dt>Environment</dt>
+            <dd>SANDBOX</dd>
+          </div>
+          <div>
+            <dt>Target</dt>
+            <dd>{SIMULATOR_EXECUTION_TARGET_ID}</dd>
+          </div>
+          <div>
+            <dt>Cell</dt>
+            <dd>{execution.cellId}</dd>
+          </div>
+          <div>
+            <dt>Parameter</dt>
+            <dd>{execution.parameterName}</dd>
+          </div>
+          <div>
+            <dt>Expected current</dt>
+            <dd>{operation?.expectedCurrentValue ?? '—'}</dd>
+          </div>
+          <div>
+            <dt>Desired value</dt>
+            <dd>{operation?.desiredValue ?? '—'}</dd>
+          </div>
+        </dl>
+      </section>
       {isSimulatorReadbackVerified(execution) ? (
         <p className="banner-ok" role="status">
           Simulator readback verified. Sandbox parameter confirmed against the planned desired
           value. This is not network verification and not production verification.
         </p>
+      ) : null}
+      {isSimulatorReadbackVerified(execution) ? <VerificationReadback evidence={evidence} /> : null}
+      {isSimulatorReadbackVerified(execution) ? (
+        <FourWayState
+          recommendedValue={recommendedValue ?? operation?.desiredValue}
+          canonicalValue={canonicalValue}
+          unit="dBm"
+          evidence={evidence}
+        />
       ) : null}
       <section className="panel" aria-labelledby="exec-meta">
         <h2 id="exec-meta">Execution details</h2>

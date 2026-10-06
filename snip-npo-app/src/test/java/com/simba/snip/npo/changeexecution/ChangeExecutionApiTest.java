@@ -52,10 +52,12 @@ import org.springframework.test.context.DynamicPropertyRegistry;
 import org.springframework.test.context.DynamicPropertySource;
 
 import java.time.Instant;
+import java.util.List;
 import java.util.Map;
 import java.util.UUID;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 import static org.junit.jupiter.api.Assertions.assertNotEquals;
 import static org.junit.jupiter.api.Assertions.assertNotNull;
 import static org.junit.jupiter.api.Assertions.assertTrue;
@@ -120,6 +122,105 @@ class ChangeExecutionApiTest extends AbstractPostgresIT {
         ExecutionDetailDto executed = execute(created.executionId());
         assertEquals(ExecutionStatus.VERIFIED.name(), executed.status());
         assertNotNull(executed.completedAt());
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void verifiedEvidenceExposesForwardExpectedObservedAndIsReadOnly() {
+        UUID planId = readyPlanId();
+        ExecutionDetailDto created = createExecution(planId);
+        review(created.executionId());
+        authorize(created.executionId());
+        ExecutionDetailDto executed = execute(created.executionId());
+        assertEquals(ExecutionStatus.VERIFIED.name(), executed.status());
+
+        long operations = count("network_change_execution_operation");
+        long authorizations = count("network_change_execution_authorization");
+        long recoveries = count("network_change_execution_recovery");
+        long audits = count("network_change_execution_audit_event");
+        long verifications = count("network_change_execution_verification");
+        long executions = count("network_change_execution");
+
+        ResponseEntity<Map> response = http.exchange(
+                "/api/v1/change-execution/executions/" + executed.executionId() + "/evidence",
+                HttpMethod.GET,
+                execEntity(null, ChangeExecutionAuthorizer.PERMISSION_VIEW),
+                Map.class);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        Map<String, Object> evidence = response.getBody();
+        assertNotNull(evidence);
+        List<Map<String, Object>> verificationsPayload = (List<Map<String, Object>>) evidence.get("verifications");
+        assertNotNull(verificationsPayload);
+        Map<String, Object> forward = verificationsPayload.stream()
+                .filter(item -> "FORWARD".equals(item.get("direction")))
+                .findFirst()
+                .orElseThrow();
+        assertEquals(executed.operations().get(0).desiredValue(), forward.get("expectedValue"));
+        assertEquals(executed.operations().get(0).desiredValue(), forward.get("observedValue"));
+        assertNotNull(forward.get("outcome"));
+        assertEquals("FORWARD", forward.get("direction"));
+
+        assertEquals(operations, count("network_change_execution_operation"));
+        assertEquals(authorizations, count("network_change_execution_authorization"));
+        assertEquals(recoveries, count("network_change_execution_recovery"));
+        assertEquals(audits, count("network_change_execution_audit_event"));
+        assertEquals(verifications, count("network_change_execution_verification"));
+        assertEquals(executions, count("network_change_execution"));
+    }
+
+    @Test
+    @SuppressWarnings("unchecked")
+    void evidenceAllowsNullOptionalFieldsWithoutMutation() {
+        UUID planId = readyPlanId();
+        ExecutionDetailDto created = createExecution(planId);
+        review(created.executionId());
+        authorize(created.executionId());
+        execute(created.executionId());
+
+        jdbc.update(
+                """
+                INSERT INTO network_change_execution_recovery
+                    (id, execution_id, evaluated_at, recovery_status, rollback_eligible, reason_codes, evidence_summary)
+                VALUES (?, ?, NOW(), 'NOT_REQUIRED', FALSE, NULL, NULL)
+                """,
+                UUID.randomUUID(), created.executionId());
+        jdbc.update(
+                """
+                INSERT INTO network_change_execution_audit_event
+                    (id, execution_id, event_type, actor, details, occurred_at)
+                VALUES (?, ?, 'PI3_NULL_AUDIT', 'tester', NULL, NOW())
+                """,
+                UUID.randomUUID(), created.executionId());
+
+        long operations = count("network_change_execution_operation");
+        long authorizations = count("network_change_execution_authorization");
+        long recoveries = count("network_change_execution_recovery");
+        long audits = count("network_change_execution_audit_event");
+
+        ResponseEntity<Map> response = http.exchange(
+                "/api/v1/change-execution/executions/" + created.executionId() + "/evidence",
+                HttpMethod.GET,
+                execEntity(null, ChangeExecutionAuthorizer.PERMISSION_VIEW),
+                Map.class);
+        assertEquals(HttpStatus.OK, response.getStatusCode());
+        Map<String, Object> evidence = response.getBody();
+        assertNotNull(evidence);
+        List<Map<String, Object>> operationPayload = (List<Map<String, Object>>) evidence.get("operations");
+        assertNotNull(operationPayload);
+        assertFalse(operationPayload.isEmpty());
+        List<Map<String, Object>> authorizationPayload = (List<Map<String, Object>>) evidence.get("authorizations");
+        assertNotNull(authorizationPayload);
+        assertFalse(authorizationPayload.isEmpty());
+        List<Map<String, Object>> recoveryPayload = (List<Map<String, Object>>) evidence.get("recoveries");
+        assertTrue(recoveryPayload.stream().anyMatch(item ->
+                "NOT_REQUIRED".equals(item.get("recoveryStatus")) && item.get("reasonCodes") == null));
+        List<Map<String, Object>> auditPayload = (List<Map<String, Object>>) evidence.get("auditEvents");
+        assertTrue(auditPayload.stream().anyMatch(item ->
+                "PI3_NULL_AUDIT".equals(item.get("eventType")) && item.get("details") == null));
+        assertEquals(operations, count("network_change_execution_operation"));
+        assertEquals(authorizations, count("network_change_execution_authorization"));
+        assertEquals(recoveries, count("network_change_execution_recovery"));
+        assertEquals(audits, count("network_change_execution_audit_event"));
     }
 
     @Test
@@ -516,6 +617,11 @@ class ChangeExecutionApiTest extends AbstractPostgresIT {
                 ExecutionDetailDto.class);
         assertEquals(HttpStatus.OK, response.getStatusCode(), () -> String.valueOf(response.getBody()));
         return response.getBody();
+    }
+
+    private long count(String table) {
+        Long value = jdbc.queryForObject("SELECT COUNT(*) FROM " + table, Long.class);
+        return value == null ? 0L : value;
     }
 
     private ExecutionDetailDto get(UUID executionId) {

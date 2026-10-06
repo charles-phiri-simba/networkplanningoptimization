@@ -73,6 +73,24 @@ export interface ExecutionOperationDto {
   desiredValue: string | null
 }
 
+export interface ExecutionVerificationEvidenceDto {
+  direction: string | null
+  outcome: string | null
+  observedValue: string | null
+  expectedValue: string | null
+  observedAt?: string | null
+}
+
+export interface ExecutionEvidenceDto {
+  executionId?: string
+  planId?: string
+  verifications?: ExecutionVerificationEvidenceDto[]
+  operations?: Array<Record<string, unknown>>
+  authorizations?: Array<Record<string, unknown>>
+  recoveries?: Array<Record<string, unknown>>
+  auditEvents?: Array<Record<string, unknown>>
+}
+
 export interface ExecutionDetailDto {
   executionId: string
   planId: string

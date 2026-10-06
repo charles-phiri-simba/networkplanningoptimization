@@ -1,6 +1,7 @@
 package com.simba.snip.npo.changeexecution.api;
 
 import com.simba.snip.npo.changeexecution.audit.ExecutionAuditService;
+import com.simba.snip.npo.changeexecution.entity.NetworkChangeExecutionAuditEventEntity;
 import com.simba.snip.npo.changeexecution.entity.NetworkChangeExecutionAttemptEntity;
 import com.simba.snip.npo.changeexecution.entity.NetworkChangeExecutionAuthorizationEntity;
 import com.simba.snip.npo.changeexecution.entity.NetworkChangeExecutionEntity;
@@ -78,12 +79,7 @@ public class ChangeExecutionQueryService {
         evidence.put("executionFingerprint", execution.getExecutionFingerprint());
         evidence.put("authorizedExecutionFingerprint", execution.getAuthorizedExecutionFingerprint());
         evidence.put("operations", operationRepository.findByExecutionIdOrderBySequenceNumberAsc(executionId).stream()
-                .map(op -> Map.of(
-                        "sequenceNumber", op.getSequenceNumber(),
-                        "operationType", op.getOperationType(),
-                        "expectedCurrentValue", op.getExpectedCurrentValue(),
-                        "desiredValue", op.getDesiredValue()
-                ))
+                .map(this::operationEvidence)
                 .toList());
         evidence.put("attempts", attemptRepository.findByExecutionIdOrderByAttemptNumberAsc(executionId).stream()
                 .map(this::attemptEvidence)
@@ -99,12 +95,7 @@ public class ChangeExecutionQueryService {
                 .toList());
         rollbackRepository.findByExecutionId(executionId).ifPresent(rollback -> evidence.put("rollback", rollbackEvidence(rollback)));
         evidence.put("auditEvents", auditService.list(executionId).stream()
-                .map(event -> Map.of(
-                        "eventType", event.getEventType(),
-                        "actor", event.getActor(),
-                        "details", event.getDetails(),
-                        "occurredAt", event.getOccurredAt().toString()
-                ))
+                .map(this::auditEvidence)
                 .toList());
         return evidence;
     }
@@ -188,12 +179,32 @@ public class ChangeExecutionQueryService {
         return map;
     }
 
+    static Map<String, Object> nullCapable(Object... keysAndValues) {
+        if (keysAndValues.length % 2 != 0) {
+            throw new IllegalArgumentException("keysAndValues must be even");
+        }
+        Map<String, Object> map = new LinkedHashMap<>();
+        for (int i = 0; i < keysAndValues.length; i += 2) {
+            map.put((String) keysAndValues[i], keysAndValues[i + 1]);
+        }
+        return map;
+    }
+
+    private Map<String, Object> operationEvidence(NetworkChangeExecutionOperationEntity operation) {
+        return nullCapable(
+                "sequenceNumber", operation.getSequenceNumber(),
+                "operationType", operation.getOperationType(),
+                "expectedCurrentValue", operation.getExpectedCurrentValue(),
+                "desiredValue", operation.getDesiredValue()
+        );
+    }
+
     private Map<String, Object> authorizationEvidence(NetworkChangeExecutionAuthorizationEntity authorization) {
-        return Map.of(
+        return nullCapable(
                 "authorizationType", authorization.getAuthorizationType(),
                 "authorizer", authorization.getAuthorizer(),
                 "authorizedFingerprint", authorization.getAuthorizedFingerprint(),
-                "authorizedAt", authorization.getAuthorizedAt().toString()
+                "authorizedAt", authorization.getAuthorizedAt() == null ? null : authorization.getAuthorizedAt().toString()
         );
     }
 
@@ -208,11 +219,20 @@ public class ChangeExecutionQueryService {
     }
 
     private Map<String, Object> recoveryEvidence(NetworkChangeExecutionRecoveryEntity recovery) {
-        return Map.of(
+        return nullCapable(
                 "recoveryStatus", recovery.getRecoveryStatus(),
                 "rollbackEligible", recovery.isRollbackEligible(),
                 "reasonCodes", recovery.getReasonCodes(),
-                "evaluatedAt", recovery.getEvaluatedAt().toString()
+                "evaluatedAt", recovery.getEvaluatedAt() == null ? null : recovery.getEvaluatedAt().toString()
+        );
+    }
+
+    private Map<String, Object> auditEvidence(NetworkChangeExecutionAuditEventEntity event) {
+        return nullCapable(
+                "eventType", event.getEventType(),
+                "actor", event.getActor(),
+                "details", event.getDetails(),
+                "occurredAt", event.getOccurredAt() == null ? null : event.getOccurredAt().toString()
         );
     }
 

@@ -7,9 +7,13 @@ import { ErrorState } from '../components/ErrorState'
 import { LoadingState } from '../components/LoadingState'
 import { StatusBadge } from '../components/StatusBadge'
 import { useAuth } from '../features/auth/AuthContext'
+import { NetworkKnowledgePanel } from '../features/knowledge/NetworkKnowledgePanel'
+import { existingPlanIdFromError } from '../features/operator/operatorMessages'
+import { WorkspaceCrumb } from '../features/operator/WorkspaceCrumb'
 import { CandidateTable } from '../features/optimization/CandidateTable'
 import { CurrentProposedPanel } from '../features/optimization/CurrentProposedPanel'
 import { DemoPermissionBanner } from '../features/optimization/DemoPermissionBanner'
+import { EligibilityBanner } from '../features/optimization/EligibilityBanner'
 import { canApproveOrReject, canCreatePlan } from '../features/optimization/proposalGuards'
 import { SimulationEvidence } from '../features/optimization/SimulationEvidence'
 import type { ChangeProposalDetailDto } from '../types/proposal'
@@ -28,6 +32,7 @@ export function ProposalPage() {
   const [busy, setBusy] = useState(false)
   const [actionError, setActionError] = useState<unknown>(null)
   const [confirm, setConfirm] = useState<ConfirmKind>(null)
+  const [existingPlanId, setExistingPlanId] = useState<string | null>(null)
 
   function load() {
     setError(null)
@@ -74,6 +79,7 @@ export function ProposalPage() {
     }
     setBusy(true)
     setActionError(null)
+    setExistingPlanId(null)
     try {
       const plan = await snipApi.createChangePlan(
         { proposalId: detail.proposal.id },
@@ -81,7 +87,12 @@ export function ProposalPage() {
       )
       navigate(`/change-plans/${plan.plan.id}`)
     } catch (caught) {
-      setActionError(caught)
+      const planId = existingPlanIdFromError(caught)
+      if (planId) {
+        setExistingPlanId(planId)
+      } else {
+        setActionError(caught)
+      }
     } finally {
       setBusy(false)
     }
@@ -98,20 +109,20 @@ export function ProposalPage() {
 
   return (
     <div className="page">
-      <p className="crumb">
-        <Link to="/optimization">Optimization</Link> / {proposal.id}
-      </p>
+      <WorkspaceCrumb cellId={proposal.targetEntityId} proposalId={proposal.id} />
       <header className="page-header">
         <div>
           <h1>Optimization proposal</h1>
           <p className="muted">
-            Formal Phase 13 artifact for {proposal.targetEntityId}. Ask SNIP text is not the source
-            of the proposed value.
+            Governed optimization artifact for {proposal.targetEntityId}. Ask SNIP text is not the
+            source of the proposed value.
           </p>
         </div>
         <StatusBadge status={proposal.status} />
       </header>
       <DemoPermissionBanner />
+      <EligibilityBanner proposal={proposal} />
+      <NetworkKnowledgePanel />
       <p className="banner-demo" role="note">
         Proposal APPROVED only makes the artifact eligible for change-plan creation. It is not
         production approval and not execution.
@@ -185,10 +196,22 @@ export function ProposalPage() {
       </section>
       <section className="panel" aria-labelledby="candidates-heading">
         <h2 id="candidates-heading">Candidates</h2>
-        <p className="muted">Rank 1 is the selected candidate when the backend assigned that rank.</p>
+        <p className="muted">
+          Rank 1 is the backend recommendation. The frontend cannot choose a different proposed value.
+        </p>
         <CandidateTable candidates={candidates} />
       </section>
       <SimulationEvidence candidates={candidates} />
+      {existingPlanId ? (
+        <div className="state-panel" role="status">
+          <p className="state-title">An active change plan already exists for this proposal.</p>
+          <p>
+            <Link className="btn btn-primary" to={`/change-plans/${existingPlanId}`}>
+              Open existing plan
+            </Link>
+          </p>
+        </div>
+      ) : null}
       {actionError ? <ErrorState error={actionError} /> : null}
       <section className="panel" aria-labelledby="proposal-actions">
         <h2 id="proposal-actions">Governance</h2>
@@ -221,7 +244,7 @@ export function ProposalPage() {
           onConfirm={() => void runGovernance(confirm)}
         >
           <p>
-            This records Phase 13 governance only. It does not execute a network or sandbox change.
+            This records proposal governance only. It does not execute a network or sandbox change.
           </p>
         </ConfirmDialog>
       ) : null}

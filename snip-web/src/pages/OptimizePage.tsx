@@ -1,10 +1,12 @@
 import { useEffect, useState } from 'react'
-import { Link, useNavigate, useParams } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import { ApiError } from '../api/client'
 import { snipApi } from '../api/snipApi'
 import { ErrorState } from '../components/ErrorState'
 import { LoadingState } from '../components/LoadingState'
 import { useAuth } from '../features/auth/AuthContext'
+import { NetworkKnowledgePanel } from '../features/knowledge/NetworkKnowledgePanel'
+import { WorkspaceCrumb } from '../features/operator/WorkspaceCrumb'
 import { DemoPermissionBanner } from '../features/optimization/DemoPermissionBanner'
 import { findTxPower } from '../features/optimization/txPower'
 import type { CellContextDto } from '../types/network'
@@ -61,20 +63,18 @@ export function OptimizePage() {
 
   return (
     <div className="page">
-      <p className="crumb">
-        <Link to="/network">Network</Link> /{' '}
-        <Link to={`/network/cells/${encodeURIComponent(cellId)}`}>{cellId}</Link> / optimize
-      </p>
+      <WorkspaceCrumb cellId={cellId} />
       <header className="page-header">
         <div>
           <h1>Propose txPower optimization</h1>
           <p className="muted">
-            Creates a governed Phase 13 proposal. SNIP selects the proposed dBm. This does not
+            Creates a governed optimization proposal. SNIP selects the proposed dBm. This does not
             change the live network.
           </p>
         </div>
       </header>
       <DemoPermissionBanner />
+      <NetworkKnowledgePanel />
       <p className="banner-demo" role="note">
         A new generate may supersede an existing RECOMMENDED proposal for this cell and parameter.
       </p>

@@ -1,10 +1,12 @@
 import type { AssuranceCaseDto, DecisionAssessmentDto } from '../types/assurance'
-import type { ExecutionDetailDto } from '../types/execution'
+import type { ExecutionDetailDto, ExecutionEvidenceDto } from '../types/execution'
 import type { CellContextDto, CellDto, GnbDto, SiteDto } from '../types/network'
 import type { ChangePlanDetailDto } from '../types/plan'
 import type { ChangeProposalDetailDto } from '../types/proposal'
 import type { RecommendationResponse } from '../types/recommendation'
 import type { SimulationDetailDto } from '../types/simulation'
+import type { SynchronizationSourceStateDto, SynchronizationSourceSummaryDto } from '../types/sync'
+import type { TwinDetailDto } from '../types/twin'
 
 export const siteFixture: SiteDto = {
   siteId: 'SITE-001',
@@ -306,6 +308,22 @@ export const readyForReviewPlanFixture: ChangePlanDetailDto = {
       reasonCode: null,
       checkedAt: '2026-01-01T00:00:00Z',
     },
+    {
+      preconditionType: 'NETWORK_KNOWLEDGE_CONFIDENCE',
+      expectedCondition: 'HIGH',
+      observedValue: 'HIGH',
+      result: 'PASS',
+      reasonCode: null,
+      checkedAt: '2026-01-01T00:00:00Z',
+    },
+    {
+      preconditionType: 'AUTHORIZATION_CURRENT',
+      expectedCondition: 'MATCH',
+      observedValue: 'MATCH',
+      result: 'PASS',
+      reasonCode: null,
+      checkedAt: '2026-01-01T00:00:00Z',
+    },
   ],
   readinessAssessments: [],
 }
@@ -390,6 +408,102 @@ export const authorizedExecutionFixture: ExecutionDetailDto = {
   authorizedExecutionFingerprint: 'ex-fp-1',
   executionWindowOpensAt: '2026-01-01T00:10:00Z',
   executionWindowClosesAt: '2026-01-01T01:10:00Z',
+}
+
+export const enabledSourceFixture: SynchronizationSourceSummaryDto = {
+  sourceSystem: 'ERICSSON_ENM_SIMULATOR',
+  sourceScope: 'DEFAULT',
+  connectorId: 'ERICSSON_ENM_SIMULATOR_INT_INVENTORY_READER',
+  enabled: true,
+  preferredMode: 'INCREMENTAL',
+  cadenceSeconds: 900,
+}
+
+export const knowledgeAbsentFixture: SynchronizationSourceStateDto = {
+  present: false,
+  sourceSystem: 'ERICSSON_ENM_SIMULATOR',
+  sourceScope: 'DEFAULT',
+  connectorId: 'ERICSSON_ENM_SIMULATOR_INT_INVENTORY_READER',
+  enabled: true,
+}
+
+export const knowledgeCurrentFixture: SynchronizationSourceStateDto = {
+  present: true,
+  sourceSystem: 'ERICSSON_ENM_SIMULATOR',
+  sourceScope: 'DEFAULT',
+  connectorId: 'ERICSSON_ENM_SIMULATOR_INT_INVENTORY_READER',
+  enabled: true,
+  freshness: 'FRESH',
+  sourceHealth: 'HEALTHY',
+  recoveryRequired: false,
+  knowledgeConfidence: 'HIGH',
+  confidenceReasonCodes: 'TRUSTED_FRESH_COMPLETE',
+  lastTrustedSnapshotId: 'snap-1',
+  lastTrustedSynchronizationAt: '2026-01-01T00:00:00Z',
+  checkpointStatus: 'VALID',
+  checkpointType: 'SYNTHETIC_SEQUENCE',
+}
+
+export const knowledgeRecoveryFixture: SynchronizationSourceStateDto = {
+  ...knowledgeCurrentFixture,
+  knowledgeConfidence: 'LOW',
+  recoveryRequired: true,
+  confidenceReasonCodes: 'RECOVERY_REQUIRED',
+  freshness: 'STALE',
+}
+
+export const invalidTwinProposalFixture: ChangeProposalDetailDto = {
+  proposal: {
+    ...recommendedProposalFixture.proposal,
+    status: 'INVALID',
+    proposedValue: null,
+    failureCode: 'TWIN_STATE_UNAVAILABLE',
+    failureReason: 'no twin for cell',
+    simulationConfidence: null,
+    riskLevel: null,
+    benefitSummary: null,
+    proposalScore: null,
+  },
+  candidates: [],
+}
+
+export const currentTwinFixture: TwinDetailDto = {
+  id: 'ffffffff-ffff-4fff-8fff-ffffffffffff',
+  name: 'Cell Twin CELL-001',
+  scopeType: 'CELL',
+  scopeId: 'CELL-001',
+  status: 'ACTIVE',
+  latestVersion: 1,
+  createdAt: '2026-01-01T00:00:00Z',
+  synchronizedAt: '2026-01-01T00:00:02Z',
+  synthetic: true,
+  freshness: 'CURRENT',
+}
+
+export const evaluatedProposalFixture: ChangeProposalDetailDto = {
+  proposal: {
+    ...recommendedProposalFixture.proposal,
+    status: 'EVALUATED',
+    proposedValue: null,
+    failureCode: 'NETWORK_KNOWLEDGE_LOW',
+    failureReason: 'Knowledge confidence LOW',
+    networkKnowledgeConfidence: 'LOW',
+  },
+  candidates: recommendedProposalFixture.candidates,
+}
+
+export const executionEvidenceFixture: ExecutionEvidenceDto = {
+  executionId,
+  planId,
+  verifications: [
+    {
+      direction: 'FORWARD',
+      outcome: 'VERIFIED',
+      expectedValue: '42',
+      observedValue: '42',
+      observedAt: '2026-01-01T00:11:01Z',
+    },
+  ],
 }
 
 export const verifiedExecutionFixture: ExecutionDetailDto = {

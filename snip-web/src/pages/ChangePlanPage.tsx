@@ -14,6 +14,8 @@ import {
   canRequestSandbox,
   canReviewPlan,
 } from '../features/changePlanning/planGuards'
+import { ReadinessChecklist } from '../features/changePlanning/ReadinessChecklist'
+import { WorkspaceCrumb } from '../features/operator/WorkspaceCrumb'
 import { DemoPermissionBanner } from '../features/optimization/DemoPermissionBanner'
 import { ExecutionPermission, SIMULATOR_EXECUTION_TARGET_ID } from '../types/execution'
 import type { ChangePlanDetailDto } from '../types/plan'
@@ -118,7 +120,7 @@ export function ChangePlanPage() {
     try {
       const next = await snipApi.cancelChangePlan(
         planId,
-        { actor: identity?.actorId ?? null, reason: 'Cancelled from Increment 2 UI' },
+        { actor: identity?.actorId ?? null, reason: 'Cancelled from SNIP Demo Environment' },
         PlanPermission.CANCEL,
       )
       setDetail(next)
@@ -164,15 +166,17 @@ export function ChangePlanPage() {
 
   return (
     <div className="page">
-      <p className="crumb">
-        <Link to={`/optimization/proposals/${plan.proposalId}`}>Proposal</Link> / plan
-      </p>
+      <WorkspaceCrumb
+        cellId={plan.targetEntityId}
+        proposalId={plan.proposalId}
+        planId={plan.id}
+      />
       <header className="page-header">
         <div>
           <h1>Change plan</h1>
           <p className="muted">
-            Phase 14 governed plan. Engineering Review maps to POST /plans/{'{planId}'}/review and
-            does not authorize execution.
+            Engineering review records review only. It does not authorize execution or change the
+            network.
           </p>
         </div>
         <StatusBadge status={plan.status} />
@@ -263,33 +267,12 @@ export function ChangePlanPage() {
       </section>
       <section className="panel" aria-labelledby="rollback-heading">
         <h2 id="rollback-heading">Rollback operation</h2>
-        <p className="muted">Rollback values are derived by the backend. Increment 2 does not execute rollback from this page.</p>
+        <p className="muted">Rollback values are derived by the backend. This page does not execute rollback.</p>
         <OperationTable rows={detail.rollbackOperations} />
       </section>
       <section className="panel" aria-labelledby="precond-heading">
-        <h2 id="precond-heading">Preconditions</h2>
-        <table className="data-table">
-          <thead>
-            <tr>
-              <th scope="col">Type</th>
-              <th scope="col">Expected</th>
-              <th scope="col">Observed</th>
-              <th scope="col">Result</th>
-              <th scope="col">Reason</th>
-            </tr>
-          </thead>
-          <tbody>
-            {detail.preconditions.map((item, index) => (
-              <tr key={`${item.preconditionType}-${index}`}>
-                <td>{item.preconditionType}</td>
-                <td>{item.expectedCondition ?? '—'}</td>
-                <td>{item.observedValue ?? '—'}</td>
-                <td>{item.result ?? '—'}</td>
-                <td>{item.reasonCode ?? '—'}</td>
-              </tr>
-            ))}
-          </tbody>
-        </table>
+        <h2 id="precond-heading">Readiness checklist</h2>
+        <ReadinessChecklist preconditions={detail.preconditions} />
       </section>
       <section className="panel" aria-labelledby="ready-heading">
         <h2 id="ready-heading">Readiness assessments</h2>

@@ -4,6 +4,7 @@ import type {
   CancelExecutionRequest,
   CreateExecutionRequest,
   ExecutionDetailDto,
+  ExecutionEvidenceDto,
   ExecutionPermissionValue,
   ReviewExecutionRequest,
   AuthorizeExecutionRequest,
@@ -29,6 +30,14 @@ import type {
 import { PROPOSAL_PERMISSION_HEADER } from '../types/proposal'
 import type { RecommendationRequest, RecommendationResponse } from '../types/recommendation'
 import type { SimulationDetailDto } from '../types/simulation'
+import type {
+  ImportBatchSummaryDto,
+  SynchronizationSourceStateDto,
+  SynchronizationSourceSummaryDto,
+  VendorImportPermissionValue,
+} from '../types/sync'
+import { VENDOR_IMPORT_PERMISSION_HEADER } from '../types/sync'
+import type { TwinDetailDto } from '../types/twin'
 
 function proposalHeaders(permission: ProposalPermissionValue): HeadersInit {
   return { [PROPOSAL_PERMISSION_HEADER]: permission }
@@ -40,6 +49,10 @@ function planHeaders(permission: PlanPermissionValue): HeadersInit {
 
 function executionHeaders(permission: ExecutionPermissionValue): HeadersInit {
   return { [EXECUTION_PERMISSION_HEADER]: permission }
+}
+
+function vendorHeaders(permission: VendorImportPermissionValue): HeadersInit {
+  return { [VENDOR_IMPORT_PERMISSION_HEADER]: permission }
 }
 
 export const snipApi = {
@@ -157,10 +170,32 @@ export const snipApi = {
       executionHeaders(permission),
     ),
   getSandboxExecutionEvidence: (executionId: string, permission: ExecutionPermissionValue) =>
-    apiGet<Record<string, unknown>>(
+    apiGet<ExecutionEvidenceDto>(
       `/api/v1/change-execution/executions/${encodeURIComponent(executionId)}/evidence`,
       executionHeaders(permission),
     ),
+  listSynchronizationSources: (permission: VendorImportPermissionValue) =>
+    apiGet<SynchronizationSourceSummaryDto[]>(
+      '/api/v1/integration/sync/sources',
+      vendorHeaders(permission),
+    ),
+  getSynchronizationSourceState: (
+    sourceSystem: string,
+    sourceScope: string,
+    permission: VendorImportPermissionValue,
+  ) =>
+    apiGet<SynchronizationSourceStateDto>(
+      `/api/v1/integration/sync/sources/${encodeURIComponent(sourceSystem)}/${encodeURIComponent(sourceScope)}`,
+      vendorHeaders(permission),
+    ),
+  recoverNetworkKnowledge: (connectorId: string, permission: VendorImportPermissionValue) =>
+    apiPost<ImportBatchSummaryDto>(
+      `/api/v1/integration/sync/connectors/${encodeURIComponent(connectorId)}/recovery`,
+      undefined,
+      vendorHeaders(permission),
+    ),
+  synchronizeCellTwin: (cellId: string) =>
+    apiPost<TwinDetailDto>(`/api/v1/twins/cells/${encodeURIComponent(cellId)}/synchronize`),
   reviewSandboxExecution: (
     executionId: string,
     request: ReviewExecutionRequest,

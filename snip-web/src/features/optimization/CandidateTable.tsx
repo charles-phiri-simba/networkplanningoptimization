@@ -26,7 +26,10 @@ export function CandidateTable({ candidates }: { candidates: CandidateEvidenceDt
           const selected = selectedCandidateRank(candidate.rankOrder)
           return (
             <tr key={`${candidate.candidateValue}-${index}`} className={selected ? 'row-selected' : undefined}>
-              <td>{candidate.rankOrder ?? '—'}</td>
+              <td>
+                {candidate.rankOrder ?? '—'}
+                {selected ? <p className="muted">Backend recommendation</p> : null}
+              </td>
               <td>{candidate.candidateValue ?? '—'}</td>
               <td>{candidate.baselineCandidate ? 'Yes' : 'No'}</td>
               <td>
