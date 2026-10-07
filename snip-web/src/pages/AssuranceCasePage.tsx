@@ -173,7 +173,7 @@ export function AssuranceCasePage() {
           <p className="muted">No cell navigation is available for this affected entity type.</p>
         )}
         <p className="muted">
-          Continue on the cell workspace. Governed optimization remains the existing PI3 workflow.
+          Continue on the cell workspace. Governed optimization remains the existing Optimize workflow.
         </p>
       </section>
     </div>

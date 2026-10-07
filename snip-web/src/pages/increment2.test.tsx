@@ -207,7 +207,7 @@ describe('Increment 2 workflow', () => {
     await user.click(within(planDialog).getByRole('button', { name: 'Authorize plan' }))
     expect(await screen.findByRole('button', { name: 'Assess readiness' })).toBeInTheDocument()
     await user.click(screen.getByRole('button', { name: 'Assess readiness' }))
-    expect(await screen.findByText(/READY FOR SANDBOX ADMISSION/)).toBeInTheDocument()
+    expect((await screen.findAllByText(/READY FOR SANDBOX ADMISSION/)).length).toBeGreaterThan(0)
     await user.click(screen.getByRole('button', { name: 'Request sandbox execution' }))
     expect(await screen.findByText(/Sandbox execution is disabled in this runtime/)).toBeInTheDocument()
     expect(screen.getByText('failureCode CHANGE_EXECUTION_DISABLED')).toBeInTheDocument()

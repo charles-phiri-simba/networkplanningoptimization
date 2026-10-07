@@ -38,8 +38,9 @@ export function AiPage() {
         <div>
           <h1>AI explanation</h1>
           <p className="muted">
-            Uses POST /api/v1/recommendations. Output is decision support, not an approved change
-            and not a live-network action.
+            Output is decision support, not an approved change and not a live-network action.
+            Explanation uses retrieved notes and structured cell context. Default demonstration
+            generation is a stub, not a production telecom LLM.
           </p>
         </div>
       </header>

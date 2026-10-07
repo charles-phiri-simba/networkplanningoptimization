@@ -70,9 +70,19 @@ class AssuranceDetectionTest extends AbstractPostgresIT {
     }
 
     @Test
-    void seedCell001DoesNotCreateCaseWithoutIncreasingTrend() {
-        assertTrue(detectionService.evaluateCell("CELL-001").isEmpty());
-        assertTrue(assuranceCaseService.listForCell("CELL-001").isEmpty());
+    void featuredCell001CreatesCriticalCaseFromSeedSeries() {
+        var created = detectionService.evaluateCell("CELL-001");
+        assertTrue(created.isPresent());
+        assertEquals(CaseType.DEGRADING_RADIO_QUALITY.name(), created.get().getCaseType());
+        assertEquals(Severity.CRITICAL.name(), created.get().getSeverity());
+        assertEquals(CaseStatus.OPEN.name(), created.get().getStatus());
+        assertEquals(1, assuranceCaseService.listForCell("CELL-001").size());
+    }
+
+    @Test
+    void healthyCell002DoesNotCreateCaseFromSeedSeries() {
+        assertTrue(detectionService.evaluateCell("CELL-002").isEmpty());
+        assertTrue(assuranceCaseService.listForCell("CELL-002").isEmpty());
     }
 
     @Test

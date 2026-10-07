@@ -51,6 +51,9 @@ simulator/simulator
 simulator/simulator.exe
 simulator/vendor/
 
-# Frontend Increment 1A
+# Local demo PID files and twin registry (never secrets)
+.snip-demo/
+
+# Frontend
 snip-web/node_modules/
 snip-web/dist/

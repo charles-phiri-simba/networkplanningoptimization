@@ -2,7 +2,7 @@
 
 **Repository:** networkplanningoptimization  
 **Platform role:** SNIP domain application / first vertical slice  
-**Updated:** 2026-09-01 (Phase 16 architecture ARCHITECTURALLY ACCEPTED AND FROZEN; Phase 15 immutable at ae9c13d…)
+**Updated:** 2026-10-07 (SNIP 1.0 customer demonstration readiness — release-hardening; PI1A–PI7 closed; Phase 19 NOT STARTED; production execution NOT AUTHORIZED)
 
 ```text
 PHASE 13 ARCHITECTURE STATUS: ACCEPTED
@@ -55,7 +55,11 @@ PHASE 11 GIT BASELINE: 78e699380be37109cfdd2111dd0f29c7052709c3
 | Phase 16 architecture | `docs/architecture/SNIP-PHASE-16-VENDOR-WRITE-INTEGRATION-SECURITY-PRODUCTION-CHANGE-CONTROL-CONTROLLED-REAL-NETWORK-EXECUTION-ARCHITECTURE.md` (ARCHITECTURALLY ACCEPTED AND FROZEN) |
 | Authorised | Phase 13–16 architecture frozen/immutable as stated. Phase 16 implementation **NOT STARTED**. Phase 16 implementation specification **NOT YET STARTED**. Real production execution **NOT AUTHORIZED**. |
 | Baseline | Phase 15 immutable implementation baseline `ae9c13d55b444fa50090813495b32b82f97c2ec3`; Phase 16 frozen architecture SHA-256 `dfb4f477e813161843036482d3a6aafc7e19528c91cba1dbdecf2adfb5a5a3b0` |
-| Next step | Authorise Phase 16 implementation specification (must address A16-01…A16-04); do not implement Phase 16 until specification authorized; do not create V17; do not start Phase 17 |
+| Product increments 1A–7 | **CLOSED** |
+| SNIP 1.0 milestone | Customer demonstration readiness — **RELEASE_HARDENING** (not PI8, not Phase 19, not production readiness) |
+| Phase 19 | **NOT STARTED** |
+| Real production execution | **NOT AUTHORIZED** |
+| Next step | Review SNIP 1.0 implementation for RC1 acceptance. Do not start PI8. Do not start Phase 19. Authorise Phase 16 implementation specification (must address A16-01…A16-04) before any Phase 16 implementation. |
 
 ---
 

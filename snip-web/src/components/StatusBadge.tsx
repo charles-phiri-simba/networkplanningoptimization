@@ -32,6 +32,7 @@ function toneFor(status: string, kind: 'status' | 'severity'): string {
     value === 'RECOMMENDED' ||
     value === 'APPROVED' ||
     value === 'READY_FOR_EXECUTION' ||
+    value === 'READY_FOR_SANDBOX_ADMISSION' ||
     value === 'AUTHORIZED' ||
     value === 'VERIFIED'
   ) {

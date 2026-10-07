@@ -71,6 +71,9 @@ export function SiteMap({ sites, cells = null, cases = null }: SiteMapProps) {
           )
         })}
       </MapContainer>
+      <p className="muted" role="note">
+        Synthetic demonstration locations. Not RF coverage or planning evidence.
+      </p>
       <ul className="map-legend" aria-label="Map attention legend">
         <li>
           <span className="site-marker site-marker-attention-none" aria-hidden="true" /> No active

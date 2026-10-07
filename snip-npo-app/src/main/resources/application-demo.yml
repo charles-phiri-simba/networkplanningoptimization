@@ -1,0 +1,20 @@
+# application-demo.yml — DEMO ONLY. Do not copy these values into application.yml.
+snip:
+  change-execution:
+    enabled: true
+    permitted-target-types: [SIMULATOR]
+    automatic-rollback-enabled: false
+  production-change:
+    enabled: false
+    global-execution-enabled: false
+  kafka-enabled: false
+  integration:
+    sync:
+      scheduler-enabled: false
+  demo:
+    enabled: true
+    bootstrap-assurance: true
+    synchronize-featured-twins: true
+    trigger-simulator-knowledge-baseline: true
+    featured-assurance-cells: [CELL-001, CELL-007, CELL-010, CELL-014]
+    featured-twin-cells: [CELL-001, CELL-002, CELL-003, CELL-007]

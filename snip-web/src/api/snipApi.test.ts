@@ -109,6 +109,7 @@ describe('Increment 2 API client', () => {
     const source = Object.values(snipApi).map(String).join('\n')
     expect(source).not.toContain('/api/v1/production-changes')
     expect(source).not.toContain('/api/v1/production-campaigns')
+    expect(source).not.toContain('/api/v1/agent-runs')
     expect(source).not.toContain('/mcp')
   })
 })

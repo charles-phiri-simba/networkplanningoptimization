@@ -9,11 +9,6 @@ const PRIMARY = [
   { to: '/ai', label: 'AI' },
 ]
 
-const LATER = [
-  { label: 'Changes' },
-  { label: 'Campaigns' },
-]
-
 export function AppShell() {
   const { identity, signOut } = useAuth()
 
@@ -37,11 +32,6 @@ export function AppShell() {
             <NavLink key={item.to} to={item.to} className={({ isActive }) => (isActive ? 'nav-link active' : 'nav-link')}>
               {item.label}
             </NavLink>
-          ))}
-          {LATER.map((item) => (
-            <span key={item.label} className="nav-link nav-disabled" title="Later increment">
-              {item.label}
-            </span>
           ))}
         </nav>
         <div className="actor">

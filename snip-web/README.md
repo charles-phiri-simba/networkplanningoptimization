@@ -1,14 +1,18 @@
-# SNIP Web — Product Increment 1A / 1B
+# SNIP Web
 
-Read-only browser application for the first SNIP network-intelligence vertical slice.
+Customer UI for SNIP 1.0: Network Operations, Assurance, investigation, Planning, Optimization, and sandbox rehearsal.
 
 This is **not** production authentication, **not** Phase 19, and **not** a production-write UI.
 
+**Authoritative SNIP 1.0 UI:** `http://127.0.0.1:5173`. The backend static page on `:8080` is a legacy developer UI.
+
 ## What it shows
 
-Demo persona → application shell → network map → site → cell workspace (configuration, KPI/telemetry, neighbours, assurance) → AI explanation.
+Demo persona → Network map and Assurance queue → cell / site investigation → what-if Planning → Optimize → change plan → sandbox execution → Four-Way State (real network unchanged) → Ask SNIP decision support.
 
-All data comes from existing SNIP application APIs (`/api/v1/...`) against the seeded/canonical/simulator network. Real Ericsson or Nokia connectivity is **not required**.
+All data comes from existing SNIP application APIs against the synthetic demo / canonical / simulator network. Real Ericsson or Nokia connectivity is **not required**.
+
+Security boundary: this UI must not call `/mcp`, `/api/v1/agent-runs`, `/api/v1/production-changes`, or `/api/v1/production-campaigns`.
 
 ## Prerequisites
 
@@ -33,7 +37,7 @@ If port 8080 is already in use, start the backend on another localhost port at r
 java -jar snip-npo-app/target/network-planning-optimisation-0.1.0-SNAPSHOT.jar --server.port=8081 --server.address=127.0.0.1
 ```
 
-The demo network is created by `V2__seed_demo_network.sql` (`SITE-001`, `CELL-001`, and related objects). Kafka, Azure, and vendor production transports are not required.
+The SNIP 1.0 demo network is created by Flyway V2 plus `V21__snip_1_0_customer_demo_network.sql` and the `demo` Spring profile bootstrap. Kafka, Azure, and vendor production transports are not required. See `docs/customer/SNIP-1.0-DEMONSTRATION-GUIDE.md`.
 
 ## Run frontend
 

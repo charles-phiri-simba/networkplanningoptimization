@@ -4,17 +4,22 @@ import type { PlanningPrerequisiteDto } from '../../types/planning'
 export function PrerequisitePanel({
   cells,
   busyCell,
+  onBusy,
   onSynchronized,
 }: {
   cells: PlanningPrerequisiteDto[]
   busyCell: string | null
+  onBusy?: (cellId: string | null) => void
   onSynchronized: () => void
 }) {
   return (
     <section className="panel" aria-labelledby="prereq-heading">
       <header className="panel-header">
         <h2 id="prereq-heading">Digital Twin prerequisites</h2>
-        <p className="muted">Evaluation requires a CURRENT cell Digital Twin. Synchronize is explicit and does not evaluate.</p>
+        <p className="muted">
+          Evaluation requires a CURRENT cell Digital Twin. Featured demo cells are synchronized at
+          demo startup. Synchronization remains an explicit action, not a continuous background twin.
+        </p>
       </header>
       <table className="data-table">
         <thead>
@@ -40,7 +45,11 @@ export function PrerequisitePanel({
                     className="btn btn-quiet"
                     disabled={busyCell === cell.cellId}
                     onClick={() => {
-                      void snipApi.synchronizeCellTwin(cell.cellId).then(onSynchronized)
+                      onBusy?.(cell.cellId)
+                      void snipApi
+                        .synchronizeCellTwin(cell.cellId)
+                        .then(onSynchronized)
+                        .catch(() => onBusy?.(null))
                     }}
                   >
                     {busyCell === cell.cellId ? 'Synchronizing…' : 'Synchronize twin'}

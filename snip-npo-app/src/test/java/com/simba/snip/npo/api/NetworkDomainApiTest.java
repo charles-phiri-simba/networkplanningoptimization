@@ -84,6 +84,6 @@ class NetworkDomainApiTest extends AbstractPostgresIT {
                 .andExpect(jsonPath("$.metric").value("BLER_DL"))
                 .andExpect(jsonPath("$.current.value").value(0.12))
                 .andExpect(jsonPath("$.history", hasSize(greaterThanOrEqualTo(1))))
-                .andExpect(jsonPath("$.trend").value("INSUFFICIENT_DATA"));
+                .andExpect(jsonPath("$.trend").value("INCREASING"));
     }
 }

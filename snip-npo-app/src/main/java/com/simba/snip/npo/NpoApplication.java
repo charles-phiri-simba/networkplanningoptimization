@@ -55,7 +55,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
         ChangeExecutionProperties.class,
         com.simba.snip.npo.changeplanning.config.ChangePlanningProperties.class,
         ProductionChangeProperties.class,
-        ProductionCampaignProperties.class
+        ProductionCampaignProperties.class,
+        com.simba.snip.npo.demo.DemoProperties.class
 })
 public class NpoApplication {
 

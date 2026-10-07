@@ -4,7 +4,7 @@ First **SNIP** domain application: a local, **read-only** 5G planning copilot.
 
 It ingests synthetic cell telemetry, projects KPI state, detects deterministic assurance conditions, persists an Assurance Case with operational evidence, returns a cited advisory assessment, can propose **governed** actions through a local Java MCP server, can run a **bounded Agent orchestration** that gathers evidence and proposes those same Phase 4 actions, can synchronize a **cell Digital Twin** so a hypothetical `txPower` change is simulated deterministically after approval, and can **import read-only Ericsson/Nokia fixture inventory** through a durable, lease-fenced runtime into the same canonical Site/gNB/Cell graph. It does **not** change the live network.
 
-This repository is not the full Simba Network Intelligence Platform. Target-state product requirements are in [`docs/requirements/product-requirements.md`](docs/requirements/product-requirements.md). Phase 11 bounds are in [`docs/architecture/SNIP-PHASE-11-FIRST-REAL-VENDOR-CONNECTOR-PRODUCTION-READ-ONLY-INTEGRATION-ARCHITECTURE.md`](docs/architecture/SNIP-PHASE-11-FIRST-REAL-VENDOR-CONNECTOR-PRODUCTION-READ-ONLY-INTEGRATION-ARCHITECTURE.md). Phase 12 architecture is **accepted** in [`docs/architecture/SNIP-PHASE-12-CONTINUOUS-SYNCHRONIZATION-DRIFT-NETWORK-KNOWLEDGE-CONFIDENCE-ARCHITECTURE.md`](docs/architecture/SNIP-PHASE-12-CONTINUOUS-SYNCHRONIZATION-DRIFT-NETWORK-KNOWLEDGE-CONFIDENCE-ARCHITECTURE.md). Phase 12 implementation is **complete** and **architecturally accepted** (2026-08-28); simulator/contract is **verified** (not real Ericsson verification); real vendor continuous synchronization is **not yet verified**; production ENM transport is **not configured**; Phase 12 Git baseline is **not yet established**; Phase 13 has not started. Phase 7 reconciliation, Phase 8 import runtime, Phase 9 connector security, Phase 10 production secrets, Phase 11 read-only ENM, and Phase 12 continuous synchronization remain frozen.
+This repository is not the full Simba Network Intelligence Platform. Target-state product requirements are in [`docs/requirements/product-requirements.md`](docs/requirements/product-requirements.md). Phase 11 bounds are in [`docs/architecture/SNIP-PHASE-11-FIRST-REAL-VENDOR-CONNECTOR-PRODUCTION-READ-ONLY-INTEGRATION-ARCHITECTURE.md`](docs/architecture/SNIP-PHASE-11-FIRST-REAL-VENDOR-CONNECTOR-PRODUCTION-READ-ONLY-INTEGRATION-ARCHITECTURE.md). Phase 12 architecture is **accepted** in [`docs/architecture/SNIP-PHASE-12-CONTINUOUS-SYNCHRONIZATION-DRIFT-NETWORK-KNOWLEDGE-CONFIDENCE-ARCHITECTURE.md`](docs/architecture/SNIP-PHASE-12-CONTINUOUS-SYNCHRONIZATION-DRIFT-NETWORK-KNOWLEDGE-CONFIDENCE-ARCHITECTURE.md). Phase 12 implementation is **complete** and **architecturally accepted** (2026-08-28); simulator/contract is **verified** (not real Ericsson verification); real vendor continuous synchronization is **not yet verified**; production ENM transport is **not configured**; Phase 12 Git baseline is **not yet established**. Product Increments 1A–7 are closed. SNIP 1.0 customer demonstration readiness is a **release-hardening** milestone (not PI8, not Phase 19). Real production execution remains **not authorized**. Phase 7 reconciliation, Phase 8 import runtime, Phase 9 connector security, Phase 10 production secrets, Phase 11 read-only ENM, and Phase 12 continuous synchronization remain frozen.
 
 ## Prerequisites
 
@@ -32,8 +32,13 @@ Or, with Postgres already on `127.0.0.1:5432`:
 mvn spring-boot:run
 ```
 
+Customer demonstration (authoritative UI **http://127.0.0.1:5173**):
+
+See [`docs/customer/SNIP-1.0-DEMONSTRATION-GUIDE.md`](docs/customer/SNIP-1.0-DEMONSTRATION-GUIDE.md). From the repository root: `scripts/snip-demo-up` then `scripts/snip-demo-ready`. Reset: `scripts/snip-demo-reset` with `SNIP_DEMO_RESET=YES` and `SNIP_DEMO_RESET_CONFIRM=snip-demo`.
+
 - Health: `GET http://127.0.0.1:8080/health`
-- UI: [http://127.0.0.1:8080/](http://127.0.0.1:8080/)
+- **SNIP 1.0 customer UI:** [http://127.0.0.1:5173](http://127.0.0.1:5173)
+- Legacy static developer UI: [http://127.0.0.1:8080/](http://127.0.0.1:8080/) — **not** the customer demo
 - Cell context: `GET http://127.0.0.1:8080/api/v1/cells/CELL-001/context`
 - Telemetry: `GET http://127.0.0.1:8080/api/v1/cells/CELL-001/telemetry`
 - Assurance: `GET http://127.0.0.1:8080/api/v1/cells/CELL-001/assurance`

@@ -232,21 +232,21 @@ class DigitalTwinApiTest extends AbstractPostgresIT {
         ActionDetailDto missingExecuted = approveAndExecute(missing.id());
         assertEquals("FAILED", missingExecuted.status());
 
-        TwinDetailDto cell003 = synchronize("CELL-003");
-        ScenarioDetailDto scenario003 = createScenario(cell003.id(), "c3", 40.0, 38.0);
+        TwinDetailDto cellWithoutPrb = synchronize("CELL-006");
+        ScenarioDetailDto scenarioWithoutPrb = createScenario(cellWithoutPrb.id(), "c6", 42.0, 40.0);
         ResponseEntity<ActionDetailDto> proposed = http.postForEntity(
                 "/api/v1/assurance/cases/" + caseId + "/actions",
                 new ProposeActionRequest(
                         "SIMULATE_CELL_PARAMETER_CHANGE",
                         "simulation.cell-parameter.v1",
                         "CELL",
-                        "CELL-003",
+                        "CELL-006",
                         Map.of(
                                 "parameter", "txPower",
-                                "currentValue", 40,
-                                "proposedValue", 38,
+                                "currentValue", 42,
+                                "proposedValue", 40,
                                 "dryRun", true,
-                                "scenarioId", scenario003.id().toString()
+                                "scenarioId", scenarioWithoutPrb.id().toString()
                         ),
                         "model failure",
                         "demo-user"

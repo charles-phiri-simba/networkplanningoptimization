@@ -25,6 +25,7 @@ export function PlanningScenarioPage() {
   const [prereqs, setPrereqs] = useState<PlanningPrerequisiteDto[] | null>(null)
   const [evaluation, setEvaluation] = useState<PlanningEvaluationDto | null>(null)
   const [comparison, setComparison] = useState<PlanningComparisonDto | null>(null)
+  const [comparisonError, setComparisonError] = useState<string | null>(null)
   const [error, setError] = useState<unknown>(null)
   const [busyCell, setBusyCell] = useState<string | null>(null)
   const [evaluating, setEvaluating] = useState(false)
@@ -45,7 +46,13 @@ export function PlanningScenarioPage() {
             snipApi.getPlanningEvaluation(scenarioId, nextScenario.currentEvaluationId),
             nextScenario.evaluationView === 'STALE'
               ? Promise.resolve(null)
-              : snipApi.getPlanningComparison(scenarioId).catch(() => null),
+              : snipApi.getPlanningComparison(scenarioId).then((value) => {
+                  setComparisonError(null)
+                  return value
+                }).catch((cause: unknown) => {
+                  setComparisonError(cause instanceof Error ? cause.message : 'Comparison could not be loaded.')
+                  return null
+                }),
           ]).then(([nextEval, nextCompare]) => {
             setEvaluation(nextEval)
             setComparison(nextCompare)
@@ -53,6 +60,7 @@ export function PlanningScenarioPage() {
         }
         setEvaluation(null)
         setComparison(null)
+        setComparisonError(null)
         return undefined
       })
       .catch(setError)
@@ -93,6 +101,13 @@ export function PlanningScenarioPage() {
         </div>
       </header>
       <ScenarioTruthBanner />
+      <p className="muted" role="note">
+        Select up to 4 cells. Featured story uses CELL-001 and CELL-002. Each alternative is an
+        independent cell-local txPower what-if (20–50 dBm). Evaluate requires a CURRENT cell Digital
+        Twin. Demo startup synchronizes featured cells; Synchronize remains available. Evaluate runs
+        the synthetic cell-parameter model, not joint RF. Optimize handoff opens Optimize for one
+        cell and does not generate a proposal from Planning.
+      </p>
       <section className="panel">
         <h2>Alternatives and txPower intents</h2>
         {scenario.alternatives.map((alt) => (
@@ -143,6 +158,7 @@ export function PlanningScenarioPage() {
       <PrerequisitePanel
         cells={prereqs}
         busyCell={busyCell}
+        onBusy={setBusyCell}
         onSynchronized={() => {
           setBusyCell(null)
           load()
@@ -154,9 +170,14 @@ export function PlanningScenarioPage() {
         </button>
       </p>
       {evaluation ? <EvaluationEvidencePanel evaluation={evaluation} /> : null}
+      {comparisonError ? (
+        <p role="alert">
+          Planning comparison could not be loaded. Retry Evaluate or refresh this page. {comparisonError}
+        </p>
+      ) : null}
       {comparison ? <ScenarioComparisonTable comparison={comparison} /> : null}
       <section className="panel" aria-labelledby="handoff-heading">
-        <h2 id="handoff-heading">PI3 Optimize handoff</h2>
+        <h2 id="handoff-heading">Optimize handoff</h2>
         <p className="muted">Select exactly one cell. This does not generate a proposal.</p>
         <label>
           Cell

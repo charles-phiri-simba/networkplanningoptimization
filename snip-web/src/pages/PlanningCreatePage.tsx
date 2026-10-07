@@ -121,6 +121,11 @@ export function PlanningCreatePage() {
         </div>
       </header>
       <ScenarioTruthBanner />
+      <p className="muted" role="note">
+        Select up to 4 cells. Featured story uses CELL-001 and CELL-002. Each alternative is an
+        independent cell-local txPower what-if (20–50 dBm). Evaluate requires a CURRENT cell Digital
+        Twin. Demo startup synchronizes featured cells; Synchronize remains available.
+      </p>
       <label>
         Scenario name
         <input value={name} onChange={(event) => setName(event.target.value)} />

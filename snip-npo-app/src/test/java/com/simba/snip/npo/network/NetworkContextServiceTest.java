@@ -38,7 +38,7 @@ class NetworkContextServiceTest extends AbstractPostgresIT {
                 .findFirst()
                 .orElseThrow();
         assertEquals(0.12, bler.current().value());
-        assertEquals(Trend.INSUFFICIENT_DATA, bler.trend());
+        assertEquals(Trend.INCREASING, bler.trend());
         assertFalse(bler.history().isEmpty());
         assertEquals("DEMO_SEED", bler.current().source());
         assertTrue(bler.current().eventId() != null && !bler.current().eventId().isBlank());

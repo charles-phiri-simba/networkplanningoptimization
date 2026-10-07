@@ -6,7 +6,7 @@ export function NotFoundPage() {
       <header className="page-header">
         <div>
           <h1>Page not found</h1>
-          <p className="muted">That route is not part of this SNIP increment.</p>
+          <p className="muted">That page is not part of SNIP.</p>
         </div>
       </header>
       <p>

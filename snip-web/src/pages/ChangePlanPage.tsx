@@ -179,12 +179,14 @@ export function ChangePlanPage() {
             network.
           </p>
         </div>
-        <StatusBadge status={plan.status} />
+        <StatusBadge
+          status={plan.status === PlanStatus.READY_FOR_EXECUTION ? 'READY_FOR_SANDBOX_ADMISSION' : plan.status}
+        />
       </header>
       <DemoPermissionBanner />
       {plan.status === PlanStatus.READY_FOR_EXECUTION ? (
         <p className="banner-sandbox" role="note">
-          <strong>READY FOR SANDBOX ADMISSION.</strong> Backend status remains READY_FOR_EXECUTION.
+          <strong>READY FOR SANDBOX ADMISSION.</strong>
           This is not production execution authorization. NO REAL NETWORK CHANGE.
         </p>
       ) : null}
