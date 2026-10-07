@@ -8,6 +8,7 @@ import { AskSnip } from '../features/ai/AskSnip'
 import { AssuranceList } from '../features/assurance/AssuranceList'
 import { ConfigurationPanel } from '../features/cell/ConfigurationPanel'
 import { NeighbourPanel } from '../features/cell/NeighbourPanel'
+import { RelatedRadioContext } from '../features/network/RelatedRadioContext'
 import { NetworkKnowledgePanel } from '../features/knowledge/NetworkKnowledgePanel'
 import { KpiPanel } from '../features/telemetry/KpiPanel'
 import type { AssuranceCaseDto } from '../types/assurance'
@@ -133,6 +134,7 @@ export function CellPage() {
       <NetworkKnowledgePanel />
       <KpiPanel kpis={context.kpis} telemetry={context.telemetry} />
       <NeighbourPanel neighbours={context.neighbours} />
+      <RelatedRadioContext key={cell.cellId} selected={context} />
 
       <section className="panel" aria-labelledby="cell-assurance-heading">
         <header className="panel-header">

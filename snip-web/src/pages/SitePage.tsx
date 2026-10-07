@@ -6,6 +6,7 @@ import { ErrorState } from '../components/ErrorState'
 import { LoadingState } from '../components/LoadingState'
 import { StatusBadge } from '../components/StatusBadge'
 import { issueSeverityLabel } from '../features/operations/issueLabels'
+import { SiteCellComparison } from '../features/network/SiteCellComparison'
 import { attentionPhrase, siteAttention } from '../features/operations/operationsModel'
 import type { AssuranceCaseDto } from '../types/assurance'
 import type { CellDto, GnbDto, SiteDto } from '../types/network'
@@ -188,6 +189,13 @@ export function SitePage() {
           </table>
         )}
       </section>
+
+      <SiteCellComparison
+        siteId={site.siteId}
+        cells={siteCells}
+        cases={cases}
+        casesUnavailable={Boolean(casesError)}
+      />
     </div>
   )
 }

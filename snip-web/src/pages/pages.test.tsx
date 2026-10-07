@@ -88,7 +88,7 @@ describe('Increment 1A pages', () => {
   it('renders site associated cells', async () => {
     signedIn('/network/sites/SITE-001')
     expect(await screen.findByRole('heading', { name: 'Midband Demo Site' })).toBeInTheDocument()
-    expect(screen.getByText('CELL-001', { exact: false })).toBeInTheDocument()
+    expect(screen.getAllByText('CELL-001', { exact: false }).length).toBeGreaterThan(0)
     expect(screen.getByText('DemoVendor')).toBeInTheDocument()
   })
 

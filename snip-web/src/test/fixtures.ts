@@ -576,3 +576,84 @@ export const unknownCellCaseFixture: AssuranceCaseDto = {
   status: 'OPEN',
   lastObservedAt: '2026-01-06T00:00:00Z',
 }
+
+export const gnbTwoFixture: GnbDto = {
+  gnbId: 'GNB-002',
+  name: 'Demo gNB SITE-002',
+  siteId: 'SITE-002',
+  vendor: 'DemoVendor',
+  model: 'SNIP-RAN-1',
+  status: 'ACTIVE',
+}
+
+export const cellThreeFixture: CellDto = {
+  ...cellFixture,
+  cellId: 'CELL-003',
+  name: 'n78-3 cross-site neighbour demo',
+  gnbId: 'GNB-002',
+  siteId: 'SITE-002',
+}
+
+export const contextTwoFixture: CellContextDto = {
+  cell: cellTwoFixture,
+  gnb: gnbFixture,
+  site: siteFixture,
+  radioConfiguration: [
+    { parameterName: 'txPower', parameterValue: '43', unit: 'dBm', effectiveFrom: '2026-01-01T00:00:00Z' },
+  ],
+  kpis: [
+    {
+      metric: 'PRB_UTILIZATION_DL',
+      value: 0.55,
+      unit: 'ratio',
+      observedAt: '2026-01-01T00:00:00Z',
+      eventTime: '2026-01-01T00:00:00Z',
+      ingestedAt: '2026-01-01T00:00:00Z',
+      eventId: 'e2',
+      source: 'DEMO_SEED',
+      synthetic: true,
+    },
+  ],
+  neighbours: [{ targetCellId: 'CELL-001', relationType: 'INTRA_FREQUENCY', status: 'ACTIVE' }],
+  telemetry: [
+    {
+      metric: 'PRB_UTILIZATION_DL',
+      current: {
+        metric: 'PRB_UTILIZATION_DL',
+        value: 0.55,
+        unit: 'ratio',
+        observedAt: '2026-01-01T00:00:00Z',
+        eventTime: '2026-01-01T00:00:00Z',
+        ingestedAt: '2026-01-01T00:00:00Z',
+        eventId: 'e2',
+        source: 'DEMO_SEED',
+        synthetic: true,
+      },
+      history: [],
+      trend: 'STABLE',
+    },
+  ],
+  provenance: { source: 'DEMO_SEED', synthetic: true },
+}
+
+export const contextThreeFixture: CellContextDto = {
+  cell: cellThreeFixture,
+  gnb: gnbTwoFixture,
+  site: unlocatedSiteFixture,
+  radioConfiguration: [
+    { parameterName: 'txPower', parameterValue: '40', unit: 'dBm', effectiveFrom: '2026-01-01T00:00:00Z' },
+  ],
+  kpis: [],
+  neighbours: [],
+  telemetry: [],
+  provenance: { source: 'DEMO_SEED', synthetic: false },
+}
+
+export const investigationContextFixture: CellContextDto = {
+  ...contextFixture,
+  neighbours: [
+    { targetCellId: 'CELL-002', relationType: 'INTRA_FREQ', status: 'ACTIVE' },
+    { targetCellId: 'CELL-003', relationType: 'INTER_FREQUENCY', status: 'ACTIVE' },
+    { targetCellId: 'CELL-UNKNOWN', relationType: 'INTER_FREQUENCY', status: 'ACTIVE' },
+  ],
+}
