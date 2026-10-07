@@ -1,4 +1,4 @@
-import { apiGet, apiPost } from './client'
+import { apiGet, apiPatch, apiPost } from './client'
 import type { AssuranceCaseDto, DecisionAssessmentDto } from '../types/assurance'
 import type {
   CancelExecutionRequest,
@@ -38,6 +38,15 @@ import type {
 } from '../types/sync'
 import { VENDOR_IMPORT_PERMISSION_HEADER } from '../types/sync'
 import type { TwinDetailDto } from '../types/twin'
+import type {
+  CreatePlanningScenarioRequest,
+  PlanningComparisonDto,
+  PlanningEvaluationDto,
+  PlanningPrerequisiteDto,
+  PlanningScenarioDetailDto,
+  PlanningScenarioSummaryDto,
+  ReplacePlanningScenarioRequest,
+} from '../types/planning'
 
 function proposalHeaders(permission: ProposalPermissionValue): HeadersInit {
   return { [PROPOSAL_PERMISSION_HEADER]: permission }
@@ -196,6 +205,33 @@ export const snipApi = {
     ),
   synchronizeCellTwin: (cellId: string) =>
     apiPost<TwinDetailDto>(`/api/v1/twins/cells/${encodeURIComponent(cellId)}/synchronize`),
+  listPlanningScenarios: () => apiGet<PlanningScenarioSummaryDto[]>('/api/v1/planning/scenarios'),
+  getPlanningScenario: (scenarioId: string) =>
+    apiGet<PlanningScenarioDetailDto>(`/api/v1/planning/scenarios/${encodeURIComponent(scenarioId)}`),
+  createPlanningScenario: (request: CreatePlanningScenarioRequest) =>
+    apiPost<PlanningScenarioDetailDto>('/api/v1/planning/scenarios', request),
+  replacePlanningScenario: (scenarioId: string, request: ReplacePlanningScenarioRequest) =>
+    apiPatch<PlanningScenarioDetailDto>(
+      `/api/v1/planning/scenarios/${encodeURIComponent(scenarioId)}`,
+      request,
+    ),
+  getPlanningPrerequisites: (scenarioId: string) =>
+    apiGet<{ scenarioId: string; cells: PlanningPrerequisiteDto[] }>(
+      `/api/v1/planning/scenarios/${encodeURIComponent(scenarioId)}/prerequisites`,
+    ),
+  evaluatePlanningScenario: (scenarioId: string, createdBy: string, rowVersion: number) =>
+    apiPost<PlanningEvaluationDto>(
+      `/api/v1/planning/scenarios/${encodeURIComponent(scenarioId)}/evaluations`,
+      { createdBy, rowVersion },
+    ),
+  getPlanningEvaluation: (scenarioId: string, evaluationId: string) =>
+    apiGet<PlanningEvaluationDto>(
+      `/api/v1/planning/scenarios/${encodeURIComponent(scenarioId)}/evaluations/${encodeURIComponent(evaluationId)}`,
+    ),
+  getPlanningComparison: (scenarioId: string) =>
+    apiGet<PlanningComparisonDto>(
+      `/api/v1/planning/scenarios/${encodeURIComponent(scenarioId)}/comparison`,
+    ),
   reviewSandboxExecution: (
     executionId: string,
     request: ReviewExecutionRequest,

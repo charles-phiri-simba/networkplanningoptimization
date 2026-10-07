@@ -3,6 +3,7 @@ import { useAuth } from '../features/auth/AuthContext'
 
 const PRIMARY = [
   { to: '/network', label: 'Network' },
+  { to: '/planning', label: 'Planning' },
   { to: '/assurance', label: 'Assurance' },
   { to: '/optimization', label: 'Optimization' },
   { to: '/ai', label: 'AI' },

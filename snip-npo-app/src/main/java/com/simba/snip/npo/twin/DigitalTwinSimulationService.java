@@ -57,6 +57,14 @@ public class DigitalTwinSimulationService {
     }
 
     @Transactional
+    public Map<String, Object> executeAdmittedCellLocalDryRun(UUID simulationScenarioId) {
+        return executeFromMcp(Map.of(
+                "dryRun", true,
+                "scenarioId", simulationScenarioId.toString()
+        ));
+    }
+
+    @Transactional
     public Map<String, Object> executeFromMcp(Map<String, Object> arguments) {
         long startedNanos = System.nanoTime();
         metrics.incrementRunsStarted();

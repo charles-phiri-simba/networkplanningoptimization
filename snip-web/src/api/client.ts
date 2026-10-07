@@ -103,3 +103,11 @@ export function apiPost<T>(path: string, body?: unknown, headers?: HeadersInit):
     body: body === undefined ? undefined : JSON.stringify(body),
   })
 }
+
+export function apiPatch<T>(path: string, body?: unknown, headers?: HeadersInit): Promise<T> {
+  return apiRequest<T>(path, {
+    method: 'PATCH',
+    headers,
+    body: body === undefined ? undefined : JSON.stringify(body),
+  })
+}

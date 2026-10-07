@@ -76,6 +76,7 @@ describe('Increment 1A pages', () => {
     expect(screen.getByRole('navigation', { name: 'Primary' })).toHaveTextContent('Network')
     expect(screen.getByRole('navigation', { name: 'Primary' })).toHaveTextContent('Assurance')
     expect(screen.getByRole('navigation', { name: 'Primary' })).toHaveTextContent('AI')
+    expect(screen.getByRole('navigation', { name: 'Primary' })).toHaveTextContent('Planning')
     expect(screen.getByText('Optimization')).toBeInTheDocument()
   })
 

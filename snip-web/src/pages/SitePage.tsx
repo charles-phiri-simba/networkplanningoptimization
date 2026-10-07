@@ -10,6 +10,7 @@ import { SiteCellComparison } from '../features/network/SiteCellComparison'
 import { attentionPhrase, siteAttention } from '../features/operations/operationsModel'
 import type { AssuranceCaseDto } from '../types/assurance'
 import type { CellDto, GnbDto, SiteDto } from '../types/network'
+import { planningCreateHref } from '../features/planning/planningGuards'
 import { formatCoordinate } from '../utils/format'
 
 export function SitePage() {
@@ -79,6 +80,11 @@ export function SitePage() {
         </div>
         <StatusBadge status={site.status} />
       </header>
+      <p>
+        <Link className="btn" to={planningCreateHref(siteCells.map((cell) => cell.cellId))}>
+          Create what-if scenario
+        </Link>
+      </p>
       <dl className="kv">
         <div>
           <dt>Latitude</dt>

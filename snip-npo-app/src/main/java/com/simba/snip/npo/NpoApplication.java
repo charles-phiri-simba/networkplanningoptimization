@@ -30,7 +30,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
         "com.simba.snip.npo.changeexecution.entity",
         "com.simba.snip.npo.productionchange.entity",
         "com.simba.snip.npo.productioncampaign.entity",
-        "com.simba.snip.npo.integration"
+        "com.simba.snip.npo.integration",
+        "com.simba.snip.npo.planning.persist"
 })
 @EnableJpaRepositories(basePackages = {
         "com.simba.snip.npo.persist",
@@ -39,7 +40,8 @@ import org.springframework.boot.context.properties.EnableConfigurationProperties
         "com.simba.snip.npo.changeplanning.repository",
         "com.simba.snip.npo.changeexecution.repository",
         "com.simba.snip.npo.productionchange.repository",
-        "com.simba.snip.npo.productioncampaign.repository"
+        "com.simba.snip.npo.productioncampaign.repository",
+        "com.simba.snip.npo.planning.repository"
 })
 @EnableScheduling
 @EnableConfigurationProperties({

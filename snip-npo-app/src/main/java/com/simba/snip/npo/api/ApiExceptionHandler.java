@@ -71,6 +71,19 @@ public class ApiExceptionHandler {
         return ResponseEntity.status(status).body(body);
     }
 
+    @ExceptionHandler(com.simba.snip.npo.planning.PlanningException.class)
+    public ResponseEntity<Map<String, String>> planning(com.simba.snip.npo.planning.PlanningException ex) {
+        Map<String, String> body = new LinkedHashMap<>();
+        body.put("error", ex.getMessage());
+        body.put("failureCode", ex.failureCode().name());
+        HttpStatus status = switch (ex.failureCode()) {
+            case SCENARIO_NOT_FOUND, EVALUATION_NOT_FOUND -> HttpStatus.NOT_FOUND;
+            case SCENARIO_VERSION_CONFLICT, EVALUATION_IN_PROGRESS -> HttpStatus.CONFLICT;
+            default -> HttpStatus.BAD_REQUEST;
+        };
+        return ResponseEntity.status(status).body(body);
+    }
+
     @ExceptionHandler(com.simba.snip.npo.changeplanning.ChangePlanException.class)
     public ResponseEntity<Map<String, String>> changePlan(com.simba.snip.npo.changeplanning.ChangePlanException ex) {
         Map<String, String> body = new LinkedHashMap<>();

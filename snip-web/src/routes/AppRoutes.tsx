@@ -13,6 +13,9 @@ import { OptimizationListPage } from '../pages/OptimizationListPage'
 import { OptimizePage } from '../pages/OptimizePage'
 import { ProposalPage } from '../pages/ProposalPage'
 import { SandboxExecutionPage } from '../pages/SandboxExecutionPage'
+import { PlanningCreatePage } from '../pages/PlanningCreatePage'
+import { PlanningListPage } from '../pages/PlanningListPage'
+import { PlanningScenarioPage } from '../pages/PlanningScenarioPage'
 import { SitePage } from '../pages/SitePage'
 
 export function AppRoutes() {
@@ -31,6 +34,10 @@ export function AppRoutes() {
     <Routes>
       <Route path="/login" element={<Navigate to="/network" replace />} />
       <Route element={<AppShell />}>
+        <Route path="/planning" element={<PlanningListPage />} />
+        <Route path="/planning/new" element={<PlanningCreatePage />} />
+        <Route path="/planning/scenarios" element={<Navigate to="/planning" replace />} />
+        <Route path="/planning/scenarios/:scenarioId" element={<PlanningScenarioPage />} />
         <Route path="/network" element={<NetworkPage />} />
         <Route path="/network/sites/:siteId" element={<SitePage />} />
         <Route path="/network/cells/:cellId" element={<CellPage />} />

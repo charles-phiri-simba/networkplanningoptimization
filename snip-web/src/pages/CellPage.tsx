@@ -13,6 +13,7 @@ import { NetworkKnowledgePanel } from '../features/knowledge/NetworkKnowledgePan
 import { KpiPanel } from '../features/telemetry/KpiPanel'
 import type { AssuranceCaseDto } from '../types/assurance'
 import type { CellContextDto } from '../types/network'
+import { planningCreateHref } from '../features/planning/planningGuards'
 import { findTxPower } from '../features/optimization/txPower'
 import { formatBandwidthMhz } from '../utils/format'
 
@@ -65,8 +66,8 @@ export function CellPage() {
         </div>
         <StatusBadge status={cell.status} />
       </header>
-      {txPower ? (
-        <p>
+      <p className="cluster">
+        {txPower ? (
           <Link
             className="btn"
             to={`/network/cells/${encodeURIComponent(cell.cellId)}/optimize`}
@@ -74,8 +75,11 @@ export function CellPage() {
             Propose txPower optimization
             {txPower.parameterValue ? ` (${txPower.parameterValue} ${txPower.unit ?? 'dBm'})` : ''}
           </Link>
-        </p>
-      ) : null}
+        ) : null}
+        <Link className="btn" to={planningCreateHref([cell.cellId])}>
+          Create what-if scenario
+        </Link>
+      </p>
       {provenance.synthetic ? (
         <p className="banner-demo">This cell context is synthetic / demo data ({provenance.source}).</p>
       ) : null}
