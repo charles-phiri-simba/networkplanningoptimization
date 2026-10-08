@@ -18,11 +18,24 @@ if ! grep -Eq '^[[:space:]]+snip-postgres:' docker-compose.yml; then
   exit 1
 fi
 
-VOLUME_NAME="snip-demo_snip-postgres"
-if ! docker volume inspect "$VOLUME_NAME" >/tmp/snip-demo-volume.json 2>/dev/null; then
-  echo "SNIP demo volume already absent"
-  exit 0
+if ! docker info >/dev/null 2>&1; then
+  echo "SNIP demo reset refused: Docker daemon is unavailable"
+  exit 1
 fi
+
+VOLUME_NAME="snip-demo_snip-postgres"
+INSPECT_ERR="$(mktemp)"
+if ! docker volume inspect "$VOLUME_NAME" >/tmp/snip-demo-volume.json 2>"$INSPECT_ERR"; then
+  if grep -qi 'no such volume' "$INSPECT_ERR"; then
+    rm -f "$INSPECT_ERR"
+    echo "SNIP demo volume already absent"
+    exit 0
+  fi
+  rm -f "$INSPECT_ERR"
+  echo "SNIP demo reset refused: docker volume inspect failed"
+  exit 1
+fi
+rm -f "$INSPECT_ERR"
 
 PROJECT_LABEL="$(docker volume inspect -f '{{index .Labels "com.docker.compose.project"}}' "$VOLUME_NAME")"
 VOLUME_LABEL="$(docker volume inspect -f '{{index .Labels "com.docker.compose.volume"}}' "$VOLUME_NAME")"

@@ -3,7 +3,8 @@ $ErrorActionPreference = 'Stop'
 $Root = (Resolve-Path (Join-Path $PSScriptRoot '..')).Path
 Set-Location $Root
 
-$Api = if ($env:SNIP_API_TARGET) { $env:SNIP_API_TARGET.TrimEnd('/') } else { 'http://127.0.0.1:8080' }
+$ApiPort = if ($env:SNIP_HOST_PORT) { [int]$env:SNIP_HOST_PORT } else { 8080 }
+$Api = if ($env:SNIP_API_TARGET) { $env:SNIP_API_TARGET.TrimEnd('/') } else { "http://127.0.0.1:$ApiPort" }
 $UiHost = '127.0.0.1'
 $UiPort = 5173
 
@@ -33,7 +34,7 @@ function Test-Tcp([string]$TargetHost, [int]$Port) {
 
 $health = Get-Json "$Api/health"
 if ($health.status -ne 'UP') {
-    Fail 'SNIP demo ready failed: backend is not UP'
+    Fail "SNIP demo ready failed: backend is not UP at $Api/health"
 }
 
 $sites = Get-Json "$Api/api/v1/sites"
@@ -60,19 +61,21 @@ if ($featured.Count -lt 1) {
 }
 
 $twinFile = Join-Path $Root '.snip-demo/featured-twins.properties'
-if (Test-Path $twinFile) {
-    $twinId = (Get-Content $twinFile | Where-Object { $_ -like 'CELL-001=*' } | Select-Object -First 1)
-    if ($twinId) {
-        $uuid = $twinId.Substring('CELL-001='.Length).Trim()
-        $twin = Get-Json "$Api/api/v1/twins/$uuid"
-        if ($twin.freshness -ne 'CURRENT') {
-            Fail "SNIP demo ready failed: CELL-001 cell Digital Twin freshness=$($twin.freshness)"
-        }
-    } else {
-        Fail 'SNIP demo ready failed: featured twin registry missing CELL-001'
-    }
-} else {
-    Fail 'SNIP demo ready failed: featured twin registry missing (bootstrap may have failed)'
+if (-not (Test-Path $twinFile)) {
+    Fail 'SNIP demo ready failed: featured twin registry missing (bootstrap may have failed). The file is a hint only; CURRENT is proven by GET /api/v1/twins/{id}.'
+}
+$twinId = (Get-Content $twinFile | Where-Object { $_ -like 'CELL-001=*' } | Select-Object -First 1)
+if (-not $twinId) {
+    Fail 'SNIP demo ready failed: featured twin registry missing CELL-001'
+}
+$uuid = $twinId.Substring('CELL-001='.Length).Trim()
+try {
+    $twin = Invoke-RestMethod -Uri "$Api/api/v1/twins/$uuid" -TimeoutSec 10
+} catch {
+    Fail "SNIP demo ready failed: local featured-twins.properties is stale or does not match this backend (GET $Api/api/v1/twins/$uuid). CURRENT is not proven by the file. Re-run snip-demo-up."
+}
+if ($twin.freshness -ne 'CURRENT' -or $twin.scopeId -ne 'CELL-001') {
+    Fail "SNIP demo ready failed: backend twin is not a CURRENT CELL-001 Cell Digital Twin (freshness=$($twin.freshness) scopeId=$($twin.scopeId)). Local file is not authoritative."
 }
 
 $headers = @{ 'X-SNIP-VENDOR-IMPORT-PERMISSION' = 'VIEW_SYNCHRONIZATION_STATUS' }
@@ -99,5 +102,6 @@ if (-not (Test-Tcp $UiHost $UiPort)) {
 
 Write-Host 'SNIP demo ready'
 Write-Host 'Authoritative customer UI: http://127.0.0.1:5173'
+Write-Host "Backend health: $Api/health"
 Write-Host 'Legacy static UI on :8080 is not the SNIP 1.0 customer demo.'
 exit 0

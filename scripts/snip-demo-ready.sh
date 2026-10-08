@@ -2,7 +2,8 @@
 set -euo pipefail
 ROOT="$(cd "$(dirname "$0")/.." && pwd)"
 cd "$ROOT"
-API="${SNIP_API_TARGET:-http://127.0.0.1:8080}"
+API_PORT="${SNIP_HOST_PORT:-8080}"
+API="${SNIP_API_TARGET:-http://127.0.0.1:${API_PORT}}"
 API="${API%/}"
 
 fail() { echo "$1"; exit 1; }
@@ -32,11 +33,12 @@ echo "$cases" | grep -q 'DEGRADING_RADIO_QUALITY' || fail "SNIP demo ready faile
 echo "$cases" | grep -q 'CRITICAL' || fail "SNIP demo ready failed: CELL-001 OPEN CRITICAL Assurance case missing"
 
 TWIN_FILE="$ROOT/.snip-demo/featured-twins.properties"
-[ -f "$TWIN_FILE" ] || fail "SNIP demo ready failed: featured twin registry missing (bootstrap may have failed)"
+[ -f "$TWIN_FILE" ] || fail "SNIP demo ready failed: featured twin registry missing (bootstrap may have failed). The file is a hint only; CURRENT is proven by GET /api/v1/twins/{id}."
 TWIN_ID="$(grep '^CELL-001=' "$TWIN_FILE" | head -n1 | cut -d= -f2 | tr -d '\r')"
 [ -n "$TWIN_ID" ] || fail "SNIP demo ready failed: featured twin registry missing CELL-001"
-twin="$(get "$API/api/v1/twins/$TWIN_ID")"
-echo "$twin" | grep -q '"freshness":"CURRENT"' || fail "SNIP demo ready failed: CELL-001 cell Digital Twin is not CURRENT"
+twin="$(curl -fsS "$API/api/v1/twins/$TWIN_ID" || fail "SNIP demo ready failed: local featured-twins.properties is stale or does not match this backend. CURRENT is not proven by the file. Re-run snip-demo-up.")"
+echo "$twin" | grep -q '"freshness":"CURRENT"' || fail "SNIP demo ready failed: backend twin is not CURRENT. Local file is not authoritative."
+echo "$twin" | grep -q '"scopeId":"CELL-001"' || fail "SNIP demo ready failed: backend twin scopeId is not CELL-001. Local file is not authoritative."
 
 knowledge="$(get "$API/api/v1/integration/sync/sources/ERICSSON_ENM_SIMULATOR/DEFAULT" -H "X-SNIP-VENDOR-IMPORT-PERMISSION: VIEW_SYNCHRONIZATION_STATUS")"
 echo "$knowledge" | grep -Eq '"knowledgeConfidence":"(HIGH|MEDIUM)"' || fail "SNIP demo ready failed: knowledge is not recommendable"
@@ -54,5 +56,6 @@ fi
 
 echo "SNIP demo ready"
 echo "Authoritative customer UI: http://127.0.0.1:5173"
+echo "Backend health: $API/health"
 echo "Legacy static UI on :8080 is not the SNIP 1.0 customer demo."
 exit 0

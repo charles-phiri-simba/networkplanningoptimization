@@ -29,9 +29,18 @@ class DemoResetScriptContractTest {
             assertTrue(body.contains("com.docker.compose.volume"));
             assertTrue(body.contains("docker-compose.yml"));
             assertTrue(body.contains("snip-npo-app"));
+            assertTrue(body.contains("no such volume") || body.contains("already absent"));
+            assertTrue(body.contains("Docker daemon is unavailable") || body.contains("docker info"));
+            assertTrue(body.contains("docker volume inspect failed") || body.contains("inspect failed"));
+            assertTrue(body.contains("volume labels do not prove"));
             assertFalse(body.contains("docker volume prune"));
             assertFalse(body.contains("docker system prune"));
         }
+        assertTrue(ps1.contains("StringComparison]::Ordinal"));
+        assertTrue(ps1.contains("Docker daemon is unavailable"));
+        assertTrue(ps1.contains("docker volume inspect failed"));
+        assertTrue(sh.contains("no such volume"));
+        assertTrue(sh.contains("Docker daemon is unavailable"));
     }
 
     @Test
