@@ -16,8 +16,10 @@ export SNIP_KAFKA_ENABLED=false
 PID_DIR="$ROOT/.snip-demo"
 LOG_DIR="$PID_DIR/logs"
 mkdir -p "$LOG_DIR"
-API_LOG="$LOG_DIR/api.log"
-VITE_LOG="$LOG_DIR/vite.log"
+RUN_STAMP="$(date +%Y%m%d-%H%M%S)"
+API_LOG="$LOG_DIR/api-${RUN_STAMP}.log"
+VITE_LOG="$LOG_DIR/vite-${RUN_STAMP}.log"
+KPI_FILE="$ROOT/testdata/kpis.json"
 
 listening() {
   (echo >/dev/tcp/127.0.0.1/"$1") >/dev/null 2>&1
@@ -59,14 +61,22 @@ if listening 5173; then
   exit 1
 fi
 
+if [ ! -f "$KPI_FILE" ]; then
+  echo "SNIP demo KPI file is missing: $KPI_FILE"
+  echo "Expected repository-root testdata/kpis.json relative to the demo JVM working directory. Do not copy testdata into snip-npo-app."
+  exit 1
+fi
+echo "SNIP demo KPI file: $KPI_FILE"
+echo "SNIP demo current-run logs: $API_LOG"
+
 echo "SNIP demo startup category: sibling-install (does not repackage the NPO boot jar)"
 mvn -pl production-change-protocol,production-write-gateway -am -DskipTests install >"$LOG_DIR/deps.log" 2>&1 || {
   echo "SNIP demo module install failed. Log: $LOG_DIR/deps.log"
   tail -n 80 "$LOG_DIR/deps.log" | sed -E 's/[Pp]assword=[^ ]+/password=***/g'
   exit 1
 }
-echo "SNIP demo startup category: backend-launch command=spring-boot:run profile=demo server.port=$API_PORT"
-nohup mvn -f snip-npo-app/pom.xml spring-boot:run -Dspring-boot.run.profiles=demo -Dspring-boot.run.arguments="--server.port=${API_PORT} --spring.datasource.url=${SPRING_DATASOURCE_URL}" >"$API_LOG" 2>&1 &
+echo "SNIP demo startup category: backend-launch command=spring-boot:run profile=demo server.port=$API_PORT workingDirectory=$ROOT"
+nohup mvn -pl snip-npo-app spring-boot:run -Dspring-boot.run.workingDirectory="$ROOT" -Dspring-boot.run.profiles=demo -Dspring-boot.run.arguments="--server.port=${API_PORT} --spring.datasource.url=${SPRING_DATASOURCE_URL}" >"$API_LOG" 2>&1 &
 echo $! > "$PID_DIR/api.pid"
 echo "SNIP demo process status: api pid=$(cat "$PID_DIR/api.pid") log=$API_LOG"
 

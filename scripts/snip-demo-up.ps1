@@ -18,8 +18,10 @@ $env:SNIP_KAFKA_ENABLED = 'false'
 $pidDir = Join-Path $Root '.snip-demo'
 $logDir = Join-Path $pidDir 'logs'
 New-Item -ItemType Directory -Force -Path $logDir | Out-Null
-$apiLog = Join-Path $logDir 'api.log'
-$viteLog = Join-Path $logDir 'vite.log'
+$runStamp = Get-Date -Format 'yyyyMMdd-HHmmss'
+$apiLog = Join-Path $logDir "api-$runStamp.log"
+$viteLog = Join-Path $logDir "vite-$runStamp.log"
+$kpiFile = Join-Path $Root 'testdata\kpis.json'
 
 function Test-Tcp([string]$TargetHost, [int]$Port) {
     try {
@@ -50,6 +52,15 @@ function Write-DemoLogExcerpt([string]$Path) {
     if ($text -match 'checksum mismatch|FlywayValidateException|Migrations have failed validation') {
         Write-Host 'SNIP demo backend health failure: Flyway validation. Demo database schema history does not match this source tree. After dual-confirm snip-demo-reset, run snip-demo-up. Do not edit V1-V20 or run SQL.'
     }
+}
+
+function Test-DemoKpiFile {
+    if (-not (Test-Path -LiteralPath $kpiFile)) {
+        Write-Host "SNIP demo KPI file is missing: $kpiFile"
+        Write-Host 'Expected repository-root testdata/kpis.json relative to the demo JVM working directory. Do not copy testdata into snip-npo-app.'
+        exit 1
+    }
+    Write-Host "SNIP demo KPI file: $kpiFile"
 }
 
 function Test-Java17Home([string]$HomePath) {
@@ -187,8 +198,11 @@ if (Test-Tcp '127.0.0.1' 5173) {
 
 $javaHome = Resolve-SnipJava17Home
 $mvn = Get-MavenCmd
+Test-DemoKpiFile
+$workDirMaven = $Root.Replace('\', '/')
 Write-Host "SNIP demo using process-local Java 17 at $javaHome"
 Write-Host "SNIP demo mapping DB host port $DbPort, API host port $ApiPort, ready/proxy $ApiTarget"
+Write-Host "SNIP demo current-run logs: $apiLog"
 
 Write-Host 'SNIP demo startup category: sibling-install (does not repackage the NPO boot jar)'
 $depLog = Join-Path $logDir 'deps.log'
@@ -201,8 +215,8 @@ if (-not $depProc.WaitForExit(600000) -or $depProc.ExitCode -ne 0) {
     exit 1
 }
 
-Write-Host "SNIP demo startup category: backend-launch command=spring-boot:run profile=demo server.port=$ApiPort"
-$apiCmd = "call `"$mvn`" -f snip-npo-app\pom.xml spring-boot:run `"-Dspring-boot.run.profiles=demo`" `"-Dspring-boot.run.arguments=--server.port=$ApiPort --spring.datasource.url=$DatasourceUrl`""
+Write-Host "SNIP demo startup category: backend-launch command=spring-boot:run profile=demo server.port=$ApiPort workingDirectory=$workDirMaven"
+$apiCmd = "call `"$mvn`" -pl snip-npo-app spring-boot:run `"-Dspring-boot.run.workingDirectory=$workDirMaven`" `"-Dspring-boot.run.profiles=demo`" `"-Dspring-boot.run.arguments=--server.port=$ApiPort --spring.datasource.url=$DatasourceUrl`""
 $apiProc = Start-LoggedCmd -CommandLine $apiCmd -WorkDir $Root -LogPath $apiLog -EnvOverrides @{
     JAVA_HOME = $javaHome
     SERVER_PORT = "$ApiPort"

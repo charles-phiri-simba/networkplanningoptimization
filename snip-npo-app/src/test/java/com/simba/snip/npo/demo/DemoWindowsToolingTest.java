@@ -28,11 +28,14 @@ class DemoWindowsToolingTest {
         assertTrue(up.contains("SNIP_DB_PORT"));
         assertTrue(up.contains("SNIP_HOST_PORT"));
         assertTrue(up.contains("jdbc:postgresql://127.0.0.1:$DbPort/snip"));
-        assertTrue(up.contains("-f snip-npo-app"));
+        assertTrue(up.contains("-pl snip-npo-app"));
         assertTrue(up.contains("spring-boot:run"));
+        assertTrue(up.contains("spring-boot.run.workingDirectory"));
         assertTrue(up.contains("spring-boot.run.profiles=demo"));
         assertTrue(up.contains("HasExited"));
-        assertTrue(up.contains("api.log"));
+        assertTrue(up.contains("api-$runStamp.log") || up.contains("api-$runStamp"));
+        assertTrue(up.contains("testdata\\kpis.json") || up.contains("testdata/kpis.json"));
+        assertTrue(up.contains("KPI file is missing"));
         assertTrue(up.contains("Write-DemoLogExcerpt"));
         assertTrue(up.contains("Resolve-SnipJava17Home"));
         assertTrue(up.contains("UseShellExecute = $false"));
@@ -42,6 +45,7 @@ class DemoWindowsToolingTest {
         assertTrue(up.contains("log file location"));
         assertTrue(up.contains("checksum mismatch"));
         assertTrue(up.contains("SERVER_PORT = \"$ApiPort\""));
+        assertFalse(up.contains("-f snip-npo-app"));
         assertFalse(up.contains("foreach ($home in"));
         assertFalse(up.contains("docker volume prune"));
         assertFalse(up.contains("docker system prune"));
@@ -77,7 +81,13 @@ class DemoWindowsToolingTest {
         assertTrue(up.contains("SERVER_PORT"));
         assertTrue(up.contains("SPRING_DATASOURCE_URL"));
         assertTrue(up.contains("startup category"));
+        assertTrue(up.contains("-pl snip-npo-app"));
+        assertTrue(up.contains("spring-boot.run.workingDirectory"));
+        assertTrue(up.contains("testdata/kpis.json"));
+        assertTrue(up.contains("KPI file is missing"));
+        assertTrue(up.contains("api-${RUN_STAMP}.log"));
         assertTrue(up.contains("checksum mismatch"));
+        assertFalse(up.contains("-f snip-npo-app/pom.xml"));
         assertTrue(ready.contains("SNIP_HOST_PORT"));
         assertTrue(ready.contains("scopeId"));
         assertTrue(ready.contains("not proven by the file"));
@@ -85,6 +95,33 @@ class DemoWindowsToolingTest {
         assertTrue(reset.contains("no such volume"));
         assertTrue(reset.contains("docker volume inspect failed"));
         assertTrue(reset.contains("volume labels do not prove"));
+    }
+
+    @Test
+    void repoRootKpiFileExistsForJvmWorkingDirectoryContract() throws IOException {
+        Path kpi = repoRoot().resolve("testdata/kpis.json");
+        assertTrue(Files.isRegularFile(kpi), "snip.kpi-file=testdata/kpis.json must exist at repository root");
+        assertFalse(Files.exists(repoRoot().resolve("snip-npo-app/testdata/kpis.json")));
+        String yml = Files.readString(repoRoot().resolve("snip-npo-app/src/main/resources/application.yml"));
+        assertTrue(yml.contains("kpi-file: testdata/kpis.json"));
+        String repository = Files.readString(
+                repoRoot().resolve("snip-npo-app/src/main/java/com/simba/snip/npo/context/KpiRepository.java"));
+        assertTrue(repository.contains("Path.of(properties.getKpiFile())"));
+    }
+
+    @Test
+    void currentRunLogsDoNotReuseSharedApiLogFile() throws IOException {
+        String upPs1 = Files.readString(repoRoot().resolve("scripts/snip-demo-up.ps1"));
+        String upSh = Files.readString(repoRoot().resolve("scripts/snip-demo-up.sh"));
+        assertTrue(upPs1.contains("api-$runStamp.log"));
+        assertTrue(upSh.contains("api-${RUN_STAMP}.log"));
+        assertFalse(upPs1.contains("$apiLog = Join-Path $logDir 'api.log'"));
+        assertFalse(upSh.contains("API_LOG=\"$LOG_DIR/api.log\""));
+        int flywayPs1 = upPs1.indexOf("checksum mismatch");
+        int excerptFn = upPs1.indexOf("function Write-DemoLogExcerpt");
+        assertTrue(excerptFn >= 0 && flywayPs1 > excerptFn);
+        assertTrue(upPs1.contains("Get-Content $Path -Raw"));
+        assertFalse(upPs1.contains("Get-Content $apiLog -Raw"));
     }
 
     @Test
