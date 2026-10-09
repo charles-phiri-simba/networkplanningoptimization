@@ -24,37 +24,32 @@ function toneFor(status: string, kind: 'status' | 'severity'): string {
     if (value.includes('INFO') || value.includes('LOW')) return 'info'
     return 'neutral'
   }
-  if (
-    value === 'ACTIVE' ||
-    value === 'OPEN' ||
-    value === 'CURRENT' ||
-    value === 'HIGH' ||
-    value === 'RECOMMENDED' ||
-    value === 'APPROVED' ||
-    value === 'READY_FOR_EXECUTION' ||
-    value === 'READY_FOR_SANDBOX_ADMISSION' ||
-    value === 'AUTHORIZED' ||
-    value === 'VERIFIED'
-  ) {
+  if (value === 'HIGH') return 'high'
+  if (value === 'LOW') return 'low'
+  if (value === 'CRITICAL') return 'critical'
+  if (value === 'OPEN') return 'open'
+  if (value === 'APPROVED') return 'approved'
+  if (value === 'AUTHORIZED') return 'authorized'
+  if (value === 'READY' || value === 'READY_FOR_EXECUTION' || value === 'READY_FOR_SANDBOX_ADMISSION') {
+    return 'ready'
+  }
+  if (value === 'APPLIED') return 'applied'
+  if (value === 'VERIFIED') return 'verified'
+  if (value === 'NOT_REQUIRED' || value === 'NOT_REQUESTED') return 'not-required'
+  if (value === 'FAILED' || value.includes('FAILED')) return 'failed'
+  if (value === 'BLOCKED') return 'blocked'
+  if (value === 'ACTIVE' || value === 'CURRENT' || value === 'RECOMMENDED') {
     return 'ok'
   }
   if (
     value === 'STALE' ||
     value === 'DEGRADED' ||
-    value === 'LOW' ||
     value === 'EVALUATED' ||
     value === 'RECOVERY_REQUIRED'
   ) {
     return 'warning'
   }
-  if (
-    value === 'FAILED' ||
-    value === 'DOWN' ||
-    value === 'EXPIRED' ||
-    value === 'BLOCKED' ||
-    value === 'UNKNOWN' ||
-    value.includes('FAILED')
-  ) {
+  if (value === 'DOWN' || value === 'EXPIRED' || value === 'UNKNOWN') {
     return 'critical'
   }
   return 'neutral'

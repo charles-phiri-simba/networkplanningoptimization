@@ -30,7 +30,7 @@ export function FourWayState({
           </p>
           <p className="muted">Value selected by SNIP&apos;s governed optimization proposal.</p>
         </div>
-        <div className="compare-card">
+        <div className="compare-card compare-sandbox">
           <p className="eyebrow">Sandbox</p>
           <p className="compare-value">
             {sandboxValue ?? '—'} {unit}
@@ -38,14 +38,14 @@ export function FourWayState({
           </p>
           <p className="muted">Observed in snip-simulator.</p>
         </div>
-        <div className="compare-card">
+        <div className="compare-card compare-canonical">
           <p className="eyebrow">Canonical</p>
           <p className="compare-value">
             {canonicalValue ?? '—'} {unit}
           </p>
           <p className="muted">Current SNIP canonical network configuration.</p>
         </div>
-        <div className="compare-card">
+        <div className="compare-card compare-real">
           <p className="eyebrow">Real network</p>
           <p className="compare-value">Unchanged</p>
           <p>No real-network execution was performed by this workflow.</p>

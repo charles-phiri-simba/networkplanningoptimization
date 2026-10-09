@@ -220,7 +220,7 @@ export function ProposalPage() {
             <button type="button" className="btn btn-primary" disabled={busy} onClick={() => setConfirm('approve')}>
               Approve proposal
             </button>
-            <button type="button" className="btn" disabled={busy} onClick={() => setConfirm('reject')}>
+            <button type="button" className="btn btn-danger" disabled={busy} onClick={() => setConfirm('reject')}>
               Reject proposal
             </button>
           </div>
@@ -240,6 +240,7 @@ export function ProposalPage() {
           title={confirm === 'approve' ? 'Approve proposal?' : 'Reject proposal?'}
           confirmLabel={confirm === 'approve' ? 'Approve proposal' : 'Reject proposal'}
           busy={busy}
+          danger={confirm === 'reject'}
           onCancel={() => setConfirm(null)}
           onConfirm={() => void runGovernance(confirm)}
         >

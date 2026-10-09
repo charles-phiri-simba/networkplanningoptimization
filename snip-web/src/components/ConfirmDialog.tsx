@@ -7,6 +7,7 @@ export function ConfirmDialog({
   onConfirm,
   onCancel,
   busy = false,
+  danger = false,
 }: {
   title: string
   children: ReactNode
@@ -14,6 +15,7 @@ export function ConfirmDialog({
   onConfirm: () => void
   onCancel: () => void
   busy?: boolean
+  danger?: boolean
 }) {
   const confirmRef = useRef<HTMLButtonElement>(null)
 
@@ -40,7 +42,7 @@ export function ConfirmDialog({
           <button
             ref={confirmRef}
             type="button"
-            className="btn btn-primary"
+            className={danger ? 'btn btn-danger' : 'btn btn-primary'}
             onClick={onConfirm}
             disabled={busy}
           >

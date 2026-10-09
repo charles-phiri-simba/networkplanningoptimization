@@ -381,7 +381,7 @@ export function SandboxExecutionPage() {
             </button>
           ) : null}
           {canCancelExecution(execution) ? (
-            <button type="button" className="btn" disabled={busy} onClick={() => void cancel()}>
+            <button type="button" className="btn btn-danger" disabled={busy} onClick={() => void cancel()}>
               Cancel before mutation
             </button>
           ) : null}
