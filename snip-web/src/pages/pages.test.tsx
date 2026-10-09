@@ -1,4 +1,4 @@
-import { render, screen } from '@testing-library/react'
+import { render, screen, within } from '@testing-library/react'
 import userEvent from '@testing-library/user-event'
 import { MemoryRouter } from 'react-router-dom'
 import { afterEach, beforeEach, describe, expect, it, vi } from 'vitest'
@@ -75,9 +75,13 @@ describe('Increment 1A pages', () => {
     expect(await screen.findByRole('heading', { name: 'Network operations' })).toBeInTheDocument()
     expect(screen.getByRole('navigation', { name: 'Primary' })).toHaveTextContent('Network')
     expect(screen.getByRole('navigation', { name: 'Primary' })).toHaveTextContent('Assurance')
-    expect(screen.getByRole('navigation', { name: 'Primary' })).toHaveTextContent('AI')
+    expect(screen.getByRole('navigation', { name: 'Primary' })).toHaveTextContent('Agents')
+    expect(screen.getByRole('link', { name: 'Agents' })).toHaveAttribute('href', '/ai')
     expect(screen.getByRole('navigation', { name: 'Primary' })).toHaveTextContent('Planning')
     expect(screen.getByText('Optimization')).toBeInTheDocument()
+    expect(screen.getByText('SNIP')).toBeInTheDocument()
+    expect(screen.getByText('Network Intelligence Platform')).toBeInTheDocument()
+    expect(screen.getByLabelText('Demo environment')).toHaveTextContent('DEMO')
   })
 
   it('renders network sites from the API', async () => {
@@ -96,8 +100,9 @@ describe('Increment 1A pages', () => {
   it('renders cell configuration, KPIs, and assurance', async () => {
     signedIn('/network/cells/CELL-001')
     expect(await screen.findByRole('heading', { name: 'n78-1 high-BLER demo' })).toBeInTheDocument()
-    expect(screen.getByText('txPower')).toBeInTheDocument()
-    expect(screen.getByText('46')).toBeInTheDocument()
+    const configuration = screen.getByRole('region', { name: 'Configuration' })
+    expect(within(configuration).getByRole('cell', { name: 'txPower' })).toBeInTheDocument()
+    expect(within(configuration).getByRole('cell', { name: '46' })).toBeInTheDocument()
     expect(screen.getAllByText('BLER_DL').length).toBeGreaterThan(0)
     expect(screen.getByText('DEGRADING_RADIO_QUALITY')).toBeInTheDocument()
     expect(screen.getByText(/synthetic \/ demo data/i)).toBeInTheDocument()
@@ -149,7 +154,11 @@ describe('Increment 1A pages', () => {
     )
     signedIn('/network/cells/CELL-001')
     expect(await screen.findByRole('heading', { name: 'n78-1 high-BLER demo' })).toBeInTheDocument()
-    expect(screen.getByText('txPower')).toBeInTheDocument()
+    expect(
+      within(screen.getByRole('region', { name: 'Configuration' })).getByRole('cell', {
+        name: 'txPower',
+      }),
+    ).toBeInTheDocument()
     expect(screen.getByText('assurance unavailable')).toBeInTheDocument()
     expect(screen.queryByText('DEGRADING_RADIO_QUALITY')).not.toBeInTheDocument()
   })

@@ -320,7 +320,7 @@ export function ChangePlanPage() {
             </button>
           ) : null}
           {canCancelPlan(detail) ? (
-            <button type="button" className="btn" disabled={busy} onClick={() => setConfirm('cancel')}>
+            <button type="button" className="btn btn-danger" disabled={busy} onClick={() => setConfirm('cancel')}>
               Cancel plan
             </button>
           ) : null}
@@ -345,6 +345,7 @@ export function ChangePlanPage() {
           title="Cancel plan?"
           confirmLabel="Cancel plan"
           busy={busy}
+          danger
           onCancel={() => setConfirm(null)}
           onConfirm={() => void cancel()}
         >
